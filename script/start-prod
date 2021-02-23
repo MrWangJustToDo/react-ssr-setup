@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+require("dotenv").config();
+const { spawn } = require("child_process");
+
+const cliCodeWatchProcess = spawn("node", ["./script/build-prod-client"], {
+  stdio: "inherit",
+  shell: true,
+});
+
+const svrCodeWatchProcess = spawn("node", ["./script/build-prod-server"], {
+  stdio: "inherit",
+  shell: true,
+});
+
+const killChild = () => {
+  svrCodeWatchProcess && svrCodeWatchProcess.kill();
+  cliCodeWatchProcess && cliCodeWatchProcess.kill();
+};
+
+process.on("close", (code) => {
+  console.log("main process close", code);
+  killChild();
+});
+
+process.on("exit", (code) => {
+  console.log("main process exit", code);
+  killChild();
+});
