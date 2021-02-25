@@ -1,13 +1,7 @@
-import { HelmetData } from "react-helmet-async";
-
-interface HTMLProps {
-  children: string;
-  css: string[];
-  script: string[];
-  state: string;
-  helmetContext: { helmet: HelmetData };
+interface CreateUniversalHistoryProps {
+  initialEntries?: any[];
 }
 
-interface HTMLType {
-  (props: HTMLProps): JSX.Element;
+interface CreateUniversalHistoryType {
+  (props?: CreateUniversalHistoryProps): any;
 }

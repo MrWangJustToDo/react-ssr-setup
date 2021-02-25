@@ -36,3 +36,10 @@ interface ActionHandlerProps {
 interface ActionHandlerType {
   (props: ActionHandlerProps): Promise<any>;
 }
+type ErrHandlerProps = ActionHandlerProps & {
+  e: Error;
+  code?: number;
+};
+interface ErrHandlerType {
+  (props: ErrHandlerProps): void;
+}

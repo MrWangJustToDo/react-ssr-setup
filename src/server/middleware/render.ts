@@ -1,6 +1,6 @@
+import { RenderType } from "server";
 import { renderCSR } from "./renderCSR";
 import { renderSSR } from "./renderSSR";
-import { RenderType } from "./middleware";
 
 let render: RenderType;
 

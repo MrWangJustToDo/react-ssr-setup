@@ -1,5 +1,5 @@
 import React from "react";
-import { HTMLType } from "./share";
+import { HTMLType } from 'components/components';
 
 let HTML: HTMLType;
 
@@ -35,6 +35,7 @@ HTML = ({
       {script.filter(Boolean).map((src) => (
         <script key={src} src={src} />
       ))}
+      <script>window.main();</script>
     </body>
   </html>
 );

@@ -1,4 +1,4 @@
-import { RenderType } from "./middleware";
+import { RenderType } from "server";
 
 // 客户端渲染
 let renderCSR: RenderType;
