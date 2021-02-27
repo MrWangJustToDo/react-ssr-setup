@@ -11,9 +11,7 @@ const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 // client 端代码打包
 const ClientConfig = (entryPath) => {
   if (process.env.NODE_ENV !== "development") {
-    throw new Error(
-      `webpack config ENV error！currentENV: ${process.env.NODE_ENV}`
-    );
+    throw new Error(`webpack config ENV error！currentENV: ${process.env.NODE_ENV}`);
   }
 
   const outputPath = path.resolve(__dirname, "../dev/client");
@@ -30,6 +28,12 @@ const ClientConfig = (entryPath) => {
     // 打包入口
     entry: {
       main: entryPath,
+    },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "..", "src"),
+      },
+      extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
     },
     output: {
       // 输出路径

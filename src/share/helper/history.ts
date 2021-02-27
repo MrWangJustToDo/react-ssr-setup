@@ -1,4 +1,5 @@
 import { createMemoryHistory, createBrowserHistory } from "history";
+import { CreateUniversalHistoryType } from "share";
 
 let createUniversalHistory: CreateUniversalHistoryType;
 

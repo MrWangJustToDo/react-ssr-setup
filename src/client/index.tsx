@@ -1,15 +1,16 @@
-import * as React from "react";
+import React from "react";
 import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
-import { configureStore } from "share/store";
-import { createUniversalHistory as createHistory } from "share/history";
+import { configureStore } from "@/share/store/store";
+import { createUniversalHistory as createHistory } from "@/share/helper/history";
+import App from "@/components/App";
 
 const history = createHistory();
 const store = window.store || configureStore({ initialState: window.__PRELOADED_STATE__ });
-const place = document.querySelector("app");
+const place = document.querySelector("#app");
 
 const content = (
   <Provider store={store}>

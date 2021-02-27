@@ -11,9 +11,14 @@ declare namespace NodeJS {
   }
 }
 
+declare module '*.scss' {
+  export default any;
+}
+
 declare const __CLIENT__: boolean;
 declare const __SERVER__: boolean;
 declare const __DEVELOPMENT__: boolean;
+declare const assets: { [props: string]: string };
 
 interface Window {
   browserHistory: any;

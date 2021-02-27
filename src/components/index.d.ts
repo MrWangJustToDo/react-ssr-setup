@@ -1,13 +1,13 @@
 import { HelmetData } from "react-helmet-async";
 
-interface HTMLProps {
+export interface HTMLProps {
   children: string;
   css: string[];
   script: string[];
   state: string;
-  helmetContext: { helmet: HelmetData };
+  helmetContext: { helmet?: HelmetData };
 }
 
-interface HTMLType {
+export interface HTMLType {
   (props: HTMLProps): JSX.Element;
 }

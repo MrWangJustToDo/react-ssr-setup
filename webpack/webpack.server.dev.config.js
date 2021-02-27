@@ -8,9 +8,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // server 端代码打包
 const ServerConfig = (entryPath) => {
   if (process.env.NODE_ENV !== "development") {
-    throw new Error(
-      `webpack config ENV error！currentENV: ${process.env.NODE_ENV}`
-    );
+    throw new Error(`webpack config ENV error！currentENV: ${process.env.NODE_ENV}`);
   }
 
   const outputPath = path.resolve(__dirname, "../dev/server");
@@ -26,12 +24,19 @@ const ServerConfig = (entryPath) => {
     entry: {
       main: entryPath,
     },
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "..", "src"),
+      },
+      extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
+      mainFiles: ["index"],
+    },
     externals: [nodeExternals()],
     output: {
       // 输出路径
       path: outputPath,
       // 输出文件名
-      filename: "[name]-[contenthash].js",
+      filename: "app.js",
       // 按需加载的chunk名
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径

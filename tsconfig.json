@@ -15,13 +15,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "baseUrl": "./src",
+    "declaration": true,
+    "baseUrl": "./",
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "*": ["shared/*", "client/*", "server/*", "*"]
+      "@": ["./src/"]
     }
-  },
-  "include": ["src"]
+  }
+  // "include": ["src"]
 }
