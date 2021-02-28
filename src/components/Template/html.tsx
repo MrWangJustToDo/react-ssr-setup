@@ -4,18 +4,16 @@ import { HTMLType } from "@/components";
 let HTML: HTMLType;
 
 HTML = ({ children, css = [], script = [], state = "{}", helmetContext: { helmet } }) => {
-  console.log(css);
-  console.log(script);
   return (
     <html lang="">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {helmet.base.toComponent()}
-        {helmet.title.toComponent()}
-        {helmet.meta.toComponent()}
-        {helmet.link.toComponent()}
-        {helmet.script.toComponent()}
+        {helmet?.base.toComponent()}
+        {helmet?.title.toComponent()}
+        {helmet?.meta.toComponent()}
+        {helmet?.link.toComponent()}
+        {helmet?.script.toComponent()}
         {css.filter(Boolean).map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}

@@ -1,4 +1,4 @@
-import { RenderType } from "server";
+import { RenderType } from "@/server";
 import { renderCSR } from "./renderCSR";
 import { renderSSR } from "./renderSSR";
 

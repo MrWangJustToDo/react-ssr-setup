@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const webpack = require("webpack");
 const webpackDevServer = require("webpack-dev-server");
 const { spawn } = require("child_process");
+const { freePort } = require("./free-port");
 const { ClientConfig } = require("../webpack/webpack.client.dev.config");
 
 // 生成 dev server 配置
@@ -28,8 +29,7 @@ const webpackDevServerConfig = (clientOptions) => {
       poll: 500,
     },
     // 指定什么文件写入硬盘
-    writeToDisk: (filepath) =>
-      filepath.includes(`manifest-dev.json`),
+    writeToDisk: (filepath) => filepath.includes(`manifest-dev.json`),
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
@@ -48,13 +48,15 @@ const buildClient = (clientEntryPoint) => {
 
   // 第一次编译完成，自动运行服务端，服务端代码打包快于客户端代码
   compiler.hooks.done.tap("done", function () {
-    console.log(`\n wds compiler done, compiler count: ${count}`);
+    console.log(chalk.green(`\n wds compiler done, compiler count: ${count}`));
     if (count === 0) {
       // start node server to run app
-      spawn("nodemon", ["--config", "nodemon.json", "./bin/start"], {
-        stdio: "inherit",
-        shell: true,
-      });
+      freePort(process.env.PROD_PORT).then(() =>
+        spawn("nodemon", ["--watch", "./dev/server", "./bin/start"], {
+          stdio: "inherit",
+          shell: true,
+        })
+      );
     }
     count++;
   });
@@ -65,9 +67,7 @@ const buildClient = (clientEntryPoint) => {
     if (err) {
       return console.log(chalk.red(err.toString()));
     }
-    console.log(
-      chalk.cyan("🚀 Starting the development node server, please wait....\n")
-    );
+    console.log(chalk.cyan("🚀 Starting the development node server, please wait....\n"));
   });
 };
 

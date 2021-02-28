@@ -4,6 +4,8 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// babel 配置
+const babelConfig = require("../script/babel.server.config");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
@@ -27,9 +29,12 @@ const ServerConfig = (entryPath) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "..", "src"),
+        server: path.resolve(__dirname, "..", "src", "server"),
+        client: path.resolve(__dirname, "..", "src", "client"),
+        share: path.resolve(__dirname, "..", "src", "share"),
+        components: path.resolve(__dirname, "..", "src", "components"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
-      mainFiles: ["index"],
     },
     externals: [nodeExternals()],
     output: {
@@ -50,7 +55,10 @@ const ServerConfig = (entryPath) => {
         {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
-          use: ["babel-loader"],
+          use: {
+            loader: "babel-loader",
+            options: babelConfig,
+          },
         },
         // css资源
         {

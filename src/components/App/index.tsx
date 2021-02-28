@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, Route, Switch } from "react-router-dom";
-import P1 from "@/components/EX/Page1";
-import P2 from "@/components/EX/Page2";
+import P1 from "components/EX/Page1";
+import P2 from "components/EX/Page2";
 
 const App: FC = () => {
   return (

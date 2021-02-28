@@ -1,5 +1,5 @@
 import assign from "lodash/assign";
-import { ServerError } from "utils/error";
+import { ServerError } from "server/utils/error";
 import { Cache } from "share/utils/cache";
 import { level, log } from "share/utils/log";
 import { NextFunction, Request, Response } from "express";
@@ -12,7 +12,7 @@ import {
   ErrHandlerType,
   UserConfigProps,
   AutoRequestHandlerProps,
-} from "server";
+} from "@/server";
 
 const cache = new Cache<string, any>();
 

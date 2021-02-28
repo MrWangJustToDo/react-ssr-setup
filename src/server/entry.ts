@@ -33,4 +33,4 @@ app.use(async (req, res, next) => {
   await render({ req, res, next });
 });
 
-app.listen(port || 3000, () => console.log(`[${new Date().toISOString()}]`, chalk.blue(`App is running: http://localhost:${port || 3000}`)));
+app.listen(port || 3000, () => console.log(chalk.blue(`App is running: http://localhost:${port || 3000}`)));

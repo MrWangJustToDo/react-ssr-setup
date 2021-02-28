@@ -16,13 +16,16 @@
     "noEmit": true,
     "jsx": "preserve",
     "declaration": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@": ["./src/"]
+      "@/*": ["src/*"],
+      "server/*": ["src/server/*"],
+      "client/*": ["src/client/*"],
+      "share/*": ["src/share/*"],
+      "components/*": ["src/components/*"]
     }
   }
-  // "include": ["src"]
 }

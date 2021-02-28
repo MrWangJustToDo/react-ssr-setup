@@ -32,6 +32,10 @@ const ClientConfig = (entryPath) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "..", "src"),
+        server: path.resolve(__dirname, "..", "src", "server"),
+        client: path.resolve(__dirname, "..", "src", "client"),
+        share: path.resolve(__dirname, "..", "src", "share"),
+        components: path.resolve(__dirname, "..", "src", "components"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
     },

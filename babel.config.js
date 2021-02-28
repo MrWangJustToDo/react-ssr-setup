@@ -13,7 +13,7 @@ module.exports = (api) => {
   plugins.push("@babel/proposal-optional-chaining");
   plugins.push("@babel/syntax-dynamic-import");
   plugins.push("@babel/plugin-transform-runtime");
-  plugins.push("@babel/plugin-transform-modules-commonjs");
+  // plugins.push("@babel/plugin-transform-modules-commonjs");
   plugins.push("@babel/plugin-proposal-export-default-from");
   plugins.push("@babel/plugin-proposal-export-namespace-from");
 
