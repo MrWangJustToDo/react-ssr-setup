@@ -5,7 +5,7 @@ const nodeExternals = require("webpack-node-externals");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // babel 配置
-const babelConfig = require("../script/babel.server.config");
+const babelConfig = require("./babel.server.config");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
@@ -46,8 +46,6 @@ const ServerConfig = (entryPath) => {
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
-      // 打包资源的名称，用于type属性
-      assetModuleFilename: "[name]-[contenthash][ext]",
     },
     module: {
       rules: [
@@ -87,7 +85,12 @@ const ServerConfig = (entryPath) => {
         {
           test: /\.(woff2?|ttf|eot|svg|jpe?g|png|gif|ico)(\?v=\d+\.\d+\.\d+)?$/,
           // 使用file-loader可以选择是否生成文件
-          type: "asset/resource",
+          loader: "file-loader",
+          options: {
+            name: "[name]-[contenthash].[ext]",
+            esModule: false,
+            emitFile: false,
+          },
         },
       ],
     },

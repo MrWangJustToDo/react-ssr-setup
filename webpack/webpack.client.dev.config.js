@@ -7,6 +7,8 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 自动刷新
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+// babel配置
+const babelConfig = require("./babel.client.config");
 
 // client 端代码打包
 const ClientConfig = (entryPath) => {
@@ -49,7 +51,7 @@ const ClientConfig = (entryPath) => {
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
       // 打包资源的名称
-      assetModuleFilename: "[name]-[contenthash][ext]",
+      assetModuleFilename: "[name]-[contenthash].[ext]",
     },
     module: {
       rules: [
@@ -61,7 +63,8 @@ const ClientConfig = (entryPath) => {
             {
               loader: require.resolve("babel-loader"),
               options: {
-                plugins: [require.resolve("react-refresh/babel")],
+                ...babelConfig,
+                plugins: [...babelConfig.plugins, require.resolve("react-refresh/babel")],
               },
             },
           ],
