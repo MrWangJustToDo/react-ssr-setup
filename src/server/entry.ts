@@ -2,13 +2,13 @@ import express from "express";
 import session from "express-session";
 import cors from "cors";
 import chalk from "chalk";
-import { render } from './middleware/render';
+import { render } from "./middleware/render";
 
 require("dotenv").config();
 
 const app = express();
 
-const port = process.env.PROD_PORT;
+const port = process.env.PROD_PORT || 3000;
 
 app.use(cors());
 
@@ -33,4 +33,4 @@ app.use(async (req, res, next) => {
   await render({ req, res, next });
 });
 
-app.listen(port || 3000, () => console.log(chalk.blue(`App is running: http://localhost:${port || 3000}`)));
+app.listen(port, () => console.log(chalk.blue(`\nApp is running: http://localhost:${port}`)));

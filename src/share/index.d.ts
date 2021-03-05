@@ -1,11 +1,3 @@
-/* history */
-export interface CreateUniversalHistoryProps {
-  initialEntries?: any[];
-}
-export interface CreateUniversalHistoryType {
-  (props?: CreateUniversalHistoryProps): any;
-}
-
 /* delay */
 export interface Cancel {
   (key: string): void;

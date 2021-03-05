@@ -11,9 +11,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // client 端代码打包
 const ClientConfig = (entryPath) => {
   if (process.env.NODE_ENV !== "production") {
-    throw new Error(
-      `webpack config ENV error！currentENV: ${process.env.NODE_ENV}`
-    );
+    throw new Error(`webpack config ENV error！currentENV: ${process.env.NODE_ENV}`);
   }
 
   const outputPath = path.resolve(__dirname, "../static/client");
@@ -106,6 +104,15 @@ const ClientConfig = (entryPath) => {
     optimization: {
       runtimeChunk: "single",
       minimizer: ["...", new CssMinimizerPlugin()],
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            chunks: "all",
+          },
+        },
+      },
     },
   };
 };

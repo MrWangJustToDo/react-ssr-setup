@@ -5,7 +5,7 @@ module.exports = (api) => {
   const plugins = [];
 
   presets.push("@babel/preset-react");
-  presets.push("@babel/preset-env");
+  presets.push(["@babel/preset-env", { modules: false }]);
   presets.push("@babel/preset-typescript");
 
   plugins.push("@babel/proposal-object-rest-spread");

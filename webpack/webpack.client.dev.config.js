@@ -7,6 +7,8 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 自动刷新
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+// 查看打包
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 // babel配置
 const babelConfig = require("./babel.client.config");
 
@@ -115,6 +117,7 @@ const ClientConfig = (entryPath) => {
       }),
       new WebpackManifestPlugin({ fileName: `manifest-dev.json` }),
       new ReactRefreshPlugin(),
+      // new BundleAnalyzerPlugin(),
     ],
     optimization: {
       runtimeChunk: "single",

@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const { ServerConfig } = require("../webpack/webpack.server.dev.config");
 
 const buildServer = (entryPoint) => {
+  var count = 0;
   const compiler = webpack(ServerConfig(entryPoint));
 
   compiler.watch(
@@ -14,20 +15,27 @@ const buildServer = (entryPoint) => {
     },
     (err, stats) => {
       if (err) {
-        return console.log(chalk.red(err.toString()));
+        console.error(err.stack || err);
+        if (err.details) {
+          console.error(err.details);
+        }
+        return;
       }
-      let json = stats.toJson("minimal");
-      if (json.errors) {
-        json.errors.forEach(console.log);
+
+      const info = stats.toJson();
+
+      if (stats.hasErrors()) {
+        console.error(info.errors);
       }
-      if (json.warnings) {
-        json.warnings.forEach(console.log);
+
+      if (stats.hasWarnings()) {
+        console.warn(info.warnings);
       }
     }
   );
 
   compiler.hooks.done.tap("done", function () {
-    console.log(chalk.green("\n server code done"));
+    console.log(chalk.green(`server compiler done, compiler count: ${count++}`));
   });
 };
 

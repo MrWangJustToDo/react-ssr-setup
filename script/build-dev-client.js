@@ -15,7 +15,7 @@ const webpackDevServerConfig = (clientOptions) => {
     contentBase: path.resolve(__dirname, "../static"),
     publicPath: clientOptions.output.publicPath,
     hot: true,
-    progress: true,
+    // progress: true,
     inline: true,
     clientLogLevel: "error",
     open: false,
@@ -48,7 +48,7 @@ const buildClient = (clientEntryPoint) => {
 
   // 第一次编译完成，自动运行服务端，服务端代码打包快于客户端代码
   compiler.hooks.done.tap("done", function () {
-    console.log(chalk.green(`\n wds compiler done, compiler count: ${count}`));
+    console.log(chalk.green(`client compiler done, compiler count: ${count}`));
     if (count === 0) {
       // start node server to run app
       freePort(process.env.PROD_PORT).then(() =>

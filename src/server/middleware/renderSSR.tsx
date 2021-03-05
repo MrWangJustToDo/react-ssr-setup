@@ -1,9 +1,9 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { RenderType } from "@/server";
 import { HelmetProvider } from "react-helmet-async";
 import { StaticRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import { RenderType } from "@/server";
 
 import App from "components/App";
 import Html from "components/Template/html";

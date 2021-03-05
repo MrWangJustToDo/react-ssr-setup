@@ -7,7 +7,7 @@ import src from "./avatar.jpg";
 export default () => {
   return (
     <div className={style.red}>
-      <img src={src} alt="hello" />
+      <img src={src} alt="hello" width="100" />
       第一个页面
     </div>
   );
