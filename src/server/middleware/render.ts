@@ -5,10 +5,10 @@ import { renderSSR } from "./renderSSR";
 let render: RenderType;
 
 // 渲染函数
-render = ({ req, res, next }) => {
+render = async ({ req, res, next }) => {
   const { isSSR } = req.params;
-  if (isSSR || process.env.SSR || process.env.NODE_ENV === 'development') {
-    renderSSR({ req, res, next });
+  if (isSSR || process.env.SSR) {
+    await renderSSR({ req, res, next });
   } else {
     renderCSR({ req, res, next });
   }

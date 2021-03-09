@@ -1,13 +1,19 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
+import { ChunkExtractor } from "@loadable/server";
 
-import { RenderType } from "@/server";
 import Html from "components/Template/html";
+import { RenderType } from "@/server";
 
 // 客户端渲染
 let renderCSR: RenderType;
 
-renderCSR = ({ res }) =>
-  res.send("<!doctype html>" + renderToString(<Html css={[assets["main.css"]]} script={[assets["runtime.js"], assets["main.js"], assets["vendor.js"]]} />));
+renderCSR = ({ res }) => {
+  const webExtractor = new ChunkExtractor({ statsFile: webStats });
+  const scriptElements = webExtractor.getScriptElements();
+  const linkElements = webExtractor.getLinkElements();
+  const styleElements = webExtractor.getStyleElements();
+  res.send("<!doctype html>" + renderToString(<Html css={styleElements.concat(linkElements)} script={scriptElements} />));
+};
 
 export { renderCSR };

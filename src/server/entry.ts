@@ -1,7 +1,7 @@
-import express from "express";
-import session from "express-session";
 import cors from "cors";
 import chalk from "chalk";
+import express from "express";
+import session from "express-session";
 
 import { render } from "server/middleware/render";
 import { renderError } from "server/middleware/renderError";

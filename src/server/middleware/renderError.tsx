@@ -1,8 +1,8 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 
-import { RenderErrorType } from "@/server";
 import Html from "components/Template/html";
+import { RenderErrorType } from "@/server";
 
 let renderError: RenderErrorType;
 
@@ -11,7 +11,7 @@ renderError = ({ res, code, e }) =>
     "<!doctype html>" +
       renderToString(
         <Html css={[]} script={[]}>
-          {`code: ${code}, error: ${e.toString()}`}
+          {`<h1>server render error!</h1> <hr /> <p style='padding-left: 10px; font-size: 20px'> error code: <b>${code}</b> <br /> <br /> ${e.toString()} </p>`}
         </Html>
       )
   );

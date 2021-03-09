@@ -21,7 +21,6 @@ const content = (
   </Provider>
 );
 
-// window.main = () => {
 loadableReady(() => {
   if (__DEVELOPMENT__) {
     render(content, place);
@@ -29,4 +28,3 @@ loadableReady(() => {
     hydrate(content, place);
   }
 });
-// };

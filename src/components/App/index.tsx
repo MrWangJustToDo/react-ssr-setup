@@ -1,8 +1,10 @@
 import React, { FC } from "react";
-import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { renderRoutes } from "react-router-config";
-import { routes } from "@/router";
+
+import { routes } from "router/routes";
+
 
 const App: FC = () => {
   return (
