@@ -37,6 +37,9 @@ const buildServer = (entryPoint) => {
   compiler.hooks.done.tap("done", function () {
     console.log(chalk.green(`server compiler done, compiler count: ${count++}`));
   });
+
+  // 取消静态资源生成
+  // compiler.hooks.shouldEmit.tap("emit test", () => false);
 };
 
 if (process.env.SERVERENTRY) {

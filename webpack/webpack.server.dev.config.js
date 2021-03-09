@@ -32,6 +32,7 @@ const ServerConfig = (entryPath) => {
         server: path.resolve(__dirname, "..", "src", "server"),
         client: path.resolve(__dirname, "..", "src", "client"),
         share: path.resolve(__dirname, "..", "src", "share"),
+        router: path.resolve(__dirname, "..", "src", "router"),
         components: path.resolve(__dirname, "..", "src", "components"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
@@ -46,6 +47,8 @@ const ServerConfig = (entryPath) => {
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
+      // 打包资源的名称
+      // assetModuleFilename: "[hash].[ext]",
     },
     module: {
       rules: [
@@ -69,7 +72,7 @@ const ServerConfig = (entryPath) => {
                 importLoaders: 2,
                 modules: {
                   mode: "local",
-                  localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                  localIdentName: "[name]__[local]--[hash:base64:5]",
                   // ssr 模式下导出className标识符
                   exportOnlyLocals: true,
                 },
@@ -85,9 +88,10 @@ const ServerConfig = (entryPath) => {
         {
           test: /\.(woff2?|ttf|eot|svg|jpe?g|png|gif|ico)(\?v=\d+\.\d+\.\d+)?$/,
           // 使用file-loader可以选择是否生成文件
+          // type: "asset/resource",
           loader: "file-loader",
           options: {
-            name: "[name]-[contenthash].[ext]",
+            name: "[name]-[hash].[ext]",
             esModule: false,
             emitFile: false,
           },

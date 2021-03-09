@@ -44,9 +44,9 @@ let catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandlerTy
       log(e, level.error);
       if (errHandler && typeof errHandler === "function") {
         if (e instanceof ServerError) {
-          errHandler({ req, res, e, code: e.code });
+          errHandler({ req, res, next, e, code: e.code });
         } else {
-          errHandler({ req, res, e, code: 404 });
+          errHandler({ req, res, next, e, code: 404 });
         }
       } else {
         fail({ res, resDate: { state: "访问失败", data: e.toString() } });

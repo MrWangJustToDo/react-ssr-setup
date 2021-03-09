@@ -11,6 +11,9 @@ export interface RenderProps {
 export interface RenderType {
   (props: RenderProps): void;
 }
+export interface RenderErrorType {
+  (props: RenderProps & { code?: number; e: Error }): void;
+}
 
 /* api */
 export interface ApiResponseData<T> {
@@ -32,7 +35,7 @@ export interface ApiResponseType<T> {
 export interface RequestHandlerProps {
   req: ExpressRequest;
   res: Response;
-  next?: NextFunction;
+  next: NextFunction;
 }
 export interface RequestHandlerType {
   (props: RequestHandlerProps): Promise<any>;

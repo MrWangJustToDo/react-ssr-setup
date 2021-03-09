@@ -39,6 +39,7 @@ const ClientConfig = (entryPath) => {
         server: path.resolve(__dirname, "..", "src", "server"),
         client: path.resolve(__dirname, "..", "src", "client"),
         share: path.resolve(__dirname, "..", "src", "share"),
+        router: path.resolve(__dirname, "..", "src", "router"),
         components: path.resolve(__dirname, "..", "src", "components"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
@@ -53,7 +54,7 @@ const ClientConfig = (entryPath) => {
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
       // 打包资源的名称
-      assetModuleFilename: "[name]-[contenthash].[ext]",
+      // assetModuleFilename: "[hash].[ext]",
     },
     module: {
       rules: [
@@ -86,7 +87,7 @@ const ClientConfig = (entryPath) => {
                 importLoaders: 2,
                 modules: {
                   mode: "local",
-                  localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                  localIdentName: "[name]__[local]--[hash:base64:5]",
                 },
               },
             },
@@ -100,7 +101,12 @@ const ClientConfig = (entryPath) => {
         {
           test: /\.(woff2?|ttf|eot|svg|jpe?g|png|gif)(\?v=\d+\.\d+\.\d+)?$/,
           // 使用file-loader可以选择是否生成文件
-          type: "asset/resource",
+          // type: "asset/resource",
+          loader: "file-loader",
+          options: {
+            name: "[name]-[hash].[ext]",
+            esModule: false,
+          },
         },
       ],
     },
@@ -115,7 +121,7 @@ const ClientConfig = (entryPath) => {
         filename: "[name].css",
         chunkFilename: "css/[id].css",
       }),
-      new WebpackManifestPlugin({ fileName: `manifest-dev.json` }),
+      new WebpackManifestPlugin({ fileName: "manifest-dev.json" }),
       new ReactRefreshPlugin(),
       // new BundleAnalyzerPlugin(),
     ],

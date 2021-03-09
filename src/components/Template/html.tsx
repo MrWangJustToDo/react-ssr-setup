@@ -3,7 +3,8 @@ import { HTMLType } from "@/components";
 
 let HTML: HTMLType;
 
-HTML = ({ children, css = [], script = [], state = "{}", helmetContext: { helmet } }) => {
+HTML = ({ children, css = [], script = [], state = "{}", helmetContext = {} }) => {
+  const { helmet } = helmetContext;
   return (
     <html lang="">
       <head>
@@ -26,7 +27,7 @@ HTML = ({ children, css = [], script = [], state = "{}", helmetContext: { helmet
         />
       </head>
       <body>
-        <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
+        <div id="app" dangerouslySetInnerHTML={{ __html: children || "" }} />
         {script.filter(Boolean).map((src) => (
           <script key={src} src={src} />
         ))}

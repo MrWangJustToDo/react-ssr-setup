@@ -17,7 +17,7 @@ let renderSSR: RenderType;
 
 renderSSR = ({ req, res }) => {
   const content = renderToString(
-    <Provider store={getStore({initialState: {}})}>
+    <Provider store={getStore({ initialState: {} })}>
       <Router location={req.url} context={routerContext}>
         <HelmetProvider context={helmetContext}>
           <App />
@@ -25,13 +25,12 @@ renderSSR = ({ req, res }) => {
       </Router>
     </Provider>
   );
-
   const state = JSON.stringify("");
 
   return res.send(
     "<!doctype html>" +
       renderToString(
-        <Html css={[assets["main.css"]]} helmetContext={helmetContext} script={[assets["runtime.js"], assets["main.js"]]} state={state}>
+        <Html css={[assets["main.css"]]} helmetContext={helmetContext} script={[assets["runtime.js"], assets["main.js"], assets["vendor.js"]]} state={state}>
           {content}
         </Html>
       )
