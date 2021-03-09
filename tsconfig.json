@@ -22,11 +22,11 @@
     "noUnusedParameters": true,
     "paths": {
       "@/*": ["src/*"],
-      "server/*": ["src/server/*"],
-      "client/*": ["src/client/*"],
-      "share/*": ["src/share/*"],
-      "router/*": ["src/router/*"],
-      "components/*": ["src/components/*"]
+      "server*": ["src/server*"],
+      "client*": ["src/client*"],
+      "share*": ["src/share*"],
+      "router*": ["src/router*"],
+      "components*": ["src/components*"]
     }
   }
 }

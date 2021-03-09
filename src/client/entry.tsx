@@ -3,6 +3,7 @@ import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { loadableReady } from "@loadable/component";
 
 import { configureStore } from "share/store/store";
 import App from "components/App";
@@ -20,10 +21,12 @@ const content = (
   </Provider>
 );
 
-window.main = () => {
+// window.main = () => {
+loadableReady(() => {
   if (__DEVELOPMENT__) {
     render(content, place);
   } else {
     hydrate(content, place);
   }
-};
+});
+// };

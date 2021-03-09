@@ -15,23 +15,16 @@ HTML = ({ children, css = [], script = [], state = "{}", helmetContext = {} }) =
         {helmet?.meta.toComponent()}
         {helmet?.link.toComponent()}
         {helmet?.script.toComponent()}
-        {css.filter(Boolean).map((href) => (
-          <link key={href} rel="stylesheet" href={href} />
-        ))}
+        {css.filter(Boolean).map((ele) => ele)}
         <script
           dangerouslySetInnerHTML={{
-            // TODO: Add jsesc/stringify here
-            // see: https://twitter.com/HenrikJoreteg/status/1143953338284703744
             __html: `window.__PRELOADED_STATE__ = ${state}`,
           }}
         />
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: children || "" }} />
-        {script.filter(Boolean).map((src) => (
-          <script key={src} src={src} />
-        ))}
-        <script>window.main();</script>
+        {script.filter(Boolean).map((ele) => ele)}
       </body>
     </html>
   );

@@ -11,7 +11,7 @@ require("dotenv").config();
 
 const app = express();
 
-const port = process.env.PROD_PORT || 3000;
+const port = process.env.DEV_PORT || 3000;
 
 app.use(cors());
 
@@ -35,7 +35,7 @@ app.use(
 app.use(
   transformHandler(
     catchHandler(
-      async ({ req, res, next }) => render({ req, res, next }),
+      async ({ req, res, next }) => await render({ req, res, next }),
       ({ req, res, next, e, code }) => renderError({ req, res, next, e, code })
     )
   )

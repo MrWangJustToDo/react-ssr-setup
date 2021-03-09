@@ -8,5 +8,6 @@ module.exports = {
     "@babel/plugin-transform-runtime",
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-export-namespace-from",
+    "@loadable/babel-plugin",
   ],
 };

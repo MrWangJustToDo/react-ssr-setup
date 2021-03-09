@@ -29,7 +29,7 @@ const webpackDevServerConfig = (clientOptions) => {
       poll: 500,
     },
     // 指定什么文件写入硬盘
-    writeToDisk: (filepath) => filepath.includes("manifest-dev.json"),
+    writeToDisk: (filepath) => filepath.includes("manifest-loadable.json") || filepath.includes("manifest-dev.json"),
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
@@ -51,7 +51,7 @@ const buildClient = (clientEntryPoint) => {
     console.log(chalk.green(`client compiler done, compiler count: ${count}`));
     if (count === 0) {
       // start node server to run app
-      freePort(process.env.PROD_PORT).then(() =>
+      freePort(process.env.DEV_PORT).then(() =>
         spawn("nodemon", ["--watch", "./dev/server", "./bin/start"], {
           stdio: "inherit",
           shell: true,

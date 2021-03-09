@@ -10,7 +10,7 @@ renderError = ({ res, code, e }) =>
   res.send(
     "<!doctype html>" +
       renderToString(
-        <Html css={[assets["main.css"]]} script={[assets["runtime.js"], assets["main.js"], assets["vendor.js"]]}>
+        <Html css={[]} script={[]}>
           {`code: ${code}, error: ${e.toString()}`}
         </Html>
       )

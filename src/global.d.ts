@@ -49,7 +49,7 @@ declare const __CLIENT__: boolean;
 declare const __SERVER__: boolean;
 declare const __DEVELOPMENT__: boolean;
 declare const assets: { [props: string]: string };
-declare const loadableManifest: string;
+declare const webStats: string;
 
 interface Window {
   browserHistory: any;

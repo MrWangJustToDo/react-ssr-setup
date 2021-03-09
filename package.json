@@ -8,6 +8,8 @@
     "build": "./script/start-prod"
   },
   "dependencies": {
+    "@loadable/component": "^5.14.1",
+    "@loadable/server": "^5.14.2",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "cookie-parser": "^1.4.5",
@@ -44,10 +46,14 @@
     "@babel/preset-env": "^7.12.16",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.13.0",
+    "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/webpack-plugin": "^5.14.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.11",
     "@types/express-session": "^1.17.3",
+    "@types/loadable__component": "^5.13.3",
+    "@types/loadable__server": "^5.12.3",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.28",
     "@types/react": "^17.0.2",

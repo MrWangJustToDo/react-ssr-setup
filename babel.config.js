@@ -15,6 +15,7 @@ module.exports = (api) => {
   plugins.push("@babel/plugin-transform-runtime");
   plugins.push("@babel/plugin-proposal-export-default-from");
   plugins.push("@babel/plugin-proposal-export-namespace-from");
+  plugins.push("@loadable/babel-plugin");
 
   return {
     presets,

@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+
 import { state } from "./store";
 
 const LOAD = "instalment/LOAD";

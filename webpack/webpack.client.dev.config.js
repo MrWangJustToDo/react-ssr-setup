@@ -9,6 +9,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// loadable json
+const LoadablePlugin = require("@loadable/webpack-plugin");
 // babel配置
 const babelConfig = require("./babel.client.config");
 
@@ -122,13 +124,21 @@ const ClientConfig = (entryPath) => {
         chunkFilename: "css/[id].css",
       }),
       new WebpackManifestPlugin({ fileName: "manifest-dev.json" }),
+      new LoadablePlugin({ filename: "manifest-loadable.json" }),
       new ReactRefreshPlugin(),
       // new BundleAnalyzerPlugin(),
     ],
     optimization: {
       runtimeChunk: "single",
       splitChunks: {
-        minChunks: 3,
+        // minChunks: 3,
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            chunks: "all",
+          },
+        },
       },
     },
   };

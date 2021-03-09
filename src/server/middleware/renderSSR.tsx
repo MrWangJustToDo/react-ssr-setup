@@ -3,6 +3,7 @@ import { renderToString } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
 import { StaticRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ChunkExtractor } from "@loadable/server";
 import { RenderType } from "@/server";
 
 import App from "components/App";
@@ -16,21 +17,34 @@ const routerContext = {};
 let renderSSR: RenderType;
 
 renderSSR = ({ req, res }) => {
+  // const nodeExtractor = new ChunkExtractor({ statsFile: nodeStats });
+  // const test = nodeExtractor.requireEntrypoint();
+
+  // console.log(nodeExtractor);
+
+  const webExtractor = new ChunkExtractor({ statsFile: webStats });
+  const jsx = webExtractor.collectChunks(<App />);
+
+  // console.log(jsx);
+
   const content = renderToString(
     <Provider store={getStore({ initialState: {} })}>
       <Router location={req.url} context={routerContext}>
-        <HelmetProvider context={helmetContext}>
-          <App />
-        </HelmetProvider>
+        <HelmetProvider context={helmetContext}>{jsx}</HelmetProvider>
       </Router>
     </Provider>
   );
+
   const state = JSON.stringify("");
+
+  const scriptElements = webExtractor.getScriptElements();
+  const linkElements = webExtractor.getLinkElements();
+  const styleElements = webExtractor.getStyleElements();
 
   return res.send(
     "<!doctype html>" +
       renderToString(
-        <Html css={[assets["main.css"]]} helmetContext={helmetContext} script={[assets["runtime.js"], assets["main.js"], assets["vendor.js"]]} state={state}>
+        <Html css={styleElements.concat(linkElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
           {content}
         </Html>
       )
