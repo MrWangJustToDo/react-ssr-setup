@@ -10,7 +10,7 @@ import { routes } from "router/routes";
 import App from "components/App";
 import getStore from "share/store/store";
 import Html from "components/Template/html";
-import { RenderType } from "@/server";
+import { RenderType } from "@/types/server";
 
 const helmetContext = {};
 const routerContext = {};
@@ -39,7 +39,7 @@ renderSSR = async ({ req, res }) => {
   return res.send(
     "<!doctype html>" +
       renderToString(
-        <Html css={styleElements.concat(linkElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
+        <Html link={styleElements.concat(linkElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
           {content}
         </Html>
       )

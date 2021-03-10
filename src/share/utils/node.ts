@@ -71,7 +71,7 @@ class ListNode<T, K> {
     return item;
   }
 
-  // for map attribute
+  // for map attribute, useful for cache object
 
   get(key: T): NodeItem<T, K> | undefined {
     let targetItem;

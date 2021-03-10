@@ -26,7 +26,10 @@
       "client*": ["src/client*"],
       "share*": ["src/share*"],
       "router*": ["src/router*"],
-      "components*": ["src/components*"]
+      "config*": ["src/config*"],
+      "components*": ["src/components*"],
+      "*": ["src/types/*"]
     }
-  }
+  },
+  "include": ["src"]
 }

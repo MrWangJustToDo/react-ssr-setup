@@ -1,9 +1,10 @@
 import React from "react";
-import { HTMLType } from "@/components";
+
+import { HTMLType } from "@/types/components";
 
 let HTML: HTMLType;
 
-HTML = ({ children, css = [], script = [], state = "{}", helmetContext = {} }) => {
+HTML = ({ children, link = [], script = [], state = "{}", helmetContext = {} }) => {
   const { helmet } = helmetContext;
   return (
     <html lang="">
@@ -15,7 +16,7 @@ HTML = ({ children, css = [], script = [], state = "{}", helmetContext = {} }) =
         {helmet?.meta.toComponent()}
         {helmet?.link.toComponent()}
         {helmet?.script.toComponent()}
-        {css.filter(Boolean).map((ele) => ele)}
+        {link.filter(Boolean).map((ele) => ele)}
         <script
           dangerouslySetInnerHTML={{
             __html: `window.__PRELOADED_STATE__ = ${state}`,

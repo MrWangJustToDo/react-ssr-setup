@@ -4,15 +4,15 @@ import { Cache } from "share/utils/cache";
 import { level, log } from "share/utils/log";
 import { NextFunction, Request, Response } from "express";
 import {
-  RequestHandlerProps,
-  RequestHandlerType,
   ApiResponseData,
   ApiResponseProps,
+  AutoRequestHandlerProps,
   CacheConfigProps,
   ErrHandlerType,
+  RequestHandlerProps,
   UserConfigProps,
-  AutoRequestHandlerProps,
-} from "@/server";
+  RequestHandlerType,
+} from "@/types/server";
 
 const cache = new Cache<string, any>();
 
@@ -111,7 +111,8 @@ let userHandler = (requestHandler: RequestHandlerType, strict: boolean | undefin
   };
 };
 
-let autoRequestHandler = ({ requestHandler, errHandler, strict, time, cacheConfig, userConfig }: AutoRequestHandlerProps) =>
-  transformHandler(catchHandler(userHandler(cacheHandler(requestHandler, time, cacheConfig || {}), strict, userConfig || {}), errHandler));
+let autoRequestHandler = ({ requestHandler, errHandler, strict, time, cacheConfig, userConfig }: AutoRequestHandlerProps) => {
+  return transformHandler(catchHandler(userHandler(cacheHandler(requestHandler, time, cacheConfig || {}), strict, userConfig || {}), errHandler));
+};
 
 export { success, fail, transformHandler, catchHandler, cacheHandler, userHandler, autoRequestHandler };

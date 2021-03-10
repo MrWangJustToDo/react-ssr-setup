@@ -1,4 +1,4 @@
-import { Cancel, Delay, KeyMap, ResolveMap, TimeoutMap } from "@/share";
+import { Cancel, Delay, KeyMap, ResolveMap, TimeoutMap } from "@/types/share";
 import { level, log } from "./log";
 
 let timeoutMap: TimeoutMap;
