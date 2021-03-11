@@ -23,7 +23,7 @@ renderSSR = async ({ req, res }) => {
   const jsx = webExtractor.collectChunks(<App />);
 
   const content = renderToString(
-    <Provider store={getStore({ initialState: {} })}>
+    <Provider store={getStore({ initialState: { server: {}, client: {} } })}>
       <Router location={req.url} context={routerContext}>
         <HelmetProvider context={helmetContext}>{jsx}</HelmetProvider>
       </Router>

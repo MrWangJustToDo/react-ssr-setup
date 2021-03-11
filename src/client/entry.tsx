@@ -8,7 +8,7 @@ import { loadableReady } from "@loadable/component";
 import { configureStore } from "share/store/store";
 import App from "components/App";
 
-const store = window.store || configureStore({ initialState: window.__PRELOADED_STATE__ });
+const store = window.store || configureStore({ initialState: { server: {}, client: {} } });
 const place = document.querySelector("#app");
 
 const content = (

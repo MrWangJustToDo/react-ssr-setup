@@ -70,6 +70,3 @@ interface AutoRequestType {
   run?: <T>(path?: string, query?: QueryProps) => Promise<T>;
   (props?: RequestProps): AutoRequestType;
 }
-interface CreateReqyestType {
-  (props: AutoRequestProps): AutoRequestType;
-}

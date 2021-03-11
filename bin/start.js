@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 require("dotenv").config();
+require('pretty-error').start();
 const fs = require("fs");
 const path = require("path");
 

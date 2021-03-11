@@ -1,18 +1,19 @@
 import thunkMiddleware from "redux-thunk";
-import { createStore, applyMiddleware, compose } from "redux";
-
+import { createStore, applyMiddleware, compose, Store } from "redux";
 import reducer from "./reducer";
 
-export type state = {
-  [key: string]: any
-}
+export type State = {
+  server: { [props: string]: any };
+  client: { [props: string]: any };
+};
 
 export type StoreParams = {
-  initialState: state;
+  initialState: State;
   middleware?: any[];
 };
 
-export const configureStore = ({ initialState, middleware = [] }: StoreParams) => {
+export const configureStore = ({ initialState, middleware = [] }: StoreParams): Store => {
+
   const devtools =
     typeof window !== "undefined" &&
     typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === "function" &&

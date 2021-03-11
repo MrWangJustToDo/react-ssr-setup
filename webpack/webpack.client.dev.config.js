@@ -42,6 +42,7 @@ const ClientConfig = (entryPath) => {
         client: path.resolve(__dirname, "..", "src", "client"),
         share: path.resolve(__dirname, "..", "src", "share"),
         router: path.resolve(__dirname, "..", "src", "router"),
+        config: path.resolve(__dirname, "..", "src", "config"),
         components: path.resolve(__dirname, "..", "src", "components"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],

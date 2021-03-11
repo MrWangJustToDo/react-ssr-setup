@@ -1,4 +1,3 @@
-// 请求自动参数处理逻辑
 import { AxiosResponse } from "axios";
 import assign from "lodash/assign";
 import { apiName } from "config/api";
@@ -6,13 +5,13 @@ import { Cache } from "./cache";
 import { getHeader } from "./headers";
 import { instance } from "./request";
 import { transformPath } from "./path";
-import { AutoRequestProps, AutoRequestType, CreateReqyestType, QueryProps } from "@/types/share";
+import { AutoRequestProps, AutoRequestType, QueryProps } from "@/types/share";
 
-let createRequest: CreateReqyestType;
+let autoRequest: AutoRequestType;
 
 const cache = new Cache<string, any>();
 
-createRequest = (props: AutoRequestProps) => {
+autoRequest = (props: AutoRequestProps) => {
   const { method, path, apiPath, query, data, header } = props;
   const tempPath = transformPath({ path, apiPath });
   const autoRequest: AutoRequestType = (props: AutoRequestProps) => {
@@ -47,4 +46,4 @@ createRequest = (props: AutoRequestProps) => {
   return autoRequest;
 };
 
-export { createRequest };
+export { autoRequest };
