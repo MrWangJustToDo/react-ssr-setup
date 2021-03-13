@@ -5,16 +5,16 @@ import { Cache } from "./cache";
 import { getHeader } from "./headers";
 import { instance } from "./request";
 import { transformPath } from "./path";
-import { AutoRequestProps, AutoRequestType, QueryProps } from "@/types/share";
+import { AutoRequestProps, AutoRequestType, CreateRequestType, QueryProps } from "@/types/share";
 
-let autoRequest: AutoRequestType;
+let createRequest: CreateRequestType;
 
 const cache = new Cache<string, any>();
 
-autoRequest = (props: AutoRequestProps) => {
+createRequest = (props: AutoRequestProps = {}) => {
   const { method, path, apiPath, query, data, header } = props;
   const tempPath = transformPath({ path, apiPath });
-  const autoRequest: AutoRequestType = (props: AutoRequestProps) => {
+  const autoRequest: AutoRequestType = (props: AutoRequestProps = {}) => {
     const newMethod = props.method ? props.method : method;
     const newPath = props.path ? props.path : path;
     const newApiPath = props.apiPath ? props.apiPath : apiPath;
@@ -46,4 +46,4 @@ autoRequest = (props: AutoRequestProps) => {
   return autoRequest;
 };
 
-export { autoRequest };
+export { createRequest };

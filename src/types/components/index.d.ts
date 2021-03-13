@@ -1,3 +1,5 @@
+import { RouteConfig } from "react-router-config";
+import { LoadableComponent } from "@loadable/component";
 import React from "react";
 import { HelmetData } from "react-helmet-async";
 
@@ -13,12 +15,16 @@ interface HTMLType {
   (props: HTMLProps): JSX.Element;
 }
 
-/* Loadable */
-interface LoadableProps<T> {
-  loabPromise: () => Promise<JSX.Element>;
-  preLoadPromise?: (props: { path: string; params: { [props: string]: string } }) => Promise<T>;
-  dispatchAction?: (data: T) => void;
+/* PreLoad */
+type PreLoadComponent = LoadableComponent & {
+  preLoadPromises?: ((props: { path: string; params: { [props: string]: string } }) => Promise<any>)[];
+  dispatchActions?: ((data: any) => void)[];
+};
+interface PreLoadProps {
+  Component: PreLoadComponent;
+  preLoadPromises?: ((props: { path: string; params: { [props: string]: string } }) => Promise<any>)[];
+  dispatchActions?: ((data: any) => void)[];
 }
-interface LoadableType<T> {
-  (props: LoadableProps<T>): JSX.Element;
+interface PreLoadType {
+  (props: PreLoadProps): PreLoadComponent;
 }

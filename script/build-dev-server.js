@@ -25,11 +25,11 @@ const buildServer = (entryPoint) => {
       const info = stats.toJson();
 
       if (stats.hasErrors()) {
-        console.error(info.errors);
+        // console.error(info.errors);
       }
 
       if (stats.hasWarnings()) {
-        console.warn(info.warnings);
+        // console.warn(info.warnings);
       }
     }
   );
@@ -39,7 +39,7 @@ const buildServer = (entryPoint) => {
   });
 
   // 取消静态资源生成
-  // compiler.hooks.shouldEmit.tap("emit test", () => false);
+  // compiler.hooks.shouldEmit.tap("emit asset", () => false);
 };
 
 if (process.env.SERVERENTRY) {

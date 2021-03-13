@@ -1,5 +1,7 @@
 import { AxiosRequestConfig, Method } from "axios";
 import { apiName } from "config/api";
+import { Store } from "redux";
+import { PreLoadRouteConfig } from "../router";
 
 /* delay */
 interface Cancel {
@@ -66,7 +68,14 @@ interface ApiRequestResult<T> {
   state: string;
   res: any;
 }
+interface CreateRequestType {
+  (props?: AutoRequestProps): AutoRequestType;
+}
 interface AutoRequestType {
-  run?: <T>(path?: string, query?: QueryProps) => Promise<T>;
-  (props?: RequestProps): AutoRequestType;
+  (props?: AutoRequestProps): AutoRequestType;
+  run: <T>(path?: string, query?: QueryProps) => Promise<T>;
+}
+/* preLoad */
+interface LoadBranchDataType {
+  (routes: PreLoadRouteConfig[], pathName: string, store: Store): Promise<any>;
 }

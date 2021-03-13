@@ -1,7 +1,9 @@
 import chalk from "chalk";
-import PrettyError from "pretty-error";
 
-const pre = new PrettyError();
+if (__SERVER__) {
+  const PrettyError = require('pretty-error');
+  var pre = new PrettyError();
+}
 
 enum level {
   "normal",
