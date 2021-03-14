@@ -41,6 +41,7 @@ const ClientConfig = (entryPath) => {
         server: path.resolve(__dirname, "..", "src", "server"),
         client: path.resolve(__dirname, "..", "src", "client"),
         share: path.resolve(__dirname, "..", "src", "share"),
+        hooks: path.resolve(__dirname, "..", "src", "hooks"),
         router: path.resolve(__dirname, "..", "src", "router"),
         config: path.resolve(__dirname, "..", "src", "config"),
         components: path.resolve(__dirname, "..", "src", "components"),

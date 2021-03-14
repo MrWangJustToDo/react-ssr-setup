@@ -21,7 +21,7 @@ createRequest = (props: AutoRequestProps = {}) => {
     const newQuery = assign(query, props.query);
     const newData = assign(data, props.data);
     const newHeader = assign(header, props.header);
-    return autoRequest({ method: newMethod, path: newPath, apiPath: newApiPath, query: newQuery, data: newData, header: newHeader });
+    return createRequest({ method: newMethod, path: newPath, apiPath: newApiPath, query: newQuery, data: newData, header: newHeader });
   };
   autoRequest.run = <T>(currentPath?: string, currentQuery?: QueryProps) => {
     const targetPath = currentPath ? currentPath : tempPath;

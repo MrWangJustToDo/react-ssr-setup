@@ -24,6 +24,7 @@
       "@/*": ["src/*"],
       "server*": ["src/server*"],
       "client*": ["src/client*"],
+      "hooks*": ["src/hooks*"],
       "share*": ["src/share*"],
       "router*": ["src/router*"],
       "config*": ["src/config*"],

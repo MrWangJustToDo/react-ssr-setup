@@ -1,7 +1,8 @@
+import React, { MemoExoticComponent } from "react";
+import { HelmetData } from "react-helmet-async";
 import { RouteConfig } from "react-router-config";
 import { LoadableComponent } from "@loadable/component";
-import React from "react";
-import { HelmetData } from "react-helmet-async";
+import { PreLoadRouteConfig } from "@/types/router";
 
 /* Template */
 interface HTMLProps {
@@ -15,16 +16,11 @@ interface HTMLType {
   (props: HTMLProps): JSX.Element;
 }
 
-/* PreLoad */
-type PreLoadComponent = LoadableComponent & {
-  preLoadPromises?: ((props: { path: string; params: { [props: string]: string } }) => Promise<any>)[];
-  dispatchActions?: ((data: any) => void)[];
-};
-interface PreLoadProps {
-  Component: PreLoadComponent;
-  preLoadPromises?: ((props: { path: string; params: { [props: string]: string } }) => Promise<any>)[];
-  dispatchActions?: ((data: any) => void)[];
+/* WraperRoute */
+interface WraperRouteProps {
+  children: JSX.Element;
+  routes: PreLoadRouteConfig[];
 }
-interface PreLoadType {
-  (props: PreLoadProps): PreLoadComponent;
+interface WraperRouteType {
+  (props: WraperRouteProps): MemoExoticComponent;
 }

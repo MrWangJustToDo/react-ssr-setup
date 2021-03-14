@@ -4,14 +4,14 @@ import { Helmet } from "react-helmet-async";
 import { renderRoutes } from "react-router-config";
 
 import { routes } from "router/routes";
-
+import WraperRoute from "components/WraperRoute";
 
 const App: FC = () => {
   return (
     <div>
       <Helmet defaultTitle="React SSR Starter – TypeScript Edition" titleTemplate="%s – React SSR Starter – TypeScript Edition" />
       <h1>hello React SSR</h1>
-      {renderRoutes(routes)}
+      <WraperRoute routes={routes}>{renderRoutes(routes)}</WraperRoute>
       <h3>跳转</h3>
       <br />
       <div style={{ border: "1px solid red" }}>
