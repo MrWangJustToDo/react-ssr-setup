@@ -23,13 +23,11 @@ renderSSR = async ({ req, res }) => {
   const jsx = webExtractor.collectChunks(<App />);
   const store = getStore({ initialState: { server: {}, client: {} } });
 
-  const temp = await preLoad(routes, req.url, store);
-
-  console.log(temp);
+  const temp = await preLoad(routes, req.path, store);
 
   const content = renderToString(
     <Provider store={store}>
-      <Router location={req.url} context={routerContext}>
+      <Router location={req.path} context={routerContext}>
         <HelmetProvider context={helmetContext}>{jsx}</HelmetProvider>
       </Router>
     </Provider>

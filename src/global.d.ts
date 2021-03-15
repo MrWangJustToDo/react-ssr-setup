@@ -5,7 +5,7 @@ declare namespace NodeJS {
     DEV_PORT: number;
     WDS_PORT: number;
     PROD_PORT: number;
-    SSR: boolean;
+    SSR: string;
     PUBLIC_API_HOST: string;
     SERVERENTRY: string;
     CLIENTENTRY: string;

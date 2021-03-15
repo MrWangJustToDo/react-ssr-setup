@@ -13,6 +13,11 @@ const App: FC = () => {
       <h1>hello React SSR</h1>
       <WraperRoute routes={routes}>{renderRoutes(routes)}</WraperRoute>
       <h3>跳转</h3>
+      <hr/>
+      12345
+      <br/>
+      12345678
+      <hr/>
       <br />
       <div style={{ border: "1px solid red" }}>
         <Link to="/fr">点击</Link>

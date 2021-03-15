@@ -11,6 +11,7 @@ let routes: PreLoadRouteConfig[];
 routes = [
   {
     path: "/fr",
+    exact: false,
     component: loadable(() => import("components/EX/Page1")),
     preLoadPromises: [(props) => delay(1000, () => props)],
     endDispatchActions: [
@@ -21,6 +22,7 @@ routes = [
   },
   {
     path: "/pr",
+    exact: false,
     component: loadable(() => import("components/EX/Page2")),
   },
 ];
