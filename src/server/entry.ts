@@ -15,7 +15,7 @@ const port = process.env.DEV_PORT || 3000;
 
 app.use(cors());
 
-app.use(express.static(`${process.cwd()}/public`));
+app.use(express.static(`${process.cwd()}/static`));
 
 app.use(express.json({ limit: "5mb" }));
 
