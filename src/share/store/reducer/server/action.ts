@@ -1,4 +1,4 @@
-import { CreateServerActionProps, CreateServerActionType, ServerActionType } from "@/types/share/store";
+import { CreateServerActionProps, CreateServerActionType, ServerActionType } from "types/share/store";
 
 let serverAction: ServerActionType;
 let getDataLoading_server: CreateServerActionType;

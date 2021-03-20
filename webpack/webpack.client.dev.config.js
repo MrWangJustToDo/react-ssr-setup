@@ -37,7 +37,6 @@ const ClientConfig = (entryPath) => {
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "..", "src"),
         server: path.resolve(__dirname, "..", "src", "server"),
         client: path.resolve(__dirname, "..", "src", "client"),
         share: path.resolve(__dirname, "..", "src", "share"),
@@ -45,6 +44,7 @@ const ClientConfig = (entryPath) => {
         router: path.resolve(__dirname, "..", "src", "router"),
         config: path.resolve(__dirname, "..", "src", "config"),
         components: path.resolve(__dirname, "..", "src", "components"),
+        "*": path.resolve(__dirname, "..", "src"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
     },

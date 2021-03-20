@@ -1,4 +1,4 @@
-import { ClientActionType, CreateClientActionProps, CreateClientActionType } from "@/types/share/store";
+import { ClientActionType, CreateClientActionProps, CreateClientActionType } from "types/share/store";
 
 let clientAction: ClientActionType;
 let setDataLoading_client: CreateClientActionType;

@@ -1,6 +1,6 @@
-import { RenderType } from "@/types/server";
 import { renderCSR } from "./renderCSR";
 import { renderSSR } from "./renderSSR";
+import { RenderType } from "types/server";
 
 let render: RenderType;
 

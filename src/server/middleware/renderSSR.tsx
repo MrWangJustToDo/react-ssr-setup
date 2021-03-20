@@ -7,10 +7,10 @@ import { ChunkExtractor } from "@loadable/server";
 
 import { routes } from "router/routes";
 import App from "components/App";
-import getStore from "share/store/store";
 import Html from "components/Template/html";
+import getStore from "share/store/store";
 import preLoad from "share/utils/preLoad";
-import { RenderType } from "@/types/server";
+import { RenderType } from "types/server";
 
 const helmetContext = {};
 const routerContext = {};
@@ -23,7 +23,7 @@ renderSSR = async ({ req, res }) => {
   const jsx = webExtractor.collectChunks(<App />);
   const store = getStore({ initialState: { server: {}, client: {} } });
 
-  const temp = await preLoad(routes, req.path, store);
+  await preLoad(routes, req.path, store);
 
   const content = renderToString(
     <Provider store={store}>
@@ -33,16 +33,16 @@ renderSSR = async ({ req, res }) => {
     </Provider>
   );
 
-  const state = JSON.stringify(temp);
+  const state = JSON.stringify(store.getState());
 
-  const scriptElements = webExtractor.getScriptElements();
   const linkElements = webExtractor.getLinkElements();
   const styleElements = webExtractor.getStyleElements();
+  const scriptElements = webExtractor.getScriptElements();
 
   return res.send(
     "<!doctype html>" +
       renderToString(
-        <Html link={styleElements.concat(linkElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
+        <Html link={linkElements.concat(styleElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
           {content}
         </Html>
       )

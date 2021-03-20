@@ -8,7 +8,8 @@ import { loadableReady } from "@loadable/component";
 import { configureStore } from "share/store/store";
 import App from "components/App";
 
-const store = window.store || configureStore({ initialState: { server: {}, client: {} } });
+const store = configureStore({ initialState: window.__PRELOADED_STATE__ });
+
 const place = document.querySelector("#app");
 
 const content = (
@@ -21,10 +22,4 @@ const content = (
   </Provider>
 );
 
-loadableReady(() => {
-  if (__DEVELOPMENT__) {
-    render(content, place);
-  } else {
-    hydrate(content, place);
-  }
-});
+loadableReady(() => (__DEVELOPMENT__ ? render(content, place) : hydrate(content, place)));

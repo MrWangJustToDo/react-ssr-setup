@@ -20,7 +20,7 @@ const App: FC = () => {
       <hr />
       <br />
       <div style={{ border: "1px solid red" }}>
-        <Link to={{ state: { nextPath: "/fr" } }}>点击</Link>
+        <Link to="/fr">点击</Link>
         <Link to="/pr">跳转</Link>
       </div>
     </div>

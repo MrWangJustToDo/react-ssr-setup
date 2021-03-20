@@ -21,7 +21,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@/*": ["src/*"],
       "server*": ["src/server*"],
       "client*": ["src/client*"],
       "hooks*": ["src/hooks*"],
@@ -29,7 +28,7 @@
       "router*": ["src/router*"],
       "config*": ["src/config*"],
       "components*": ["src/components*"],
-      "*": ["src/types/*"]
+      "types*": ["src/types*"]
     }
   },
   "include": ["src"]

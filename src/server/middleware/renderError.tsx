@@ -2,7 +2,7 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 
 import Html from "components/Template/html";
-import { RenderErrorType } from "@/types/server";
+import { RenderErrorType } from "types/server";
 
 let renderError: RenderErrorType;
 

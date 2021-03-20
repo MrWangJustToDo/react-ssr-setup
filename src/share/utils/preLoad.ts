@@ -1,7 +1,7 @@
-import { PreLoadRouteConfig } from "@/types/router";
-import { LoadBranchDataType } from "@/types/share";
 import { matchRoutes } from "react-router-config";
 import { level, log } from "./log";
+import { LoadBranchDataType } from "types/share";
+import { PreLoadRouteConfig } from "types/router";
 
 let loadBranchData: LoadBranchDataType;
 

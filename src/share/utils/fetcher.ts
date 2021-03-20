@@ -5,7 +5,7 @@ import { Cache } from "./cache";
 import { getHeader } from "./headers";
 import { instance } from "./request";
 import { transformPath } from "./path";
-import { AutoRequestProps, AutoRequestType, CreateRequestType, QueryProps } from "@/types/share";
+import { AutoRequestProps, AutoRequestType, CreateRequestType, QueryProps } from "types/share";
 
 let createRequest: CreateRequestType;
 

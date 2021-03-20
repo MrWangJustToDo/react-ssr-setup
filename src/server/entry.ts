@@ -2,6 +2,7 @@ import cors from "cors";
 import chalk from "chalk";
 import express from "express";
 import session from "express-session";
+import compression from "compression";
 
 import { render } from "server/middleware/render";
 import { renderError } from "server/middleware/renderError";
@@ -14,6 +15,8 @@ const app = express();
 const port = process.env.DEV_PORT || 3000;
 
 app.use(cors());
+
+app.use(compression());
 
 app.use(express.static(`${process.cwd()}/static`));
 

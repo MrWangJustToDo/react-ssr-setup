@@ -1,7 +1,7 @@
 // 定义类型的文件
 import { Action, AnyAction } from "redux";
 import { actionName } from "config/action";
-import { apiName } from "@/config/api";
+import { apiName } from "config/api";
 
 /* reducer */
 interface State<T> {

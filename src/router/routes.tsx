@@ -1,6 +1,6 @@
 import loadable from "@loadable/component";
 import { delay } from "share/utils/delay";
-import { PreLoadRouteConfig } from "@/types/router";
+import { PreLoadRouteConfig } from "types/router";
 
 // import P1 from "components/EX/Page1";
 // import P2 from "components/EX/Page2";

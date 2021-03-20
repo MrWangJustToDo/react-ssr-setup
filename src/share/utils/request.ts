@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 import { delay } from "./delay";
 import { level, log } from "./log";
-import { PendingType, RemovePendingType } from "@/types/share";
+import { PendingType, RemovePendingType } from "types/share";
 
 let pending: Array<PendingType>;
 let removePending: RemovePendingType;

@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 require("dotenv").config();
+
 require("pretty-error").start();
+
 const fs = require("fs");
+
 const path = require("path");
 
 const outputPath = (env) => (process.env.NODE_ENV === "production" ? path.resolve(__dirname, "../static/", env) : path.resolve(__dirname, "../dev/", env));

@@ -1,7 +1,7 @@
 import assign from "lodash/assign";
-import { ServerError } from "server/utils/error";
 import { Cache } from "share/utils/cache";
 import { level, log } from "share/utils/log";
+import { ServerError } from "server/utils/error";
 import { NextFunction, Request, Response } from "express";
 import {
   ApiResponseData,
@@ -12,7 +12,7 @@ import {
   RequestHandlerProps,
   UserConfigProps,
   RequestHandlerType,
-} from "@/types/server";
+} from "types/server";
 
 const cache = new Cache<string, any>();
 

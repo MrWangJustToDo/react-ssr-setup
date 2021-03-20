@@ -1,8 +1,8 @@
 import { Draft, produce } from "immer";
 import { Reducer } from "redux";
-import { serverAction } from "./action";
 import { apiName } from "config/api";
-import { State, StateAction, StateActionMapType } from "@/types/share/store";
+import { serverAction } from "./action";
+import { State, StateAction, StateActionMapType } from "types/share/store";
 
 type CurrentState = State<{}>;
 

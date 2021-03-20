@@ -2,7 +2,7 @@ import { Reducer } from "redux";
 import { produce } from "immer";
 import { clientAction } from "./action";
 import { actionName } from "config/action";
-import { StateActionMapType, StateAction, State } from "@/types/share/store";
+import { StateActionMapType, StateAction, State } from "types/share/store";
 
 type CurrentState = State<{}>;
 

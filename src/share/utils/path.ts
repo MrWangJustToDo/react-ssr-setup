@@ -1,5 +1,5 @@
 import { level, log } from "./log";
-import { TransformPathType } from "@/types/share";
+import { TransformPathType } from "types/share";
 
 let transformPath: TransformPathType;
 

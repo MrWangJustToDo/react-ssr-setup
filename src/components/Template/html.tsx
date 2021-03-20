@@ -1,6 +1,6 @@
 import React from "react";
 
-import { HTMLType } from "@/types/components";
+import { HTMLType } from "types/components";
 
 let HTML: HTMLType;
 

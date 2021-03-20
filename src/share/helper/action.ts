@@ -1,4 +1,4 @@
-import { ActionHandlerType } from "@/types/share";
+import { ActionHandlerType } from "types/share";
 
 let actionHandler: ActionHandlerType;
 
