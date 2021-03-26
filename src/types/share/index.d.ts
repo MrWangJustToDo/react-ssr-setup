@@ -77,5 +77,5 @@ interface AutoRequestType {
 }
 /* preLoad */
 interface LoadBranchDataType {
-  (routes: PreLoadRouteConfig[], pathName: string, store: Store): Promise<any>;
+  (routes: PreLoadRouteConfig[], pathName: string, store: Store): Promise<[void, void][]>;
 }

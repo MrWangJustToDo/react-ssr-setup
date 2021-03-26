@@ -1,8 +1,9 @@
+import { Store } from "redux";
 import React, { MemoExoticComponent } from "react";
 import { HelmetData } from "react-helmet-async";
 import { RouteConfig } from "react-router-config";
 import { LoadableComponent } from "@loadable/component";
-import { PreLoadRouteConfig } from "@/types/router";
+import { MathProps, PreLoadRouteConfig } from "types/router";
 
 /* Template */
 interface HTMLProps {
@@ -23,4 +24,10 @@ interface WraperRouteProps {
 }
 interface WraperRouteType {
   (props: WraperRouteProps): MemoExoticComponent;
+}
+
+/* PreLoadComponent */
+interface PreLoadComponentType {
+  <T>(props: T): JSX.Element;
+  getInitialState?: (store: Store, math: MathProps) => Promise<any>;
 }
