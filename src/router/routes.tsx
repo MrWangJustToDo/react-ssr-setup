@@ -1,11 +1,13 @@
 import loadable from "@loadable/component";
 import { delay } from "share/utils/delay";
+import dynamicRouterConfig from "./dynamicRoutes";
 import { PreLoadRouteConfig } from "types/router";
 
 // import P1 from "components/EX/Page1";
 // import P2 from "components/EX/Page2";
 
-// 配置静态路由
+// 静态路由
+
 let routes: PreLoadRouteConfig[];
 
 routes = [
@@ -27,4 +29,14 @@ routes = [
   },
 ];
 
-export { routes };
+// 动态路由
+
+const dynamicRoutes = dynamicRouterConfig.map((it) => ({
+  path: it.path,
+  exact: it.exact,
+  component: loadable(() => import(`../pages/${it.componentPath}`)),
+}));
+
+const allRoutes = routes.concat(dynamicRoutes);
+
+export { allRoutes };

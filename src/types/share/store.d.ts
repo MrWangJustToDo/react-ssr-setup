@@ -10,13 +10,13 @@ interface State<T> {
   readonly loading: boolean;
   readonly loaded: boolean;
 }
-interface StateAction extends Action<T> {
+interface StateAction<T> extends AnyAction {
   data?: T;
   error?: any;
   loadingState?: boolean;
 }
 interface StateActionMapType<T> {
-  [props: string]: (state: T, action: StateAction) => T;
+  [props: string]: (state: State<T>, action: StateAction<T>) => State<T>;
 }
 
 /* --- client --- */

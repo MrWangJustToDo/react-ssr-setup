@@ -6,6 +6,8 @@ let Page3 = () => {
     <div>
       123456 <p>this is page three</p>
       <Link to="/">回到首页</Link>
+      <br/>
+      <Link to="/welcome">去到dynamic</Link>
     </div>
   );
 };

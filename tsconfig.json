@@ -26,6 +26,7 @@
       "hooks*": ["src/hooks*"],
       "share*": ["src/share*"],
       "router*": ["src/router*"],
+      "pages*": ["src/pages*"],
       "config*": ["src/config*"],
       "components*": ["src/components*"],
       "types*": ["src/types*"]

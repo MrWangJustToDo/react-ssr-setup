@@ -9,3 +9,14 @@ interface UsePreLoadProps {
 interface UsePreLoadType {
   (props: UsePreLoadProps): Location<>;
 }
+
+/* useLoadingBar */
+interface UseLoadReturn {
+  start: () => void;
+  end: () => void;
+  state: LoadingBarProps;
+  autoAdd: () => NodeJS.Timeout;
+}
+interface UseLoadType {
+  (props: LoadingBarProps): UseLoadReturn;
+}

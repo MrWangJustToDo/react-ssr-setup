@@ -75,7 +75,15 @@ interface AutoRequestType {
   (props?: AutoRequestProps): AutoRequestType;
   run: <T>(path?: string, query?: QueryProps) => Promise<T>;
 }
+
 /* preLoad */
 interface LoadBranchDataType {
   (routes: PreLoadRouteConfig[], pathName: string, store: Store): Promise<[void, void][]>;
+}
+
+/* dynamic */
+interface DynamicRouteConfig {
+  path: string;
+  exact: boolean;
+  componentPath: string;
 }

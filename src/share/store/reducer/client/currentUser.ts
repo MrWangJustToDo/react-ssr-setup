@@ -10,11 +10,11 @@ let initState: CurrentState;
 
 let reducer: Reducer<CurrentState>;
 
-let actionReducerMap: StateActionMapType<CurrentState>;
+let actionReducerMap: StateActionMapType<{}>;
 
 initState = { data: {}, error: null, loading: true, loaded: false };
 
-reducer = (state: CurrentState = initState, action: StateAction) => {
+reducer = (state: CurrentState = initState, action: StateAction<{}>) => {
   let actionReducer = actionReducerMap[action.type];
   if (actionReducer) {
     return actionReducer(state, action);
@@ -33,7 +33,7 @@ actionReducerMap = {
     }),
   [clientAction.SETDATASUCESS(actionName.currentUser)]: (state, action) =>
     produce(state, (proxy) => {
-      proxy.data = action.data;
+      proxy.data = action.data!;
       proxy.error = null;
       proxy.loading = false;
       proxy.loaded = true;

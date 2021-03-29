@@ -5,7 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { StaticRouter as Router } from "react-router-dom";
 import { ChunkExtractor } from "@loadable/server";
 
-import { routes } from "router/routes";
+import { allRoutes } from "router/routes";
 import App from "components/App";
 import Html from "components/Template/html";
 import getStore from "share/store/store";
@@ -23,7 +23,7 @@ renderSSR = async ({ req, res }) => {
   const jsx = webExtractor.collectChunks(<App />);
   const store = getStore({ initialState: { server: {}, client: {} } });
 
-  await preLoad(routes, req.path, store);
+  await preLoad(allRoutes, req.path, store);
 
   const content = renderToString(
     <Provider store={store}>

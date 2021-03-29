@@ -29,5 +29,25 @@ interface WraperRouteType {
 /* PreLoadComponent */
 interface PreLoadComponentType {
   <T>(props: T): JSX.Element;
-  getInitialState?: (store: Store, math: MathProps) => Promise<any>;
+  getInitialState?: (store: Store, math: MathProps) => any;
+}
+
+/* LoadingBar */
+interface LoadingBarProps {
+  height?: number;
+  present?: number;
+  loading?: boolean;
+}
+
+interface LoadingBarType {
+  (props: LoadingBarProps): JSX.Element;
+}
+
+/* loadingBar */
+interface BarProps extends LoadingBarProps {
+  autoAdd: () => NodeJS.Timeout;
+}
+
+interface BarType {
+  (props: BarProps): JSX.Element;
 }
