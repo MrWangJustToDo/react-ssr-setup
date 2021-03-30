@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { GetHeaderType, HeaderProps } from "@/types/share";
+import { GetHeaderType, HeaderProps } from "types/share";
 
 let getHeader: GetHeaderType;
 

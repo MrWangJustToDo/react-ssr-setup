@@ -19,7 +19,7 @@ interface HTMLType {
 
 /* WraperRoute */
 interface WraperRouteProps {
-  children: JSX.Element;
+  children: React.ReactElement | React.ReactElement[] | string;
   routes: PreLoadRouteConfig[];
 }
 interface WraperRouteType {

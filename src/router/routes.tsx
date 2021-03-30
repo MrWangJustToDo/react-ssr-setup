@@ -29,7 +29,7 @@ routes = [
   },
 ];
 
-// 动态路由
+// 文件路由
 
 const dynamicRoutes = dynamicRouterConfig.map((it) => ({
   path: it.path,

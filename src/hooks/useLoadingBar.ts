@@ -3,9 +3,10 @@ import { delay } from "share/utils/delay";
 import { LoadingBarProps } from "types/components";
 import { UseLoadType } from "types/hooks";
 
-let useLoad: UseLoadType;
+let useLoadingBar: UseLoadType;
 
-useLoad = ({ loading = false, height = 1.5, present = 0 }) => {
+useLoadingBar = (props = {}) => {
+  const { loading = false, height = 1.6, present = 0 } = props;
   const [state, setState] = useState<LoadingBarProps>({ loading, height, present });
   const start = useCallback(() => setState({ loading: true, present: 0 }), []);
   const complate = useCallback(() => setState({ loading: false, present: 100 }), []);
@@ -28,4 +29,4 @@ useLoad = ({ loading = false, height = 1.5, present = 0 }) => {
   return { start, end, state, autoAdd };
 };
 
-export default useLoad;
+export { useLoadingBar };

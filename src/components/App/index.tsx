@@ -8,22 +8,22 @@ import WraperRoute from "components/WraperRoute";
 
 const App: FC = () => {
   return (
-    <div>
+    <WraperRoute routes={allRoutes}>
       <Helmet defaultTitle="React SSR Starter – TypeScript Edition" titleTemplate="%s – React SSR Starter – TypeScript Edition" />
       <h1>hello React SSR</h1>
-      <WraperRoute routes={allRoutes}>{renderRoutes(allRoutes)}</WraperRoute>
+      {renderRoutes(allRoutes)}
       <h3>跳转</h3>
       <hr />
-      12345
+      <p>12345</p>
       <br />
-      12345678
+      <p>12345678</p>
       <hr />
       <br />
       <div style={{ border: "1px solid red" }}>
         <Link to="/fr">点击</Link>
         <Link to="/pr">跳转</Link>
       </div>
-    </div>
+    </WraperRoute>
   );
 };
 

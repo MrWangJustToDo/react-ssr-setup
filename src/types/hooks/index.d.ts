@@ -5,6 +5,8 @@ import { LoadBranchDataType } from "../share";
 interface UsePreLoadProps {
   routes: PreLoadRouteConfig[];
   preLoad: LoadBranchDataType;
+  startLocation?: Function;
+  endLocation?: Function;
 }
 interface UsePreLoadType {
   (props: UsePreLoadProps): Location<>;
@@ -18,5 +20,5 @@ interface UseLoadReturn {
   autoAdd: () => NodeJS.Timeout;
 }
 interface UseLoadType {
-  (props: LoadingBarProps): UseLoadReturn;
+  (props?: LoadingBarProps): UseLoadReturn;
 }
