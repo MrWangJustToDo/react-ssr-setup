@@ -8,6 +8,7 @@ module.exports = {
     "@babel/plugin-transform-runtime",
     "@babel/plugin-proposal-export-default-from",
     "@babel/plugin-proposal-export-namespace-from",
+    ["import", { libraryName: "antd", style: 'css' }],
     "@loadable/babel-plugin",
   ],
 };

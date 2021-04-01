@@ -43,8 +43,14 @@ declare module "*.webp" {
   export default src;
 }
 
+declare module "*.css" {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+
 declare module "*.scss" {
-  export default any;
+  const classes: { readonly [key: string]: string };
+  export default classes;
 }
 
 declare const __CLIENT__: boolean;

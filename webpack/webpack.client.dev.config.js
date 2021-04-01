@@ -100,6 +100,19 @@ const ClientConfig = (entryPath) => {
             // 启用sass支持
             { loader: "sass-loader" },
           ],
+          exclude: [path.resolve(__dirname, "..", "node_modules")],
+        },
+        // use for antd
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            {
+              loader: "css-loader",
+            },
+          ],
         },
         // 其他资源
         {

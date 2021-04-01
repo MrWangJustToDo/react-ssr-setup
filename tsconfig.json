@@ -28,6 +28,7 @@
       "router*": ["src/router*"],
       "pages*": ["src/pages*"],
       "config*": ["src/config*"],
+      "style*": ["src/style*"],
       "components*": ["src/components*"],
       "types*": ["src/types*"]
     }

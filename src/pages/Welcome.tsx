@@ -1,4 +1,5 @@
 import React from "react";
+import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 
 let Welcome: PreLoadComponentType;
@@ -7,12 +8,10 @@ Welcome = () => {
   return <div>dynamic router page</div>;
 };
 
-Welcome.getInitialState = (store, match) => {
-  console.log('dynamic router');
+Welcome.getInitialState = async (store, match) => {
+  console.log("dynamic router");
   console.log(store, match);
-  return 
-}
+  await delay(1000, () => console.log("hello"));
+};
 
 export default Welcome;
-
-
