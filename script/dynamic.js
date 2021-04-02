@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const chalk = require("chalk");
 
 const getRouterServer = (prePath, dirName) => {
   return new Promise((resolve) => {
@@ -29,16 +30,6 @@ const getRouterServer = (prePath, dirName) => {
   });
 };
 
-/*
-const getRouterConfig = (config) => {
-  return config.map((it) => ({
-    path: it.path,
-    exact: it.exact,
-    component: `\`${loadable(() => import("${it.componentPath}"))}\``,
-  }));
-};
-*/
-
 const routerTemplate = (config) => {
   const template = `
   import { DynamicRouteConfig } from "types/share";
@@ -61,6 +52,7 @@ const getDynamicRouter = async () => {
   const template = routerTemplate(dynamicConfig);
   const dynamicRouteFilename = path.resolve(process.cwd(), "src", "router", "dynamicRoutes.ts");
   writeFile(dynamicRouteFilename, template);
+  console.log(chalk.green("file router done"));
 };
 
 exports.getDynamicRouter = getDynamicRouter;

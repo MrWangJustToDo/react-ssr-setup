@@ -12,7 +12,7 @@ let routes: PreLoadRouteConfig[];
 
 routes = [
   {
-    path: "/fr",
+    path: "/fr/",
     exact: false,
     component: loadable(() => import("components/EX/Page1")),
     preLoadPromises: [(props) => delay(1000, () => props)],
@@ -23,7 +23,7 @@ routes = [
     ],
   },
   {
-    path: "/pr",
+    path: "/pr/:bar",
     exact: false,
     component: loadable(() => import("components/EX/Page2")),
   },
