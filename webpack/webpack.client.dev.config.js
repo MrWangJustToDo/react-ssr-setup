@@ -11,8 +11,6 @@ const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 // loadable json
 const LoadablePlugin = require("@loadable/webpack-plugin");
-// babel配置
-const babelConfig = require("./babel.client.config");
 
 // client 端代码打包
 const ClientConfig = (entryPath) => {
@@ -70,8 +68,7 @@ const ClientConfig = (entryPath) => {
             {
               loader: require.resolve("babel-loader"),
               options: {
-                ...babelConfig,
-                plugins: [...babelConfig.plugins, require.resolve("react-refresh/babel")],
+                plugins: [["import", { libraryName: "antd", style: "css" }], "react-refresh/babel"],
               },
             },
           ],

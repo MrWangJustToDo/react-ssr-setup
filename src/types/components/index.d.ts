@@ -27,9 +27,12 @@ interface WraperRouteType {
 }
 
 /* PreLoadComponent */
+interface GetInitialStateType {
+  (store: Store, math: MathProps): any;
+}
 interface PreLoadComponentType {
   <T>(props: T): JSX.Element;
-  getInitialState?: (store: Store, math: MathProps) => any;
+  getInitialState?: GetInitialStateType;
 }
 
 /* LoadingBar */

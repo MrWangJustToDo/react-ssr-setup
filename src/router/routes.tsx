@@ -3,9 +3,6 @@ import { delay } from "share/utils/delay";
 import dynamicRouterConfig from "./dynamicRoutes";
 import { PreLoadRouteConfig } from "types/router";
 
-// import P1 from "components/EX/Page1";
-// import P2 from "components/EX/Page2";
-
 // 静态路由
 
 let routes: PreLoadRouteConfig[];

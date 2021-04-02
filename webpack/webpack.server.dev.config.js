@@ -4,8 +4,6 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// babel 配置
-const babelConfig = require("./babel.server.config");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
@@ -59,8 +57,10 @@ const ServerConfig = (entryPath) => {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader",
-            options: babelConfig,
+            loader: require.resolve("babel-loader"),
+            options: {
+              plugins: ["@babel/transform-modules-commonjs"],
+            },
           },
         },
         // css资源

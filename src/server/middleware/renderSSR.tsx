@@ -9,7 +9,7 @@ import { allRoutes } from "router/routes";
 import App from "components/App";
 import Html from "components/Template/html";
 import getStore from "share/store/store";
-import preLoad from "share/utils/preLoad";
+import { loadBranchData } from "share/utils/preLoad";
 import { RenderType } from "types/server";
 
 const helmetContext = {};
@@ -23,7 +23,7 @@ renderSSR = async ({ req, res }) => {
   const jsx = webExtractor.collectChunks(<App />);
   const store = getStore({ initialState: { server: {}, client: {} } });
 
-  await preLoad(allRoutes, req.path, store);
+  await loadBranchData(allRoutes, req.path, store);
 
   const content = renderToString(
     <Provider store={store}>

@@ -2,7 +2,8 @@ import { matchRoutes } from "react-router-config";
 import { level, log } from "./log";
 import { LoadBranchDataType } from "types/share";
 import { MathProps, PreLoadRouteConfig } from "types/router";
-import { PreLoadComponentType } from "types/components";
+import { GetInitialStateType, PreLoadComponentType } from "types/components";
+import { ComponentClass } from "react";
 
 let loadBranchData: LoadBranchDataType;
 
@@ -56,4 +57,11 @@ loadBranchData = (routes, pathname, store) => {
   return Promise.all(promises);
 };
 
-export default loadBranchData;
+function preLoadWraper(preLoad: GetInitialStateType) {
+  function Wraper(Component: ComponentClass & { getInitialState?: GetInitialStateType }) {
+    Component.getInitialState = preLoad;
+  }
+  return Wraper;
+}
+
+export { loadBranchData, preLoadWraper };
