@@ -1,7 +1,7 @@
 import React from "react";
 import Page3 from "./Page3";
 
-import style from "./index.scss";
+import style from "./index.module.scss";
 import { PreLoadComponentType } from "types/components";
 import { delay } from "share/utils/delay";
 

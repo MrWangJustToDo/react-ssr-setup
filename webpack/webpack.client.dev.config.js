@@ -73,9 +73,9 @@ const ClientConfig = (entryPath) => {
             },
           ],
         },
-        // css资源
+        // css module
         {
-          test: /\.s?css$/,
+          test: /\.module\.s?css$/,
           use: [
             // 分离打包css文件
             {
@@ -99,17 +99,11 @@ const ClientConfig = (entryPath) => {
           ],
           exclude: [path.resolve(__dirname, "..", "node_modules")],
         },
-        // use for antd
+        // css no module
         {
-          test: /\.css$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
-            {
-              loader: "css-loader",
-            },
-          ],
+          test: /\.s?css$/,
+          use: [{ loader: MiniCssExtractPlugin.loader }, { loader: "css-loader" }, { loader: "postcss-loader" }, { loader: "sass-loader" }],
+          exclude: /\.module\.s?css$/,
         },
         // 其他资源
         {

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { BarType } from "types/components";
 
-import style from "./index.scss";
+import style from "./index.module.scss";
 
 let Bar: BarType;
 

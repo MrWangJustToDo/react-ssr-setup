@@ -65,7 +65,7 @@ const ServerConfig = (entryPath) => {
         },
         // css资源
         {
-          test: /\.s?css$/,
+          test: /\.module\.s?css$/,
           use: [
             // 启用js中import css为对象，启用css module以及生成的类名
             {
@@ -85,6 +85,7 @@ const ServerConfig = (entryPath) => {
             // 启用sass支持
             { loader: "sass-loader" },
           ],
+          exclude: [path.resolve(__dirname, "..", "node_modules")],
         },
         // 其他资源
         {

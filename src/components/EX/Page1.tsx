@@ -1,7 +1,7 @@
 import React from "react";
 import { DatePicker, Button } from "antd";
 
-import style from "./index.scss";
+import style from "./index.module.scss";
 
 import src from "./avatar.jpg";
 import { delay } from "share/utils/delay";
