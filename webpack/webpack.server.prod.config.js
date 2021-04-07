@@ -8,9 +8,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // server 端代码打包
 const ServerConfig = (entryPath) => {
   if (process.env.NODE_ENV !== "production") {
-    throw new Error(
-      `webpack config ENV error！currentENV: ${process.env.NODE_ENV}`
-    );
+    throw new Error(`webpack config ENV error！currentENV: ${process.env.NODE_ENV}`);
   }
 
   const outputPath = path.resolve(__dirname, "../static/server");
@@ -25,6 +23,20 @@ const ServerConfig = (entryPath) => {
     // 打包入口
     entry: {
       main: entryPath,
+    },
+    resolve: {
+      alias: {
+        server: path.resolve(__dirname, "..", "src", "server"),
+        client: path.resolve(__dirname, "..", "src", "client"),
+        share: path.resolve(__dirname, "..", "src", "share"),
+        hooks: path.resolve(__dirname, "..", "src", "hooks"),
+        router: path.resolve(__dirname, "..", "src", "router"),
+        config: path.resolve(__dirname, "..", "src", "config"),
+        pages: path.resolve(__dirname, "..", "src", "pages"),
+        components: path.resolve(__dirname, "..", "src", "components"),
+        "*": path.resolve(__dirname, "..", "src", "*"),
+      },
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
     },
     externals: [nodeExternals()],
     output: {
@@ -43,11 +55,16 @@ const ServerConfig = (entryPath) => {
         {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
-          use: ["babel-loader"],
+          use: {
+            loader: require.resolve("babel-loader"),
+            options: {
+              plugins: ["@babel/transform-modules-commonjs"],
+            },
+          },
         },
         // css资源
         {
-          test: /\.s?css$/,
+          test: /\.module\.s?css$/,
           use: [
             // 启用js中import css为对象，启用css module以及生成的类名
             {
@@ -67,6 +84,7 @@ const ServerConfig = (entryPath) => {
             // 启用sass支持
             { loader: "sass-loader" },
           ],
+          exclude: [path.resolve(__dirname, "..", "node_modules")],
         },
         // 其他资源
         {

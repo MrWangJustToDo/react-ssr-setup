@@ -25,11 +25,11 @@ const buildServer = (entryPoint) => {
       const info = stats.toJson();
 
       if (stats.hasErrors()) {
-        // console.error(info.errors);
+        console.error(info.errors);
       }
 
       if (stats.hasWarnings()) {
-        // console.warn(info.warnings);
+        console.warn(info.warnings);
       }
     }
   );

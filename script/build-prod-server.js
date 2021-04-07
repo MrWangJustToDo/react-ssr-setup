@@ -7,7 +7,7 @@ const buildServer = (serverEntryPoint) => {
   const compiler = webpack(serverOptions);
 
   compiler.hooks.done.tap("done", function () {
-    console.log(chalk.green("\n production server code compiler done"));
+    console.log(chalk.green("production server code compiler done"));
   });
 
   compiler.run();

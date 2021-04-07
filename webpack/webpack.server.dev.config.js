@@ -32,8 +32,9 @@ const ServerConfig = (entryPath) => {
         hooks: path.resolve(__dirname, "..", "src", "hooks"),
         router: path.resolve(__dirname, "..", "src", "router"),
         config: path.resolve(__dirname, "..", "src", "config"),
+        pages: path.resolve(__dirname, "..", "src", "pages"),
         components: path.resolve(__dirname, "..", "src", "components"),
-        "*": path.resolve(__dirname, "..", "src"),
+        "*": path.resolve(__dirname, "..", "src", "*"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
     },
@@ -44,7 +45,7 @@ const ServerConfig = (entryPath) => {
       // 输出文件名
       filename: "app.js",
       // 按需加载的chunk名
-      chunkFilename: "[name]-[contenthash].js",
+      chunkFilename: "[name].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
       // 打包资源的名称

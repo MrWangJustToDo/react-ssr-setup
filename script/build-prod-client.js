@@ -7,7 +7,7 @@ const buildClient = (clientEntryPoint) => {
   const compiler = webpack(clientOptions);
 
   compiler.hooks.done.tap("done", function () {
-    console.log(chalk.green("\n production client code compiler done"));
+    console.log(chalk.green("production client code compiler done"));
   });
 
   compiler.run();

@@ -5,7 +5,7 @@ const { spawn } = require("child_process");
 const { getDynamicRouter } = require("./dynamic");
 
 // first get dynamic router
-(async () => await getDynamicRouter())();
+getDynamicRouter();
 
 const cliCodeWatchProcess = spawn("node", ["./script/build-dev-client"], {
   stdio: "inherit",

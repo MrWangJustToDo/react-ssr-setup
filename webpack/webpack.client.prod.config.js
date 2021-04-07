@@ -7,6 +7,8 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 压缩css
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+// loadable json
+const LoadablePlugin = require("@loadable/webpack-plugin");
 
 // client 端代码打包
 const ClientConfig = (entryPath) => {
@@ -29,6 +31,20 @@ const ClientConfig = (entryPath) => {
     entry: {
       main: entryPath,
     },
+    resolve: {
+      alias: {
+        server: path.resolve(__dirname, "..", "src", "server"),
+        client: path.resolve(__dirname, "..", "src", "client"),
+        share: path.resolve(__dirname, "..", "src", "share"),
+        hooks: path.resolve(__dirname, "..", "src", "hooks"),
+        router: path.resolve(__dirname, "..", "src", "router"),
+        config: path.resolve(__dirname, "..", "src", "config"),
+        pages: path.resolve(__dirname, "..", "src", "pages"),
+        components: path.resolve(__dirname, "..", "src", "components"),
+        "*": path.resolve(__dirname, "..", "src", "*"),
+      },
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
+    },
     output: {
       // 输出路径
       path: outputPath,
@@ -45,11 +61,16 @@ const ClientConfig = (entryPath) => {
         {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
-          use: ["babel-loader"],
+          use: {
+            loader: require.resolve("babel-loader"),
+            options: {
+              plugins: [["import", { libraryName: "antd", style: "css" }]],
+            },
+          },
         },
-        // css资源
+        // css module
         {
-          test: /\.s?css$/,
+          test: /\.module\.s?css$/,
           use: [
             // 分离打包css文件
             {
@@ -71,6 +92,13 @@ const ClientConfig = (entryPath) => {
             // 启用sass支持
             { loader: "sass-loader" },
           ],
+          exclude: [path.resolve(__dirname, "..", "node_modules")],
+        },
+        // css no module
+        {
+          test: /\.s?css$/,
+          use: [{ loader: MiniCssExtractPlugin.loader }, { loader: "css-loader" }, { loader: "postcss-loader" }, { loader: "sass-loader" }],
+          exclude: /\.module\.s?css$/,
         },
         // 其他资源
         {
@@ -100,6 +128,7 @@ const ClientConfig = (entryPath) => {
         chunkFilename: "[id].[contenthash].css",
       }),
       new WebpackManifestPlugin({ fileName: `manifest-prod.json` }),
+      new LoadablePlugin({ filename: "manifest-loadable.json" }),
     ],
     optimization: {
       runtimeChunk: "single",

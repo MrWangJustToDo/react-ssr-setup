@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "./script/start-dev",
-    "build": "./script/start-prod"
+    "build": "./script/start-prod",
+    "start": "node ./bin/start"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
