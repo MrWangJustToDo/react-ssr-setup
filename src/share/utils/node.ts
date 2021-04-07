@@ -1,5 +1,5 @@
 import { delay } from "./delay";
-import { level, log } from "./log";
+import { log } from "./log";
 
 class NodeItem<T, K> {
   previous: NodeItem<T, K> | undefined;
@@ -63,7 +63,7 @@ class ListNode<T, K> {
       item.previous = lastFoot;
       this.foot = item;
     } else {
-      log(`listNode error！`, level.error);
+      log(`listNode error！`, "error");
     }
     if (!!deleteTime) {
       delay(deleteTime, () => this.deleteItem(item));

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-
+import { log } from "./log";
 import { delay } from "./delay";
-import { level, log } from "./log";
+
 import { PendingType, RemovePendingType } from "types/share";
 
 let pending: Array<PendingType>;
@@ -86,11 +86,11 @@ instance.interceptors.response.use(
       // 确定是网络问题执行重试
       config.__retryCount = config.__retryCount || 0;
       if (config.__retryCount >= retryCount) {
-        log(`network error, retry : ${config.__retryCount}`, level.warn);
+        log(`network error, retry : ${config.__retryCount}`, "warn");
         return Promise.reject(response?.data?.data || "404 not found!");
       }
       config.__retryCount++;
-      
+
       return delay(retryDelay, () => instance(config));
     }
 

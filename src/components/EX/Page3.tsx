@@ -8,6 +8,7 @@ let Page3 = () => {
       <Link to="/">回到首页</Link>
       <br/>
       <Link to="/welcome">去到dynamic</Link>
+      <hr/>
     </div>
   );
 };

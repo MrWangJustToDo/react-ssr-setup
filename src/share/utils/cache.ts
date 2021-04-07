@@ -1,5 +1,5 @@
 import { cancel, delay } from "./delay";
-import { level, log } from "./log";
+import { log } from "./log";
 
 const maxTimeStore = 1000 * 60 * 10;
 
@@ -12,7 +12,7 @@ class Cache<T, K> {
 
   set = (key: T, value: K, time: number = this.maxTime) => {
     if (this.store.has(key)) {
-      log(`already cache, should not cache again! key: ${key} oldValue: ${this.store.get(key)} newValue: ${value}`, level.warn);
+      log(`already cache, should not cache again! key: ${key} oldValue: ${this.store.get(key)} newValue: ${value}`, "warn");
     }
     this.store.set(key, value);
     this.delete(key, time);
@@ -23,10 +23,10 @@ class Cache<T, K> {
       time,
       () => {
         if (this.store.has(key)) {
-          log(`start delete data from cache, next request will update this data. key: ${key}`, level.normal);
+          log(`start delete data from cache, next request will update this data. key: ${key}`, "normal");
           this.store.delete(key);
         } else {
-          log(`error, nothing need to delete. key: ${key}`, level.error);
+          log(`error, nothing need to delete. key: ${key}`, "error");
         }
       },
       key instanceof String ? key.toString() : undefined
@@ -37,7 +37,7 @@ class Cache<T, K> {
     if (this.store.has(key)) {
       return this.store.get(key);
     } else {
-      log(`warn, not cache yet, nothing to return. key: ${key}`, level.warn);
+      log(`warn, not cache yet, nothing to return. key: ${key}`, "warn");
       return false;
     }
   };
@@ -48,9 +48,9 @@ class Cache<T, K> {
         cancel(key.toString());
       }
       this.store.delete(key);
-      log(`force delete data from cache, updata data from database. key: ${key}`, level.warn);
+      log(`force delete data from cache, updata data from database. key: ${key}`, "warn");
     } else {
-      log(`error, nothing need to delete. key: ${key}`, level.error);
+      log(`error, nothing need to delete. key: ${key}`, "error");
     }
   };
 }

@@ -21,7 +21,7 @@ const App: FC = () => {
       <br />
       <div style={{ border: "1px solid red" }}>
         <Link to="/fr">点击</Link>
-        <Link to="/pr/test">跳转</Link>
+        <Link to="/pr/test/ee">跳转</Link>
       </div>
     </WraperRoute>
   );

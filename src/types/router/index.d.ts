@@ -9,7 +9,7 @@ interface PreLoadRouteConfig extends RouteConfig {
 }
 
 interface MathProps {
-  path?: string;
-  url?: string;
-  params?: any;
+  path: string;
+  url: string;
+  params: any;
 }

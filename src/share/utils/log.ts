@@ -1,24 +1,18 @@
 import chalk from "chalk";
 
 if (__SERVER__) {
-  const PrettyError = require('pretty-error');
+  const PrettyError = require("pretty-error");
   var pre = new PrettyError();
 }
 
-enum level {
-  "normal",
-  "warn",
-  "error",
-}
-
-const log = (message: string | Error, lev: level) => {
-  if (lev === level.error) {
+const log = (message: string | Error, lev: "normal" | "warn" | "error") => {
+  if (lev === "error") {
     if (__SERVER__) {
       console.log(pre.render(message));
     } else {
       console.log(chalk.red(message.toString()));
     }
-  } else if (lev === level.warn) {
+  } else if (lev === "warn") {
     console.log(chalk.green(message.toString()));
   } else {
     if (__DEVELOPMENT__) {
@@ -27,4 +21,4 @@ const log = (message: string | Error, lev: level) => {
   }
 };
 
-export { level, log };
+export { log };

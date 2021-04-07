@@ -23,6 +23,13 @@ routes = [
     path: "/pr/:bar",
     exact: false,
     component: loadable(() => import("components/EX/Page2")),
+    routes: [
+      {
+        path: "/pr/:bar/:foo",
+        exact: false,
+        component: loadable(() => import("components/EX/Page4")),
+      },
+    ],
   },
 ];
 

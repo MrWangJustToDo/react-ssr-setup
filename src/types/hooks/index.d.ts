@@ -13,6 +13,11 @@ interface UsePreLoadType {
 }
 
 /* useLoadingBar */
+interface LoadingBarProps {
+  height?: number;
+  present?: number;
+  loading?: boolean;
+}
 interface UseLoadReturn {
   start: () => void;
   end: () => void;

@@ -1,21 +1,21 @@
-import { level, log } from "./log";
+import { log } from "./log";
 import { TransformPathType } from "types/share";
 
 let transformPath: TransformPathType;
 
 transformPath = ({ path, apiPath, query }) => {
   if (!path && !apiPath) {
-    log(`transform path not exist`, level.normal);
+    log(`transform path not exist`, "normal");
     return "";
   }
   let currentPath = "";
   let flag = true;
   if (path) {
     if (!path.startsWith("http")) {
-      log(`Incomplete path! third part request, path : ${path}`, level.warn);
+      log(`Incomplete path! third part request, path : ${path}`, "warn");
       flag = false;
     } else {
-      log(`third part link : ${path}`, level.normal);
+      log(`third part link : ${path}`, "normal");
     }
     currentPath = path;
   }
@@ -25,7 +25,7 @@ transformPath = ({ path, apiPath, query }) => {
         currentPath = "/" + apiPath;
       } else {
         if (!apiPath.startsWith("/api")) {
-          log(`apiPath params error : ${apiPath}`, level.error);
+          log(`apiPath params error : ${apiPath}`, "error");
         }
         currentPath = apiPath;
       }

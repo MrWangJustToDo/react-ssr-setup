@@ -52,5 +52,5 @@ interface BarProps extends LoadingBarProps {
 }
 
 interface BarType {
-  (props: BarProps): JSX.Element;
+  (props: BarProps & LoadingBarProps): JSX.Element;
 }

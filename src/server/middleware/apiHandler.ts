@@ -1,6 +1,6 @@
 import assign from "lodash/assign";
 import { Cache } from "share/utils/cache";
-import { level, log } from "share/utils/log";
+import { log } from "share/utils/log";
 import { ServerError } from "server/utils/error";
 import { NextFunction, Request, Response } from "express";
 import {
@@ -41,7 +41,7 @@ let catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandlerTy
     try {
       return await requestHandler({ req, res, next });
     } catch (e) {
-      log(e, level.error);
+      log(e, "error");
       if (errHandler && typeof errHandler === "function") {
         if (e instanceof ServerError) {
           errHandler({ req, res, next, e, code: e.code });
@@ -74,14 +74,14 @@ let cacheHandler = (requestHandler: RequestHandlerType, time: number | undefined
     if (needCache) {
       const cacheValue = cache.get(key);
       if (cacheValue) {
-        log(`get response data from cache. method: ${req.method} url: ${req.originalUrl} key: ${key}`, level.normal);
+        log(`get response data from cache. method: ${req.method} url: ${req.originalUrl} key: ${key}`, "normal");
         success({ res, resDate: cacheValue });
       } else {
         const actionValue = await requestHandler({ req, res, next });
         if (!!actionValue) {
           cache.set(key, actionValue, cacheTime);
         } else {
-          log(`nothing to return, so nothing to cache. method: ${req.method} url: ${req.originalUrl}`, level.warn);
+          log(`nothing to return, so nothing to cache. method: ${req.method} url: ${req.originalUrl}`, "normal");
         }
       }
     } else {
