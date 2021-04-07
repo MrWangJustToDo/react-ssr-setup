@@ -16,7 +16,7 @@ const ClientConfig = (entryPath) => {
     throw new Error(`webpack config ENV error！currentENV: ${process.env.NODE_ENV}`);
   }
 
-  const outputPath = path.resolve(__dirname, "../static/client");
+  const outputPath = path.resolve(__dirname, "../dist/client");
 
   return {
     // 打包模式
@@ -41,7 +41,6 @@ const ClientConfig = (entryPath) => {
         config: path.resolve(__dirname, "..", "src", "config"),
         pages: path.resolve(__dirname, "..", "src", "pages"),
         components: path.resolve(__dirname, "..", "src", "components"),
-        "*": path.resolve(__dirname, "..", "src", "*"),
       },
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
     },
@@ -53,7 +52,7 @@ const ClientConfig = (entryPath) => {
       // 按需加载的chunk名
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径
-      publicPath: `${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
+      publicPath: `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
     },
     module: {
       rules: [

@@ -11,7 +11,7 @@ const ServerConfig = (entryPath) => {
     throw new Error(`webpack config ENV error！currentENV: ${process.env.NODE_ENV}`);
   }
 
-  const outputPath = path.resolve(__dirname, "../static/server");
+  const outputPath = path.resolve(__dirname, "../dist/server");
 
   return {
     // 打包模式
@@ -34,7 +34,6 @@ const ServerConfig = (entryPath) => {
         config: path.resolve(__dirname, "..", "src", "config"),
         pages: path.resolve(__dirname, "..", "src", "pages"),
         components: path.resolve(__dirname, "..", "src", "components"),
-        "*": path.resolve(__dirname, "..", "src", "*"),
       },
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
     },
@@ -47,7 +46,7 @@ const ServerConfig = (entryPath) => {
       // 按需加载的chunk名
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径
-      publicPath: `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/dist/`,
+      publicPath: `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
     },
     module: {
       rules: [
@@ -73,7 +72,7 @@ const ServerConfig = (entryPath) => {
                 importLoaders: 2,
                 modules: {
                   mode: "local",
-                  localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                  localIdentName: "[contenthash:base64:6]",
                   // ssr 模式下导出className标识符
                   exportOnlyLocals: true,
                 },

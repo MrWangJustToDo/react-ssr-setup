@@ -34,7 +34,6 @@ const ServerConfig = (entryPath) => {
         config: path.resolve(__dirname, "..", "src", "config"),
         pages: path.resolve(__dirname, "..", "src", "pages"),
         components: path.resolve(__dirname, "..", "src", "components"),
-        "*": path.resolve(__dirname, "..", "src", "*"),
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
     },

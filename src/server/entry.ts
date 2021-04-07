@@ -20,6 +20,8 @@ app.use(compression());
 
 app.use(express.static(`${process.cwd()}/static`));
 
+app.use(express.static(`${process.cwd()}/dist`));
+
 app.use(express.json({ limit: "5mb" }));
 
 app.use(express.urlencoded({ extended: true }));

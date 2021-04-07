@@ -8,7 +8,7 @@ const fs = require("fs");
 
 const path = require("path");
 
-const outputPath = (env) => (process.env.NODE_ENV === "production" ? path.resolve(__dirname, "../static/", env) : path.resolve(__dirname, "../dev/", env));
+const outputPath = (env) => (process.env.NODE_ENV === "production" ? path.resolve(__dirname, "../dist/", env) : path.resolve(__dirname, "../dev/", env));
 
 const manifestFile = () => (process.env.NODE_ENV === "production" ? "manifest-prod.json" : "manifest-dev.json");
 
