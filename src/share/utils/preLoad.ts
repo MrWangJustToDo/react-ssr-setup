@@ -1,7 +1,7 @@
 import { ComponentClass } from "react";
 import { Store } from "redux";
 import { matchRoutes } from "react-router-config";
-import { level, log } from "./log";
+import { log } from "./log";
 import { PreLoadType } from "types/share";
 import { MathProps, PreLoadRouteConfig } from "types/router";
 import { GetInitialStateType, PreLoadComponentType } from "types/components";
@@ -44,7 +44,7 @@ function preLoadFromRoute(route: PreLoadRouteConfig, index: number, store: Store
       const startDispatchActions = route.startDispatchActions;
       const endDispatchActions = route.endDispatchActions;
       if (preLoadPromises.length !== endDispatchActions.length) {
-        log(`preload length not equals dispatch length`, level.error);
+        log(`preload length not equals dispatch length`, "error");
         resolve();
       } else {
         if (startDispatchActions && startDispatchActions[index]) {

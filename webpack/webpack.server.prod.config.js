@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 // 忽略node端的node_modules打包
 const nodeExternals = require("webpack-node-externals");
+// moment
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
@@ -103,6 +105,7 @@ const ServerConfig = (entryPath) => {
     },
     plugins: [
       new CleanWebpackPlugin(),
+      new MomentLocalesPlugin({ localesToKeep: ["zh-cn"] }),
       new webpack.DefinePlugin({
         __CLIENT__: false,
         __SERVER__: true,

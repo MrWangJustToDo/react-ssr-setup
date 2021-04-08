@@ -4,6 +4,8 @@ require("dotenv").config();
 const { spawn } = require("child_process");
 const { getDynamicRouter } = require("./dynamic");
 
+process.env.NODE_ENV = "development";
+
 // first get dynamic router
 getDynamicRouter();
 

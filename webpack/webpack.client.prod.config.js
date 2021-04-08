@@ -9,6 +9,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 // loadable json
 const LoadablePlugin = require("@loadable/webpack-plugin");
+// moment
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
+// 查看打包
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // client 端代码打包
 const ClientConfig = (entryPath) => {
@@ -126,8 +130,10 @@ const ClientConfig = (entryPath) => {
         filename: "[name]-[contenthash].css",
         chunkFilename: "[id].[contenthash].css",
       }),
+      new MomentLocalesPlugin({ localesToKeep: ["zh-cn"] }),
       new WebpackManifestPlugin({ fileName: `manifest-prod.json` }),
       new LoadablePlugin({ filename: "manifest-loadable.json" }),
+      // new BundleAnalyzerPlugin(),
     ],
     optimization: {
       runtimeChunk: "single",
