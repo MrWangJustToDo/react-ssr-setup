@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { createPortal } from "react-dom";
 import { Route } from "react-router";
 import Bar from "components/LoadingBar";
@@ -13,10 +13,12 @@ let WraperRoute: WraperRouteType;
 WraperRoute = React.memo(({ children, routes }) => {
   const { start, end, autoAdd, state } = useLoadingBar();
   const loadedLocation = usePreLoad({ routes, preLoad, startLocation: start, endLocation: end });
+  const routeChildren = useMemo(() => <Route location={loadedLocation}>{children}</Route>, [children, loadedLocation]);
+
   return (
     <>
       {__CLIENT__ && createPortal(<Bar {...state} autoAdd={autoAdd} />, document.querySelector("#loadingbar")!)}
-      <Route location={loadedLocation}>{children}</Route>
+      {routeChildren}
     </>
   );
 });
