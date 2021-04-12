@@ -12,12 +12,7 @@ routes = [
     path: "/fr/",
     exact: false,
     component: loadable(() => import("components/EX/Page1")),
-    preLoadPromises: [(props) => delay(1000, () => props)],
-    endDispatchActions: [
-      (store, data) => {
-        console.log(store, data);
-      },
-    ],
+    getInitialState: (store, match) => delay(100, () => console.log(store, match, "/fr")),
   },
   {
     path: "/pr/:bar",
