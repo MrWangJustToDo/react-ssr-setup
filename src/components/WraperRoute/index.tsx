@@ -4,7 +4,6 @@ import { preLoad } from "share/utils/preLoad";
 import { usePreLoad } from "hooks/useRoute";
 import { useLoadingBar } from "hooks/useLoadingBar";
 import { WraperRouteType } from "types/components";
-import { createPortal } from "react-dom";
 
 // use this for client side preLoad
 let WraperRoute: WraperRouteType;
@@ -15,7 +14,7 @@ WraperRoute = React.memo(({ children, routes, LoadingBar }) => {
   const routeChildren = useMemo(() => <Route location={loadedLocation}>{children}</Route>, [children, loadedLocation]);
   return (
     <>
-      {__CLIENT__ && createPortal(<LoadingBar {...state} autoAdd={autoAdd} />, document.querySelector("#loadingbar")!)}
+      <LoadingBar {...state} autoAdd={autoAdd} />
       {routeChildren}
     </>
   );

@@ -14,18 +14,16 @@ renderError = ({ res, code, e }) =>
     "<!doctype html>" +
       renderToString(
         <Html>
-          <>
-            <h1>server render error!</h1>
+          {`<h1>server render error!</h1>
             <hr />
-            <p style={{ paddingLeft: "10px", fontSize: "20px" }}>
+            <p style='padding-left: 10px; font-size: 20px'>
               error code:
               <b>${code}</b>
               <br />
               <br />
-              <pre style={{ fontSize: "18px", color: "red" }}>${e.toString()}</pre>
+              <pre style='font-size: 18px; color: red'>${e.toString()}</pre>
             </p>
-            <script>console.log(\`${pre.render(e)}\`)</script>
-          </>
+          <script>console.log(\`${pre.render(e)}\`)</script>`}
         </Html>
       )
   );

@@ -11,6 +11,7 @@ const App: FC = () => {
       <Helmet defaultTitle="React SSR Starter – TypeScript Edition" titleTemplate="%s – React SSR Starter – TypeScript Edition" />
       <h1>hello React SSR</h1>
       {renderRoutes(allRoutes)}
+
       <h3>跳转</h3>
       <hr />
       <p>12345</p>

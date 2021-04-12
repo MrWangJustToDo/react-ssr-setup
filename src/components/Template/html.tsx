@@ -4,7 +4,7 @@ import { HTMLType } from "types/components";
 
 let HTML: HTMLType;
 
-HTML = ({ children, link = [], script = [], state = "{}", helmetContext = {} }) => {
+HTML = ({ children = "", link = [], script = [], state = "{}", helmetContext = {} }) => {
   const { helmet } = helmetContext;
   return (
     <html lang="">
@@ -25,7 +25,7 @@ HTML = ({ children, link = [], script = [], state = "{}", helmetContext = {} }) 
       </head>
       <body>
         <div id="loadingbar" />
-        <div id="app">{children}</div>
+        <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
         {script.filter(Boolean).map((ele) => ele)}
       </body>
     </html>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { HelmetProvider } from "react-helmet-async";
-import { renderToNodeStream } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 import { StaticRouter as Router } from "react-router-dom";
 import { ChunkExtractor } from "@loadable/server";
 
@@ -23,8 +23,6 @@ renderSSR = async ({ req, res }) => {
   const jsx = webExtractor.collectChunks(<App />);
   const store = getStore({ initialState: { server: {}, client: {} } });
 
-  await preLoad(allRoutes, req.path, store);
-
   const content = (
     <Provider store={store}>
       <Router location={req.path} context={routerContext}>
@@ -39,21 +37,25 @@ renderSSR = async ({ req, res }) => {
     });
     res.end();
   } else {
+    await preLoad(allRoutes, req.path, store);
+
     const state = JSON.stringify(store.getState());
+
+    // must run first!!  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
+    const body = renderToString(content);
 
     const linkElements = webExtractor.getLinkElements();
     const styleElements = webExtractor.getStyleElements();
     const scriptElements = webExtractor.getScriptElements();
 
-    res.write("<!doctype html>");
-
-    const stream = renderToNodeStream(
-      <Html link={linkElements.concat(styleElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
-        {content}
-      </Html>
+    res.send(
+      "<!doctype html>" +
+        renderToString(
+          <Html link={linkElements.concat(styleElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
+            {body}
+          </Html>
+        )
     );
-
-    stream.pipe(res, { end: true });
   }
 };
 
