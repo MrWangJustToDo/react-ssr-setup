@@ -25,7 +25,6 @@ function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: Ma
   return new Promise<void>((resolve) => {
     (route.component as any).load().then((component: { readonly default: PreLoadComponentType }) => {
       const Target = component.default;
-      console.log(Target);
       if (Target.getInitialState && typeof Target.getInitialState === "function") {
         Promise.resolve(Target.getInitialState(store, match)).then(resolve).catch(resolve);
       } else {

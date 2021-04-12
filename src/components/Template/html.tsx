@@ -25,7 +25,7 @@ HTML = ({ children, link = [], script = [], state = "{}", helmetContext = {} }) 
       </head>
       <body>
         <div id="loadingbar" />
-        <div id="app" dangerouslySetInnerHTML={{ __html: children || "" }} />
+        <div id="app">{children}</div>
         {script.filter(Boolean).map((ele) => ele)}
       </body>
     </html>

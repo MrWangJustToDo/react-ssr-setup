@@ -7,9 +7,9 @@ import { MathProps, PreLoadRouteConfig } from "types/router";
 
 /* Template */
 interface HTMLProps {
-  children?: string;
-  link: React.ReactElement[];
-  script: React.ReactElement[];
+  children?: React.ReactElement;
+  link?: React.ReactElement[];
+  script?: React.ReactElement[];
   state?: string;
   helmetContext?: { helmet?: HelmetData };
 }
@@ -21,6 +21,7 @@ interface HTMLType {
 interface WraperRouteProps {
   children: React.ReactElement | React.ReactElement[] | string;
   routes: PreLoadRouteConfig[];
+  LoadingBar: (props: BarProps) => React.ReactElement;
 }
 interface WraperRouteType {
   (props: WraperRouteProps): MemoExoticComponent;
@@ -48,7 +49,7 @@ interface LoadingBarType {
 
 /* loadingBar */
 interface BarProps extends LoadingBarProps {
-  autoAdd: () => NodeJS.Timeout;
+  autoAdd?: () => NodeJS.Timeout;
 }
 
 interface BarType {

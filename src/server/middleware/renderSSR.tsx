@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { renderToString } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
+import { renderToNodeStream } from "react-dom/server";
 import { StaticRouter as Router } from "react-router-dom";
 import { ChunkExtractor } from "@loadable/server";
 
@@ -13,7 +13,7 @@ import { preLoad } from "share/utils/preLoad";
 import { RenderType } from "types/server";
 
 const helmetContext = {};
-const routerContext = {};
+const routerContext: { url?: string } = {};
 
 // 服务端渲染
 let renderSSR: RenderType;
@@ -25,7 +25,7 @@ renderSSR = async ({ req, res }) => {
 
   await preLoad(allRoutes, req.path, store);
 
-  const content = renderToString(
+  const content = (
     <Provider store={store}>
       <Router location={req.path} context={routerContext}>
         <HelmetProvider context={helmetContext}>{jsx}</HelmetProvider>
@@ -33,20 +33,28 @@ renderSSR = async ({ req, res }) => {
     </Provider>
   );
 
-  const state = JSON.stringify(store.getState());
+  if (routerContext.url) {
+    res.writeHead(301, {
+      Location: routerContext.url,
+    });
+    res.end();
+  } else {
+    const state = JSON.stringify(store.getState());
 
-  const linkElements = webExtractor.getLinkElements();
-  const styleElements = webExtractor.getStyleElements();
-  const scriptElements = webExtractor.getScriptElements();
+    const linkElements = webExtractor.getLinkElements();
+    const styleElements = webExtractor.getStyleElements();
+    const scriptElements = webExtractor.getScriptElements();
 
-  return res.send(
-    "<!doctype html>" +
-      renderToString(
-        <Html link={linkElements.concat(styleElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
-          {content}
-        </Html>
-      )
-  );
+    res.write("<!doctype html>");
+
+    const stream = renderToNodeStream(
+      <Html link={linkElements.concat(styleElements)} helmetContext={helmetContext} script={scriptElements} state={state}>
+        {content}
+      </Html>
+    );
+
+    stream.pipe(res, { end: true });
+  }
 };
 
 export { renderSSR };

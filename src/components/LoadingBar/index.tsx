@@ -8,7 +8,7 @@ let Bar: BarType;
 Bar = ({ height = 1.5, present = 0, loading = false, autoAdd }) => {
   useEffect(() => {
     let id: NodeJS.Timeout;
-    if (loading) {
+    if (loading && autoAdd) {
       id = autoAdd();
     }
     return () => clearInterval(id);
