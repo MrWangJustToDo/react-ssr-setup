@@ -19,11 +19,13 @@ interface LoadingBarProps {
   loading?: boolean;
 }
 interface UseLoadReturn {
-  start: () => void;
-  end: () => void;
   state: LoadingBarProps;
-  autoAdd: () => NodeJS.Timeout;
 }
 interface UseLoadType {
   (props?: LoadingBarProps): UseLoadReturn;
+}
+
+/* useBool */
+interface UseBoolType {
+  (props?: boolean): { state: boolean; start: () => void; end: () => void };
 }

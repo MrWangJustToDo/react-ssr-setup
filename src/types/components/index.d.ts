@@ -48,6 +48,9 @@ interface LoadingBarType {
 }
 
 /* loadingBar */
+interface LoadingBarWrapperType {
+  (props: { loading?: boolean }): JSX.Element | null;
+}
 interface BarProps extends LoadingBarProps {
   autoAdd?: () => NodeJS.Timeout;
 }
