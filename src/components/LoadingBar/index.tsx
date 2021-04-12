@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { BarType } from "types/components";
 
 import style from "./index.module.scss";
@@ -13,17 +13,7 @@ Bar = ({ height = 1.5, present = 0, loading = false, autoAdd }) => {
     }
     return () => clearInterval(id);
   }, [loading]);
-  let currentStyle = useMemo(
-    () => ({
-      zIndex: 1,
-      height: `${height}px`,
-      transformOrigin: `0 0`,
-      transform: `scale(${present / 100}, 1)`,
-      filter: `drop-shadow(2px 2px 2px rgba(200, 200, 200, 0.4))`,
-    }),
-    [height, present]
-  );
-  return <div className={style.loadingBar} style={currentStyle}></div>;
+  return <div className={style.loadingBar} style={{ height: `${height}px`, transform: `scale(${present / 100}, 1)` }}></div>;
 };
 
 export default Bar;
