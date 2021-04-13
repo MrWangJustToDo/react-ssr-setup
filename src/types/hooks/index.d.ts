@@ -5,11 +5,9 @@ import { LoadBranchDataType } from "../share";
 interface UsePreLoadProps {
   routes: PreLoadRouteConfig[];
   preLoad: LoadBranchDataType;
-  startLocation?: Function;
-  endLocation?: Function;
 }
 interface UsePreLoadType {
-  (props: UsePreLoadProps): Location<>;
+  (props: UsePreLoadProps): { location: Location<string>; loading: boolean };
 }
 
 /* useLoadingBar */
