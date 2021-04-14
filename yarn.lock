@@ -2816,9 +2816,9 @@ dashdash@^1.12.0:
     assert-plus "^1.0.0"
 
 date-fns@^2.15.0:
-  version "2.20.2"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.20.2.tgz#7f05d1275e1e43c3bdde5998201920098e19c6a1"
-  integrity sha512-QS0Z8SD/ALhKFvhtU4Fhz+1crsI7fPzBquXmdWay33KJPEU7btro2hnmmErpQRmt2D624B1lbjXQKDUMLnQTmQ==
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.20.3.tgz#5a28718edb95a80db96187b25340959867d36bc8"
+  integrity sha512-BbiJSlfmr1Fnfi1OHY8arklKdwtZ9n3NkjCeK8G9gtEe0ZSUwJuwHc6gYBl0uoC0Oa5RdpJV1gBBdXcZi8Efdw==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
@@ -3061,9 +3061,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.712:
-  version "1.3.713"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.713.tgz#4583efb17f2d1e9ec07a44c8004ea73c013ad146"
-  integrity sha512-HWgkyX4xTHmxcWWlvv7a87RHSINEcpKYZmDMxkUlHcY+CJcfx7xEfBHuXVsO1rzyYs1WQJ7EgDp2CoErakBIow==
+  version "1.3.715"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.715.tgz#8fd002e79c13d711133565600f40cd80abfe5d55"
+  integrity sha512-VCWxo9RqTYhcCsHtG+l0TEOS6H5QmO1JyVCQB9nv8fllmAzj1VcCYH3qBCXP75/En6FeoepefnogLPE+5W7OiQ==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -6182,9 +6182,9 @@ rc-image@~5.2.4:
     rc-util "^5.0.6"
 
 rc-input-number@~7.0.1:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/rc-input-number/-/rc-input-number-7.0.5.tgz#04f6bc993ef9856e0ccacf4914713da91223d02e"
-  integrity sha512-7Q1E/FxHXl35F7awz/KdiBCfnTB0YhI+qcfq6tE3k0/LOUchn9uMtPRwC8qRgn7uEemfaDcvI70+jtoCAoCKTw==
+  version "7.0.6"
+  resolved "https://registry.yarnpkg.com/rc-input-number/-/rc-input-number-7.0.6.tgz#26ab51f28215abef8df0bd99ec5facb884480abc"
+  integrity sha512-J5DIoCKIunoPb16FEghaEOyNDuZXD5F9LxLNcqd31z/0e37XtuHgo4QF/TonKLsESwdg7UAzWhiD0K6PPrN3YQ==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.5"
@@ -6399,9 +6399,9 @@ rc-tree@^4.0.0, rc-tree@~4.1.0:
     rc-virtual-list "^3.0.1"
 
 rc-trigger@^5.0.0, rc-trigger@^5.0.4, rc-trigger@^5.1.2, rc-trigger@^5.2.1:
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-5.2.4.tgz#f1cca4a6c1f378a5d6fadec010292250772069d3"
-  integrity sha512-nLZa4XYo3hOAVauQr7HsGrBtE8/pyoIWhHZnpr7x/H/dd6pPeRzH0//+1TzaBAXylbFgsY6hogKAMeJwaKeDFw==
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-5.2.5.tgz#b9a37a0d709b23a1b3a5d7f1727183e6f66773df"
+  integrity sha512-RlF5RpWqK+JeiFeQVOzwjLFzpNe2FowoXc/42azz+20wr/bYF1Q/MwprUK+3+vs/oFhLC0ht3/NlrslAo/OoWA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     classnames "^2.2.6"
@@ -7994,9 +7994,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
     minimalistic-assert "^1.0.0"
 
 webpack-bundle-analyzer@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-4.4.0.tgz#74013106e7e2b07cbd64f3a5ae847f7e814802c7"
-  integrity sha512-9DhNa+aXpqdHk8LkLPTBU/dMfl84Y+WE2+KnfI6rSpNRNVKa0VGLjPd2pjFubDeqnWmulFggxmWBxhfJXZnR0g==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-4.4.1.tgz#c71fb2eaffc10a4754d7303b224adb2342069da1"
+  integrity sha512-j5m7WgytCkiVBoOGavzNokBOqxe6Mma13X1asfVYtKWM3wxBiRRu1u1iG0Iol5+qp9WgyhkMmBAcvjEfJ2bdDw==
   dependencies:
     acorn "^8.0.4"
     acorn-walk "^8.0.0"

@@ -7,35 +7,44 @@ import { PreLoadRouteConfig } from "types/router";
 
 let routes: PreLoadRouteConfig[];
 
+let notFound: PreLoadRouteConfig;
+
 routes = [
   {
-    path: "/fr/",
-    exact: false,
+    path: "/fr",
+    exact: true,
     component: loadable(() => import("components/EX/Page1")),
     getInitialState: (store, match) => delay(100, () => console.log(store, match, "/fr")),
   },
   {
     path: "/pr/:bar",
-    exact: false,
+    exact: true,
     component: loadable(() => import("components/EX/Page2")),
-    routes: [
-      {
-        path: "/pr/:bar/:foo",
-        exact: false,
-        component: loadable(() => import("components/EX/Page4")),
-      },
-    ],
+  },
+  {
+    path: "/pr/:bar/:foo",
+    exact: true,
+    component: loadable(() => import("components/EX/Page4")),
   },
 ];
+
+notFound = {
+  path: "/*",
+  exact: false,
+  component: loadable(() => import("components/EX/notFound")),
+};
 
 // 文件路由
 
 const dynamicRoutes = dynamicRouterConfig.map((it) => ({
-  path: it.path,
+  path: it.componentPath === "404" ? "/*" : it.path,
   exact: it.exact,
   component: loadable(() => import(`../pages/${it.componentPath}`)),
 }));
 
-const allRoutes = routes.concat(dynamicRoutes);
+const allRoutes = routes
+  .concat(dynamicRoutes)
+  .concat(notFound)
+  .sort((_, t) => (t.path === "/*" ? -1 : 0));
 
 export { allRoutes };

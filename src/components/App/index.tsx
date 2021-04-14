@@ -19,9 +19,11 @@ const App: FC = () => {
       <p>12345678</p>
       <hr />
       <br />
-      <div style={{ border: "1px solid red" }}>
+      <div style={{ border: "1px solid red", width: "240px", display: "flex", justifyContent: "space-between" }}>
         <Link to="/fr">点击</Link>
-        <Link to="/pr/test/ee">跳转</Link>
+        <Link to="/pr/test">第二</Link>
+        <Link to="/pr/test/ee">第三</Link>
+        <Link to="/pr/test/ee/ff">not found</Link>
       </div>
     </>
   );

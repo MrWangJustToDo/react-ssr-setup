@@ -14,7 +14,7 @@ const getRouterServer = (prePath, dirName) => {
               const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
               const config = {
                 path: `${prePath}${fileName}`,
-                exact: false,
+                exact: true,
                 componentPath: `${prePath.slice(1)}${fileName}`,
               };
               routes.push(config);
