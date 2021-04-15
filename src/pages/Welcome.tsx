@@ -7,7 +7,7 @@ import { delay } from "share/utils/delay";
 import { State } from "share/store/store";
 import { PreLoadComponentType } from "types/components";
 
-let Welcome: PreLoadComponentType;
+let Welcome: PreLoadComponentType<void>;
 
 Welcome = (props) => {
   console.log(props);

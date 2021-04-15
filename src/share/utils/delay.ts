@@ -1,10 +1,10 @@
-import { Cancel, Delay, KeyMap, ResolveMap, TimeoutMap } from "types/share";
+import { Cancel, KeyMap, ResolveMap, TimeoutMap } from "types/share";
 import { log } from "./log";
 
 let timeoutMap: TimeoutMap;
 let resolveMap: ResolveMap;
 let cancel: Cancel;
-let delay: Delay;
+// let delay: Delay;
 let keyMap: KeyMap;
 
 timeoutMap = {};
@@ -33,7 +33,10 @@ cancel = (key) => {
   }
 };
 
-delay = (time, action, key) => {
+function delay<T>(time: number, action: () => T, key: string): Promise<T | void>;
+function delay<T>(time: number, action: () => T): Promise<T>;
+
+function delay<T>(time: number, action: () => T, key?: string) {
   if (key === undefined) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -51,7 +54,7 @@ delay = (time, action, key) => {
     }
     cancel(key);
     return new Promise((resolve) => {
-      resolveMap[key].push(resolve);
+      resolveMap[key].push(() => resolve(undefined));
       timeoutMap[key].push(
         setTimeout(() => {
           resolve(action());
@@ -59,6 +62,6 @@ delay = (time, action, key) => {
       );
     });
   }
-};
+}
 
 export { delay, cancel };

@@ -4,10 +4,7 @@ import { RouteConfig } from "react-router-config";
 import { GetInitialStateType } from "types/components";
 
 interface PreLoadRouteConfig extends RouteConfig {
-  getInitialState?: GetInitialStateType;
-  // preLoadPromises?: ((props: { path: string; params: any }) => Promise<any>)[];
-  // startDispatchActions?: ((store: Store) => void)[];
-  // endDispatchActions?: ((store: Store, data: any) => void)[];
+  getInitialState?: GetInitialStateType<any>;
 }
 
 interface MathProps {

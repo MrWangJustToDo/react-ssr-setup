@@ -43,8 +43,8 @@ const dynamicRoutes = dynamicRouterConfig.map((it) => ({
 }));
 
 const allRoutes = routes
-  .concat(dynamicRoutes)
   .concat(notFound)
+  .concat(dynamicRoutes)
   .sort((_, t) => (t.path === "/*" ? -1 : 0));
 
 export { allRoutes };

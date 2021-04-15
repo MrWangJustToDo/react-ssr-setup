@@ -1,6 +1,5 @@
 const chalk = require("chalk");
 const { exec } = require("child_process");
-const { resolve } = require("path");
 
 const freePort = (port) => {
   return new Promise((resolve) => {

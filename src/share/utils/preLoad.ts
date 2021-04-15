@@ -23,10 +23,20 @@ preLoad = (routes, pathname, store) => {
 
 function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: MathProps) {
   return new Promise<void>((resolve) => {
-    (route.component as any).load().then((component: { readonly default: PreLoadComponentType }) => {
+    (route.component as any).load().then((component: { readonly default: PreLoadComponentType<any> }) => {
       const Target = component.default;
       if (Target.getInitialState && typeof Target.getInitialState === "function") {
-        Promise.resolve(Target.getInitialState(store, match)).then(resolve).catch(resolve);
+        Promise.resolve(Target.getInitialState(store, match))
+          .then((res) => {
+            if (!(Target as any).WrappedComponent) {
+              Target.initialData = res;
+            } else {
+              // for connect function
+              (Target as any).WrappedComponent.initialData = res;
+            }
+          })
+          .then(resolve)
+          .catch(resolve);
       } else {
         resolve();
       }
@@ -44,8 +54,8 @@ function preLoadFromRoute(route: PreLoadRouteConfig, store: Store, match: MathPr
   });
 }
 
-function preLoadWraper(preLoad: GetInitialStateType) {
-  function Wraper(Component: ComponentClass & { getInitialState?: GetInitialStateType }) {
+function preLoadWraper<T>(preLoad: GetInitialStateType<T>) {
+  function Wraper(Component: ComponentClass & { getInitialState?: GetInitialStateType<T> }) {
     Component.getInitialState = preLoad;
   }
   return Wraper;

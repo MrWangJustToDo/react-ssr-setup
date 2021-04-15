@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 
-let Page4: PreLoadComponentType;
+let Page4: PreLoadComponentType<void>;
 
 Page4 = () => {
   return (
@@ -17,8 +17,8 @@ Page4 = () => {
   );
 };
 
-Page4.getInitialState = (store, match) => {
-  return delay(2000, () => console.log(store, match, "page 4"));
+Page4.getInitialState = async (store, match) => {
+  await delay(2000, () => console.log(store, match, "page 4"));
 };
 
 export default Page4;
