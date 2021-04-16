@@ -12,3 +12,7 @@ interface MathProps {
   url: string;
   params: any;
 }
+
+interface TransformType {
+  (props: PreLoadRouteConfig[]): PreLoadRouteConfig[];
+}

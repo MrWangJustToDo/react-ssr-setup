@@ -1,5 +1,6 @@
 import loadable from "@loadable/component";
 import { delay } from "share/utils/delay";
+import { filter } from "./tools";
 import dynamicRouterConfig from "./dynamicRoutes";
 import { PreLoadRouteConfig } from "types/router";
 
@@ -42,9 +43,6 @@ const dynamicRoutes = dynamicRouterConfig.map((it) => ({
   component: loadable(() => import(`../pages/${it.componentPath}`)),
 }));
 
-const allRoutes = routes
-  .concat(notFound)
-  .concat(dynamicRoutes)
-  .sort((_, t) => (t.path === "/*" ? -1 : 0));
+const allRoutes = filter(routes.concat(dynamicRoutes).concat(notFound));
 
 export { allRoutes };

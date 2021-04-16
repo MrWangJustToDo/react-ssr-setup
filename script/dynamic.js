@@ -5,6 +5,7 @@ const chalk = require("chalk");
 const getRouterServer = (prePath, dirName) => {
   return new Promise((resolve) => {
     const routes = [];
+    let dynamicPath = 0;
     fs.promises
       .readdir(dirName, { withFileTypes: true })
       .then((files) => {
@@ -14,13 +15,21 @@ const getRouterServer = (prePath, dirName) => {
               const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
               const config = {};
               if (/^\[(.*)\]$/.test(fileName)) {
-                const [, params] = Array.from(/^\[(.*)\]$/.exec(fileName));
-                config.path = `${prePath}:${params}`;
+                if (dynamicPath === 0) {
+                  dynamicPath++;
+                  const [, params] = Array.from(/^\[(.*)\]$/.exec(fileName));
+                  config.path = `${prePath}:${params}`;
+                } else {
+                  throw new Error(`file router dynamicpath duplicate`);
+                }
               } else {
                 config.path = `${prePath}${fileName}`;
               }
               config.exact = true;
               config.componentPath = `${prePath.slice(1)}${fileName}`;
+              if (routes.some((route) => route.path === config.path)) {
+                throw new Error(`file router duplicate, ${config.path}`);
+              }
               routes.push(config);
             } else if (file.isDirectory()) {
               return getRouterServer(`${prePath}${file.name}/`, `${dirName}/${file.name}`).then((res) => {
@@ -30,7 +39,13 @@ const getRouterServer = (prePath, dirName) => {
           })
         );
       })
-      .then(() => resolve(routes));
+      .then(() => {
+        if (dynamicPath === 1) {
+          routes.sort((_, t) => (/^\[(.*)\]$/.test(t.path) ? -1 : 0));
+        }
+      })
+      .then(() => resolve(routes))
+      .catch((e) => console.log(chalk.red(`file router error, ${e.toString()}`), []));
   });
 };
 
