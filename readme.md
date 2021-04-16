@@ -1,4 +1,27 @@
+# 使用
+
+## install
+```shell
+yarn install
+```
+
+## development
+```shell
+yarn run dev
+```
+
+## production
+```shell
+yarn run build
+
+and
+
+yarn run start
+```
+
 # 包含功能
+
+## 完整开发功能支持
 
 ## 生产环境准备
 
@@ -28,7 +51,7 @@
 
 ## 静态路由
 
-## 文件路由
+## 文件路由  自动参数初步支持
 
 ## 装饰器
 

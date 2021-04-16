@@ -30,7 +30,7 @@ routes = [
 
 notFound = {
   path: "/*",
-  exact: false,
+  exact: true,
   component: loadable(() => import("components/EX/notFound")),
 };
 

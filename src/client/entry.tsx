@@ -15,6 +15,8 @@ const store = configureStore({ initialState: window.__PRELOADED_STATE__ });
 
 const place = document.querySelector("#app");
 
+console.log(allRoutes);
+
 const content = (
   <Provider store={store}>
     <Router>

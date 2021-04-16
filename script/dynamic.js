@@ -12,14 +12,18 @@ const getRouterServer = (prePath, dirName) => {
           files.map((file) => {
             if (file.isFile() && /.[tj]sx?$/.test(file.name)) {
               const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
-              const config = {
-                path: `${prePath}${fileName}`,
-                exact: true,
-                componentPath: `${prePath.slice(1)}${fileName}`,
-              };
+              const config = {};
+              if (/^\[(.*)\]$/.test(fileName)) {
+                const [, params] = Array.from(/^\[(.*)\]$/.exec(fileName));
+                config.path = `${prePath}:${params}`;
+              } else {
+                config.path = `${prePath}${fileName}`;
+              }
+              config.exact = true;
+              config.componentPath = `${prePath.slice(1)}${fileName}`;
               routes.push(config);
             } else if (file.isDirectory()) {
-              return getRouterServer(`${prePath}${file.name}/`, file.name).then((res) => {
+              return getRouterServer(`${prePath}${file.name}/`, `${dirName}/${file.name}`).then((res) => {
                 routes.push(...res);
               });
             }
