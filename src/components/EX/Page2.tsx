@@ -8,7 +8,6 @@ import { delay } from "share/utils/delay";
 let Page2: PreLoadComponentType<number>;
 
 Page2 = (props) => {
-  console.log(Page2.initialData);
   console.log(props);
   return (
     <div className={style.green}>

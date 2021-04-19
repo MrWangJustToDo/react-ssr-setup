@@ -8,7 +8,6 @@ class Hello extends Component {
   static initialData: number;
 
   componentDidMount() {
-    console.log(Hello.initialData);
     console.log(this.props);
   }
 

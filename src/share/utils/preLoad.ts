@@ -26,17 +26,7 @@ function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: Ma
     (route.component as any).load().then((component: { readonly default: PreLoadComponentType<any> }) => {
       const Target = component.default;
       if (Target.getInitialState && typeof Target.getInitialState === "function") {
-        Promise.resolve(Target.getInitialState(store, match))
-          .then((res) => {
-            if (!(Target as any).WrappedComponent) {
-              Target.initialData = res;
-            } else {
-              // for connect function
-              (Target as any).WrappedComponent.initialData = res;
-            }
-          })
-          .then(resolve)
-          .catch(resolve);
+        Promise.resolve(Target.getInitialState(store, match)).then(resolve).catch(resolve);
       } else {
         resolve();
       }

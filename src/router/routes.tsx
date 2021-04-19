@@ -43,6 +43,6 @@ const dynamicRoutes = dynamicRouterConfig.map((it) => ({
   component: loadable(() => import(`../pages/${it.componentPath}`)),
 }));
 
-const allRoutes = filter(routes.concat(dynamicRoutes).concat(notFound));
+const allRoutes = filter(routes.concat(dynamicRoutes).concat(notFound)).sort((_, b) => (b.path === "/*" ? -1 : 0));
 
 export { allRoutes };

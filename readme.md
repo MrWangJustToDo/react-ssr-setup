@@ -57,4 +57,4 @@ yarn run start
 
 ## antd support
 
-## 数据自动注入  存在bug
+## 数据自动注入  存在bug  改用原始connect进行

@@ -1,7 +1,7 @@
-import { useStore } from "react-redux";
-import { useBool } from "./useBool";
 import { useMemo, useRef, useState } from "react";
+import { useStore } from "react-redux";
 import { useHistory, useLocation } from "react-router";
+import { useBool } from "./useBool";
 import { UsePreLoadType } from "types/hooks";
 
 /* WraperRoute */
