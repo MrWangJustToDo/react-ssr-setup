@@ -18,4 +18,6 @@ global.assets = JSON.parse(fs.readFileSync(path.join(outputPath("client"), manif
 
 global.webStats = manifestLoadable("client");
 
+global.nodeStats = manifestLoadable("server");
+
 require(path.join(outputPath("server"), "app"));

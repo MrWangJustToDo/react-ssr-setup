@@ -14,10 +14,10 @@ const getRouterServer = (prePath, dirName) => {
             if (file.isFile() && /.[tj]sx?$/.test(file.name)) {
               const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
               const config = {};
-              if (/^\[(.*)\]$/.test(fileName)) {
+              if (/^\{(.*)\}$/.test(fileName)) {
                 if (dynamicPath === 0) {
                   dynamicPath++;
-                  const [, params] = Array.from(/^\[(.*)\]$/.exec(fileName));
+                  const [, params] = Array.from(/^\{(.*)\}$/.exec(fileName));
                   config.path = `${prePath}:${params}`;
                 } else {
                   throw new Error(`file router dynamicpath duplicate`);

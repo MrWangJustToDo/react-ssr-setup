@@ -66,6 +66,7 @@ declare const __SERVER__: boolean;
 declare const __DEVELOPMENT__: boolean;
 declare const assets: { [props: string]: string };
 declare const webStats: string;
+declare const nodeStats: string;
 
 interface Window {
   main: Function;

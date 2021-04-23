@@ -4,6 +4,8 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// loadable json
+const LoadablePlugin = require("@loadable/webpack-plugin");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
@@ -108,6 +110,7 @@ const ServerConfig = (entryPath) => {
         __SERVER__: true,
         __DEVELOPMENT__: true,
       }),
+      new LoadablePlugin({ filename: "manifest-loadable.json" }),
     ],
   };
 };

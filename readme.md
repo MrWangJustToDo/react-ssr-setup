@@ -51,7 +51,7 @@ yarn run start
 
 ## 静态路由
 
-## 文件路由  自动query参数支持
+## 文件路由  自动query参数支持  存在bug ...
 
 ## 装饰器
 

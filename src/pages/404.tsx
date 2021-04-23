@@ -6,6 +6,7 @@ let NotFound = () => {
     <div style={{ fontSize: "30px", color: "red" }}>
       <Helmet title="404" />
       from pages 404 page
+      <p>nothing to see</p>
     </div>
   );
 };

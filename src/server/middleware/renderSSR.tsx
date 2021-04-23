@@ -19,17 +19,20 @@ const routerContext: { url?: string } = {};
 let renderSSR: RenderType;
 
 renderSSR = async ({ req, res }) => {
-  const webExtractor = new ChunkExtractor({ statsFile: webStats });
-  const jsx = webExtractor.collectChunks(<App />);
+  
   const store = getStore({ initialState: { server: {}, client: {} } });
 
   const content = (
     <Provider store={store}>
-      <Router location={req.path} context={routerContext}>
-        <HelmetProvider context={helmetContext}>{jsx}</HelmetProvider>
+      <Router location={req.url} context={routerContext}>
+        <HelmetProvider context={helmetContext}><App /></HelmetProvider>
       </Router>
     </Provider>
   );
+
+  const webExtractor = new ChunkExtractor({ statsFile: webStats });
+  
+  const jsx = webExtractor.collectChunks(content);
 
   if (routerContext.url) {
     res.writeHead(301, {
@@ -42,7 +45,7 @@ renderSSR = async ({ req, res }) => {
     const state = JSON.stringify(store.getState());
 
     // must run first!!  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
-    const body = renderToString(content);
+    const body = renderToString(jsx);
 
     const linkElements = webExtractor.getLinkElements();
     const styleElements = webExtractor.getStyleElements();

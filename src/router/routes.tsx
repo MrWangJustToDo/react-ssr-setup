@@ -12,6 +12,11 @@ let notFound: PreLoadRouteConfig;
 
 routes = [
   {
+    path: "/",
+    exact: true,
+    component: loadable(() => import("pages/Main")),
+  },
+  {
     path: "/fr",
     exact: true,
     component: loadable(() => import("components/EX/Page1")),
@@ -40,7 +45,7 @@ notFound = {
 const dynamicRoutes = dynamicRouterConfig.map((it) => ({
   path: it.componentPath === "404" ? "/*" : it.path,
   exact: it.exact,
-  component: loadable(() => import(`../pages/${it.componentPath}`)),
+  component: loadable(() => import(/* webpackChunkName: "[request]" */ `../pages/${it.componentPath}`)),
 }));
 
 const allRoutes = filter(routes.concat(dynamicRoutes).concat(notFound)).sort((_, b) => (b.path === "/*" ? -1 : 0));

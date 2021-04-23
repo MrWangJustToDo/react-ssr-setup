@@ -6,6 +6,8 @@ const nodeExternals = require("webpack-node-externals");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// loadable json
+const LoadablePlugin = require("@loadable/webpack-plugin");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
