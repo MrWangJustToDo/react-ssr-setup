@@ -7,29 +7,29 @@ const { getDynamicRouter } = require("./dynamic");
 process.env.NODE_ENV = "development";
 
 // first get dynamic router
-getDynamicRouter();
-
-const cliCodeWatchProcess = spawn("node", ["./script/build-dev-client"], {
-  stdio: "inherit",
-  shell: true,
-});
-
-const svrCodeWatchProcess = spawn("node", ["./script/build-dev-server"], {
-  stdio: "inherit",
-  shell: true,
-});
-
-const killChild = () => {
-  svrCodeWatchProcess && svrCodeWatchProcess.kill();
-  cliCodeWatchProcess && cliCodeWatchProcess.kill();
-};
-
-process.on("close", (code) => {
-  console.log("main process close", code);
-  killChild();
-});
-
-process.on("exit", (code) => {
-  console.log("main process exit", code);
-  killChild();
-});
+getDynamicRouter().then(() => {
+  const cliCodeWatchProcess = spawn("node", ["./script/build-dev-client"], {
+    stdio: "inherit",
+    shell: true,
+  });
+  
+  const svrCodeWatchProcess = spawn("node", ["./script/build-dev-server"], {
+    stdio: "inherit",
+    shell: true,
+  });
+  
+  const killChild = () => {
+    svrCodeWatchProcess && svrCodeWatchProcess.kill();
+    cliCodeWatchProcess && cliCodeWatchProcess.kill();
+  };
+  
+  process.on("close", (code) => {
+    console.log("main process close", code);
+    killChild();
+  });
+  
+  process.on("exit", (code) => {
+    console.log("main process exit", code);
+    killChild();
+  });
+})

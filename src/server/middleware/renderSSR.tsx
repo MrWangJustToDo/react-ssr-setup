@@ -19,19 +19,20 @@ const routerContext: { url?: string } = {};
 let renderSSR: RenderType;
 
 renderSSR = async ({ req, res }) => {
-  
   const store = getStore({ initialState: { server: {}, client: {} } });
 
   const content = (
     <Provider store={store}>
-      <Router location={req.url} context={routerContext}>
-        <HelmetProvider context={helmetContext}><App /></HelmetProvider>
+      <Router location={req.path} context={routerContext}>
+        <HelmetProvider context={helmetContext}>
+          <App />
+        </HelmetProvider>
       </Router>
     </Provider>
   );
 
   const webExtractor = new ChunkExtractor({ statsFile: webStats });
-  
+
   const jsx = webExtractor.collectChunks(content);
 
   if (routerContext.url) {

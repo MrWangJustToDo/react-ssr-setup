@@ -39,7 +39,7 @@ const ServerConfig = (entryPath) => {
       },
       extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
     },
-    externals: [nodeExternals()],
+    externals: ["@loadable/component", nodeExternals()],
     output: {
       // 输出路径
       path: outputPath,
@@ -49,6 +49,8 @@ const ServerConfig = (entryPath) => {
       chunkFilename: "[name].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
+      // for loadable component
+      libraryTarget: "commonjs2",
       // 打包资源的名称
       // assetModuleFilename: "[hash].[ext]",
     },

@@ -14,10 +14,12 @@ const getRouterServer = (prePath, dirName) => {
             if (file.isFile() && /.[tj]sx?$/.test(file.name)) {
               const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
               const config = {};
-              if (/^\{(.*)\}$/.test(fileName)) {
+              // 初步估计时babel-loadable的bug导致的,由于文件名字冲突
+              // 使用新的动态命名方式 _参数名.tsx 作为动态路由的约定
+              if (/^_(.*)$/.test(fileName)) {
                 if (dynamicPath === 0) {
                   dynamicPath++;
-                  const [, params] = Array.from(/^\{(.*)\}$/.exec(fileName));
+                  const [, params] = Array.from(/^_(.*)$/.exec(fileName));
                   config.path = `${prePath}:${params}`;
                 } else {
                   throw new Error(`file router dynamicpath duplicate`);
@@ -60,9 +62,8 @@ const routerTemplate = (config) => {
   return template;
 };
 
-const writeFile = (fileName, content) => {
-  const writeStream = fs.createWriteStream(fileName);
-  writeStream.write(content);
+const writeFile = async (fileName, content) => {
+  await fs.promises.writeFile(fileName, content);
 };
 
 const getDynamicRouter = async () => {
@@ -70,7 +71,7 @@ const getDynamicRouter = async () => {
   const dynamicConfig = await getRouterServer("/", pages);
   const template = routerTemplate(dynamicConfig);
   const dynamicRouteFilename = path.resolve(process.cwd(), "src", "router", "dynamicRoutes.ts");
-  writeFile(dynamicRouteFilename, template);
+  await writeFile(dynamicRouteFilename, template);
   console.log(chalk.green("file router done"));
 };
 

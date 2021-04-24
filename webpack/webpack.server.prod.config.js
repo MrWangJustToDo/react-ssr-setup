@@ -41,7 +41,7 @@ const ServerConfig = (entryPath) => {
       },
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
     },
-    externals: [nodeExternals()],
+    externals: ["@loadable/component", nodeExternals()],
     output: {
       // 输出路径
       path: outputPath,
@@ -51,6 +51,8 @@ const ServerConfig = (entryPath) => {
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
+      // for loadable component
+      libraryTarget: "commonjs2",
     },
     module: {
       rules: [
@@ -113,6 +115,7 @@ const ServerConfig = (entryPath) => {
         __SERVER__: true,
         __DEVELOPMENT__: false,
       }),
+      new LoadablePlugin({ filename: "manifest-loadable.json" }),
     ],
   };
 };
