@@ -19,6 +19,6 @@ setDataAction_client = ({ name }) => ({ type: clientAction.SETDATAACTION(name), 
 
 setDataSucess_client = <T>({ name, data }: CreateClientActionProps<T>) => ({ type: clientAction.SETDATASUCESS(name), data, loadingState: false });
 
-setDataFail_client = <T>({ name, error }: CreateClientActionProps<T>) => ({ type: clientAction.SETDATASUCESS(name), error, loadingState: false });
+setDataFail_client = <T>({ name, error }: CreateClientActionProps<T>) => ({ type: clientAction.SETDATAFAIL(name), error, loadingState: false });
 
 export { clientAction, setDataLoading_client, setDataAction_client, setDataSucess_client, setDataFail_client };

@@ -8,7 +8,7 @@ import { ChunkExtractor } from "@loadable/server";
 import { allRoutes } from "router/routes";
 import App from "components/App";
 import Html from "components/Template/html";
-import getStore from "share/store/store";
+import { sagaStore as getStore } from "share/store/store";
 import { preLoad } from "share/utils/preLoad";
 import { RenderType } from "types/server";
 

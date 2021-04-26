@@ -15,7 +15,7 @@ serverAction = {
 
 getDataLoading_server = ({ name }) => ({ type: serverAction.GETDATALOADING(name), loadingState: true });
 
-getDataAction_Server = ({ name }) => ({ type: serverAction.GETDATALOADING(name), loadingState: true });
+getDataAction_Server = ({ name }) => ({ type: serverAction.GETDATAACTION(name), loadingState: true });
 
 getDataSucess_Server = <T>({ name, data }: CreateServerActionProps<T>) => ({ type: serverAction.GETDATASUCESS(name), data, loadingState: false });
 

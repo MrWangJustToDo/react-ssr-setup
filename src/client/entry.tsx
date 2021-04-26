@@ -9,9 +9,9 @@ import { allRoutes } from "router/routes";
 import App from "components/App";
 import LoadingBar from "components/LoadingBar";
 import WraperRoute from "components/WraperRoute";
-import { configureStore } from "share/store/store";
+import { sagaStore as getStore } from "share/store/store";
 
-const store = configureStore({ initialState: window.__PRELOADED_STATE__ });
+const store = getStore({ initialState: window.__PRELOADED_STATE__ });
 
 const place = document.querySelector("#app");
 

@@ -1,6 +1,8 @@
 import thunkMiddleware from "redux-thunk";
+import createSagaMiddleware, { Task } from "redux-saga";
 import { createStore, applyMiddleware, compose, Store } from "redux";
 import reducer from "./reducer";
+import rootSaga from "./saga";
 
 export type State = {
   server: { [props: string]: any };
@@ -12,12 +14,9 @@ export type StoreParams = {
   middleware?: any[];
 };
 
-export const configureStore = ({ initialState, middleware = [] }: StoreParams): Store => {
-
+export const thunkStore = ({ initialState, middleware = [] }: StoreParams): Store => {
   const devtools =
-    typeof window !== "undefined" &&
-    typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === "function" &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ actionsBlacklist: [] });
+    __CLIENT__ && typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === "function" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ actionsBlacklist: [] });
 
   const composeEnhancers = devtools || compose;
 
@@ -26,4 +25,21 @@ export const configureStore = ({ initialState, middleware = [] }: StoreParams): 
   return store;
 };
 
-export default configureStore;
+export interface SagaStore extends Store {
+  sagaTask?: Task;
+}
+
+export const sagaStore = ({ initialState, middleware = [] }: StoreParams): Store => {
+  const devtools =
+    __CLIENT__ && typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === "function" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ actionsBlacklist: [] });
+
+  const composeEnhancers = devtools || compose;
+
+  const sagaMiddleware = createSagaMiddleware();
+
+  const store = createStore(reducer, initialState, composeEnhancers(applyMiddleware(...[sagaMiddleware].concat(...middleware))));
+
+  (store as SagaStore).sagaTask = sagaMiddleware.run(rootSaga);
+
+  return store;
+};

@@ -1,8 +1,12 @@
 import loadable from "@loadable/component";
+import { END } from "redux-saga";
 import { delay } from "share/utils/delay";
 import { filter } from "./tools";
 import dynamicRouterConfig from "./dynamicRoutes";
 import { PreLoadRouteConfig } from "types/router";
+import { getDataAction_Server } from "share/store/reducer/server/action";
+import { apiName } from "config/api";
+import { SagaStore } from "share/store/store";
 
 // 静态路由
 
@@ -26,6 +30,11 @@ routes = [
     path: "/pr/:bar",
     exact: true,
     component: loadable(() => import("components/EX/Page2")),
+    getInitialState: async (store, match) => {
+      store.dispatch(getDataAction_Server({ name: apiName.home }));
+      store.dispatch(END);
+      await (store as SagaStore).sagaTask!.toPromise();
+    },
   },
   {
     path: "/pr/:bar/:foo",

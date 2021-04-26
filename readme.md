@@ -29,7 +29,7 @@ yarn run start
 
 ## 完整 Typescript 支持
 
-## 多种 redux 配置
+## 多种 redux 配置 redux-thunk  redux-saga
 
 ## mobx 支持
 
