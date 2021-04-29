@@ -11,6 +11,9 @@ declare namespace NodeJS {
     CLIENTENTRY: string;
     SOURCE_LANGUAGE: "string";
   }
+  interface Global {
+    webStats: string;
+  }
 }
 
 declare module "*.bmp" {
@@ -64,9 +67,6 @@ declare module "*.scss" {
 declare const __CLIENT__: boolean;
 declare const __SERVER__: boolean;
 declare const __DEVELOPMENT__: boolean;
-declare const assets: { [props: string]: string };
-declare const webStats: string;
-declare const nodeStats: string;
 
 interface Window {
   main: Function;

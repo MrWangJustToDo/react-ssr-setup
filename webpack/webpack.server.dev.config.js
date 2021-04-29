@@ -1,11 +1,10 @@
 const path = require("path");
+
 const webpack = require("webpack");
 // 忽略node端的node_modules打包
 const nodeExternals = require("webpack-node-externals");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// loadable json
-const LoadablePlugin = require("@loadable/webpack-plugin");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
@@ -49,7 +48,7 @@ const ServerConfig = (entryPath) => {
       chunkFilename: "[name].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`,
-      // for loadable component
+
       libraryTarget: "commonjs2",
       // 打包资源的名称
       // assetModuleFilename: "[hash].[ext]",
@@ -112,7 +111,6 @@ const ServerConfig = (entryPath) => {
         __SERVER__: true,
         __DEVELOPMENT__: true,
       }),
-      new LoadablePlugin({ filename: "manifest-loadable.json" }),
     ],
   };
 };

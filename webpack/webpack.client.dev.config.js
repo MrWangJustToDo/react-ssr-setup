@@ -70,7 +70,7 @@ const ClientConfig = (entryPath) => {
             {
               loader: require.resolve("babel-loader"),
               options: {
-                plugins: [["import", { libraryName: "antd", style: "css" }], "react-refresh/babel"],
+                plugins: [["import", { libraryName: "antd", style: "css" }, "antd"], "react-refresh/babel"],
               },
             },
           ],

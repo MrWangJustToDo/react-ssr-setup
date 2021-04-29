@@ -52,7 +52,7 @@ const buildClient = (clientEntryPoint) => {
     if (count === 0) {
       // start node server to run app
       freePort(process.env.DEV_PORT).then(() =>
-        spawn("nodemon", ["--watch", "./dev/server", "./bin/start"], {
+        spawn("nodemon", ["--watch", "./dev/server", "./dev/server/app"], {
           stdio: "inherit",
           shell: true,
         })

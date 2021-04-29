@@ -6,9 +6,14 @@ import compression from "compression";
 
 import { render } from "server/middleware/render";
 import { renderError } from "server/middleware/renderError";
+import { manifestLoadable } from "share/helper/manifest";
 import { transformHandler, catchHandler } from "server/middleware/apiHandler";
 
 require("dotenv").config();
+
+require("pretty-error").start();
+
+global.webStats = manifestLoadable("client");
 
 const app = express();
 

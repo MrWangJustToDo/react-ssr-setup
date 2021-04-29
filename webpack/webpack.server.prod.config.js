@@ -1,4 +1,5 @@
 const path = require("path");
+
 const webpack = require("webpack");
 // 忽略node端的node_modules打包
 const nodeExternals = require("webpack-node-externals");
@@ -6,8 +7,6 @@ const nodeExternals = require("webpack-node-externals");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 // 构建时清理目录
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// loadable json
-const LoadablePlugin = require("@loadable/webpack-plugin");
 
 // server 端代码打包
 const ServerConfig = (entryPath) => {
@@ -51,7 +50,7 @@ const ServerConfig = (entryPath) => {
       chunkFilename: "[name]-[contenthash].js",
       // 引入资源的url路径
       publicPath: `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
-      // for loadable component
+
       libraryTarget: "commonjs2",
     },
     module: {
@@ -115,7 +114,6 @@ const ServerConfig = (entryPath) => {
         __SERVER__: true,
         __DEVELOPMENT__: false,
       }),
-      new LoadablePlugin({ filename: "manifest-loadable.json" }),
     ],
   };
 };

@@ -11,7 +11,8 @@ Page2 = (props) => {
   console.log(props);
   return (
     <div className={style.green}>
-      这是第二个页面 再输入一点数据 style不需要重复引入吧ccc
+      这是第二个页面 再输入一点数据 style不需要重复引入吧ccc 移动端的 antd
+      <hr/>
       <Page3 />
     </div>
   );
