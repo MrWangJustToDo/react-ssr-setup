@@ -40,12 +40,11 @@ const webpackDevServerConfig = (clientOptions) => {
 const buildClient = (clientEntryPoint) => {
   var count = 0;
   // 获取clientOptions
-  const clientIptions = ClientConfig(clientEntryPoint);
+  const clientOptions = ClientConfig(clientEntryPoint);
   // 获取compiler
-  const compiler = webpack(clientIptions);
+  const compiler = webpack(clientOptions);
   // 获取devServerOptions
-  const devServerOptions = webpackDevServerConfig(clientIptions);
-
+  const devServerOptions = webpackDevServerConfig(clientOptions);
   // 第一次编译完成，自动运行服务端，服务端代码打包快于客户端代码
   compiler.hooks.done.tap("done", function () {
     console.log(chalk.green(`client compiler done, compiler count: ${count}`));
