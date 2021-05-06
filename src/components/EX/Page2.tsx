@@ -5,14 +5,12 @@ import style from "./index.module.scss";
 import { PreLoadComponentType } from "types/components";
 import { delay } from "share/utils/delay";
 
-let Page2: PreLoadComponentType<number>;
-
-Page2 = (props) => {
+const Page2: PreLoadComponentType<number> = (props) => {
   console.log(props);
   return (
     <div className={style.green}>
       这是第二个页面 再输入一点数据 style不需要重复引入吧ccc 移动端的 antd
-      <hr/>
+      <hr />
       <Page3 />
     </div>
   );

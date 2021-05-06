@@ -5,9 +5,7 @@ import { useBool } from "./useBool";
 import { UsePreLoadType } from "types/hooks";
 
 /* WraperRoute */
-let usePreLoad: UsePreLoadType;
-
-usePreLoad = ({ routes, preLoad }) => {
+const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   const { start, end, state } = useBool();
   const timmer1 = useRef<NodeJS.Timeout | null>(null);
   const timmer2 = useRef<NodeJS.Timeout | null>(null);
@@ -19,15 +17,15 @@ usePreLoad = ({ routes, preLoad }) => {
 
   useMemo(() => {
     if (preLocation.pathname !== location.pathname && !started.current) {
-      clearTimeout(timmer1.current!);
-      clearTimeout(timmer2.current!);
+      timmer1.current && clearTimeout(timmer1.current);
+      timmer2.current && clearTimeout(timmer2.current);
       timmer1.current = setTimeout(() => {
         started.current = true;
         start();
       }, 260);
       preLoad(routes, location.pathname, store).then(() => {
         timmer2.current = setTimeout(() => {
-          clearTimeout(timmer1.current!);
+          timmer1.current && clearTimeout(timmer1.current);
           if (started.current) {
             end();
             started.current = false;
@@ -40,7 +38,7 @@ usePreLoad = ({ routes, preLoad }) => {
         setLocation(location);
       });
     }
-  }, [preLocation, location]);
+  }, [preLocation.pathname, location, preLoad, routes, store, start, end, history]);
 
   return { location: preLocation, loading: state };
 };

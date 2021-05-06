@@ -7,9 +7,7 @@ import src from "./avatar.jpg";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 
-let Page1: PreLoadComponentType<string>;
-
-Page1 = () => {
+const Page1: PreLoadComponentType<string> = () => {
   console.log(Page1.initialData);
   return (
     <div className={style.red}>

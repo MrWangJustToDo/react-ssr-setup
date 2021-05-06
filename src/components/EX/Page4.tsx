@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 
-let Page4: PreLoadComponentType<void>;
-
-Page4 = () => {
+const Page4: PreLoadComponentType<void> = () => {
   return (
     <div>
       123456 <p>this is page three</p>
