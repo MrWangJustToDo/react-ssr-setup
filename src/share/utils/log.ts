@@ -5,7 +5,7 @@ if (__SERVER__) {
   var pre = new PrettyError();
 }
 
-const log = (message: string | Error, lev: "normal" | "warn" | "error") => {
+const log = (message: string | Error, lev: "normal" | "warn" | "error"): void => {
   if (lev === "error") {
     if (__SERVER__) {
       console.log(pre.render(message));

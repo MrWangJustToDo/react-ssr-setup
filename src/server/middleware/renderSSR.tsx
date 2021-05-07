@@ -5,20 +5,20 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter as Router } from "react-router-dom";
 import { ChunkExtractor } from "@loadable/server";
 
-import { allRoutes } from "router/routes";
 import App from "components/App";
 import Html from "components/Template/html";
-import { sagaStore as getStore } from "share/store/store";
+import { allRoutes } from "router/routes";
 import { preLoad } from "share/utils/preLoad";
+import { sagaStore as getStore } from "share/store/store";
+
 import { RenderType } from "types/server";
 
 const helmetContext = {};
 const routerContext: { url?: string } = {};
 
 // 服务端渲染
-let renderSSR: RenderType;
 
-renderSSR = async ({ req, res }) => {
+const renderSSR: RenderType = async ({ req, res }) => {
   const store = getStore({ initialState: { server: {}, client: {} } });
 
   const content = (
@@ -31,7 +31,7 @@ renderSSR = async ({ req, res }) => {
     </Provider>
   );
 
-  const webExtractor = new ChunkExtractor({ statsFile: webStats });
+  const webExtractor = new ChunkExtractor({ statsFile: global.webStats });
 
   const jsx = webExtractor.collectChunks(content);
 

@@ -27,7 +27,7 @@ const useLoadingBar: UseLoadType = (props = {}) => {
           if (count > 1) {
             count--;
           }
-          let next = last.present || 0 + (Math.random() + count - Math.random());
+          let next = (last.present || 0) + (Math.random() + count - Math.random());
           next = next < 99.5 ? next : 99.5;
           return { ...last, present: next };
         }),

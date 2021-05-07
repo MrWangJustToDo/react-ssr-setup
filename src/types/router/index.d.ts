@@ -1,5 +1,3 @@
-import React from "react";
-import { Store } from "redux";
 import { RouteConfig } from "react-router-config";
 import { GetInitialStateType } from "types/components";
 

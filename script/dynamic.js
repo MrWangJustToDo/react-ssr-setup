@@ -52,13 +52,14 @@ const getRouterServer = (prePath, dirName) => {
 };
 
 const routerTemplate = (config) => {
-  const template = `
-  import { DynamicRouteConfig } from "types/share";
+  const template = 
+`/* eslint-disable prettier/prettier */
+import { DynamicRouteConfig } from "types/share";
 
-  const routerConfig: DynamicRouteConfig[] = ${JSON.stringify(config)};
+const routerConfig: DynamicRouteConfig[] = ${JSON.stringify(config)};
 
-  export default routerConfig;
-  `;
+export default routerConfig;
+`;
   return template;
 };
 

@@ -5,7 +5,7 @@ import { delay } from "share/utils/delay";
 
 export function* getHomeData() {
   try {
-    let { code, data, state } = yield call((time) => delay(time, () => ({ code: 0, data: 100 })), 3000);
+    const { code, data, state } = yield call((time) => delay(time, () => ({ code: 0, data: 100 })), 3000);
     if (code === 0) {
       yield put(getDataSucess_Server({ name: apiName.home, data }));
     } else {

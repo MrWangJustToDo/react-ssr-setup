@@ -4,14 +4,9 @@ import { delay } from "./delay";
 
 import { PendingType, RemovePendingType } from "types/share";
 
-let pending: Array<PendingType>;
-let removePending: RemovePendingType;
-let retryCount: number;
-let retryDelay: number;
-
-pending = [];
-retryCount = 3;
-retryDelay = 1000;
+const pending: Array<PendingType> = [];
+const retryCount = 3;
+const retryDelay = 1000;
 
 const CancelToken = axios.CancelToken;
 const instance = axios.create({
@@ -20,7 +15,7 @@ const instance = axios.create({
 });
 
 // 移除重复请求
-removePending = (config) => {
+const removePending: RemovePendingType = (config) => {
   const index = pending.findIndex(({ url, method, params, data }) => {
     if (
       config.url === url &&

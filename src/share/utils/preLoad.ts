@@ -5,9 +5,7 @@ import { PreLoadType } from "types/share";
 import { MathProps, PreLoadRouteConfig } from "types/router";
 import { GetInitialStateType, PreLoadComponentType } from "types/components";
 
-let preLoad: PreLoadType;
-
-preLoad = (routes, pathname, store) => {
+const preLoad: PreLoadType = (routes, pathname, store) => {
   const branch = matchRoutes<MathProps, PreLoadRouteConfig>(routes, pathname);
   const promises: Promise<void>[] = [];
   branch.forEach(({ route, match }) => {

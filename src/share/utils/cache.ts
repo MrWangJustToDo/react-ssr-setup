@@ -10,7 +10,7 @@ class Cache<T, K> {
     }
   }
 
-  set = (key: T, value: K, time: number = this.maxTime) => {
+  set = (key: T, value: K, time: number = this.maxTime): void => {
     if (this.store.has(key)) {
       log(`already cache, should not cache again! key: ${key} oldValue: ${this.store.get(key)} newValue: ${value}`, "warn");
     }
@@ -18,22 +18,33 @@ class Cache<T, K> {
     this.delete(key, time);
   };
 
-  delete = (key: T, time: number = this.maxTime) => {
-    delay(
-      time,
-      () => {
+  delete = (key: T, time: number = this.maxTime): void => {
+    if (key instanceof String) {
+      delay(
+        time,
+        () => {
+          if (this.store.has(key)) {
+            log(`start delete data from cache, next request will update this data. key: ${key}`, "normal");
+            this.store.delete(key);
+          } else {
+            log(`error, nothing need to delete. key: ${key}`, "error");
+          }
+        },
+        key.toString()
+      );
+    } else {
+      delay(time, () => {
         if (this.store.has(key)) {
           log(`start delete data from cache, next request will update this data. key: ${key}`, "normal");
           this.store.delete(key);
         } else {
           log(`error, nothing need to delete. key: ${key}`, "error");
         }
-      },
-      key instanceof String ? key.toString() : undefined
-    );
+      });
+    }
   };
 
-  get = (key: T) => {
+  get = (key: T): K | undefined | boolean => {
     if (this.store.has(key)) {
       return this.store.get(key);
     } else {
@@ -42,7 +53,7 @@ class Cache<T, K> {
     }
   };
 
-  deleteRightNow = (key: T) => {
+  deleteRightNow = (key: T): void => {
     if (this.store.has(key)) {
       if (key instanceof String) {
         cancel(key.toString());

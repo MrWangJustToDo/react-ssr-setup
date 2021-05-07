@@ -1,8 +1,6 @@
 import { Store } from "redux";
 import React, { MemoExoticComponent } from "react";
 import { HelmetData } from "react-helmet-async";
-import { RouteConfig } from "react-router-config";
-import { LoadableComponent } from "@loadable/component";
 import { MathProps, PreLoadRouteConfig } from "types/router";
 
 /* Template */
@@ -33,7 +31,6 @@ interface GetInitialStateType<T> {
 }
 interface PreLoadComponentType<O> {
   <T>(props: T): JSX.Element;
-  initialData?: O;
   getInitialState?: GetInitialStateType<O>;
 }
 

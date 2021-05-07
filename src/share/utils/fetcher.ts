@@ -7,11 +7,9 @@ import { instance } from "./request";
 import { transformPath } from "./path";
 import { AutoRequestProps, AutoRequestType, CreateRequestType, QueryProps } from "types/share";
 
-let createRequest: CreateRequestType;
-
 const cache = new Cache<string, any>();
 
-createRequest = (props: AutoRequestProps = {}) => {
+const createRequest: CreateRequestType = (props: AutoRequestProps = {}) => {
   const { method, path, apiPath, query, data, header } = props;
   const tempPath = transformPath({ path, apiPath });
   const autoRequest: AutoRequestType = (props: AutoRequestProps = {}) => {
@@ -38,8 +36,7 @@ createRequest = (props: AutoRequestProps = {}) => {
     } else {
       const currentMethod = method || "get";
       const currentHeader = __CLIENT__ ? getHeader(header) : header;
-      let requestPromise: Promise<AxiosResponse<T>>;
-      requestPromise = instance({ method: currentMethod, headers: currentHeader, url: relativePath, data });
+      const requestPromise: Promise<AxiosResponse<T>> = instance({ method: currentMethod, headers: currentHeader, url: relativePath, data });
       return requestPromise.then((res) => res.data).then((resData) => (cache.set(relativePath, resData), resData));
     }
   };

@@ -19,11 +19,11 @@ class ListNode<T, K> {
     }
   }
 
-  deleteItem(item: NodeItem<T, K>) {
+  deleteItem(item: NodeItem<T, K>): void {
     const pre = this.getPre(item);
     const next = this.getNext(item);
-    item!.next = undefined;
-    item!.previous = undefined;
+    item.next = undefined;
+    item.previous = undefined;
     if (!pre && !next) {
       // 前一个后一个都不存在，当前就只有一个链表项
       this.head = undefined;
@@ -31,11 +31,13 @@ class ListNode<T, K> {
     } else if (!pre) {
       // 如果前一个不存在，表示当前就是第一个
       this.head = next;
-      next!.previous = undefined;
+      if (next) {
+        next.previous = undefined;
+      }
     } else if (!next) {
       // 如果后一个不存在，表示当前就是最后一个
       this.foot = pre;
-      pre!.next = undefined;
+      pre.next = undefined;
     } else {
       // 两边都有
       pre.next = next;
@@ -65,7 +67,7 @@ class ListNode<T, K> {
     } else {
       log(`listNode error！`, "error");
     }
-    if (!!deleteTime) {
+    if (deleteTime) {
       delay(deleteTime, () => this.deleteItem(item));
     }
     return item;
@@ -85,17 +87,17 @@ class ListNode<T, K> {
     return targetItem;
   }
 
-  has(key: T) {
+  has(key: T): boolean {
     return !!this.get(key);
   }
 
-  set(key: T, value: K) {
+  set(key: T, value: K): void {
     this.add(key, value);
   }
 
-  delete(key: T) {
+  delete(key: T): void {
     const currentItem = this.get(key);
-    if (!!currentItem) {
+    if (currentItem) {
       this.deleteItem(currentItem);
     }
   }

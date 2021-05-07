@@ -1,19 +1,16 @@
-import { Draft, produce } from "immer";
 import { Reducer } from "redux";
+import { Draft, produce } from "immer";
+
 import { apiName } from "config/api";
 import { serverAction } from "./action";
 import { State, StateAction, StateActionMapType } from "types/share/store";
 
-type CurrentState = State<{}>;
+type CurrentState = State<unknown>;
 
-let initState: CurrentState;
-let reducer: Reducer<CurrentState>;
-let actionReducerMap: StateActionMapType<{}>;
+const initState: CurrentState = { data: {}, error: null, loading: true, loaded: false };
 
-initState = { data: {}, error: null, loading: true, loaded: false };
-
-reducer = (state: CurrentState = initState, action: StateAction<{}>) => {
-  let actionReducer = actionReducerMap[action.type];
+const reducer: Reducer<CurrentState> = (state: CurrentState = initState, action: StateAction<unknown>) => {
+  const actionReducer = actionReducerMap[action.type];
   if (actionReducer) {
     return actionReducer(state, action);
   } else {
@@ -21,7 +18,7 @@ reducer = (state: CurrentState = initState, action: StateAction<{}>) => {
   }
 };
 
-actionReducerMap = {
+const actionReducerMap: StateActionMapType<unknown> = {
   [serverAction.GETDATALOADING(apiName.home)]: (state, action) =>
     produce(state, (proxy) => {
       proxy.data = {};
@@ -31,7 +28,7 @@ actionReducerMap = {
     }),
   [serverAction.GETDATASUCESS(apiName.home)]: (state: CurrentState, action) =>
     produce(state, (proxy: Draft<CurrentState>) => {
-      proxy.data = action.data!;
+      proxy.data = action.data;
       proxy.error = null;
       proxy.loading = false;
       proxy.loaded = true;

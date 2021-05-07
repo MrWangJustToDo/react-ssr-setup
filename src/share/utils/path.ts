@@ -1,9 +1,7 @@
 import { log } from "./log";
 import { TransformPathType } from "types/share";
 
-let transformPath: TransformPathType;
-
-transformPath = ({ path, apiPath, query }) => {
+const transformPath: TransformPathType = ({ path, apiPath, query }) => {
   if (!path && !apiPath) {
     log(`transform path not exist`, "normal");
     return "";
@@ -34,7 +32,7 @@ transformPath = ({ path, apiPath, query }) => {
   }
   if (query) {
     currentPath += "?";
-    for (let key in query) {
+    for (const key in query) {
       currentPath += `${key}=${query[key]}&`;
     }
     currentPath = currentPath.slice(0, -1);

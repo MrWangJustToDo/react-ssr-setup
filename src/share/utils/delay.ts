@@ -1,19 +1,18 @@
 import { Cancel, KeyMap, ResolveMap, TimeoutMap } from "types/share";
 import { log } from "./log";
 
-let timeoutMap: TimeoutMap;
-let resolveMap: ResolveMap;
-let cancel: Cancel;
+// let timeoutMap: TimeoutMap;
+// let resolveMap: ResolveMap;
 // let delay: Delay;
-let keyMap: KeyMap;
+// let keyMap: KeyMap;
 
-timeoutMap = {};
-resolveMap = {};
-keyMap = {};
-let keyLength = 0;
+const timeoutMap: TimeoutMap = {};
+const resolveMap: ResolveMap = {};
+const keyMap: KeyMap = {};
 const maxKeyLength = 200;
+let keyLength = 0;
 
-cancel = (key) => {
+const cancel: Cancel = (key) => {
   if (timeoutMap[key]) {
     const length = timeoutMap[key].length;
     timeoutMap[key] = timeoutMap[key].map((id) => id && clearTimeout(id)).slice(length);
@@ -22,7 +21,7 @@ cancel = (key) => {
   if (keyLength > maxKeyLength) {
     const keys = Object.keys(keyMap).sort((key1, key2) => (keyMap[key1] > keyMap[key2] ? 1 : -1));
     log(`start delete delay key, over max length ${maxKeyLength}`, "normal");
-    for (let keyItem of keys) {
+    for (const keyItem of keys) {
       if (keyItem !== key && !resolveMap[keyItem].length) {
         delete keyMap[keyItem];
         delete timeoutMap[keyItem];
@@ -34,9 +33,10 @@ cancel = (key) => {
 };
 
 function delay<T>(time: number, action: () => T, key: string): Promise<T | void>;
+
 function delay<T>(time: number, action: () => T): Promise<T>;
 
-function delay<T>(time: number, action: () => T, key?: string) {
+function delay<T>(time: number, action: () => T, key?: string): Promise<T | void> {
   if (key === undefined) {
     return new Promise((resolve) => {
       setTimeout(() => {

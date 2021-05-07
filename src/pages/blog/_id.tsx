@@ -3,10 +3,7 @@ import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 import { MathProps } from "types/router";
 
-let Index: PreLoadComponentType<MathProps>;
-
-Index = () => {
-  console.log("初始值", Index.initialData);
+const Index: PreLoadComponentType<MathProps> = () => {
   return <div>ppppppppppppppp</div>;
 };
 

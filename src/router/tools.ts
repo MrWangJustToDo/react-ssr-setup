@@ -1,12 +1,11 @@
 import { TransformType } from "types/router";
 
-let filter: TransformType;
-
-filter = (routers) => {
+const filter: TransformType = (routers) => {
   const temp: { [props: string]: boolean } = {};
   return routers.filter((config) => {
-    if (!temp[config.path?.toString()!]) {
-      temp[config.path?.toString()!] = true;
+    const key = config.path?.toString();
+    if (key && !temp[key]) {
+      temp[key] = true;
       return true;
     } else {
       return false;

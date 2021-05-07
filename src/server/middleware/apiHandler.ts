@@ -16,13 +16,13 @@ import {
 
 const cache = new Cache<string, any>();
 
-let success = <T>({ res, statuCode = 200, resDate }: ApiResponseProps<T>): ApiResponseData<T> => {
+const success = <T>({ res, statuCode = 200, resDate }: ApiResponseProps<T>): ApiResponseData<T> => {
   resDate.time = new Date().toLocaleString();
   res.status(statuCode).json(resDate);
   return resDate;
 };
 
-let fail = <T>({ res, statuCode = 404, resDate, methodName }: ApiResponseProps<T> & { methodName?: string }): void => {
+const fail = <T>({ res, statuCode = 404, resDate, methodName }: ApiResponseProps<T> & { methodName?: string }): void => {
   if (methodName && process.env.NODE_ENV === "development") {
     resDate["methodName"] = `method: ${methodName} 出现错误`;
   }
@@ -30,13 +30,13 @@ let fail = <T>({ res, statuCode = 404, resDate, methodName }: ApiResponseProps<T
   res.status(statuCode).json(resDate);
 };
 
-let transformHandler = (requestHandler: RequestHandlerType) => {
+const transformHandler = (requestHandler: RequestHandlerType) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     return await requestHandler({ req, res, next });
   };
 };
 
-let catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandlerType) => {
+const catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandlerType) => {
   return async ({ req, res, next }: RequestHandlerProps) => {
     try {
       return await requestHandler({ req, res, next });
@@ -55,7 +55,7 @@ let catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandlerTy
   };
 };
 
-let cacheHandler = (requestHandler: RequestHandlerType, time: number | undefined, cacheConfig: CacheConfigProps) => {
+const cacheHandler = (requestHandler: RequestHandlerType, time: number | undefined, cacheConfig: CacheConfigProps) => {
   return async ({ req, res, next }: RequestHandlerProps) => {
     const currentCacheConfig = assign(cacheConfig, req.config?.cache);
     const key = req.originalUrl;
@@ -78,7 +78,7 @@ let cacheHandler = (requestHandler: RequestHandlerType, time: number | undefined
         success({ res, resDate: cacheValue });
       } else {
         const actionValue = await requestHandler({ req, res, next });
-        if (!!actionValue) {
+        if (actionValue) {
           cache.set(key, actionValue, cacheTime);
         } else {
           log(`nothing to return, so nothing to cache. method: ${req.method} url: ${req.originalUrl}`, "normal");
@@ -90,7 +90,7 @@ let cacheHandler = (requestHandler: RequestHandlerType, time: number | undefined
   };
 };
 
-let userHandler = (requestHandler: RequestHandlerType, strict: boolean | undefined, userConfig: UserConfigProps) => {
+const userHandler = (requestHandler: RequestHandlerType, strict: boolean | undefined, userConfig: UserConfigProps) => {
   return async ({ req, res, next }: RequestHandlerProps) => {
     const currentUserConfig = assign(userConfig, req.config?.user);
     const needCheck = currentUserConfig.needCheck;
@@ -111,7 +111,7 @@ let userHandler = (requestHandler: RequestHandlerType, strict: boolean | undefin
   };
 };
 
-let autoRequestHandler = ({ requestHandler, errHandler, strict, time, cacheConfig, userConfig }: AutoRequestHandlerProps) => {
+const autoRequestHandler = ({ requestHandler, errHandler, strict, time, cacheConfig, userConfig }: AutoRequestHandlerProps) => {
   return transformHandler(catchHandler(userHandler(cacheHandler(requestHandler, time, cacheConfig || {}), strict, userConfig || {}), errHandler));
 };
 

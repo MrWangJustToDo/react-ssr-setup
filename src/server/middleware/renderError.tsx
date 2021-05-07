@@ -3,13 +3,12 @@ import PrettyError from "pretty-error";
 import { renderToString } from "react-dom/server";
 
 import Html from "components/Template/html";
+
 import { RenderErrorType } from "types/server";
 
 const pre = new PrettyError();
 
-let renderError: RenderErrorType;
-
-renderError = ({ res, code, e }) =>
+const renderError: RenderErrorType = ({ res, code, e }) =>
   res.send(
     "<!doctype html>" +
       renderToString(

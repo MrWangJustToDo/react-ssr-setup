@@ -10,11 +10,7 @@ import { SagaStore } from "share/store/store";
 
 // 静态路由
 
-let routes: PreLoadRouteConfig[];
-
-let notFound: PreLoadRouteConfig;
-
-routes = [
+const routes: PreLoadRouteConfig[] = [
   {
     path: "/",
     exact: true,
@@ -30,7 +26,7 @@ routes = [
     path: "/pr/:bar",
     exact: true,
     component: loadable(() => import("components/EX/Page2")),
-    getInitialState: async (store, match) => {
+    getInitialState: async (store) => {
       store.dispatch(getDataAction_Server({ name: apiName.home }));
       store.dispatch(END);
       await (store as SagaStore).sagaTask!.toPromise();
@@ -43,13 +39,11 @@ routes = [
   },
 ];
 
-notFound = {
+const notFound: PreLoadRouteConfig = {
   path: "/*",
   exact: true,
   component: loadable(() => import("components/EX/notFound")),
 };
-
-const loadPage = /* #__LOADABLE__ */ (path: string) => import(`../pages/${path}`);
 
 // 文件路由
 
@@ -57,7 +51,6 @@ const dynamicRoutes = dynamicRouterConfig.map((it) => ({
   path: it.componentPath === "404" ? "/*" : it.path,
   exact: it.exact,
   component: loadable(() => import(`../pages/${it.componentPath}`)),
-  // component: loadable(loadPage(it.componentPath))
 }));
 
 const allRoutes = filter(routes.concat(dynamicRoutes).concat(notFound)).sort((_, b) => (b.path === "/*" ? -1 : 0));

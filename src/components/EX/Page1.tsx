@@ -8,7 +8,6 @@ import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 
 const Page1: PreLoadComponentType<string> = () => {
-  console.log(Page1.initialData);
   return (
     <div className={style.red}>
       <img src={src} alt="hello" width="100" />

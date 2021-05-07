@@ -1,17 +1,19 @@
 import cors from "cors";
 import chalk from "chalk";
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import compression from "compression";
+import prettyError from "pretty-error";
 
 import { render } from "server/middleware/render";
 import { renderError } from "server/middleware/renderError";
 import { manifestLoadable } from "share/helper/manifest";
 import { transformHandler, catchHandler } from "server/middleware/apiHandler";
 
-require("dotenv").config();
+dotenv.config();
 
-require("pretty-error").start();
+prettyError.start();
 
 global.webStats = manifestLoadable("client");
 
