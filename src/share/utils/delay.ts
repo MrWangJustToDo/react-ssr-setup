@@ -1,11 +1,6 @@
 import { Cancel, KeyMap, ResolveMap, TimeoutMap } from "types/share";
 import { log } from "./log";
 
-// let timeoutMap: TimeoutMap;
-// let resolveMap: ResolveMap;
-// let delay: Delay;
-// let keyMap: KeyMap;
-
 const timeoutMap: TimeoutMap = {};
 const resolveMap: ResolveMap = {};
 const keyMap: KeyMap = {};

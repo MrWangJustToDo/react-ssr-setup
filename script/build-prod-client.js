@@ -1,5 +1,5 @@
-const webpack = require("webpack");
 const chalk = require("chalk");
+const webpack = require("webpack");
 const { ClientConfig } = require("../webpack/webpack.client.prod.config");
 
 const buildClient = (clientEntryPoint) => {

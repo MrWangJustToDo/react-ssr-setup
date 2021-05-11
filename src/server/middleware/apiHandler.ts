@@ -31,13 +31,13 @@ const fail = <T>({ res, statuCode = 404, resDate, methodName }: ApiResponseProps
 };
 
 const transformHandler = (requestHandler: RequestHandlerType) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     return await requestHandler({ req, res, next });
   };
 };
 
 const catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandlerType) => {
-  return async ({ req, res, next }: RequestHandlerProps) => {
+  return async ({ req, res, next }: RequestHandlerProps): Promise<any> => {
     try {
       return await requestHandler({ req, res, next });
     } catch (e) {
@@ -56,7 +56,7 @@ const catchHandler = (requestHandler: RequestHandlerType, errHandler: ErrHandler
 };
 
 const cacheHandler = (requestHandler: RequestHandlerType, time: number | undefined, cacheConfig: CacheConfigProps) => {
-  return async ({ req, res, next }: RequestHandlerProps) => {
+  return async ({ req, res, next }: RequestHandlerProps): Promise<any> => {
     const currentCacheConfig = assign(cacheConfig, req.config?.cache);
     const key = req.originalUrl;
     const needCache = currentCacheConfig.needCache;
@@ -91,7 +91,7 @@ const cacheHandler = (requestHandler: RequestHandlerType, time: number | undefin
 };
 
 const userHandler = (requestHandler: RequestHandlerType, strict: boolean | undefined, userConfig: UserConfigProps) => {
-  return async ({ req, res, next }: RequestHandlerProps) => {
+  return async ({ req, res, next }: RequestHandlerProps): Promise<any> => {
     const currentUserConfig = assign(userConfig, req.config?.user);
     const needCheck = currentUserConfig.needCheck;
     const checkStrict = currentUserConfig.checkStrict ? currentUserConfig.checkStrict : strict;
@@ -111,7 +111,7 @@ const userHandler = (requestHandler: RequestHandlerType, strict: boolean | undef
   };
 };
 
-const autoRequestHandler = ({ requestHandler, errHandler, strict, time, cacheConfig, userConfig }: AutoRequestHandlerProps) => {
+const autoRequestHandler = ({ requestHandler, errHandler, strict, time, cacheConfig, userConfig }: AutoRequestHandlerProps): any => {
   return transformHandler(catchHandler(userHandler(cacheHandler(requestHandler, time, cacheConfig || {}), strict, userConfig || {}), errHandler));
 };
 

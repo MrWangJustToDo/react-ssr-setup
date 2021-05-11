@@ -2,12 +2,10 @@ import React from "react";
 
 import { HTMLType } from "types/components";
 
-let HTML: HTMLType;
-
-HTML = ({ children = "", link = [], script = [], state = "{}", helmetContext = {} }) => {
+const HTML: HTMLType = ({ children = "", link = [], script = [], state = "{}", helmetContext = {} }) => {
   const { helmet } = helmetContext;
   return (
-    <html lang="">
+    <html lang="zh">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

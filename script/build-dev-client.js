@@ -9,17 +9,17 @@ const { ClientConfig } = require("../webpack/webpack.client.dev.config");
 // 生成 dev server 配置
 const webpackDevServerConfig = (clientOptions) => {
   return {
-    host: process.env.DEV_HOST,
+    hot: true,
+    open: false,
     quiet: true,
+    inline: true,
+    compress: true,
+    clientLogLevel: "error",
+    host: process.env.DEV_HOST,
     port: process.env.WDS_PORT,
     contentBase: path.resolve(__dirname, "../static"),
     publicPath: clientOptions.output.publicPath,
-    hot: true,
     // progress: true,
-    inline: true,
-    clientLogLevel: "error",
-    open: false,
-    compress: true,
     watchOptions: {
       ignored: /node_modules/,
       //当第一个文件更改，会在重新构建前增加延迟。

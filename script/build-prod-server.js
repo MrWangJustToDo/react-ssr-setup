@@ -1,5 +1,5 @@
-const webpack = require("webpack");
 const chalk = require("chalk");
+const webpack = require("webpack");
 const { ServerConfig } = require("../webpack/webpack.server.prod.config");
 
 const buildServer = (serverEntryPoint) => {

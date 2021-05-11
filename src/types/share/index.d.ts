@@ -29,7 +29,7 @@ interface PendingType {
   method?: Method;
   params: any;
   data: any;
-  cancel: Function;
+  cancel: () => void;
 }
 interface RemovePendingType {
   (props: AxiosRequestConfig): void;
@@ -60,7 +60,7 @@ interface AutoRequestProps {
   apiPath?: apiName;
   query?: QueryProps;
   header?: HeaderProps;
-  data?: object;
+  data?: { [props: string]: string };
 }
 interface ApiRequestResult<T> {
   code: number;

@@ -5,9 +5,8 @@ import { preLoad } from "share/utils/preLoad";
 import { WraperRouteType } from "types/components";
 
 // use this for client side preLoad
-let WraperRoute: WraperRouteType;
 
-WraperRoute = ({ children, routes, LoadingBar }) => {
+const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar }) => {
   const { location, loading } = usePreLoad({ routes, preLoad });
 
   const routeChildren = useMemo(() => <Route location={location}>{children}</Route>, [children, location]);

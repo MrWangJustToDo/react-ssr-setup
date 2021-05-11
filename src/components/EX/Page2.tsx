@@ -5,7 +5,7 @@ import style from "./index.module.scss";
 import { PreLoadComponentType } from "types/components";
 import { delay } from "share/utils/delay";
 
-const Page2: PreLoadComponentType<number> = (props) => {
+const Page2: PreLoadComponentType = (props) => {
   console.log(props);
   return (
     <div className={style.green}>
@@ -18,7 +18,7 @@ const Page2: PreLoadComponentType<number> = (props) => {
 
 Page2.getInitialState = (store, match) => {
   console.log("page2输出", match);
-  return delay(3000, () => 1000);
+  return delay(3000, () => console.log(1000));
 };
 
 export default Page2;

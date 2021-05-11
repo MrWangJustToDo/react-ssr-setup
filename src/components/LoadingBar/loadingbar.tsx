@@ -4,16 +4,14 @@ import { BarType } from "types/components";
 
 import style from "./index.module.scss";
 
-let Bar: BarType;
-
-Bar = ({ height = 1.5, present = 0 }) => {
+const Bar: BarType = ({ height = 1.5, present = 0 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const place = useRef<HTMLElement | null>(null);
 
   const [mounted, setMounted] = useState(false);
 
-  const ele = useMemo(() => <div ref={ref} className={style.loadingBar} style={{ height: `${height}px`, transform: `scale(${present / 100}, 1)` }} />, []);
+  const ele = useMemo(() => <div ref={ref} className={style.loadingBar} style={{ height: `0px`, transform: `scale(0, 1)` }} />, []);
 
   useEffect(() => {
     if (!mounted) {
@@ -28,7 +26,7 @@ Bar = ({ height = 1.5, present = 0 }) => {
     }
   }, [height, present]);
 
-  return mounted ? createPortal(ele, place.current!) : null;
+  return mounted && place.current ? createPortal(ele, place.current) : null;
 };
 
 export default Bar;

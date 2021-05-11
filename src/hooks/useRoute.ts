@@ -6,13 +6,13 @@ import { UsePreLoadType } from "types/hooks";
 
 /* WraperRoute */
 const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
+  const store = useStore();
+  const history = useHistory();
+  const location = useLocation();
   const { start, end, state } = useBool();
   const timmer1 = useRef<NodeJS.Timeout | null>(null);
   const timmer2 = useRef<NodeJS.Timeout | null>(null);
   const started = useRef<boolean | null>(false);
-  const store = useStore();
-  const history = useHistory();
-  const location = useLocation();
   const [preLocation, setLocation] = useState(location);
 
   useMemo(() => {

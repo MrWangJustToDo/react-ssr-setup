@@ -1,7 +1,7 @@
 import { Store } from "redux";
 import React, { MemoExoticComponent } from "react";
 import { HelmetData } from "react-helmet-async";
-import { MathProps, PreLoadRouteConfig } from "types/router";
+import { PreLoadRouteConfig, RouterProps } from "types/router";
 
 /* Template */
 interface HTMLProps {
@@ -26,12 +26,12 @@ interface WraperRouteType {
 }
 
 /* PreLoadComponent */
-interface GetInitialStateType<T> {
-  (store: Store, math: MathProps): Promise<T>;
+interface GetInitialStateType {
+  (store: Store, math: RouterProps): Promise<void>;
 }
-interface PreLoadComponentType<O> {
+interface PreLoadComponentType {
   <T>(props: T): JSX.Element;
-  getInitialState?: GetInitialStateType<O>;
+  getInitialState?: GetInitialStateType;
 }
 
 /* LoadingBar */

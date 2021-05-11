@@ -2,7 +2,7 @@ import { Store } from "redux";
 import { ComponentClass } from "react";
 import { matchRoutes } from "react-router-config";
 import { PreLoadType } from "types/share";
-import { MathProps, PreLoadRouteConfig } from "types/router";
+import { MathProps, PreLoadRouteConfig, RouterProps } from "types/router";
 import { GetInitialStateType, PreLoadComponentType } from "types/components";
 
 const preLoad: PreLoadType = (routes, pathname, store) => {
@@ -19,9 +19,9 @@ const preLoad: PreLoadType = (routes, pathname, store) => {
   return Promise.all(promises);
 };
 
-function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: MathProps) {
+function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: RouterProps): Promise<void> {
   return new Promise<void>((resolve) => {
-    (route.component as any).load().then((component: { readonly default: PreLoadComponentType<any> }) => {
+    (route.component as any).load().then((component: { readonly default: PreLoadComponentType }) => {
       const Target = component.default;
       if (Target.getInitialState && typeof Target.getInitialState === "function") {
         Promise.resolve(Target.getInitialState(store, match)).then(resolve).catch(resolve);
@@ -32,7 +32,7 @@ function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: Ma
   });
 }
 
-function preLoadFromRoute(route: PreLoadRouteConfig, store: Store, match: MathProps) {
+function preLoadFromRoute(route: PreLoadRouteConfig, store: Store, match: RouterProps): Promise<void> {
   return new Promise<void>((resolve) => {
     if (route.getInitialState && typeof route.getInitialState === "function") {
       Promise.resolve(route.getInitialState(store, match)).then(resolve).catch(resolve);
@@ -42,8 +42,8 @@ function preLoadFromRoute(route: PreLoadRouteConfig, store: Store, match: MathPr
   });
 }
 
-function preLoadWraper<T>(preLoad: GetInitialStateType<T>) {
-  function Wraper(Component: ComponentClass & { getInitialState?: GetInitialStateType<T> }) {
+function preLoadWraper(preLoad: GetInitialStateType): (props: ComponentClass & { getInitialState?: GetInitialStateType }) => void {
+  function Wraper(Component: ComponentClass & { getInitialState?: GetInitialStateType }): void {
     Component.getInitialState = preLoad;
   }
   return Wraper;
