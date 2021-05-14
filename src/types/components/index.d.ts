@@ -1,6 +1,6 @@
 import { Store } from "redux";
-import React, { MemoExoticComponent } from "react";
 import { HelmetData } from "react-helmet-async";
+import React, { MemoExoticComponent } from "react";
 import { PreLoadRouteConfig, RouterProps } from "types/router";
 
 /* Template */
@@ -23,6 +23,9 @@ interface WraperRouteProps {
 }
 interface WraperRouteType {
   (props: WraperRouteProps): MemoExoticComponent;
+}
+interface BindLocationChildrenType {
+  (location: Location<string>): (children: React.ReactElement | React.ReactElement[] | string) => JSX.Element;
 }
 
 /* PreLoadComponent */

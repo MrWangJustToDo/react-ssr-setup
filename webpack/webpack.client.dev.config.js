@@ -108,7 +108,7 @@ const ClientConfig = (entryPath) => {
     optimization: {
       runtimeChunk: "single",
       splitChunks: {
-        // minChunks: 3,
+        minChunks: 3,
         cacheGroups: {
           commons: {
             test: /[\\/]node_modules[\\/]/,
