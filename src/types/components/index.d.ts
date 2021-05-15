@@ -35,6 +35,8 @@ interface GetInitialStateType {
 interface PreLoadComponentType {
   <T>(props: T): JSX.Element;
   getInitialState?: GetInitialStateType;
+  routerIn?: string;
+  routerOut?: string;
 }
 
 /* LoadingBar */

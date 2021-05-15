@@ -8,21 +8,30 @@ import { GetInitialStateType, PreLoadComponentType } from "types/components";
 const preLoad: PreLoadType = (routes, pathname, store) => {
   const branch = matchRoutes<MathProps, PreLoadRouteConfig>(routes, pathname);
   const promises: Promise<void>[] = [];
+  const animateConfig: { routerIn?: string; routerOut?: string }[] = [];
   branch.forEach(({ route, match }) => {
     promises.push(
       // for component
-      preLoadFromComponent(route, store, match),
+      preLoadFromComponent(route, store, match, animateConfig),
       // for router
-      preLoadFromRoute(route, store, match)
+      preLoadFromRoute(route, store, match, animateConfig)
     );
   });
-  return Promise.all(promises);
+  return Promise.all(promises).then(() => animateConfig);
 };
 
-function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: RouterProps): Promise<void> {
+function preLoadFromComponent(
+  route: PreLoadRouteConfig,
+  store: Store,
+  match: RouterProps,
+  animateConfig: { routerIn?: string; routerOut?: string }[]
+): Promise<void> {
   return new Promise<void>((resolve) => {
     (route.component as any).load().then((component: { readonly default: PreLoadComponentType }) => {
       const Target = component.default;
+      if (Target.routerIn || Target.routerOut) {
+        animateConfig.push({ routerIn: Target.routerIn, routerOut: Target.routerOut });
+      }
       if (Target.getInitialState && typeof Target.getInitialState === "function") {
         Promise.resolve(Target.getInitialState(store, match)).then(resolve).catch(resolve);
       } else {
@@ -32,8 +41,16 @@ function preLoadFromComponent(route: PreLoadRouteConfig, store: Store, match: Ro
   });
 }
 
-function preLoadFromRoute(route: PreLoadRouteConfig, store: Store, match: RouterProps): Promise<void> {
+function preLoadFromRoute(
+  route: PreLoadRouteConfig,
+  store: Store,
+  match: RouterProps,
+  animateConfig: { routerIn?: string; routerOut?: string }[]
+): Promise<void> {
   return new Promise<void>((resolve) => {
+    if (route.animationRouter) {
+      animateConfig.push({ routerIn: route.animationRouter.routerIn, routerOut: route.animationRouter.routerOut });
+    }
     if (route.getInitialState && typeof route.getInitialState === "function") {
       Promise.resolve(route.getInitialState(store, match)).then(resolve).catch(resolve);
     } else {

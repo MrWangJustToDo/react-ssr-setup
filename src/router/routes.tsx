@@ -21,6 +21,10 @@ const routes: PreLoadRouteConfig[] = [
     exact: true,
     component: loadable(() => import("components/EX/Page1")),
     getInitialState: (store, match) => delay(100, () => console.log(store, match, "/fr")),
+    animationRouter: {
+      routerIn: "from-bottom",
+      routerOut: "to-bottom",
+    },
   },
   {
     path: "/pr/:bar",
@@ -31,11 +35,19 @@ const routes: PreLoadRouteConfig[] = [
       store.dispatch(END);
       await (store as SagaStore).sagaTask!.toPromise();
     },
+    animationRouter: {
+      routerIn: "from-right",
+      routerOut: "to-right",
+    },
   },
   {
     path: "/pr/:bar/:foo",
     exact: true,
     component: loadable(() => import("components/EX/Page4")),
+    animationRouter: {
+      routerIn: "from-right",
+      routerOut: "to-bottom",
+    },
   },
 ];
 

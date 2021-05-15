@@ -10,20 +10,22 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   const history = useHistory();
   const location = useLocation();
   const { start, end, state } = useBool();
+  const started = useRef<boolean | null>(false);
   const timmer1 = useRef<NodeJS.Timeout | null>(null);
   const timmer2 = useRef<NodeJS.Timeout | null>(null);
-  const started = useRef<boolean | null>(false);
-  const [preLocation, setLocation] = useState(location);
+  const routerAnimate = useRef<{ [props: string]: { routerIn?: string; routerOut?: string }[] }>({});
+  const [loadedLocation, setLoadedLocation] = useState(location);
 
   useMemo(() => {
-    if (preLocation.pathname !== location.pathname && !started.current) {
+    if (loadedLocation.pathname !== location.pathname && !started.current) {
       timmer1.current && clearTimeout(timmer1.current);
       timmer2.current && clearTimeout(timmer2.current);
       timmer1.current = setTimeout(() => {
         started.current = true;
         start();
       }, 260);
-      preLoad(routes, location.pathname, store).then(() => {
+      preLoad(routes, location.pathname, store).then((config) => {
+        routerAnimate.current[location.pathname] = config;
         timmer2.current = setTimeout(() => {
           timmer1.current && clearTimeout(timmer1.current);
           if (started.current) {
@@ -35,12 +37,12 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
             }
           }
         }, 50);
-        setLocation(location);
+        setLoadedLocation(location);
       });
     }
-  }, [preLocation.pathname, location, preLoad, routes, store, start, end, history]);
+  }, [loadedLocation, location, preLoad, routes, store, start, end, history]);
 
-  return { location: preLocation, loading: state };
+  return { location: loadedLocation, loading: state, routerAnimate };
 };
 
 export { usePreLoad };

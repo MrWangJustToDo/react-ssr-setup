@@ -3,6 +3,10 @@ import { GetInitialStateType } from "types/components";
 
 interface PreLoadRouteConfig extends RouteConfig {
   getInitialState?: GetInitialStateType;
+  animationRouter?: {
+    routerIn?: string;
+    routerOut?: string;
+  };
 }
 
 interface MathProps {

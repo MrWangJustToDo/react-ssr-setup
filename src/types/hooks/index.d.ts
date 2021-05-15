@@ -1,13 +1,19 @@
+import { RefObject } from "react";
+import * as H from "history";
 import { PreLoadRouteConfig } from "../router";
-import { LoadBranchDataType } from "../share";
+import { PreLoadType } from "../share";
 
 /* useRoute */
 interface UsePreLoadProps {
   routes: PreLoadRouteConfig[];
-  preLoad: LoadBranchDataType;
+  preLoad: PreLoadType;
 }
 interface UsePreLoadType {
-  (props: UsePreLoadProps): { location: Location<string>; loading: boolean };
+  (props: UsePreLoadProps): {
+    loading: boolean;
+    location: H.Location<unknown>;
+    routerAnimate: RefObject<{ [props: string]: { routerIn?: string; routerOut?: string }[] }>;
+  };
 }
 
 /* useLoadingBar */

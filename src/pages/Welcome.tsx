@@ -24,4 +24,9 @@ Welcome.getInitialState = async (store, match) => {
   await delay(1000, () => console.log("hello"));
 };
 
+// page router animate
+Welcome.routerIn = "from-bottom";
+
+Welcome.routerOut = "to-right";
+
 export default connect((state: State) => ({ ...state.client }))(Welcome);
