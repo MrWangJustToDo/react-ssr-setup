@@ -20,12 +20,10 @@ interface WraperRouteProps {
   children: React.ReactElement | React.ReactElement[] | string;
   routes: PreLoadRouteConfig[];
   LoadingBar: (props: BarProps) => React.ReactElement | null;
+  animationRouter?: boolean;
 }
 interface WraperRouteType {
   (props: WraperRouteProps): MemoExoticComponent;
-}
-interface BindLocationChildrenType {
-  (location: Location<string>): (children: React.ReactElement | React.ReactElement[] | string) => JSX.Element;
 }
 
 /* PreLoadComponent */
