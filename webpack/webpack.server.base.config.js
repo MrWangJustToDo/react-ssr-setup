@@ -26,7 +26,23 @@ const BaseServer = {
     },
     extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
   },
-  externals: ["@loadable/component", nodeExternals()],
+  module: {
+    rules: [
+      // css no module
+      {
+        test: /\.s?css$/,
+        use: [{ loader: "css-loader" }, { loader: "postcss-loader" }, { loader: "sass-loader" }],
+        exclude: /\.module\.s?css$/,
+      },
+    ],
+  },
+  externals: [
+    "@loadable/component",
+    nodeExternals({
+      // load non-javascript files with extensions, presumably via loaders
+      allowlist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
+    }),
+  ],
   plugins: [new CleanWebpackPlugin()],
 };
 

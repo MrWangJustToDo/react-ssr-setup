@@ -19,7 +19,7 @@ const content = (
   <Provider store={store}>
     <Router>
       <HelmetProvider>
-        <WraperRoute routes={allRoutes} LoadingBar={LoadingBar}>
+        <WraperRoute routes={allRoutes} LoadingBar={LoadingBar} animationRouter={false}>
           <App />
         </WraperRoute>
       </HelmetProvider>

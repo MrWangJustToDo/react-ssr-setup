@@ -32,6 +32,7 @@
     "react-router": "^5.2.0",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
+    "react-spring-bottom-sheet": "^3.2.1",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3",
