@@ -4,7 +4,7 @@ import { DatePicker, Button } from "antd";
 import style from "./index.module.scss";
 
 import src from "./avatar.jpg";
-// import Zoom from "components/Zoom";
+import Zoom from "components/Zoom";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
 
@@ -12,9 +12,9 @@ const Page1: PreLoadComponentType = () => {
   return (
     <div className={style.red}>
       <div style={{ marginLeft: "300px" }}>
-        {/* <Zoom> */}
-        <img src={src} alt="hello" width="100" />
-        {/* </Zoom> */}
+        <Zoom>
+          <img src={src} alt="hello" width="100" />
+        </Zoom>
       </div>
       第一个页面
       <DatePicker />
