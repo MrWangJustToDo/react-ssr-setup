@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const webpackDevServer = require("webpack-dev-server");
 const { spawn } = require("child_process");
 const { freePort } = require("./free-port");
-const { ClientConfig } = require("../webpack/webpack.client.dev.config");
+const { ClientConfig } = require("../webpack/webpack.client.config");
 
 // 生成 dev server 配置
 const webpackDevServerConfig = (clientOptions) => {
@@ -40,7 +40,7 @@ const webpackDevServerConfig = (clientOptions) => {
 const buildClient = (clientEntryPoint) => {
   var count = 0;
   // 获取clientOptions
-  const clientOptions = ClientConfig(clientEntryPoint);
+  const clientOptions = ClientConfig(clientEntryPoint, true);
   // 获取compiler
   const compiler = webpack(clientOptions);
   // 获取devServerOptions

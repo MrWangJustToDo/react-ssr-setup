@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import cors from "cors";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import express from "express";
+// import { resolve } from "path";
 import session from "express-session";
 import compression from "compression";
 import prettyError from "pretty-error";
@@ -43,6 +45,25 @@ app.use(
     name: "react-ssr",
   })
 );
+
+/*
+if (process.env.NODE_ENV === "development" && process.env.CLIENTENTRY) {
+  const webpack = require("webpack");
+  const webpackHotMiddleware = require("webpack-hot-middleware");
+  const webpackDevMiddleware = require("webpack-dev-middleware");
+  const { ClientConfig } = require("../../webpack/webpack.client.dev.config");
+  const config = ClientConfig(resolve(process.cwd(), process.env.CLIENTENTRY));
+  const compiler = webpack(config);
+
+  app.use(webpackHotMiddleware(compiler));
+  app.use(
+    webpackDevMiddleware(compiler, {
+      publicPath: config.output.publicPath,
+      writeToDisk: (filepath: string) => filepath.includes("manifest-loadable.json") || filepath.includes("manifest-dev.json"),
+    })
+  );
+}
+*/
 
 app.use(
   transformHandler(

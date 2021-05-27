@@ -10,8 +10,6 @@ module.exports = (api) => {
   const web = api.caller(isWebTarget);
   const webpack = api.caller(isWebpack);
 
-  // api.cache(true);
-
   api.cache.using(() => process.env.NODE_ENV === "production");
 
   const presets = [];

@@ -1,22 +1,21 @@
 import chalk from "chalk";
 
-if (__SERVER__) {
-  const PrettyError = require("pretty-error");
-  var pre = new PrettyError();
-}
-
 const log = (message: string | Error, lev: "normal" | "warn" | "error"): void => {
   if (lev === "error") {
     if (__SERVER__) {
-      console.log(pre.render(message));
+      if (message instanceof Error) {
+        throw Error;
+      } else {
+        throw new Error(message);
+      }
     } else {
-      console.log(chalk.red(message.toString()));
+      console.log(`[${new Date().toISOString()}]`, chalk.red(message.toString()));
     }
   } else if (lev === "warn") {
-    console.log(chalk.green(message.toString()));
+    console.log(`[${new Date().toISOString()}]`, chalk.yellow(message.toString()));
   } else {
     if (__DEVELOPMENT__) {
-      console.log(message);
+      console.log(`[${new Date().toISOString()}]`, chalk.blue(message.toString()));
     }
   }
 };

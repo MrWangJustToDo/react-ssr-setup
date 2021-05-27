@@ -9,6 +9,7 @@ declare namespace NodeJS {
     PUBLIC_API_HOST: string;
     SERVERENTRY: string;
     CLIENTENTRY: string;
+    MIDDLEWARE_DEVELOP: string;
     SOURCE_LANGUAGE: "string";
   }
   interface Global {
@@ -69,7 +70,6 @@ declare const __SERVER__: boolean;
 declare const __DEVELOPMENT__: boolean;
 
 interface Window {
-  main: Function;
   __PRELOADED_STATE__: any;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 }

@@ -1,10 +1,10 @@
 const chalk = require("chalk");
 const webpack = require("webpack");
-const { ServerConfig } = require("../webpack/webpack.server.dev.config");
+const { ServerConfig } = require("../webpack/webpack.server.config");
 
 const buildServer = (entryPoint) => {
   var count = 0;
-  const compiler = webpack(ServerConfig(entryPoint));
+  const compiler = webpack(ServerConfig(entryPoint, true));
 
   compiler.watch(
     {
@@ -35,7 +35,8 @@ const buildServer = (entryPoint) => {
   );
 
   compiler.hooks.done.tap("done", function () {
-    console.log(chalk.green(`server compiler done, compiler count: ${count++}`));
+    console.log(chalk.green(`server compiler done, compiler count: ${count}`));
+    count++;
   });
 
   // 取消静态资源生成
