@@ -33,7 +33,7 @@ const outputConfig = (env, isDev = true) => {
       // 引入资源的url路径
       publicPath: isDev
         ? isMiddleWareDevelop
-          ? "/dist/"
+          ? "/dev/"
           : `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`
         : `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
       // 打包资源的名称

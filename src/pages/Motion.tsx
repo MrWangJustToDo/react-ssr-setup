@@ -34,6 +34,9 @@ const Example = () => {
       <div>
         <motion.div style={{ height: "100px", width: "200px", backgroundColor: "red" }} animate={{ x: x.get() }} />
       </div>
+      <div>
+        <motion.div style={{ height: "100px", border: "1px solid red" }} animate={{ rotate: 360 }} transition={{ duration: 2 }} />
+      </div>
     </>
   );
 };
