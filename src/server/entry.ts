@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import cors from "cors";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import express from "express";
-// import { resolve } from "path";
 import session from "express-session";
 import compression from "compression";
 import prettyError from "pretty-error";
 
 import { render } from "server/middleware/render";
+import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
 import { manifestLoadable } from "share/helper/manifest";
 import { transformHandler, catchHandler } from "server/middleware/apiHandler";
@@ -46,32 +45,14 @@ app.use(
   })
 );
 
-/*
-if (process.env.NODE_ENV === "development" && process.env.CLIENTENTRY) {
-  const webpack = require("webpack");
-  const webpackHotMiddleware = require("webpack-hot-middleware");
-  const webpackDevMiddleware = require("webpack-dev-middleware");
-  const { ClientConfig } = require("../../webpack/webpack.client.dev.config");
-  const config = ClientConfig(resolve(process.cwd(), process.env.CLIENTENTRY));
-  const compiler = webpack(config);
-
-  app.use(webpackHotMiddleware(compiler));
+develop(app).then(() => {
   app.use(
-    webpackDevMiddleware(compiler, {
-      publicPath: config.output.publicPath,
-      writeToDisk: (filepath: string) => filepath.includes("manifest-loadable.json") || filepath.includes("manifest-dev.json"),
-    })
-  );
-}
-*/
-
-app.use(
-  transformHandler(
-    catchHandler(
-      async ({ req, res, next }) => await render({ req, res, next }),
-      ({ req, res, next, e, code }) => renderError({ req, res, next, e, code })
+    transformHandler(
+      catchHandler(
+        async ({ req, res, next }) => await render({ req, res, next }),
+        ({ req, res, next, e, code }) => renderError({ req, res, next, e, code })
+      )
     )
-  )
-);
-
-app.listen(port, () => console.log(chalk.blue(`\nApp is running: http://localhost:${port}`)));
+  );
+  app.listen(port, () => console.log(chalk.blue(`\nApp is running: http://localhost:${port}`)));
+});

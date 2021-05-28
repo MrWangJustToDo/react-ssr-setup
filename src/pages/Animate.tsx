@@ -7,7 +7,7 @@ const Animate: PreLoadComponentType = (props) => {
   console.log(props);
   return (
     <div className={style.animate}>
-      123 animate 5678 <button>1234按钮</button>
+      123 animate 5678 <button>1234按钮 点击</button>
     </div>
   );
 };

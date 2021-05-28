@@ -1,7 +1,9 @@
 import React from "react";
 
+import style from "./foo.module.scss";
+
 const Index = () => {
-  return <div>hello first page</div>;
+  return <div className={style.foo}>hello first page</div>;
 };
 
 export default Index;

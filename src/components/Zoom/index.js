@@ -329,6 +329,10 @@ class Zoom extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.unRegister();
+  }
+
   render() {
     const { children } = this.props;
     const { isPicture, mounted, initWidth } = this.state;

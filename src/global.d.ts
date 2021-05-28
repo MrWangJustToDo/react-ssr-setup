@@ -9,7 +9,7 @@ declare namespace NodeJS {
     PUBLIC_API_HOST: string;
     SERVERENTRY: string;
     CLIENTENTRY: string;
-    MIDDLEWARE_DEVELOP: string;
+    MIDDLEWARE: string;
     SOURCE_LANGUAGE: "string";
   }
   interface Global {
