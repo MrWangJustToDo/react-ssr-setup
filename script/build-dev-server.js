@@ -58,9 +58,9 @@ if (process.env.SERVERENTRY) {
   if (isMiddleWareDevelop) {
     buildServer(process.env.SERVERENTRY).then(() => {
       // start node server to run app
-      // no need restart server 
+      // no need restart server
       freePort(process.env.DEV_PORT).then(() =>
-        spawn("nodemon", ["./dev/server/app"], {
+        spawn("nodemon", ["--watch", "./dev/server/app", "./dev/server/app"], {
           stdio: "inherit",
           shell: true,
         })
