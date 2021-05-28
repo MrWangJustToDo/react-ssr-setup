@@ -28,10 +28,7 @@ const buildServer = (entryPoint) => {
         const info = stats.toJson();
 
         if (stats.hasErrors()) {
-          const errors = info.errors[0].split("\n");
-          console.error(errors[0]);
-          console.error(errors[1]);
-          console.error(errors[2]);
+          console.error(info.errors);
         }
 
         if (stats.hasWarnings()) {

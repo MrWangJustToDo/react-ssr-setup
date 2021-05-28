@@ -1,7 +1,6 @@
 import React, { Component, createRef } from "react";
 
 class Zoom extends Component {
-
   static styleList = {
     parent: {
       position: "relative",
@@ -34,7 +33,7 @@ class Zoom extends Component {
 
   static getDerivedStateFromProps(props) {
     const { children } = props;
-    if (React.Children.count(children) === 1 && children.type === "img") {
+    if (React.Children.count(children) === 1 && children && children.type === "img") {
       return {
         isPicture: true,
       };
@@ -104,9 +103,7 @@ class Zoom extends Component {
     const { zoomIndex } = this.props;
     const { current: cover } = this.coverRef;
     const { imgHeight, imgWidth } = this.state;
-    cover.style.cssText = `${cover.style.cssText}; width: ${
-      imgWidth / zoomIndex
-    }px; height: ${imgHeight / zoomIndex}px; display: none`;
+    cover.style.cssText = `${cover.style.cssText}; width: ${imgWidth / zoomIndex}px; height: ${imgHeight / zoomIndex}px; display: none`;
   };
 
   _createTarget = () => {
@@ -179,6 +176,7 @@ class Zoom extends Component {
     this.lastY = this.y;
     let left = e.clientX - this.x - cover.offsetWidth / 2;
     let top = e.clientY - this.y - cover.offsetHeight / 2;
+    console.log(top);
     if (left < 0) {
       left = 0;
     }
@@ -195,9 +193,7 @@ class Zoom extends Component {
     this.top = top;
     cover.style.left = `${left}px`;
     cover.style.top = `${top}px`;
-    target.style.backgroundPosition = `${(-left * zoomIndex) / targetIndex}px ${
-      (-top * zoomIndex) / targetIndex
-    }px`;
+    target.style.backgroundPosition = `${(-left * zoomIndex) / targetIndex}px ${(-top * zoomIndex) / targetIndex}px`;
   };
 
   scrollEvent = (e) => {
@@ -224,9 +220,7 @@ class Zoom extends Component {
     }
     cover.style.left = `${left}px`;
     cover.style.top = `${top}px`;
-    target.style.backgroundPosition = `${(-left * zoomIndex) / targetIndex}px ${
-      (-top * zoomIndex) / targetIndex
-    }px`;
+    target.style.backgroundPosition = `${(-left * zoomIndex) / targetIndex}px ${(-top * zoomIndex) / targetIndex}px`;
   };
 
   resizeEvent = () => {
@@ -274,6 +268,18 @@ class Zoom extends Component {
     }
   };
 
+  initImgWidth = () => {
+    clearTimeout(this.initImgWidthTimmer);
+    const { current: img } = this.imgRef;
+    this.initImgWidthTimmer = setTimeout(() => {
+      this.setState({
+        initWidth: true,
+        imgWidth: img.offsetWidth,
+        imgHeight: img.offsetHeight,
+      });
+    }, 0);
+  };
+
   shouldComponentUpdate(nextProps, nextState) {
     const { children } = this.props;
     const { mounted, init, isPicture } = this.state;
@@ -299,13 +305,11 @@ class Zoom extends Component {
       });
     }
     if (isPicture && mounted && !initWidth) {
-      setTimeout(() => {
-        this.setState({
-          initWidth: true,
-          imgWidth: img.offsetWidth,
-          imgHeight: img.offsetHeight,
-        });
-      });
+      if (img.complete) {
+        this.initImgWidth();
+      } else {
+        img.addEventListener("load", this.initImgWidth);
+      }
     }
     if (isPicture && mounted && initWidth && !init) {
       this.init();
@@ -341,16 +345,7 @@ class Zoom extends Component {
         this.initImgRef();
         return this.imgItem;
       }
-      return React.cloneElement(
-        this.parentEle,
-        {},
-        React.cloneElement(
-          this.coverEle,
-          {},
-          React.cloneElement(this.targetEle)
-        ),
-        this.imgItem
-      );
+      return React.cloneElement(this.parentEle, {}, React.cloneElement(this.coverEle, {}, React.cloneElement(this.targetEle)), this.imgItem);
     } else {
       return children;
     }

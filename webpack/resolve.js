@@ -14,7 +14,7 @@ const resolveConfig = () => {
       types: path.resolve(basePath, "src", "types"),
       components: path.resolve(basePath, "src", "components"),
     },
-    extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
   };
 };
 

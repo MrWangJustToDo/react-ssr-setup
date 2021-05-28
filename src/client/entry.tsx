@@ -1,5 +1,5 @@
 import React from "react";
-import { hydrate } from "react-dom";
+import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
@@ -27,4 +27,4 @@ const content = (
   </Provider>
 );
 
-loadableReady(() => hydrate(content, place));
+loadableReady(() => (__DEVELOPMENT__ && process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE) ? render(content, place) : hydrate(content, place)));
