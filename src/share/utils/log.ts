@@ -9,13 +9,13 @@ const log = (message: string | Error, lev: "normal" | "warn" | "error"): void =>
         throw new Error(message);
       }
     } else {
-      console.log(`[${new Date().toISOString()}]`, chalk.red(message.toString()));
+      console.log(chalk.red(message.toString()));
     }
   } else if (lev === "warn") {
-    console.log(`[${new Date().toISOString()}]`, chalk.yellow(message.toString()));
+    console.log(chalk.yellow(message.toString()));
   } else {
     if (__DEVELOPMENT__) {
-      console.log(`[${new Date().toISOString()}]`, chalk.blue(message.toString()));
+      console.log(chalk.blue(message.toString()));
     }
   }
 };

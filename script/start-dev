@@ -1,68 +1,13 @@
 #!/usr/bin/env node
 
 require("dotenv").config();
-const chalk = require("chalk");
-const webpack = require("webpack");
-const { spawn } = require("child_process");
 const { getDynamicRouter } = require("./dynamic");
-const { ServerConfig } = require("../webpack/webpack.server.config");
 
 process.env.NODE_ENV = "development";
 
-const devServer = () => {
-  const cliCodeWatchProcess = spawn("node", ["./script/build-dev-client"], {
-    stdio: "inherit",
-    shell: true,
-  });
-
-  const svrCodeWatchProcess = spawn("node", ["./script/build-dev-server"], {
-    stdio: "inherit",
-    shell: true,
-  });
-
-  const killChild = () => {
-    svrCodeWatchProcess && svrCodeWatchProcess.kill();
-    cliCodeWatchProcess && cliCodeWatchProcess.kill();
-  };
-
-  process.on("close", (code) => {
-    console.log("main process close", code);
-    killChild();
-  });
-
-  process.on("exit", (code) => {
-    console.log("main process exit", code);
-    killChild();
-  });
-};
-
-const middleWare = () => {
-  const svrCodeWatchProcess = spawn("node", ["./script/build-dev-server"], {
-    stdio: "inherit",
-    shell: true,
-  });
-
-  const killChild = () => {
-    svrCodeWatchProcess && svrCodeWatchProcess.kill();
-  };
-
-  process.on("close", (code) => {
-    console.log("main process close", code);
-    killChild();
-  });
-
-  process.on("exit", (code) => {
-    console.log("main process exit", code);
-    killChild();
-  });
-};
+global.isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
 
 // first get dynamic router
 getDynamicRouter().then(() => {
-  const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
-  if (isMiddleWareDevelop) {
-    middleWare();
-  } else {
-    devServer();
-  }
+  require("./dev-entry").start();
 });

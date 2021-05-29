@@ -1,10 +1,10 @@
 const path = require("path");
 
+const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
+
 const outputPath = (env, isDev) => path.resolve(process.cwd(), isDev ? "dev" : "dist", env);
 
 const outputConfig = (env, isDev = true) => {
-  const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
-
   if (env === "client") {
     return {
       // 输出路径

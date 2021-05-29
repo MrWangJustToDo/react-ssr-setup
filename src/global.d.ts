@@ -68,6 +68,7 @@ declare module "*.scss" {
 declare const __CLIENT__: boolean;
 declare const __SERVER__: boolean;
 declare const __DEVELOPMENT__: boolean;
+declare const __MIDDLEWARE__: boolean;
 
 interface Window {
   __PRELOADED_STATE__: any;

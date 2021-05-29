@@ -23,6 +23,7 @@ const pluginsConfig = (env, isDev = true) => {
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,
+      __MIDDLEWARE__: process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE),
     }),
     env === "client" &&
       new MiniCssExtractPlugin({
