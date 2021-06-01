@@ -5,8 +5,6 @@ import { preLoadWraper } from "share/utils/preLoad";
 
 @preLoadWraper((store, match) => delay(1000, () => console.log(match)))
 class Hello extends Component {
-  static initialData: number;
-
   componentDidMount(): void {
     console.log(this.props);
   }

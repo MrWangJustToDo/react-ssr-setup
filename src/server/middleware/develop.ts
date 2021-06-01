@@ -14,6 +14,7 @@ const develop = (app: Express): Promise<void> => {
       const clientPromise = compilerPromise("client", compiler);
       app.use(
         webpackDevMiddleware(compiler, {
+          stats: "none",
           publicPath: "/dev/",
           writeToDisk: (filepath: string) => filepath.includes("manifest-loadable.json") || filepath.includes("manifest-dev.json"),
         })
