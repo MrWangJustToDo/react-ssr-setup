@@ -5,8 +5,8 @@ import { LoadingBarWrapperType } from "types/components";
 
 const LoadingBar: LoadingBarWrapperType = (props = {}) => {
   const { loading = false } = props;
-  const { state } = useLoadingBar({ loading });
-  return <Bar {...state} />;
+  const { ref } = useLoadingBar({ loading });
+  return <Bar forwardRef={ref} />;
 };
 
 export default LoadingBar;

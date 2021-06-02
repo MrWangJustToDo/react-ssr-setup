@@ -23,7 +23,7 @@ interface LoadingBarProps {
   loading?: boolean;
 }
 interface UseLoadReturn {
-  state: LoadingBarProps;
+  ref: RefObject<HTMLDivElement>;
 }
 interface UseLoadType {
   (props?: LoadingBarProps): UseLoadReturn;

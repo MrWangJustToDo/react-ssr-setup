@@ -1,56 +1,51 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { delay } from "share/utils/delay";
+import { useEffect, useRef } from "react";
+import { delay, cancel } from "share/utils/delay";
 import { LoadingBarProps } from "types/components";
 import { UseLoadType } from "types/hooks";
 
 const useLoadingBar: UseLoadType = (props = {}) => {
-  const ref = useRef(0);
+  const { height = 1.5, present = 0, loading } = props;
 
-  const { loading = false, height = 1.6, present = 0 } = props;
+  const ref = useRef<HTMLDivElement>(null);
 
-  const [state, setState] = useState<LoadingBarProps>({ loading, height, present });
+  const state = useRef<LoadingBarProps>({ present, height });
 
-  const hide = useCallback(() => setState({ height: 0 }), []);
+  useEffect(() => {
+    if (!loading) {
+      state.current.height = height;
+      state.current.present = present;
+    }
+  }, [loading, height, present]);
 
-  const complate = useCallback(() => setState({ loading: false, present: 100 }), []);
-
-  const start = useCallback(() => ((ref.current = 1), setState({ loading: true, present: 0 })), []);
-
-  const end = useCallback(() => delay(40, complate, "loadingBar").then(() => delay(80, hide, "loadingBar")), [complate, hide]);
-
-  const autoAdd = useCallback(() => {
-    let count = 8;
-
-    return setInterval(
-      () =>
-        setState((last) => {
+  useEffect(() => {
+    if (ref.current) {
+      const ele = ref.current;
+      if (loading) {
+        let count = 8;
+        const id = setInterval(() => {
           if (count > 1) {
             count--;
           }
-          let next = (last.present || 0) + (Math.random() + count - Math.random());
+          let next = (state.current.present || 0) + (Math.random() + count - Math.random());
           next = next < 99.5 ? next : 99.5;
-          return { ...last, present: next };
-        }),
-      60
-    );
-  }, []);
-
-  useEffect(() => {
-    let id: NodeJS.Timeout;
-
-    if (loading) {
-      start();
-      id = autoAdd();
-    } else {
-      if (ref.current !== 0) {
-        end();
+          ele.style.cssText =
+            "z-index: 1;" +
+            "top: 0;" +
+            `height: ${state.current.height}px;` +
+            `transform-origin: 0 0;` +
+            `transform: scale(${next / 100}, 1);` +
+            `filter: drop-shadow(2px 2px 2px rgba(200, 200, 200, 0.4))`;
+          state.current.present = next;
+        }, 60);
+        return () => clearInterval(id);
+      } else {
+        delay(40, () => (ele.style.transform = "scale(1)"), "loadingBar").then(() => delay(80, () => (ele.style.height = "0px"), "loadingBar"));
+        return () => cancel("loadingBar");
       }
     }
+  }, [loading]);
 
-    return () => clearInterval(id);
-  }, [loading, autoAdd, start, end]);
-
-  return { state };
+  return { ref };
 };
 
 export { useLoadingBar };

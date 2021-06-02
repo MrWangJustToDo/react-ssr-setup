@@ -4,14 +4,12 @@ import { BarType } from "types/components";
 
 import style from "./index.module.scss";
 
-const Bar: BarType = ({ height = 1.5, present = 0 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-
+const Bar: BarType = ({ forwardRef }) => {
   const place = useRef<HTMLElement | null>(null);
 
   const [mounted, setMounted] = useState(false);
 
-  const ele = useMemo(() => <div ref={ref} className={style.loadingBar} style={{ height: `0px`, transform: `scale(0, 1)` }} />, []);
+  const ele = useMemo(() => <div ref={forwardRef} className={style.loadingBar} style={{ height: `0px`, transform: `scale(0, 1)` }} />, [forwardRef]);
 
   useEffect(() => {
     if (!mounted) {
@@ -19,12 +17,6 @@ const Bar: BarType = ({ height = 1.5, present = 0 }) => {
       setMounted(true);
     }
   }, [mounted]);
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.style.cssText = `height: ${height}px; transform: scale(${present / 100}, 1)`;
-    }
-  }, [height, present]);
 
   return mounted && place.current ? createPortal(ele, place.current) : null;
 };

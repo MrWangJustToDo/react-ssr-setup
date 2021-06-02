@@ -1,6 +1,6 @@
 import { Store } from "redux";
 import { HelmetData } from "react-helmet-async";
-import React, { MemoExoticComponent } from "react";
+import React, { MemoExoticComponent, RefObject } from "react";
 import { PreLoadRouteConfig, RouterProps } from "types/router";
 
 /* Template */
@@ -52,10 +52,7 @@ interface LoadingBarType {
 interface LoadingBarWrapperType {
   (props: { loading?: boolean }): JSX.Element | null;
 }
-interface BarProps extends LoadingBarProps {
-  autoAdd?: () => NodeJS.Timeout;
-}
 
 interface BarType {
-  (props: BarProps & LoadingBarProps): JSX.Element | null;
+  (props: { forwardRef: RefObject<HTMLDivElement> }): JSX.Element | null;
 }
