@@ -15,7 +15,7 @@ const freePort = (port) => {
         exec(order, (err, stdout, stderr) => {
           if (err) {
             resolve();
-            return console.log(chalk.green(`port has already free: ${port} \n`));
+            return console.log(chalk.green(`port has already free: ${port}`));
           }
           stdout.split("\n").filter((line) => {
             const p = line.trim().split(/\s+/);
@@ -25,7 +25,7 @@ const freePort = (port) => {
                 if (err) {
                   return console.log(chalk.red(`free port error: ${err.toString()}`));
                 }
-                console.log(chalk.green(`port kill: ${port} \n`));
+                console.log(chalk.green(`port kill: ${port}`));
                 resolve();
               });
             }
@@ -36,6 +36,7 @@ const freePort = (port) => {
         resolve();
       }
     } else {
+      console.log(chalk.red("不支持的平台"));
       resolve();
     }
   });

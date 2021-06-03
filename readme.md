@@ -1,16 +1,19 @@
 # 使用
 
 ## install
+
 ```shell
 yarn install
 ```
 
 ## development
+
 ```shell
 yarn run dev
 ```
 
 ## production
+
 ```shell
 yarn run build
 
@@ -29,7 +32,7 @@ yarn run start
 
 ## 完整 Typescript 支持
 
-## 多种 redux 配置 redux-thunk  redux-saga
+## 多种 redux 配置 redux-thunk redux-saga
 
 ## mobx 支持
 
@@ -51,12 +54,14 @@ yarn run start
 
 ## 静态路由
 
-## 文件路由  自动query参数支持 使用 _参数名(_id.tsx) 文件作为的约定
+## 文件路由 自动 query 参数支持 使用 \_参数名(\_id.tsx) 文件作为的约定
 
 ## 装饰器
 
 ## antd support
 
-## 数据自动注入  存在bug  改用原始connect进行
+## 数据自动注入 存在 bug 改用原始 connect 进行
 
-## middleware develop 支持
+## middleware develop 适合手机等远程调试
+
+## dev Server develop 适合桌面开发

@@ -13,7 +13,7 @@ const App: FC = () => {
       {renderRoutes(allRoutes)}
       <br />
       <div>点击路由跳转</div>
-      <div style={{ border: "1px solid red", width: "90%", display: "flex", justifyContent: "space-between", margin: "60px auto" }}>
+      <div style={{ border: "1px solid red", width: "90%", display: "flex", justifyContent: "space-between", margin: "60px auto", flexWrap: "wrap" }}>
         {allRoutes.map((route) => {
           return (
             <Link to={route.path as string} key={route.path as string}>

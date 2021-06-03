@@ -1,12 +1,11 @@
 import React from "react";
 import { DatePicker, Button } from "antd";
-
-import style from "./index.module.scss";
-
-import src from "./avatar.jpg";
 import Zoom from "components/Zoom";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
+
+import src from "./avatar.jpg";
+import style from "./index.module.scss";
 
 const Page1: PreLoadComponentType = () => {
   return (

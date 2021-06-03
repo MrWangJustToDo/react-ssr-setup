@@ -1,9 +1,9 @@
 import React from "react";
 import Page3 from "./Page3";
+import { delay } from "share/utils/delay";
+import { PreLoadComponentType } from "types/components";
 
 import style from "./index.module.scss";
-import { PreLoadComponentType } from "types/components";
-import { delay } from "share/utils/delay";
 
 const Page2: PreLoadComponentType = (props) => {
   console.log(props);

@@ -4,18 +4,12 @@ import { clientAction } from "./action";
 import { actionName } from "config/action";
 import { StateActionMapType, StateAction, State } from "types/share/store";
 
-type CurrentState = State<{}>;
+type CurrentState = State<{ [props: string]: string }>;
 
-let initState: CurrentState;
+const initState: CurrentState = { data: {}, error: null, loading: true, loaded: false };
 
-let reducer: Reducer<CurrentState>;
-
-let actionReducerMap: StateActionMapType<{}>;
-
-initState = { data: {}, error: null, loading: true, loaded: false };
-
-reducer = (state: CurrentState = initState, action: StateAction<{}>) => {
-  let actionReducer = actionReducerMap[action.type];
+const reducer: Reducer<CurrentState> = (state: CurrentState = initState, action: StateAction<{ [props: string]: string }>) => {
+  const actionReducer = actionReducerMap[action.type];
   if (actionReducer) {
     return actionReducer(state, action);
   } else {
@@ -23,7 +17,7 @@ reducer = (state: CurrentState = initState, action: StateAction<{}>) => {
   }
 };
 
-actionReducerMap = {
+const actionReducerMap: StateActionMapType<{ [props: string]: string }> = {
   [clientAction.SETDATALOADING(actionName.currentUser)]: (state, action) =>
     produce(state, (proxy) => {
       proxy.data = {};

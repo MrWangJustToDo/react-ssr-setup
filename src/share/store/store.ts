@@ -14,6 +14,7 @@ export type StoreParams = {
   middleware?: any[];
 };
 
+// for thunk middleware
 export const thunkStore = ({ initialState, middleware = [] }: StoreParams): Store => {
   const devtools =
     __CLIENT__ && typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === "function" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ actionsBlacklist: [] });
@@ -25,6 +26,7 @@ export const thunkStore = ({ initialState, middleware = [] }: StoreParams): Stor
   return store;
 };
 
+// for saga middleware
 export interface SagaStore extends Store {
   sagaTask?: Task;
 }

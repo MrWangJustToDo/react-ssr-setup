@@ -14,6 +14,8 @@ const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
+const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
+
 const pluginsConfig = (env, isDev = true) => {
   return [
     new CleanWebpackPlugin(),
@@ -23,7 +25,7 @@ const pluginsConfig = (env, isDev = true) => {
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,
-      __MIDDLEWARE__: process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE),
+      __MIDDLEWARE__: isMiddleWareDevelop,
     }),
     env === "client" &&
       new MiniCssExtractPlugin({
@@ -34,7 +36,7 @@ const pluginsConfig = (env, isDev = true) => {
     // 快速刷新
     env === "client" && new ReactRefreshPlugin(),
     // 对于 webpack-hot-middleware必须启用
-    env === "client" && new webpack.HotModuleReplacementPlugin(),
+    env === "client" && isMiddleWareDevelop && new webpack.HotModuleReplacementPlugin(),
     // 查看打包
     // env === "client" && new BundleAnalyzerPlugin(),
   ].filter(Boolean);
