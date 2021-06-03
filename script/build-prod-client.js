@@ -1,9 +1,9 @@
 const chalk = require("chalk");
 const webpack = require("webpack");
-const { ClientConfig } = require("../webpack/webpack.client.prod.config");
+const { ClientConfig } = require("../webpack/webpack.client.config");
 
 const buildClient = (clientEntryPoint) => {
-  const clientOptions = ClientConfig(clientEntryPoint);
+  const clientOptions = ClientConfig(clientEntryPoint, false);
   const compiler = webpack(clientOptions);
 
   compiler.hooks.done.tap("done", function () {

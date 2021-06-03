@@ -1,9 +1,9 @@
 const chalk = require("chalk");
 const webpack = require("webpack");
-const { ServerConfig } = require("../webpack/webpack.server.prod.config");
+const { ServerConfig } = require("../webpack/webpack.server.config");
 
 const buildServer = (serverEntryPoint) => {
-  const serverOptions = ServerConfig(serverEntryPoint);
+  const serverOptions = ServerConfig(serverEntryPoint, false);
   const compiler = webpack(serverOptions);
 
   compiler.hooks.done.tap("done", function () {
