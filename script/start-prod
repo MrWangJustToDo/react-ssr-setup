@@ -2,12 +2,12 @@
 
 require("dotenv").config();
 const { spawn } = require("child_process");
-const { getDynamicRouter } = require("./dynamic");
+const { DynamicRouter } = require("./dynamic");
 
 process.env.NODE_ENV = "production";
 
 // first get dynamic router
-getDynamicRouter().then(() => {
+new DynamicRouter().getDynamicRouter().then(() => {
   const cliCodeWatchProcess = spawn("node", ["./script/build-prod-client"], {
     stdio: "inherit",
     shell: true,

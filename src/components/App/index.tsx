@@ -12,7 +12,7 @@ const App: FC = () => {
       <h1>hello React SSR</h1>
       {renderRoutes(allRoutes)}
       <br />
-      <div>点击路由跳转</div>
+      <div>点击路由跳转 great</div>
       <div style={{ border: "1px solid red", width: "90%", display: "flex", justifyContent: "space-between", margin: "60px auto", flexWrap: "wrap" }}>
         {allRoutes.map((route) => {
           return (

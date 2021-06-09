@@ -2,7 +2,7 @@ const startServerWatch = (serverCompiler) => {
   serverCompiler.watch(
     {
       aggregateTimeout: 800, // 聚合多个修改一起构建
-      ignored: /node_modules/, // 排除文件
+      ignored: ["**/node_modules", "**/router/dynamicRoutes.ts"], // 排除文件
       poll: 2000, // 轮询检测变更
       "info-verbosity": "verbose", //在增量构建的开始和结束时，向控制台发送消息
     },
@@ -28,4 +28,9 @@ const startServerWatch = (serverCompiler) => {
   );
 };
 
+const startServerRun = (serverCompiler) => {
+  serverCompiler.run();
+};
+
 exports.startServerWatch = startServerWatch;
+exports.startServerRun = startServerRun;

@@ -4,14 +4,15 @@ const nodemon = require("nodemon");
 const webpack = require("webpack");
 const { spawn } = require("child_process");
 const { freePort } = require("./free-port");
+const { DynamicRouter } = require("./dynamic");
 const { compilerPromise } = require("./compiler");
 const { startDevServer } = require("./startDevServer");
-const { startServerWatch } = require("./startServerWatch");
+const { startServerWatch, startServerRun } = require("./startServerWatch");
 const { config } = require("../webpack/webpack.config");
 
 const withPromise = async () => {
   try {
-    await Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT)]);
+    await Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT), new DynamicRouter().getDynamicRouter()]);
   } catch (e) {
     console.log(chalk.red(e.toString()));
   }
@@ -57,7 +58,7 @@ const withPromise = async () => {
 };
 
 const withSpawn = () => {
-  Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT)]).then(() => {
+  Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT), new DynamicRouter().getDynamicRouter()]).then(() => {
     const cliCodeWatchProcess = spawn("node", ["./script/build-dev-client"], {
       stdio: "inherit",
       shell: true,
@@ -87,7 +88,7 @@ const withSpawn = () => {
 
 const withMiddleWare = async () => {
   try {
-    await Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT)]);
+    await Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT), new DynamicRouter().getDynamicRouter()]);
   } catch (e) {
     console.log(chalk.red(e.toString()));
   }
@@ -95,7 +96,7 @@ const withMiddleWare = async () => {
   const [_, serverConfig] = multiConfig;
   const serverCompiler = webpack(serverConfig);
   const serverPromise = compilerPromise("server", serverCompiler);
-  startServerWatch(serverCompiler);
+  startServerRun(serverCompiler);
   try {
     await serverPromise;
   } catch (e) {

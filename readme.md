@@ -65,3 +65,5 @@ yarn run start
 ## middleware develop 适合手机等远程调试
 
 ## dev Server develop 适合桌面开发
+
+## 尝试 file router 开发自动更新 存在其他问题。。。

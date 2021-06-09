@@ -1,16 +1,14 @@
-const fs = require("fs");
-const path = require("path");
-const chalk = require("chalk");
+import fs from "fs";
+import path from "path";
+import { log } from "./log";
+import { DynamicRouteConfig } from "types/share";
 
 class DynamicRouter {
-  constructor(cache, side) {
-    this.side = side || "server";
-    this.cache = cache || {};
-  }
+  value = "";
 
-  getRouterConfig = (prePath, dirName) => {
+  getRouterConfig = (prePath: string, dirName: string): Promise<DynamicRouteConfig[]> => {
     return new Promise((resolve) => {
-      const routes = [];
+      const routes: DynamicRouteConfig[] = [];
       let dynamicPath = 0;
       fs.promises
         .readdir(dirName, { withFileTypes: true })
@@ -18,14 +16,12 @@ class DynamicRouter {
           Promise.all(
             files.map((file) => {
               if (file.isFile() && /.[tj]sx?$/.test(file.name)) {
-                const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
-                const config = {};
+                const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name) || []);
+                const config: DynamicRouteConfig = {};
                 if (/^_(.*)$/.test(fileName)) {
-                  // 动态路由 文件名为 _key.tsx  -->  对应router配置 path: /:key
                   if (dynamicPath === 0) {
-                    // 确保同一级只会有一个
                     dynamicPath++;
-                    const [, params] = Array.from(/^_(.*)$/.exec(fileName));
+                    const [, params] = Array.from(/^_(.*)$/.exec(fileName) || []);
                     config.path = `${prePath}:${params}`;
                   } else {
                     throw new Error(`file router dynamicpath duplicate`);
@@ -50,16 +46,15 @@ class DynamicRouter {
         )
         .then(() => {
           if (dynamicPath === 1) {
-            // 如果存在动态路由  进行排序放在当前层级最后面
-            routes.sort((_, t) => (/^\[(.*)\]$/.test(t.path) ? -1 : 0));
+            routes.sort((_, t) => (t.path && /^\[(.*)\]$/.test(t.path) ? -1 : 0));
           }
         })
         .then(() => resolve(routes))
-        .catch((e) => console.log(chalk.red(`file router error, ${e.toString()}`)));
+        .catch((e) => log(`file router error, ${e.toString()}`, "error"));
     });
   };
 
-  getRouterTemplate = (routerResult) => {
+  getRouterTemplate = (routerResult: string): string => {
     const template = `/* eslint-disable prettier/prettier */
 /* do not editor this template */
 import { DynamicRouteConfig } from "types/share";
@@ -70,26 +65,26 @@ export default routerConfig;`;
     return template;
   };
 
-  isNoChange = (routerResult) => {
-    if (this.cache.value === routerResult) {
-      console.log(chalk.green(`[${this.side}] file router do not need update from cache`));
+  isNoChange = (routerResult: string): boolean => {
+    if (this.value === routerResult) {
+      log(`[client] file router do not need update from cache`, "normal");
       return true;
     } else {
-      console.log(chalk.blue(`[${this.side}] file router need update from cache`));
-      this.cache.value = routerResult;
+      log(`[client] file router need update from cache`, "warn");
+      this.value = routerResult;
       return false;
     }
   };
 
-  getRouterFile = (filePath) => {
+  getRouterFile = (filePath: string): Promise<string> => {
     return fs.promises.readFile(filePath, { encoding: "utf-8" });
   };
 
-  writeRouterFile = (filePath, content) => {
+  writeRouterFile = (filePath: string, content: string): Promise<void> => {
     return fs.promises.writeFile(filePath, content);
   };
 
-  getDynamicRouter = async () => {
+  getDynamicRouter = async (): Promise<void> => {
     const pages = path.resolve(process.cwd(), "src", "pages");
     const dynamicRouteFilename = path.resolve(process.cwd(), "src", "router", "dynamicRoutes.ts");
     const routerConfig = await this.getRouterConfig("/", pages);
@@ -99,20 +94,15 @@ export default routerConfig;`;
       const currentTemplate = await this.getRouterFile(dynamicRouteFilename);
       const newTemplate = this.getRouterTemplate(routerResult);
       if (currentTemplate === newTemplate) {
-        console.log(chalk.green(`[${this.side}] file router do not need update from template`));
-        this.cache.value = routerResult;
+        log(`[client] file router do not need update from template`, "normal");
+        this.value = routerResult;
       } else {
         await this.writeRouterFile(dynamicRouteFilename, newTemplate);
-        console.log(chalk.blue(`[${this.side}] file router updated`));
-        this.cache.value = routerResult;
+        log(`[client] file router updated`, "warn");
+        this.value = routerResult;
       }
     }
   };
 }
 
-class DynamicCache {
-  value = "";
-}
-
-exports.DynamicRouter = DynamicRouter;
-exports.dynamicCache = new DynamicCache();
+export default DynamicRouter;

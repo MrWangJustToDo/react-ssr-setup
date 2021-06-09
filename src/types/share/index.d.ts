@@ -81,7 +81,7 @@ interface PreLoadType {
 }
 /* dynamic */
 interface DynamicRouteConfig {
-  path: string;
-  exact: boolean;
-  componentPath: string;
+  path?: string;
+  exact?: boolean;
+  componentPath?: string;
 }

@@ -1,3 +1,5 @@
+const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
+
 const statsConfig = (env) => {
   return {
     assets: false,
@@ -7,12 +9,12 @@ const statsConfig = (env) => {
     chunkOrigins: false,
     chunkModules: false,
     children: false,
-    colors: true,
-    hash: true,
+    colors: isMiddleWareDevelop ? false : true,
+    hash: isMiddleWareDevelop ? false : true,
     modules: false,
-    performance: env === "client",
+    performance: env === "client" && !isMiddleWareDevelop,
     reasons: false,
-    timings: true,
+    timings: isMiddleWareDevelop ? false : true,
     version: false,
   };
 };

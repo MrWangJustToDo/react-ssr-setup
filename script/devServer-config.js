@@ -14,7 +14,7 @@ const devServerConfigFactory = (clientConfig) => {
     publicPath: clientConfig.output.publicPath,
     // progress: true,
     watchOptions: {
-      ignored: /node_modules/,
+      ignored: ["**/node_modules", "**/router/dynamicRoutes.ts"],
       //当第一个文件更改，会在重新构建前增加延迟。
       //这个选项允许 webpack 将这段时间内进行的任何其他更改都聚合到一次重新构建里。以毫秒为单位：
       aggregateTimeout: 500,

@@ -15,7 +15,7 @@ const Page1: PreLoadComponentType = () => {
           <img src={src} alt="hello" width="100" />
         </Zoom>
       </div>
-      第一个页面
+      第一个页面 fofof
       <DatePicker />
       <Button>按钮</Button>
     </div>
