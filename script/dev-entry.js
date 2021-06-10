@@ -7,7 +7,7 @@ const { freePort } = require("./free-port");
 const { DynamicRouter } = require("./dynamic");
 const { compilerPromise } = require("./compiler");
 const { startDevServer } = require("./startDevServer");
-const { startServerWatch, startServerRun } = require("./startServerWatch");
+const { startServerWatch } = require("./startServerWatch");
 const { config } = require("../webpack/webpack.config");
 
 const withPromise = async () => {
@@ -88,7 +88,7 @@ const withSpawn = () => {
 
 const withMiddleWare = async () => {
   try {
-    await Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT), new DynamicRouter().getDynamicRouter()]);
+    await freePort(process.env.DEV_PORT);
   } catch (e) {
     console.log(chalk.red(e.toString()));
   }
@@ -96,7 +96,7 @@ const withMiddleWare = async () => {
   const [_, serverConfig] = multiConfig;
   const serverCompiler = webpack(serverConfig);
   const serverPromise = compilerPromise("server", serverCompiler);
-  startServerRun(serverCompiler);
+  startServerWatch(serverCompiler);
   try {
     await serverPromise;
   } catch (e) {

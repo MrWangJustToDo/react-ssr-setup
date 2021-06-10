@@ -30,7 +30,7 @@ const HTML: HTMLType = ({ children = "", link = [], script = [], state = "{}", h
           type="text/javascript"
           dangerouslySetInnerHTML={{
             __html: `
-          console.log('开始计算帧数')
+          alert('开始计算帧数')
           var stats = new Stats(); 
           stats.setMode(0); 
           stats.domElement.style.position = 'absolute'; 

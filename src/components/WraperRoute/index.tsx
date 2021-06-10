@@ -7,7 +7,6 @@ import { WraperRouteType } from "types/components";
 
 import "./index.css";
 
-// use this for client side preLoad
 const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationRouter = true }) => {
   const [childrenShow, setChildrenShow] = useState(children);
   const { location, loading, routerAnimate } = usePreLoad({ routes, preLoad });

@@ -28,9 +28,4 @@ const startServerWatch = (serverCompiler) => {
   );
 };
 
-const startServerRun = (serverCompiler) => {
-  serverCompiler.run();
-};
-
 exports.startServerWatch = startServerWatch;
-exports.startServerRun = startServerRun;
