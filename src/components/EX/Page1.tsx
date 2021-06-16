@@ -1,5 +1,5 @@
 import React from "react";
-import { DatePicker, Button } from "antd";
+import { DatePicker, Button, InputNumber } from "antd";
 import Zoom from "components/Zoom";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
@@ -18,6 +18,7 @@ const Page1: PreLoadComponentType = () => {
       第一个页面 fofof
       <DatePicker />
       <Button>按钮</Button>
+      <InputNumber />
     </div>
   );
 };

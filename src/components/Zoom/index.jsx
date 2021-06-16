@@ -176,7 +176,6 @@ class Zoom extends Component {
     this.lastY = this.y;
     let left = e.clientX - this.x - cover.offsetWidth / 2;
     let top = e.clientY - this.y - cover.offsetHeight / 2;
-    console.log(top);
     if (left < 0) {
       left = 0;
     }

@@ -36,7 +36,7 @@ yarn run start
 
 ## mobx 支持
 
-## 灵活的渲染方式
+## 灵活的渲染方式 SSR CSR
 
 ## 双端代码复用
 
@@ -65,5 +65,7 @@ yarn run start
 ## middleware develop 适合手机等远程调试
 
 ## dev Server develop 适合桌面开发
+
+## animate router 路由切换动画
 
 ## 尝试 file router 开发自动更新 存在其他问题。。。
