@@ -32,6 +32,7 @@ module.exports = (api) => {
   plugins.push(["@babel/plugin-proposal-private-methods", { loose: true }]);
   plugins.push("@babel/plugin-proposal-object-rest-spread");
   plugins.push("@babel/plugin-proposal-optional-chaining");
+  // 自带了
   // plugins.push("@babel/plugin-syntax-dynamic-import");
   plugins.push("@babel/plugin-transform-runtime");
   plugins.push("@babel/plugin-proposal-export-default-from");

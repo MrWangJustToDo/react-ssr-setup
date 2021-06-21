@@ -1,4 +1,6 @@
 const path = require("path");
+// worker 执行
+const threadLoader = require("thread-loader");
 // 抽离css文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -17,22 +19,43 @@ const commonRules = (env) => {
 };
 
 const jsRules = (env, isDev = true) => {
+  const workerPool = {
+    workers: 3,
+    poolTimeout: isDev ? Infinity : 2000,
+  };
+
+  threadLoader.warmup(workerPool, ["babel-loader"]);
+
   return {
     test: /\.[jt]sx?$/,
     exclude: /node_modules/,
-    use: {
-      loader: require.resolve("babel-loader"),
-      options: {
-        plugins:
-          env === "client"
-            ? [["import", { libraryName: "antd", style: "css" }, "antd"], isDev && "react-refresh/babel"].filter(Boolean)
-            : ["@babel/transform-modules-commonjs"],
+    use: [
+      {
+        loader: require.resolve("thread-loader"),
+        options: workerPool,
       },
-    },
+      {
+        loader: require.resolve("babel-loader"),
+        options: {
+          cacheDirectory: true,
+          plugins:
+            env === "client"
+              ? [["import", { libraryName: "antd", style: "css" }, "antd"], isDev && "react-refresh/babel"].filter(Boolean)
+              : ["@babel/transform-modules-commonjs"],
+        },
+      },
+    ],
   };
 };
 
 const cssRules = (env, isDev = true) => {
+  const workerPoolSass = {
+    workerParallelJobs: 2,
+    poolTimeout: isDev ? Infinity : 2000,
+  };
+
+  threadLoader.warmup(workerPoolSass, ["sass-loader", "css-loader"]);
+
   // css module
   return {
     test: /\.module\.s?css$/,
@@ -40,6 +63,10 @@ const cssRules = (env, isDev = true) => {
       // 分离打包css文件
       env === "client" && {
         loader: MiniCssExtractPlugin.loader,
+      },
+      {
+        loader: require.resolve("thread-loader"),
+        options: workerPoolSass,
       },
       // 启用js中import css为对象，启用css module以及生成的类名
       {
