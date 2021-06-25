@@ -21,12 +21,13 @@ const useLoadingBar: UseLoadType = (props = {}) => {
     if (ref.current) {
       const ele = ref.current;
       if (loading) {
-        let count = 8;
-        const id = setInterval(() => {
-          if (count > 1) {
-            count--;
+        let count = 2;
+        let id: number;
+        const start = (): void => {
+          if (count > 0.33) {
+            count -= 0.04;
           }
-          let next = (state.current.present || 0) + (Math.random() + count - Math.random());
+          let next = (state.current.present || 0) + count;
           next = next < 99.5 ? next : 99.5;
           ele.style.cssText =
             "z-index: 1;" +
@@ -36,8 +37,10 @@ const useLoadingBar: UseLoadType = (props = {}) => {
             `transform: scale(${next / 100}, 1);` +
             `filter: drop-shadow(2px 2px 2px rgba(200, 200, 200, 0.4))`;
           state.current.present = next;
-        }, 60);
-        return () => clearInterval(id);
+          id = requestAnimationFrame(start);
+        };
+        id = requestAnimationFrame(start);
+        return () => cancelAnimationFrame(id);
       } else {
         delay(40, () => (ele.style.transform = "scale(1)"), "loadingBar").then(() => delay(80, () => (ele.style.height = "0px"), "loadingBar"));
         return () => cancel("loadingBar");

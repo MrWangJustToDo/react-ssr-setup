@@ -20,12 +20,12 @@ const HTML: HTMLType = ({ children = "", link = [], script = [], state = "{}", h
             __html: `window.__PRELOADED_STATE__ = ${state}`,
           }}
         />
-        <script src="https://cdn.jsdelivr.net/stats.js/r11/stats.min.js"></script>
       </head>
       <body>
         <div id="loadingbar" />
         <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
         {script.filter(Boolean).map((ele) => ele)}
+        <script src="https://cdn.jsdelivr.net/stats.js/r11/stats.min.js"></script>
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
@@ -37,11 +37,13 @@ const HTML: HTMLType = ({ children = "", link = [], script = [], state = "{}", h
           stats.domElement.style.right = '0px'; 
           stats.domElement.style.top = '0px'; 
           document.body.appendChild(stats.domElement);
-          setInterval(() => {
+          const start = () => {
             stats.end();
             stats.begin();
-          }, 16.66666);
+            requestAnimationFrame(start);
+          }
           stats.begin();
+          requestAnimationFrame(start);
           `,
           }}
         ></script>

@@ -8,8 +8,8 @@ import { WraperRouteType } from "types/components";
 import "./index.css";
 
 const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationRouter = true }) => {
-  const [childrenShow, setChildrenShow] = useState(children);
   const { location, loading, routerAnimate } = usePreLoad({ routes, preLoad });
+  const [childrenShow, setChildrenShow] = useState(<Route location={location}>{children}</Route>);
 
   const getAnimateFromRouter = useCallback(
     (key, isEnter) => {

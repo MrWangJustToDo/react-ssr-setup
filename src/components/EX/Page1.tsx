@@ -1,5 +1,5 @@
-import React from "react";
-import { DatePicker, Button, InputNumber } from "antd";
+import React, { useEffect } from "react";
+import { DatePicker, Button, InputNumber, message } from "antd";
 import Zoom from "components/Zoom";
 import { delay } from "share/utils/delay";
 import { PreLoadComponentType } from "types/components";
@@ -8,14 +8,19 @@ import src from "./avatar.jpg";
 import style from "./index.module.scss";
 
 const Page1: PreLoadComponentType = () => {
+  useEffect(() => {
+    message.info("start zoom");
+  }, []);
+
   return (
     <div className={style.red}>
-      <div style={{ marginLeft: "300px" }}>
+      <div style={{ marginLeft: "100px" }}>
         <Zoom>
-          <img src={src} alt="hello" width="100" />
+          <img src={src} alt="hello" width="200" />
         </Zoom>
       </div>
-      第一个页面 fofof
+      第一个页面
+      <br />
       <DatePicker />
       <Button>按钮</Button>
       <InputNumber />

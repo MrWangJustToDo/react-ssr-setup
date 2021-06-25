@@ -22,6 +22,16 @@ class Zoom extends Component {
       nboxShadow: "0 0 0 2px red inset",
       zIndex: "99999",
     },
+    border: {
+      border: "2px solid red",
+      position: "absolute",
+      borderRadius: "50%",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+      zIndex: "10",
+      boxSizing: "border-box",
+    },
   };
 
   static defaultProps = {
@@ -55,12 +65,12 @@ class Zoom extends Component {
       mounted: false,
       initWidth: false,
       needupdate: false,
-      pictureMounted: false,
       imgWidth: 0,
       imgHeight: 0,
     };
     this.imgItem = props.children;
     this.coverEle = this._createCover();
+    this.borderEle = this._createBorder();
     this.parentEle = this._createParent();
     this.targetEle = this._createTarget();
   }
@@ -68,6 +78,8 @@ class Zoom extends Component {
   parentRef = createRef();
 
   coverRef = createRef();
+
+  borderRef = createRef();
 
   targetRef = createRef();
 
@@ -106,6 +118,26 @@ class Zoom extends Component {
     cover.style.cssText = `${cover.style.cssText}; width: ${imgWidth / zoomIndex}px; height: ${imgHeight / zoomIndex}px; display: none`;
   };
 
+  _createBorder = () => {
+    const { borderClassName = "" } = this.props;
+    return Zoom.createDiv({
+      ref: this.borderRef,
+      className: borderClassName,
+      style: Zoom.styleList.border,
+    });
+  };
+
+  _initBorder = () => {
+    const { targetIndex } = this.props;
+    const { current: border } = this.borderRef;
+    const { imgHeight, imgWidth } = this.state;
+    const tempWidth = imgWidth / targetIndex;
+    const tempHeight = imgHeight / targetIndex;
+    const tempBase = tempWidth > tempHeight ? tempHeight : tempWidth;
+
+    border.style.cssText = `${border.style.cssText}; width: ${tempBase}px; height: ${tempBase}px`;
+  };
+
   _createTarget = () => {
     const { targetClassName = "" } = this.props;
     return Zoom.createDiv({
@@ -138,6 +170,7 @@ class Zoom extends Component {
     this._initParent();
     this._initCover();
     this._initTarget();
+    this._initBorder();
     this.setState({
       init: true,
     });
@@ -235,6 +268,7 @@ class Zoom extends Component {
   };
 
   register = () => {
+    this.unRegister();
     const { current: parent } = this.parentRef;
     const rect = parent.getBoundingClientRect();
     this.x = rect.left;
@@ -315,8 +349,9 @@ class Zoom extends Component {
       this.register();
     }
     if (isPicture && mounted && initWidth && init && needupdate) {
-      this._initTarget();
       this.setState({
+        init: false,
+        initWidth: false,
         needupdate: false,
       });
     }
@@ -338,13 +373,18 @@ class Zoom extends Component {
 
   render() {
     const { children } = this.props;
-    const { isPicture, mounted, initWidth } = this.state;
+    const { isPicture, mounted, init } = this.state;
     if (isPicture) {
-      if (!mounted || !initWidth) {
+      if (!mounted) {
         this.initImgRef();
         return this.imgItem;
       }
-      return React.cloneElement(this.parentEle, {}, React.cloneElement(this.coverEle, {}, React.cloneElement(this.targetEle)), this.imgItem);
+      return React.cloneElement(
+        this.parentEle,
+        {},
+        React.cloneElement(this.coverEle, {}, React.cloneElement(React.cloneElement(this.targetEle, {}, this.borderEle))),
+        this.imgItem
+      );
     } else {
       return children;
     }
