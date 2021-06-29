@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-type ExpressRequest = Request & { session?: object; user?: any; config?: { cache?: CacheConfigProps; user?: UserConfigProps } };
+type ExpressRequest = Request & { session?: { [props: string]: any }; user?: any; config?: { cache?: CacheConfigProps; user?: UserConfigProps } };
 
 /* render */
 interface RenderProps {

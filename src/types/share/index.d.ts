@@ -2,6 +2,8 @@ import { AxiosRequestConfig, Method } from "axios";
 import { apiName } from "config/api";
 import { Store } from "redux";
 import { PreLoadRouteConfig } from "../router";
+import { ExpressRequest } from "types/server";
+import { Response } from "express";
 
 /* delay */
 interface Cancel {
@@ -77,7 +79,7 @@ interface AutoRequestType {
 }
 /* preLoad */
 interface PreLoadType {
-  (routes: PreLoadRouteConfig[], pathName: string, store: Store): Promise<{ routerIn?: string; routerOut?: string }[]>;
+  (routes: PreLoadRouteConfig[], pathName: string, store: Store, req?: ExpressRequest, res?: Response): Promise<{ routerIn?: string; routerOut?: string }[]>;
 }
 /* dynamic */
 interface DynamicRouteConfig {

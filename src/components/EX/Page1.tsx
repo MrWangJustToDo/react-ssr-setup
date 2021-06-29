@@ -29,7 +29,16 @@ const Page1: PreLoadComponentType = () => {
 };
 
 // 获取需要的数据
-Page1.getInitialState = async (store, match) => {
+Page1.getInitialState = async (store, match, req, res) => {
+  if (req && res) {
+    // 第一次请求可以进行身份信息判断  redirect
+    console.log(req.cookies);
+    res.setHeader("foo", "bar");
+    res.redirect("./Test");
+  } else {
+    // 不是在服务端
+    await fetch("path").then(console.log);
+  }
   console.log("组件输出", store, match);
   await delay(1000, () => console.log("仅仅"));
   console.log("page1");

@@ -34,7 +34,11 @@ const renderSSR: RenderType = async ({ req, res }) => {
 
   const jsx = webExtractor.collectChunks(content);
 
-  await preLoad(allRoutes, req.url, store);
+  // 在server端可以将请求响应对象传进去，可用于获取 设置 cookie等操作
+
+  // 在内部通过 typeOf window === 'undefined'  判断是否是server端来操作
+
+  await preLoad(allRoutes, req.url, store, req, res);
 
   // must run first!!  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
   const body = renderToString(jsx);
