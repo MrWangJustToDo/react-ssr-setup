@@ -27,4 +27,4 @@ const content = (
   </Provider>
 );
 
-loadableReady(() => (__DEVELOPMENT__ && __MIDDLEWARE__ ? render(content, place) : hydrate(content, place)));
+loadableReady(() => ((__DEVELOPMENT__ && __MIDDLEWARE__) || !__SSR__ ? render(content, place) : hydrate(content, place)));

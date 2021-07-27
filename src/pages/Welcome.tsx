@@ -7,12 +7,14 @@ import { delay } from "share/utils/delay";
 import { State } from "share/store/store";
 import { PreLoadComponentType } from "types/components";
 
+import b from "./bar.module.scss";
+
 const Welcome: PreLoadComponentType = (props) => {
   console.log(props);
   return (
     <>
       <Link to="/Test">跳转到class组件加上装饰器</Link>
-      <div>dynamic router page</div>
+      <div className={b.cool}>dynamic router page</div>
     </>
   );
 };

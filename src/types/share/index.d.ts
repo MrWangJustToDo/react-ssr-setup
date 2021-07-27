@@ -62,7 +62,7 @@ interface AutoRequestProps {
   apiPath?: apiName;
   query?: QueryProps;
   header?: HeaderProps;
-  data?: { [props: string]: string };
+  data?: { [props: string]: string } | FormData;
 }
 interface ApiRequestResult<T> {
   code: number;

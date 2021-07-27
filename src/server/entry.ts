@@ -1,6 +1,7 @@
 import cors from "cors";
 import chalk from "chalk";
 import dotenv from "dotenv";
+import multer from "multer";
 import express from "express";
 import session from "express-session";
 import compression from "compression";
@@ -17,6 +18,8 @@ dotenv.config();
 prettyError.start();
 
 global.webStats = manifestLoadable("client");
+
+const upload = multer({ dest: "./cache" });
 
 const app = express();
 
@@ -44,6 +47,13 @@ app.use(
     name: "react-ssr",
   })
 );
+
+app.post("/api/upload", upload.single("file"), async (req, res) => {
+  console.log("上传文件", req.file?.destination, req.file?.size);
+  res.json({
+    code: 0,
+  });
+});
 
 develop(app).then(() => {
   app.use(

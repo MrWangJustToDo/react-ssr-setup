@@ -9,9 +9,9 @@ const App: FC = () => {
   return (
     <>
       <Helmet defaultTitle="React SSR Starter – TypeScript Edition" titleTemplate="%s – React SSR Starter – TypeScript Edition" />
-      {/* <h1>hello React SSR</h1> */}
+      <h1>hello React SSR</h1>
       {renderRoutes(allRoutes)}
-      {/* <br />
+      <br />
       <div>点击路由跳转 great</div>
       <div style={{ border: "1px solid red", width: "90%", display: "flex", justifyContent: "space-between", margin: "60px auto", flexWrap: "wrap" }}>
         {allRoutes.map((route) => {
@@ -21,7 +21,7 @@ const App: FC = () => {
             </Link>
           );
         })}
-      </div> */}
+      </div>
     </>
   );
 };

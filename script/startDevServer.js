@@ -6,6 +6,8 @@ const { devServerConfigFactory } = require("./devServer-config");
 const startDevServer = (clientCompiler, clientConfig) => {
   const devServerConfig = devServerConfigFactory(clientConfig);
 
+  webpackDevServer.addDevServerEntrypoints(clientConfig, devServerConfig);
+
   const devServer = new webpackDevServer(clientCompiler, devServerConfig);
 
   devServer.listen(process.env.WDS_PORT, process.env.DEV_HOST, (err) => {

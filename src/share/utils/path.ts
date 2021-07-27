@@ -3,37 +3,41 @@ import { TransformPathType } from "types/share";
 
 const transformPath: TransformPathType = ({ path, apiPath, query }) => {
   if (!path && !apiPath) {
-    log(`transform path not exist`, "normal");
+    log(`transform path not exist`, "warn");
     return "";
+  } else if (path && apiPath) {
+    log(`multiple path discover. path: ${path}, apiPath: ${apiPath}`, "error");
   }
   let currentPath = "";
-  let flag = true;
-  if (path) {
+  if (apiPath) {
+    currentPath = apiPath;
+    if (!currentPath.startsWith("/")) {
+      currentPath = "/" + apiPath;
+    }
+    if (!currentPath.startsWith("/api")) {
+      currentPath = "/api" + currentPath;
+    }
+  } else if (path) {
     if (!path.startsWith("http")) {
-      log(`Incomplete path! third part request, path : ${path}`, "warn");
-      flag = false;
+      log(`Incomplete path! third part link, path : ${path}`, "warn");
     } else {
-      log(`third part link : ${path}`, "normal");
+      log(`third part link, path ${path}`, "normal");
     }
     currentPath = path;
   }
-  if (apiPath) {
-    if (!flag || currentPath !== "") {
-      if (apiPath.startsWith("api")) {
-        currentPath = "/" + apiPath;
-      } else {
-        if (!apiPath.startsWith("/api")) {
-          log(`apiPath params error : ${apiPath}`, "error");
-        }
-        currentPath = apiPath;
-      }
-      currentPath = "http://" + process.env.PUBLIC_API_HOST;
-    }
-  }
   if (query) {
-    currentPath += "?";
+    if (!currentPath.includes("?")) {
+      currentPath += "?";
+    } else {
+      currentPath += "&";
+    }
     for (const key in query) {
-      currentPath += `${key}=${query[key]}&`;
+      if (query[key] !== undefined) {
+        const targetParams = `${key}=${query[key]}`;
+        if (!currentPath.includes(targetParams)) {
+          currentPath += `${targetParams}&`;
+        }
+      }
     }
     currentPath = currentPath.slice(0, -1);
   }
