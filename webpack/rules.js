@@ -4,12 +4,12 @@ const threadLoader = require("thread-loader");
 // 抽离css文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const commonRules = (env) => {
+const commonRules = (env, isDev = true) => {
   // css no module
   return {
     test: /\.s?css$/,
     use: [
-      env === "client" && { loader: MiniCssExtractPlugin.loader },
+      env === "client" && (isDev ? { loader: "style-loader" } : { loader: MiniCssExtractPlugin.loader }),
       { loader: "css-loader" },
       { loader: "postcss-loader" },
       { loader: "sass-loader" },
@@ -61,9 +61,12 @@ const cssRules = (env, isDev = true) => {
     test: /\.module\.s?css$/,
     use: [
       // 分离打包css文件
-      env === "client" && {
-        loader: MiniCssExtractPlugin.loader,
-      },
+      env === "client" &&
+        (isDev
+          ? { loader: "style-loader" }
+          : {
+              loader: MiniCssExtractPlugin.loader,
+            }),
       {
         loader: require.resolve("thread-loader"),
         options: workerPoolSass,
