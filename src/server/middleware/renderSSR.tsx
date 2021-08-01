@@ -44,6 +44,7 @@ const renderSSR: RenderType = async ({ req, res }) => {
   const body = renderToString(jsx);
 
   if (routerContext.url) {
+    console.log("shuchu", routerContext.url);
     res.writeHead(301, {
       Location: routerContext.url,
     });

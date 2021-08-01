@@ -34,7 +34,7 @@ Page1.getInitialState = async (store, match, req, res) => {
     // 第一次请求可以进行身份信息判断  redirect
     console.log(req.cookies);
     res.setHeader("foo", "bar");
-    res.redirect("./Test");
+    // res.redirect("./Test");
   } else {
     // 不是在服务端
     await fetch("path").then(console.log);

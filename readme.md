@@ -70,4 +70,8 @@ yarn run start
 
 ## 尝试 file router 开发自动更新 存在其他问题。。。
 
-## ~~css hmr 还存在一些问题。。。  不能解决~~   引入style-loader  成功解决
+## ~~css hmr 还存在一些问题。。。 不能解决~~ 引入 style-loader 成功解决
+
+## animate router 第一次渲染会存在点问题 暂时不好解决
+
+## 完善文件上传 HOOK 中
