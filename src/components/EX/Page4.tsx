@@ -18,6 +18,7 @@ const Page4: PreLoadComponentType = () => {
 };
 
 Page4.getInitialState = async (store, match) => {
+  console.log("component  /pr/:bar/:foo  getInitialState");
   await delay(2000, () => console.log(store, match, "page 4"));
 };
 

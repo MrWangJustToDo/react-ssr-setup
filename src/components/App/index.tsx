@@ -14,6 +14,7 @@ const App: FC = () => {
       <br />
       <div>点击路由跳转 great</div>
       <div style={{ border: "1px solid red", width: "90%", display: "flex", justifyContent: "space-between", margin: "60px auto", flexWrap: "wrap" }}>
+        <Link to="/pr/:foo/:bar">/pr/foo/bar not work </Link>
         {allRoutes.map((route) => {
           return (
             <Link to={route.path as string} key={route.path as string}>

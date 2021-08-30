@@ -79,7 +79,9 @@ interface AutoRequestType {
 }
 /* preLoad */
 interface PreLoadType {
-  (routes: PreLoadRouteConfig[], pathName: string, store: Store, req?: ExpressRequest, res?: Response): Promise<{ routerIn?: string; routerOut?: string }[]>;
+  (routes: PreLoadRouteConfig[], pathName: string, store: Store, req?: ExpressRequest, res?: Response): Promise<{
+    [pathname: string]: { routerIn?: string; routerOut?: string };
+  }>;
 }
 /* dynamic */
 interface DynamicRouteConfig {

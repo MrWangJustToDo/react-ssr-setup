@@ -28,9 +28,10 @@ const routes: PreLoadRouteConfig[] = [
   },
   {
     path: "/pr/:bar",
-    exact: true,
+    // exact: true,
     component: loadable(() => import("components/EX/Page2")),
     getInitialState: async (store) => {
+      console.log("router  /pr/:bar  getInitialState");
       store.dispatch(getDataAction_Server({ name: apiName.home }));
       store.dispatch(END);
       await (store as SagaStore).sagaTask!.toPromise();
@@ -39,16 +40,23 @@ const routes: PreLoadRouteConfig[] = [
       routerIn: "from-right",
       routerOut: "to-right",
     },
+    routes: [
+      {
+        path: "/pr/:bar/:foo",
+        // exact: true,
+        component: loadable(() => import("components/EX/Page4")),
+      },
+    ],
   },
-  {
-    path: "/pr/:bar/:foo",
-    exact: true,
-    component: loadable(() => import("components/EX/Page4")),
-    animationRouter: {
-      routerIn: "from-right",
-      routerOut: "to-bottom",
-    },
-  },
+  // {
+  //   path: "/pr/:bar/:foo",
+  //   exact: true,
+  //   component: loadable(() => import("components/EX/Page4")),
+  //   animationRouter: {
+  //     routerIn: "from-right",
+  //     routerOut: "to-bottom",
+  //   },
+  // },
 ];
 
 const notFound: PreLoadRouteConfig = {

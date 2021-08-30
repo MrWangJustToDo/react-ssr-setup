@@ -19,8 +19,8 @@ const Page2: PreLoadComponentType = (props) => {
   );
 };
 
-Page2.getInitialState = (store, match) => {
-  console.log("page2输出", match);
+Page2.getInitialState = () => {
+  console.log("component  /pr/:bar  getInitialState");
   return delay(3000, () => console.log(1000));
 };
 

@@ -6,11 +6,12 @@ import { MathProps, PreLoadRouteConfig, RouterProps } from "types/router";
 import { GetInitialStateType, PreLoadComponentType } from "types/components";
 import { ExpressRequest } from "types/server";
 import { Response } from "express";
+import { log } from "./log";
 
 const preLoad: PreLoadType = (routes, pathname, store, req, res) => {
   const branch = matchRoutes<MathProps, PreLoadRouteConfig>(routes, pathname);
   const promises: Promise<void>[] = [];
-  const animateConfig: { routerIn?: string; routerOut?: string }[] = [];
+  const animateConfig: { [pathname: string]: { routerIn?: string; routerOut?: string } } = {};
   branch.forEach(({ route, match }) => {
     promises.push(
       // for component
@@ -26,7 +27,7 @@ function preLoadFromComponent(
   route: PreLoadRouteConfig,
   store: Store,
   match: RouterProps,
-  animateConfig: { routerIn?: string; routerOut?: string }[],
+  animateConfig: { [pathname: string]: { routerIn?: string; routerOut?: string } },
   req?: ExpressRequest,
   res?: Response
 ): Promise<void> {
@@ -34,7 +35,11 @@ function preLoadFromComponent(
     (route.component as any).load().then((component: { readonly default: PreLoadComponentType }) => {
       const Target = component.default;
       if (Target.routerIn || Target.routerOut) {
-        animateConfig.push({ routerIn: Target.routerIn, routerOut: Target.routerOut });
+        if (Object.prototype.hasOwnProperty.call(animateConfig, match.path)) {
+          log(`重复的路由动画定义: ${match.path}`, "error");
+        } else {
+          animateConfig[match.path] = { routerIn: Target.routerIn, routerOut: Target.routerOut };
+        }
       }
       if (Target.getInitialState && typeof Target.getInitialState === "function") {
         Promise.resolve()
@@ -52,13 +57,17 @@ function preLoadFromRoute(
   route: PreLoadRouteConfig,
   store: Store,
   match: RouterProps,
-  animateConfig: { routerIn?: string; routerOut?: string }[],
+  animateConfig: { [pathname: string]: { routerIn?: string; routerOut?: string } },
   req?: ExpressRequest,
   res?: Response
 ): Promise<void> {
   return new Promise<void>((resolve) => {
     if (route.animationRouter) {
-      animateConfig.push({ routerIn: route.animationRouter.routerIn, routerOut: route.animationRouter.routerOut });
+      if (Object.prototype.hasOwnProperty.call(animateConfig, match.path)) {
+        log(`重复的路由动画定义: ${match.path}`, "error");
+      } else {
+        animateConfig[match.path] = { routerIn: route.animationRouter.routerIn, routerOut: route.animationRouter.routerOut };
+      }
     }
     if (route.getInitialState && typeof route.getInitialState === "function") {
       Promise.resolve()

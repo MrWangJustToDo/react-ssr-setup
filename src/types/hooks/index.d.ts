@@ -12,7 +12,7 @@ interface UsePreLoadType {
   (props: UsePreLoadProps): {
     loading: boolean;
     location: H.Location<unknown>;
-    routerAnimate: RefObject<{ [props: string]: { routerIn?: string; routerOut?: string }[] }>;
+    routerAnimate: RefObject<{ [props: string]: { routerIn?: string; routerOut?: string } }>;
   };
 }
 

@@ -15,14 +15,14 @@ const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationR
     (key, isEnter) => {
       if (routerAnimate.current && routerAnimate.current[key]) {
         if (isEnter) {
-          const target = routerAnimate.current[key].find((config) => config.routerIn);
-          if (target) {
-            return `forward-${target.routerIn}`;
+          const routerIn = routerAnimate.current[key].routerIn;
+          if (routerIn) {
+            return `forward-${routerIn}`;
           }
         } else {
-          const target = routerAnimate.current[key].find((config) => config.routerOut);
-          if (target) {
-            return `back-${target.routerOut}`;
+          const routerOut = routerAnimate.current[key].routerOut;
+          if (routerOut) {
+            return `back-${routerOut}`;
           }
         }
       }
@@ -38,7 +38,7 @@ const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationR
           className="square-wrapper"
           childFactory={(child) => React.cloneElement(child, { classNames: getAnimateFromRouter(child.props.id, location.pathname === child.props.id) })}
         >
-          <CSSTransition key={location.pathname} id={location.pathname} timeout={500} classNames="fade" unmountOnExit>
+          <CSSTransition key={location.pathname} id={location.pathname} timeout={200} classNames="fade" unmountOnExit>
             <Route location={location}>
               <div className="container">{children}</div>
             </Route>
@@ -46,7 +46,13 @@ const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationR
         </TransitionGroup>
       );
     } else {
-      return <Route location={location}>{children}</Route>;
+      return (
+        <div>
+          <Route location={location}>
+            <div>{children}</div>
+          </Route>
+        </div>
+      );
     }
   }, [location, children, getAnimateFromRouter, animationRouter]);
 

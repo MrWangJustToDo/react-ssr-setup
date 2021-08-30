@@ -30,6 +30,7 @@ module.exports = (api) => {
   plugins.push(["@babel/plugin-proposal-decorators", { legacy: true }]);
   plugins.push(["@babel/plugin-proposal-class-properties", { loose: true }]);
   plugins.push(["@babel/plugin-proposal-private-methods", { loose: true }]);
+  plugins.push(["@babel/plugin-proposal-private-property-in-object", { "loose": true }])
   // 自带了
   // plugins.push("@babel/plugin-proposal-object-rest-spread");
   // plugins.push("@babel/plugin-proposal-optional-chaining");

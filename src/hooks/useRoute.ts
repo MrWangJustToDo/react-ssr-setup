@@ -12,7 +12,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   const loadingPath = useRef<string | null>("");
   const timmer1 = useRef<NodeJS.Timeout | null>(null);
   const timmer2 = useRef<NodeJS.Timeout | null>(null);
-  const routerAnimate = useRef<{ [props: string]: { routerIn?: string; routerOut?: string }[] }>({});
+  const routerAnimate = useRef<{ [props: string]: { routerIn?: string; routerOut?: string } }>({});
   const [loadedLocation, setLoadedLocation] = useState(location);
 
   useMemo(() => {
@@ -28,7 +28,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
         start();
       }, 200);
       preLoad(routes, location.pathname, store).then((config) => {
-        routerAnimate.current[location.pathname] = config;
+        routerAnimate.current = { ...routerAnimate.current, ...config };
         timmer2.current = setTimeout(() => {
           timmer1.current && clearTimeout(timmer1.current);
           if (loadingPath.current === location.pathname) {
