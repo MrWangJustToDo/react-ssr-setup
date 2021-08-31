@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { renderRoutes } from "react-router-config";
 
 import { allRoutes } from "router/routes";
+import "config/i18n";
 
 const App: FC = () => {
   return (
