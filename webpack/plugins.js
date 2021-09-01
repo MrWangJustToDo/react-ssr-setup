@@ -26,7 +26,8 @@ const pluginsConfig = (env, isDev = true) => {
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,
       __MIDDLEWARE__: isMiddleWareDevelop,
-      __SSR__: JSON.parse(process.env.SSR),
+      __ANIMATEROUTER__: process.env.ANIMATEROUTER && JSON.parse(process.env.ANIMATEROUTER),
+      __SSR__: process.env.SSR && JSON.parse(process.env.SSR),
     }),
     env === "client" &&
       new MiniCssExtractPlugin({
@@ -35,9 +36,9 @@ const pluginsConfig = (env, isDev = true) => {
       }),
     !isDev && new MomentLocalesPlugin({ localesToKeep: ["zh-cn"] }),
     // 快速刷新
-    env === "client" && new ReactRefreshPlugin(),
+    env === "client" && isDev && new ReactRefreshPlugin(),
     // 对于 webpack-hot-middleware必须启用
-    env === "client" && isMiddleWareDevelop && new webpack.HotModuleReplacementPlugin(),
+    env === "client" && isDev && isMiddleWareDevelop && new webpack.HotModuleReplacementPlugin(),
     // 查看打包
     // env === "client" && new BundleAnalyzerPlugin(),
   ].filter(Boolean);

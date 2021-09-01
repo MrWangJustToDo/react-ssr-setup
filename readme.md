@@ -72,6 +72,8 @@ yarn run start
 
 ## ~~css hmr 还存在一些问题。。。 不能解决~~ 引入 style-loader 成功解决
 
-## animate router 第一次渲染会存在点问题 暂时不好解决
+## ~~animate router 第一次渲染会存在点问题 暂时不好解决~~  统一server一client端代码  成功解决
+
+## ~~不小心引入了production的css打包问题，一直没发现。。。~~    修改配置文件解决
 
 ## 完善文件上传 HOOK 中

@@ -5,6 +5,8 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter as Router } from "react-router-dom";
 import { ChunkExtractor } from "@loadable/server";
 
+import WraperRoute from "components/WraperRoute";
+import LoadingBar from "components/LoadingBar";
 import App from "components/App";
 import Html from "components/Template/html";
 import { allRoutes } from "router/routes";
@@ -24,7 +26,9 @@ const renderSSR: RenderType = async ({ req, res }) => {
     <Provider store={store}>
       <Router location={req.url} context={routerContext}>
         <HelmetProvider context={helmetContext}>
-          <App />
+          <WraperRoute routes={allRoutes} LoadingBar={LoadingBar} animationRouter={__ANIMATEROUTER__}>
+            <App />
+          </WraperRoute>
         </HelmetProvider>
       </Router>
     </Provider>
@@ -44,7 +48,6 @@ const renderSSR: RenderType = async ({ req, res }) => {
   const body = renderToString(jsx);
 
   if (routerContext.url) {
-    console.log("shuchu", routerContext.url);
     res.writeHead(301, {
       Location: routerContext.url,
     });

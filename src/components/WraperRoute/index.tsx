@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Route } from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { usePreLoad } from "hooks/useRoute";
@@ -9,7 +9,6 @@ import "./index.css";
 
 const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationRouter = true }) => {
   const { location, loading, routerAnimate } = usePreLoad({ routes, preLoad });
-  const [childrenShow, setChildrenShow] = useState(<Route location={location}>{children}</Route>);
 
   const getAnimateFromRouter = useCallback(
     (key, isEnter) => {
@@ -46,22 +45,14 @@ const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationR
         </TransitionGroup>
       );
     } else {
-      return (
-        <div>
-          <Route location={location}>
-            <div>{children}</div>
-          </Route>
-        </div>
-      );
+      return <Route location={location}>{children}</Route>;
     }
   }, [location, children, getAnimateFromRouter, animationRouter]);
-
-  useEffect(() => setChildrenShow(routeChildren), [routeChildren]);
 
   return (
     <>
       <LoadingBar loading={loading} />
-      {childrenShow}
+      {routeChildren}
     </>
   );
 };

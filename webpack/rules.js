@@ -108,6 +108,6 @@ const resourceRules = (env, isDev = true) => {
   };
 };
 
-const rulesConfig = (env, isDev) => [commonRules(env), jsRules(env, isDev), cssRules(env, isDev), resourceRules(env, isDev)];
+const rulesConfig = (env, isDev) => [commonRules(env, isDev), jsRules(env, isDev), cssRules(env, isDev), resourceRules(env, isDev)];
 
 exports.rulesConfig = rulesConfig;

@@ -10,6 +10,7 @@ declare namespace NodeJS {
     SERVERENTRY: string;
     CLIENTENTRY: string;
     MIDDLEWARE: string;
+    ANIMATEROUTER: string;
     SOURCE_LANGUAGE: "string";
   }
   interface Global {
@@ -70,6 +71,7 @@ declare const __SERVER__: boolean;
 declare const __SSR__: boolean;
 declare const __DEVELOPMENT__: boolean;
 declare const __MIDDLEWARE__: boolean;
+declare const __ANIMATEROUTER__: boolean;
 
 interface Window {
   __PRELOADED_STATE__: any;
