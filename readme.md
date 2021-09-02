@@ -44,7 +44,7 @@ yarn run start
 
 ## 代码分割
 
-## preload data
+## preload data   标准化预加载行为  通过返回配置对象进行精细的跳转控制
 
 ## sass
 

@@ -10,6 +10,7 @@ import LoadingBar from "components/LoadingBar";
 import App from "components/App";
 import Html from "components/Template/html";
 import { allRoutes } from "router/routes";
+import { ServerError } from "server/utils/error";
 import { preLoad } from "share/utils/preLoad";
 import { sagaStore as getStore } from "share/store/store";
 
@@ -42,17 +43,27 @@ const renderSSR: RenderType = async ({ req, res }) => {
 
   // 在内部通过 typeOf window === 'undefined'  判断是否是server端来操作
 
-  await preLoad(allRoutes, req.url, store, req, res);
+  const { redirect, error, headers } = await preLoad(allRoutes, req.url, store, {}, { header: req.headers });
 
   // must run first!!  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
   const body = renderToString(jsx);
 
-  if (routerContext.url) {
+  if (error) {
+    throw new ServerError(error, 404);
+  } else if (routerContext.url) {
     res.writeHead(301, {
       Location: routerContext.url,
     });
     res.end();
+  } else if (redirect) {
+    res.writeHead(302, {
+      Location: redirect,
+    });
+    res.end();
   } else {
+    if (headers) {
+      Object.keys(headers).forEach((key) => res.setHeader(key, headers[key]));
+    }
     const state = JSON.stringify(store.getState());
 
     const linkElements = webExtractor.getLinkElements();

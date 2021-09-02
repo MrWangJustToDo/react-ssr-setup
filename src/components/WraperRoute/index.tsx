@@ -7,28 +7,27 @@ import { WraperRouteType } from "types/components";
 
 import "./index.css";
 
-const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationRouter = true }) => {
-  const { location, loading, routerAnimate } = usePreLoad({ routes, preLoad });
+const routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } } = {};
 
-  const getAnimateFromRouter = useCallback(
-    (key, isEnter) => {
-      if (routerAnimate.current && routerAnimate.current[key]) {
-        if (isEnter) {
-          const routerIn = routerAnimate.current[key].routerIn;
-          if (routerIn) {
-            return `forward-${routerIn}`;
-          }
-        } else {
-          const routerOut = routerAnimate.current[key].routerOut;
-          if (routerOut) {
-            return `back-${routerOut}`;
-          }
+const WraperRoute: WraperRouteType = ({ children, routes, LoadingBar, animationRouter = true }) => {
+  const { location, loading } = usePreLoad({ routes, preLoad, routerAnimate });
+
+  const getAnimateFromRouter = useCallback((key, isEnter) => {
+    if (routerAnimate.current && routerAnimate[key]) {
+      if (isEnter) {
+        const routerIn = routerAnimate[key].routerIn;
+        if (routerIn) {
+          return `forward-${routerIn}`;
+        }
+      } else {
+        const routerOut = routerAnimate[key].routerOut;
+        if (routerOut) {
+          return `back-${routerOut}`;
         }
       }
-      return "fade";
-    },
-    [routerAnimate]
-  );
+    }
+    return "fade";
+  }, []);
 
   const routeChildren = useMemo(() => {
     if (animationRouter) {

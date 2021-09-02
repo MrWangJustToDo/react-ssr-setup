@@ -1,9 +1,7 @@
 import { AxiosRequestConfig, Method } from "axios";
 import { apiName } from "config/api";
-import { Store } from "redux";
-import { PreLoadRouteConfig } from "../router";
-import { ExpressRequest } from "types/server";
-import { Response } from "express";
+// import { Store } from "redux";
+// import { PreLoadRouteConfig } from "../router";
 
 /* delay */
 interface Cancel {
@@ -78,11 +76,26 @@ interface AutoRequestType {
   run: <T>(path?: string, query?: QueryProps) => Promise<T>;
 }
 /* preLoad */
-interface PreLoadType {
-  (routes: PreLoadRouteConfig[], pathName: string, store: Store, req?: ExpressRequest, res?: Response): Promise<{
-    [pathname: string]: { routerIn?: string; routerOut?: string };
-  }>;
-}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// function PreLoadType(
+//   routes: PreLoadRouteConfig[],
+//   pathName: string,
+//   store: Store,
+//   config: { header: Headers }
+// ): Promise<{
+//   redirect?: string;
+//   error?: string;
+//   header?: { [key: string]: string };
+// }>;
+// function PreLoadType(
+//   routes: PreLoadRouteConfig[],
+//   pathName: string,
+//   store: Store
+// ): Promise<{
+//   [pathname: string]: { routerIn?: string; routerOut?: string };
+// }>;
+
 /* dynamic */
 interface DynamicRouteConfig {
   path?: string;

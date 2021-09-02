@@ -29,12 +29,11 @@ const Page1: PreLoadComponentType = () => {
 };
 
 // 获取需要的数据
-Page1.getInitialState = async (store, match, req, res) => {
-  if (req && res) {
+Page1.getInitialState = async (store, match, config) => {
+  if (config) {
     // 第一次请求可以进行身份信息判断  redirect
-    console.log(req.cookies);
-    res.setHeader("foo", "bar");
-    // res.redirect("./Test");
+    console.log(config.header);
+    return { error: "测试" };
   } else {
     // 不是在服务端
     await fetch("path").then(console.log);
@@ -42,6 +41,7 @@ Page1.getInitialState = async (store, match, req, res) => {
   console.log("组件输出", store, match);
   await delay(1000, () => console.log("仅仅"));
   console.log("page1");
+  return { redirect: "/blog/100", cookies: { foo: "bar" } };
 };
 
 export default Page1;
