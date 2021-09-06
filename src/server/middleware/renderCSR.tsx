@@ -2,9 +2,9 @@ import React from "react";
 import { renderToString } from "react-dom/server";
 import { ChunkExtractor } from "@loadable/server";
 
-import Html from "components/Template/html";
+import Html from "template/html";
 
-import { RenderType } from "types/server";
+import type { RenderType } from "types/server";
 
 // 客户端渲染
 const renderCSR: RenderType = ({ res }) => {

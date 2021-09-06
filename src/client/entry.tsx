@@ -10,6 +10,7 @@ import App from "components/App";
 import LoadingBar from "components/LoadingBar";
 import WraperRoute from "components/WraperRoute";
 import { sagaStore as getStore } from "share/store/store";
+import { log } from "share/utils/log";
 
 const store = getStore({ initialState: window.__PRELOADED_STATE__ });
 
@@ -27,4 +28,6 @@ const content = (
   </Provider>
 );
 
-loadableReady(() => ((__DEVELOPMENT__ && __MIDDLEWARE__) || !__SSR__ ? render(content, place) : hydrate(content, place)));
+loadableReady(() =>
+  (__DEVELOPMENT__ && __MIDDLEWARE__) || !__SSR__ ? (log("not hydrate render on client", "warn"), render(content, place)) : hydrate(content, place)
+);

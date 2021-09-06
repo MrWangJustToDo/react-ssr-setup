@@ -32,7 +32,7 @@ const freePort = (port) => {
           });
         });
       } catch (e) {
-        console.log(chalk.red(`free port error: ${err.toString()}`));
+        console.log(chalk.red(`free port error: ${e.toString()}`));
         resolve();
       }
     } else {

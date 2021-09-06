@@ -8,7 +8,7 @@ import { log } from "share/utils/log";
 
 /* WraperRoute */
 const usePreLoad: UsePreLoadType = ({ routes, preLoad, routerAnimate }) => {
-  const isRedirect = useRef<boolean>(false);
+  const isRedirect = useRef<string | undefined>();
   const store = useStore();
   const history = useHistory();
   const location = useLocation();
@@ -23,37 +23,36 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, routerAnimate }) => {
   }, [location]);
 
   useEffect(() => {
-    if (!isRedirect.current) {
+    const isRedirectCurrentPath = isRedirect.current && isRedirect.current === location.pathname;
+    if (!isRedirectCurrentPath) {
       end();
     }
     if (loadedLocation.pathname !== location.pathname) {
-      if (!isRedirect.current) {
-        timmer1.current && clearTimeout(timmer1.current);
-        timmer2.current && clearTimeout(timmer2.current);
+      if (!isRedirectCurrentPath) {
+        timmer1.current && clearTimeout(timmer1.current) && (timmer1.current = null);
+        timmer2.current && clearTimeout(timmer2.current) && (timmer2.current = null);
         timmer1.current = setTimeout(() => {
           start();
         }, 200);
       }
       preLoad(routes, location.pathname, store, routerAnimate).then((config) => {
         const { redirect, error, cookies } = config;
-        isRedirect.current = false;
+        isRedirect.current = redirect;
         if (error) {
           log(`error ${error.toString()}`, "error");
           end();
         } else if (redirect) {
-          isRedirect.current = true;
           history.replace(redirect);
-          // end();
         } else {
           if (cookies) {
             Object.keys(cookies).forEach((key) => cookie.set(key, cookies[key]));
           }
           timmer2.current = setTimeout(() => {
-            timmer1.current && clearTimeout(timmer1.current);
+            timmer1.current && clearTimeout(timmer1.current) && (timmer1.current = null);
             if (loadingPath.current === location.pathname) {
+              end();
               setLoadedLocation(location);
             }
-            end();
           }, 50);
         }
       });

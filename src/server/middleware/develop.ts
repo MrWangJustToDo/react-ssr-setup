@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import path from "path";
 import { Express } from "express";
-import webpack, { Configuration } from "webpack";
-import webpackHotMiddleware from "webpack-hot-middleware";
-import webpackDevMiddleware from "webpack-dev-middleware";
-import { compilerPromise } from "share/utils/compiler";
-import { ClientConfig } from "../../../webpack/webpack.client.config";
 
 const develop = (app: Express): Promise<void> => {
   return new Promise((resolve) => {
     if (__DEVELOPMENT__ && __MIDDLEWARE__ && process.env.CLIENTENTRY) {
-      const config = ClientConfig(path.resolve(process.cwd(), process.env.CLIENTENTRY), true) as Configuration;
+      const webpack = require("webpack");
+      const webpackHotMiddleware = require("webpack-hot-middleware");
+      const webpackDevMiddleware = require("webpack-dev-middleware");
+      const { compilerPromise } = require("share/utils/compiler");
+      const { ClientConfig } = require("../../../webpack/webpack.client.config");
+      const config = ClientConfig(path.resolve(process.cwd(), process.env.CLIENTENTRY), true);
       const compiler = webpack(config);
       const clientPromise = compilerPromise("client", compiler);
       app.use(
@@ -19,7 +20,7 @@ const develop = (app: Express): Promise<void> => {
           writeToDisk: (filepath: string) => filepath.includes("manifest-loadable.json") || filepath.includes("manifest-dev.json"),
         })
       );
-      app.use(webpackHotMiddleware(compiler as any));
+      app.use(webpackHotMiddleware(compiler));
       return clientPromise.then(resolve);
     } else {
       resolve();

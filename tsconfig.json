@@ -31,6 +31,7 @@
       "config/*": ["src/config/*"],
       "style/*": ["src/style/*"],
       "components/*": ["src/components/*"],
+      "template/*": ["src/template/*"],
       "types/*": ["src/types/*"]
     }
   },
