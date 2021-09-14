@@ -12,6 +12,10 @@ const Page1: PreLoadComponentType = () => {
     message.info("start zoom");
   }, []);
 
+  useEffect(() => {
+    message.info(`animate router ----- ${__ANIMATEROUTER__}`);
+  }, []);
+
   return (
     <div className={style.red}>
       <div style={{ marginLeft: "100px" }}>

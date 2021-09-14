@@ -48,6 +48,10 @@ const renderSSR: RenderType = async ({ req, res }) => {
   // must run first!!  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
   const body = renderToString(jsx);
 
+  if (headers) {
+    Object.keys(headers).forEach((key) => res.setHeader(key, headers[key]));
+  }
+
   if (error) {
     throw new ServerError(error, 404);
   } else if (routerContext.url) {
@@ -61,9 +65,6 @@ const renderSSR: RenderType = async ({ req, res }) => {
     });
     res.end();
   } else {
-    if (headers) {
-      Object.keys(headers).forEach((key) => res.setHeader(key, headers[key]));
-    }
     const state = JSON.stringify(store.getState());
 
     const linkElements = webExtractor.getLinkElements();

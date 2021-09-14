@@ -60,7 +60,7 @@ yarn run start
 
 ## antd support
 
-## 数据自动注入 存在 bug 改用原始 connect 进行
+## 数据自动注入原理上比较难以实现 改用redux connect
 
 ## middleware develop 适合手机等远程调试
 
