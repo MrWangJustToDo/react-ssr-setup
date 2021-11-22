@@ -1,7 +1,8 @@
 import { RouteConfig } from "react-router-config";
 import { GetInitialStateType } from "types/components";
 
-interface PreLoadRouteConfig extends RouteConfig {
+export interface PreLoadRouteConfig extends RouteConfig {
+  path: string;
   getInitialState?: GetInitialStateType;
   animationRouter?: {
     routerIn?: string;
@@ -9,17 +10,16 @@ interface PreLoadRouteConfig extends RouteConfig {
   };
 }
 
-interface MathProps {
+export interface MathProps {
   [props: string]: string;
 }
 
-interface RouterProps {
-  params: MathProps;
-  isExact: boolean;
-  path: string;
-  url: string;
+export interface TransformType {
+  (props: PreLoadRouteConfig[]): PreLoadRouteConfig[];
 }
 
-interface TransformType {
-  (props: PreLoadRouteConfig[]): PreLoadRouteConfig[];
+export interface DynamicRouteConfig {
+  path: string;
+  exact?: boolean;
+  componentPath?: string;
 }

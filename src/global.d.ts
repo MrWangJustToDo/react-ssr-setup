@@ -2,19 +2,15 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: "development" | "production" | "test";
     DEV_HOST: string;
-    DEV_PORT: number;
-    WDS_PORT: number;
-    PROD_PORT: number;
+    DEV_PORT: string;
+    WDS_PORT: string;
+    PROD_PORT: string;
     SSR: string;
     PUBLIC_API_HOST: string;
-    SERVERENTRY: string;
-    CLIENTENTRY: string;
+    SERVER_ENTRY: string;
+    CLIENT_ENTRY: string;
     MIDDLEWARE: string;
-    ANIMATEROUTER: string;
-    SOURCE_LANGUAGE: "string";
-  }
-  interface Global {
-    webStats: string;
+    ANIMATE_ROUTER: string;
   }
 }
 
@@ -54,7 +50,8 @@ declare module "*.module.css" {
 }
 
 declare module "*.css" {
-  export default any;
+  const css: { readonly [key: string]: string };
+  export default css;
 }
 
 declare module "*.module.scss" {
@@ -63,7 +60,8 @@ declare module "*.module.scss" {
 }
 
 declare module "*.scss" {
-  export default any;
+  const classes: { readonly [key: string]: string };
+  export default classes;
 }
 
 declare const __CLIENT__: boolean;
@@ -71,9 +69,9 @@ declare const __SERVER__: boolean;
 declare const __SSR__: boolean;
 declare const __DEVELOPMENT__: boolean;
 declare const __MIDDLEWARE__: boolean;
-declare const __ANIMATEROUTER__: boolean;
+declare const __ANIMATE_ROUTER__: boolean;
 
 interface Window {
-  __PRELOADED_STATE__: any;
+  __PRELOADED_STATE__: unknown;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 }

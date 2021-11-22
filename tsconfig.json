@@ -25,14 +25,18 @@
       "server/*": ["src/server/*"],
       "client/*": ["src/client/*"],
       "hooks/*": ["src/hooks/*"],
-      "share/*": ["src/share/*"],
       "router/*": ["src/router/*"],
       "pages/*": ["src/pages/*"],
       "config/*": ["src/config/*"],
       "style/*": ["src/style/*"],
-      "components/*": ["src/components/*"],
+      "utils/*": ["src/utils/*"],
+      "store": ["src/store"],
+      "store/*": ["src/store/*"],
+      "types/*": ["src/types/*"],
       "template/*": ["src/template/*"],
-      "types/*": ["src/types/*"]
+      "components/*": ["src/components/*"],
+      "webpackConfig/*": ["webpack/*"],
+      "script/*": ["script/*"]
     }
   },
   "include": ["src"]

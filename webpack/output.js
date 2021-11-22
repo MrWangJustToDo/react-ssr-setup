@@ -1,16 +1,14 @@
 const path = require("path");
 
-const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
-
 const outputPath = (env, isDev) => path.resolve(process.cwd(), isDev ? "dev" : "dist", env);
 
-const outputConfig = (env, isDev = true) => {
+const outputConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
   if (env === "client") {
     return {
       // 输出路径
       path: outputPath(env, isDev),
       // 输出文件名
-      filename: env === "client" ? (isDev ? "[name].js" : "[name]-[contenthash].js") : "app.js",
+      filename: isDev ? "[name].js" : "[name]-[contenthash].js",
       // 按需加载的chunk名
       chunkFilename: isDev ? "[name].js" : "[name]-[contenthash].js",
       // 引入资源的url路径
@@ -27,7 +25,7 @@ const outputConfig = (env, isDev = true) => {
       // 输出路径
       path: outputPath(env, isDev),
       // 输出文件名
-      filename: env === "client" ? (isDev ? "[name].js" : "[name]-[contenthash].js") : "app.js",
+      filename: "app.js",
       // 按需加载的chunk名
       chunkFilename: isDev ? "[name].js" : "[name]-[contenthash].js",
       // 引入资源的url路径

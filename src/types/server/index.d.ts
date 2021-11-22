@@ -1,20 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
+import { Cache } from "utils/cache";
+import { ServerError } from "./utils/error";
 
-type ExpressRequest = Request & { session?: { [props: string]: any }; user?: any; config?: { cache?: CacheConfigProps; user?: UserConfigProps } };
+export type ExpressRequest = Request & {
+  session?: { [props: string]: any };
+  config?: { cache?: CacheConfigProps; user?: UserConfigProps; check?: CheckCodeConfigProps; params?: CheckParamsConfigProps; encode?: boolean };
+};
 
-/* render */
-interface RenderProps {
-  req: Request;
-  res: Response;
-  next: NextFunction;
-}
-interface RenderType {
-  (props: RenderProps): void;
-}
-interface RenderErrorType {
-  (props: RenderProps & { code?: number; e: Error }): void;
-}
-
+/* === API === */
 /* api */
 interface ApiResponseData<T> {
   code?: number;
@@ -24,43 +17,95 @@ interface ApiResponseData<T> {
   last?: any[];
   methodName?: string;
 }
-interface ApiResponseProps<T> {
+export interface ApiResponseProps<T> {
   res: Response;
-  statuCode?: number;
+  statusCode?: number;
   resDate: ApiResponseData<T>;
 }
-interface ApiResponseType<T> {
+export interface ApiResponseType<T> {
   (props: ApiResponseProps<T>): void;
 }
-interface RequestHandlerProps {
-  req: ExpressRequest;
-  res: Response;
-  next: NextFunction;
-}
-interface RequestHandlerType {
-  (props: RequestHandlerProps): Promise<any>;
-}
-type ErrHandlerProps = RequestHandlerProps & {
-  e: Error;
-  code?: number;
-};
-interface ErrHandlerType {
-  (props: ErrHandlerProps): void;
-}
-interface CacheConfigProps {
+export interface CacheConfigProps {
+  cacheKey?: string | (({ req }: { req: ExpressRequest }) => string);
   cacheTime?: number;
   needCache?: boolean;
-  needDelete?: string | string[] | boolean;
+  needDelete?:
+    | string
+    | Array<string | (({ req }: { req: ExpressRequest }) => string | string[])>
+    | boolean
+    | (({ req }: { req: ExpressRequest }) => string | string[]);
+  needDeleteBeforeRequest?:
+    | string
+    | Array<string | (({ req }: { req: ExpressRequest }) => string | string[])>
+    | boolean
+    | (({ req }: { req: ExpressRequest }) => string | string[]);
+  needDeleteAfterRequest?:
+    | string
+    | Array<string | (({ req }: { req: ExpressRequest }) => string | string[])>
+    | boolean
+    | (({ req, cacheData }: { req: ExpressRequest; cacheData: any }) => string | string[]);
 }
-interface UserConfigProps {
+export interface CheckCodeConfigProps {
+  needCheck?: boolean;
+  fieldName?: string;
+  fromQuery?: boolean;
+}
+export interface CheckParamsConfigProps {
+  fromQuery?: string[];
+  fromBody?: string[];
+}
+export interface UserConfigProps {
   needCheck?: boolean;
   checkStrict?: boolean;
 }
-interface AutoRequestHandlerProps {
+export interface RequestHandlerProps<T = any> {
+  req: ExpressRequest;
+  res: Response;
+  cache: Cache<string, T>;
+}
+export interface RequestHandlerType<T = any> {
+  (props: RequestHandlerProps<T>): void;
+}
+export type ErrorHandlerProps = RequestHandlerProps & {
+  code?: number;
+  ctx: MiddlewareContext;
+  e: Error | ServerError;
+};
+export interface ErrorHandlerType {
+  (props: ErrorHandlerProps): void;
+}
+export interface MiddlewareConfig {
+  errorHandler?: ErrorHandlerType;
   requestHandler: RequestHandlerType;
-  errHandler: ErrHandlerType;
-  strict?: boolean;
-  time?: number;
+  checkCodeConfig?: CheckCodeConfigProps;
   cacheConfig?: CacheConfigProps;
   userConfig?: UserConfigProps;
+  paramsConfig?: CheckParamsConfigProps;
+  encodeConfig?: boolean;
+  logConfig?: boolean;
+  goNext?: boolean;
+}
+export type MiddlewareContext = MiddlewareConfig & {
+  req: ExpressRequest;
+  res: Response;
+  cache: Cache<string, any>;
+  next: NextFunction;
+};
+export interface WrapperMiddleware {
+  (): Promise<void> | void;
+}
+export interface MiddlewareFunction {
+  (ctx: MiddlewareContext, next: WrapperMiddleware): void;
+}
+
+// render
+interface RenderProps {
+  req: Request;
+  res: Response;
+}
+export interface RenderType {
+  (props: RenderProps): void;
+}
+export interface RenderErrorType {
+  (props: RenderProps & { code?: number; e: Error }): void;
 }

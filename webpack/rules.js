@@ -4,7 +4,7 @@ const threadLoader = require("thread-loader");
 // 抽离css文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const commonRules = (env, isDev = true) => {
+const cssRules = (env, isDev = true) => {
   // css no module
   return {
     test: /\.s?css$/,
@@ -40,7 +40,18 @@ const jsRules = (env, isDev = true) => {
           cacheDirectory: true,
           plugins:
             env === "client"
-              ? [["import", { libraryName: "antd", style: "css" }, "antd"], isDev && "react-refresh/babel"].filter(Boolean)
+              ? [
+                  [
+                    "import",
+                    {
+                      libraryName: "@arco-design/web-react",
+                      libraryDirectory: "es",
+                      camel2DashComponentName: false,
+                      style: "css", // 样式按需加载
+                    },
+                  ],
+                  isDev && "react-refresh/babel",
+                ].filter(Boolean)
               : ["@babel/transform-modules-commonjs"],
         },
       },
@@ -48,13 +59,7 @@ const jsRules = (env, isDev = true) => {
   };
 };
 
-const cssRules = (env, isDev = true) => {
-  const workerPoolSass = {
-    workerParallelJobs: 2,
-    poolTimeout: isDev ? Infinity : 2000,
-  };
-
-  threadLoader.warmup(workerPoolSass, ["sass-loader", "css-loader"]);
+const cssModuleRules = (env, isDev = true) => {
 
   // css module
   return {
@@ -67,10 +72,6 @@ const cssRules = (env, isDev = true) => {
           : {
               loader: MiniCssExtractPlugin.loader,
             }),
-      {
-        loader: require.resolve("thread-loader"),
-        options: workerPoolSass,
-      },
       // 启用js中import css为对象，启用css module以及生成的类名
       {
         loader: "css-loader",
@@ -108,6 +109,6 @@ const resourceRules = (env, isDev = true) => {
   };
 };
 
-const rulesConfig = (env, isDev) => [commonRules(env, isDev), jsRules(env, isDev), cssRules(env, isDev), resourceRules(env, isDev)];
+const rulesConfig = ({ env, isDev }) => [cssRules(env, isDev), jsRules(env, isDev), cssModuleRules(env, isDev), resourceRules(env, isDev)];
 
 exports.rulesConfig = rulesConfig;

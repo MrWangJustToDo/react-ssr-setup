@@ -7,34 +7,29 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const LoadablePlugin = require("@loadable/webpack-plugin");
 // 抽离css文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// moment分离
-const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 // 快速刷新
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
-const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
-
-const pluginsConfig = (env, isDev = true) => {
+const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = false, isAnimationRouter = false }) => {
   return [
     new CleanWebpackPlugin(),
     env === "client" && new LoadablePlugin({ filename: "manifest-loadable.json" }),
     env === "client" && new WebpackManifestPlugin({ fileName: "manifest-dev.json" }),
     new webpack.DefinePlugin({
+      __SSR__: isSSR,
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,
       __MIDDLEWARE__: isMiddleWareDevelop,
-      __ANIMATEROUTER__: process.env.ANIMATEROUTER && JSON.parse(process.env.ANIMATEROUTER),
-      __SSR__: process.env.SSR && JSON.parse(process.env.SSR),
+      __ANIMATE_ROUTER__: isAnimationRouter,
     }),
     env === "client" &&
       new MiniCssExtractPlugin({
         filename: isDev ? "[name].css" : "[name]-[contenthash].css",
         chunkFilename: isDev ? "css/[id].css" : "[id].[contenthash].css",
       }),
-    !isDev && new MomentLocalesPlugin({ localesToKeep: ["zh-cn"] }),
     // 快速刷新
     env === "client" && isDev && new ReactRefreshPlugin(),
     // 对于 webpack-hot-middleware必须启用

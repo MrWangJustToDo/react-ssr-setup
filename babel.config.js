@@ -9,6 +9,7 @@ function isWebpack(caller) {
 module.exports = (api) => {
   const web = api.caller(isWebTarget);
   const webpack = api.caller(isWebpack);
+  
 
   api.cache.using(() => process.env.NODE_ENV === "production");
 
@@ -24,13 +25,13 @@ module.exports = (api) => {
       modules: webpack ? false : "commonjs",
     },
   ]);
-  presets.push("@babel/preset-react");
   presets.push("@babel/preset-typescript");
+  presets.push(["@babel/preset-react", { development: !api.env("production"), runtime: "automatic" }]);
 
   plugins.push(["@babel/plugin-proposal-decorators", { legacy: true }]);
   plugins.push(["@babel/plugin-proposal-class-properties", { loose: true }]);
   plugins.push(["@babel/plugin-proposal-private-methods", { loose: true }]);
-  plugins.push(["@babel/plugin-proposal-private-property-in-object", { "loose": true }])
+  plugins.push(["@babel/plugin-proposal-private-property-in-object", { loose: true }]);
   // 自带了
   // plugins.push("@babel/plugin-proposal-object-rest-spread");
   // plugins.push("@babel/plugin-proposal-optional-chaining");

@@ -4,22 +4,16 @@ import { Express } from "express";
 
 const develop = (app: Express): Promise<void> => {
   return new Promise((resolve) => {
-    if (__DEVELOPMENT__ && __MIDDLEWARE__ && process.env.CLIENTENTRY) {
+    if (__DEVELOPMENT__ && __MIDDLEWARE__ && process.env.CLIENT_ENTRY) {
       const webpack = require("webpack");
       const webpackHotMiddleware = require("webpack-hot-middleware");
       const webpackDevMiddleware = require("webpack-dev-middleware");
-      const { compilerPromise } = require("share/utils/compiler");
-      const { ClientConfig } = require("../../../webpack/webpack.client.config");
-      const config = ClientConfig(path.resolve(process.cwd(), process.env.CLIENTENTRY), true);
+      const { compilerPromise } = require("script/compiler");
+      const { ClientConfig } = require("webpackConfig/webpack.client.config");
+      const config = ClientConfig(path.resolve(process.cwd(), process.env.CLIENT_ENTRY), true);
       const compiler = webpack(config);
-      const clientPromise = compilerPromise("client", compiler);
-      app.use(
-        webpackDevMiddleware(compiler, {
-          stats: false,
-          publicPath: "/dev/",
-          writeToDisk: (filepath: string) => filepath.includes("manifest-loadable.json") || filepath.includes("manifest-dev.json"),
-        })
-      );
+      const clientPromise = compilerPromise("client", compiler, true);
+      app.use(webpackDevMiddleware(compiler, config.devServer.devMiddleware));
       app.use(webpackHotMiddleware(compiler));
       return clientPromise.then(resolve);
     } else {

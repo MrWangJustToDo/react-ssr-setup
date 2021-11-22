@@ -1,63 +1,42 @@
-import { Store } from "redux";
-import { HelmetData } from "react-helmet-async";
-import React, { MemoExoticComponent, RefObject } from "react";
-import { PreLoadRouteConfig, RouterProps } from "types/router";
+import { match } from "react-router";
+import { SagaStore } from "types/store";
+import { ExpressRequest } from "types/server";
+import { PreLoadRouteConfig, MathProps } from "types/router";
 
-/* Template */
-interface HTMLProps {
-  children?: string;
-  link?: React.ReactElement[];
-  script?: React.ReactElement[];
-  state?: string;
-  helmetContext?: { helmet?: HelmetData };
-}
-interface HTMLType {
-  (props: HTMLProps): JSX.Element;
+interface GetInitialStateProps {
+  store: SagaStore;
+  match: match<MathProps>;
+  config?: { req: ExpressRequest };
 }
 
-/* WraperRoute */
-interface WraperRouteProps {
-  children: React.ReactElement | React.ReactElement[] | string;
-  routes: PreLoadRouteConfig[];
-  LoadingBar: (props: BarProps) => React.ReactElement | null;
-  animationRouter?: boolean;
-}
-interface WraperRouteType {
-  (props: WraperRouteProps): MemoExoticComponent;
-}
-
-/* PreLoadComponent */
-interface GetInitialStateType {
-  (store: Store, math: RouterProps, config?: { header: IncomingHttpHeaders }): Promise<{
+export interface GetInitialStateType {
+  (props: GetInitialStateProps): Promise<{
     redirect?: string;
     error?: string;
     headers?: { [key: string]: string };
     cookies?: { [key: string]: string };
   } | void>;
 }
-interface PreLoadComponentType {
-  <T>(props: T): JSX.Element;
+
+export interface PreLoadComponentType<T = any> {
+  (props: T): JSX.Element;
   getInitialState?: GetInitialStateType;
   routerIn?: string;
   routerOut?: string;
 }
 
+/* WrapperRoute */
+interface WrapperRouteProps {
+  children: React.ReactElement | React.ReactElement[] | string;
+  routes: PreLoadRouteConfig[];
+  LoadingBar: LoadingBarWrapperType;
+  animationRouter?: boolean;
+}
+export interface WrapperRouteType {
+  (props: WrapperRouteProps): MemoExoticComponent;
+}
+
 /* LoadingBar */
-interface LoadingBarProps {
-  height?: number;
-  present?: number;
-  loading?: boolean;
-}
-
-interface LoadingBarType {
-  (props: LoadingBarProps): JSX.Element;
-}
-
-/* loadingBar */
-interface LoadingBarWrapperType {
+export interface LoadingBarWrapperType {
   (props: { loading?: boolean }): JSX.Element | null;
-}
-
-interface BarType {
-  (props: { forwardRef: RefObject<HTMLDivElement> }): JSX.Element | null;
 }

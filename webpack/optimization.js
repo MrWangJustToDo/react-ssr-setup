@@ -1,7 +1,7 @@
 // 压缩css
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-const optimizationConfig = (env, isDev = true) => {
+const optimizationConfig = ({ env, isDev = true }) => {
   if (env === "client") {
     return isDev
       ? {

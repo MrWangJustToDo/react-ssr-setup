@@ -1,0 +1,16 @@
+.container {
+  max-width: 1444px;
+  margin: auto;
+}
+
+.header {
+  height: 30px;
+}
+
+.content {
+  min-height: calc(100vh - 60px);
+}
+
+.footer {
+  height: 50px;
+}

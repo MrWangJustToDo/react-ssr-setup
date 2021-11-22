@@ -57,35 +57,6 @@ const withPromise = async () => {
   });
 };
 
-const withSpawn = () => {
-  Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT), new DynamicRouter().getDynamicRouter()]).then(() => {
-    const cliCodeWatchProcess = spawn("node", ["./script/build-dev-client"], {
-      stdio: "inherit",
-      shell: true,
-    });
-
-    const svrCodeWatchProcess = spawn("node", ["./script/build-dev-server"], {
-      stdio: "inherit",
-      shell: true,
-    });
-
-    const killChild = () => {
-      svrCodeWatchProcess && svrCodeWatchProcess.kill();
-      cliCodeWatchProcess && cliCodeWatchProcess.kill();
-    };
-
-    process.on("close", (code) => {
-      console.log("main process close", code);
-      killChild();
-    });
-
-    process.on("exit", (code) => {
-      console.log("main process exit", code);
-      killChild();
-    });
-  });
-};
-
 const withMiddleWare = async () => {
   try {
     await freePort(process.env.DEV_PORT);

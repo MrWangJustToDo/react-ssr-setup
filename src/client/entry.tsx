@@ -1,28 +1,23 @@
 import React from "react";
-import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
+import { hydrate, render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { loadableReady } from "@loadable/component";
+import { log } from "utils/log";
+import { sagaStore } from "store";
+import { StoreState } from "types/store";
+import { App } from "components/App";
 
-import { allRoutes } from "router/routes";
-import App from "components/App";
-import LoadingBar from "components/LoadingBar";
-import WraperRoute from "components/WraperRoute";
-import { sagaStore as getStore } from "share/store/store";
-import { log } from "share/utils/log";
+const place = document.querySelector("#content");
 
-const store = getStore({ initialState: window.__PRELOADED_STATE__ });
-
-const place = document.querySelector("#app");
+const store = sagaStore({ initialState: window.__PRELOADED_STATE__ as StoreState });
 
 const content = (
   <Provider store={store}>
     <Router>
       <HelmetProvider>
-        <WraperRoute routes={allRoutes} LoadingBar={LoadingBar} animationRouter={__ANIMATEROUTER__}>
-          <App />
-        </WraperRoute>
+        <App />
       </HelmetProvider>
     </Router>
   </Provider>

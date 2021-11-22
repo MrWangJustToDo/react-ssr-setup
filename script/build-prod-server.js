@@ -13,8 +13,8 @@ const buildServer = (serverEntryPoint) => {
   compiler.run();
 };
 
-if (process.env.SERVERENTRY) {
-  buildServer(process.env.SERVERENTRY);
+if (process.env.SERVER_ENTRY) {
+  buildServer(process.env.SERVER_ENTRY);
 } else {
-  console.log(chalk.red("SERVERENTRY env not exist！"));
+  console.log(chalk.red("SERVER_ENTRY env not exist！"));
 }

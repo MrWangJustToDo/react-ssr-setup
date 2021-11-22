@@ -13,8 +13,8 @@ const buildClient = (clientEntryPoint) => {
   compiler.run();
 };
 
-if (process.env.CLIENTENTRY) {
-  buildClient(process.env.CLIENTENTRY);
+if (process.env.CLIENT_ENTRY) {
+  buildClient(process.env.CLIENT_ENTRY);
 } else {
-  console.log(chalk.red("CLIENTENTRY env not exist！"));
+  console.log(chalk.red("CLIENT_ENTRY env not exist！"));
 }

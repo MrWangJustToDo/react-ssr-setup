@@ -1,6 +1,6 @@
 const path = require("path");
 
-const commonConfig = (env) => {
+const commonConfig = ({ env }) => {
   return {
     name: env,
     mode: process.env.NODE_ENV,

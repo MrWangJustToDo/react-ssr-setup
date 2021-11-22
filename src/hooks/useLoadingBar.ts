@@ -1,9 +1,13 @@
 import { useEffect, useRef } from "react";
-import { delay, cancel } from "share/utils/delay";
-import { LoadingBarProps } from "types/components";
-import { UseLoadType } from "types/hooks";
+import { delay, cancel } from "utils/delay";
 
-const useLoadingBar: UseLoadType = (props = {}) => {
+type LoadingBarProps = {
+  height?: number;
+  present?: number;
+  loading?: boolean;
+};
+
+const useLoadingBar = (props: LoadingBarProps = {}) => {
   const { height = 1.5, present = 0, loading } = props;
 
   const ref = useRef<HTMLDivElement>(null);

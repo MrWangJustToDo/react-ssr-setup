@@ -28,7 +28,7 @@ class DynamicRouter {
                     const [, params] = Array.from(/^_(.*)$/.exec(fileName));
                     config.path = `${prePath}:${params}`;
                   } else {
-                    throw new Error(`file router dynamicpath duplicate`);
+                    throw new Error(`file router dynamicPath duplicate`);
                   }
                 } else {
                   config.path = `${prePath}${fileName}`;
@@ -62,20 +62,18 @@ class DynamicRouter {
   getRouterTemplate = (routerResult) => {
     const template = `/* eslint-disable prettier/prettier */
 /* do not editor this template */
-import { DynamicRouteConfig } from "types/share";
+import { DynamicRouteConfig } from "types/router";
 
-const routerConfig: DynamicRouteConfig[] = ${routerResult};
-
-export default routerConfig;`;
+export const dynamicRouteConfig: DynamicRouteConfig[] = ${routerResult};`;
     return template;
   };
 
   isNoChange = (routerResult) => {
     if (this.cache.value === routerResult) {
-      console.log(chalk.green(`[${this.side}] file router do not need update from cache`));
+      console.log(`[${this.side}]`, chalk.green(`file router do not need update from cache`));
       return true;
     } else {
-      console.log(chalk.blue(`[${this.side}] file router need update from cache`));
+      console.log(`[${this.side}]`, chalk.blue(`file router need update from cache`));
       this.cache.value = routerResult;
       return false;
     }
@@ -99,11 +97,11 @@ export default routerConfig;`;
       const currentTemplate = await this.getRouterFile(dynamicRouteFilename);
       const newTemplate = this.getRouterTemplate(routerResult);
       if (currentTemplate === newTemplate) {
-        console.log(chalk.green(`[${this.side}] file router do not need update from template`));
+        console.log(`[${this.side}]`, chalk.green(`file router do not need update from template`));
         this.cache.value = routerResult;
       } else {
         await this.writeRouterFile(dynamicRouteFilename, newTemplate);
-        console.log(chalk.blue(`[${this.side}] file router updated`));
+        console.log(`[${this.side}]`, chalk.blue(`file router updated`));
         this.cache.value = routerResult;
       }
     }

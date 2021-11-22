@@ -1,33 +1,22 @@
-import cors from "cors";
-import chalk from "chalk";
 import dotenv from "dotenv";
 import multer from "multer";
 import express from "express";
-import session from "express-session";
-import compression from "compression";
-import prettyError from "pretty-error";
 
+import { log } from "utils/log";
+import { init } from "./init";
+import { setUp } from "./setup";
 import { render } from "server/middleware/render";
 import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
-import { manifestLoadable } from "share/helper/manifest";
-import { transformHandler, catchHandler } from "server/middleware/apiHandler";
+import { wrapperMiddlewareRequest } from "server/middleware/apiHandler";
 
 dotenv.config();
-
-prettyError.start();
-
-global.webStats = manifestLoadable("client");
 
 const upload = multer({ dest: "./cache" });
 
 const app = express();
 
 const port = process.env.NODE_ENV === "development" ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
-
-app.use(cors());
-
-app.use(compression());
 
 app.use(express.static(`${process.cwd()}/static`));
 
@@ -37,16 +26,9 @@ app.use(express.json({ limit: "5mb" }));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: true,
-    rolling: true,
-    saveUninitialized: true,
-    cookie: { maxAge: 600000 },
-    name: "react-ssr",
-  })
-);
+setUp(app);
+
+init(app);
 
 app.post("/api/upload", upload.single("file"), async (req, res) => {
   console.log("上传文件", req.file?.destination, req.file?.size);
@@ -57,12 +39,12 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 
 develop(app).then(() => {
   app.use(
-    transformHandler(
-      catchHandler(
-        async ({ req, res, next }) => await render({ req, res, next }),
-        ({ req, res, next, e, code }) => renderError({ req, res, next, e, code })
-      )
-    )
+    wrapperMiddlewareRequest({
+      requestHandler: async function renderSSR({ req, res }) {
+        await render({ req, res });
+      },
+      errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
+    })
   );
-  app.listen(port, () => console.log(chalk.blue(`\nApp is running: http://localhost:${port}`)));
+  app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
 });

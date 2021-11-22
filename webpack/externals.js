@@ -1,7 +1,7 @@
 // 排除项
 const nodeExternals = require("webpack-node-externals");
 
-const externalsConfig = (env) => {
+const externalsConfig = ({ env }) => {
   if (env === "server") {
     return [
       "@loadable/component",
