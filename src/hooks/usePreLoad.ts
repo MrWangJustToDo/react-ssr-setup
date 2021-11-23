@@ -3,15 +3,15 @@ import { useStore } from "react-redux";
 import cookie from "js-cookie";
 import { useHistory, useLocation } from "react-router";
 import { useBool } from "./useBool";
-import { UsePreLoadType } from "types/hooks";
 import { log } from "utils/log";
+import { UsePreLoadType } from "types/hooks";
 
 /* WrapperRoute */
 const usePreLoad: UsePreLoadType = ({ routes, preLoad, routerAnimate }) => {
   const isRedirect = useRef<string | undefined>();
   const store = useStore();
-  const history = useHistory();
   const location = useLocation();
+  const { replace } = useHistory();
   const { bool, show, hide } = useBool();
   const loadedPath = useRef<string | null>("");
   const loadingPath = useRef<string | null>("");
@@ -50,7 +50,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, routerAnimate }) => {
               log(`error ${error.toString()}`, "error");
               hide();
             } else if (redirect) {
-              history.replace(redirect);
+              replace(redirect);
             } else {
               timer2.current = setTimeout(() => {
                 timer1.current && clearTimeout(timer1.current) && (timer1.current = null);
@@ -66,7 +66,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, routerAnimate }) => {
 
       currentLoad(location);
     }
-  }, [location, preLoad, routes, store, show, hide, routerAnimate, history]);
+  }, [location, preLoad, routes, store, show, hide, routerAnimate, replace]);
 
   return { location: loadedLocation, loading: bool, routerAnimate };
 };

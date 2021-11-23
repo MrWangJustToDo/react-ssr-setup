@@ -1,14 +1,15 @@
 import thunkMiddleware from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose, Middleware } from "redux";
 
 import { rootSaga } from "./saga";
 import { rootReducer } from "./reducer";
+import { SagaManager } from "./saga/utils";
 import type { SagaStore, StoreState } from "types/store";
 
 type CreateStoreProps = {
   initialState?: StoreState;
-  middleware?: any[];
+  middleware?: Middleware[];
 };
 
 const devTools =
@@ -19,15 +20,23 @@ const composeEnhancers = devTools || compose;
 export const sagaStore = (props: CreateStoreProps = {}): SagaStore => {
   const { initialState, middleware = [] } = props;
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(...[thunkMiddleware, sagaMiddleware].concat(...middleware))));
-  (store as SagaStore).sagaTask = sagaMiddleware.run(rootSaga);
+  const allMiddleware = [thunkMiddleware, sagaMiddleware, ...middleware];
+  const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(...allMiddleware))) as SagaStore;
+  store.sagaTask = SagaManager.startSagas(rootSaga, sagaMiddleware);
 
-  if (__DEVELOPMENT__ && (module as any).hot) {
-    // Enable Webpack hot module replacement for reducers
-    (module as any).hot.accept("./reducer", () => {
+  // Enable Webpack hot module
+  if (__DEVELOPMENT__ && module.hot) {
+    module.hot.accept("./reducer", () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const nextRootReducer = require("./reducer");
+      const { rootReducer: nextRootReducer } = require("./reducer");
       store.replaceReducer(nextRootReducer);
+    });
+
+    module.hot.accept("./saga", () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { rootSaga: nextRootSaga } = require("./saga");
+      SagaManager.cancelSagas(store);
+      store.sagaTask = SagaManager.startSagas(nextRootSaga, sagaMiddleware);
     });
   }
 

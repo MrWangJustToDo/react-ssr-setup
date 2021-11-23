@@ -15,7 +15,7 @@ export interface GetInitialStateType {
     error?: string;
     headers?: { [key: string]: string };
     cookies?: { [key: string]: string };
-  } | void>;
+  } | void> | void;
 }
 
 export interface PreLoadComponentType<T = any> {

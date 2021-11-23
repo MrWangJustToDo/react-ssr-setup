@@ -74,8 +74,8 @@ const preLoadFromComponent: PreLoadType = ({ route, store, match, animateConfig,
   return new Promise((resolve) => {
     const component = route.component as any;
     if (typeof component.load === "function") {
-      component.load().then((component: { readonly default: PreLoadComponentType }) => {
-        const Target = component.default;
+      component.load().then((component: PreLoadComponentType & { readonly default?: PreLoadComponentType }) => {
+        const Target = typeof component.default !== "undefined" ? component.default : component;
         if (Target.routerIn || Target.routerOut) {
           animateConfig[match.path] = { routerIn: Target.routerIn, routerOut: Target.routerOut };
         }

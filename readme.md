@@ -44,7 +44,7 @@ yarn run start
 
 ## 代码分割
 
-## preload data   标准化预加载行为  通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}
+## preLoad data   标准化预加载行为  通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}
 
 ## sass
 
@@ -54,11 +54,11 @@ yarn run start
 
 ## 静态路由
 
-## 文件路由 自动 query 参数支持 使用 \_参数名(\_id.tsx) 文件作为的约定
+## 文件路由 自动 query 参数支持 使用 \_参数名(\_id.tsx) 文件作为的约定 开发环境支持page新建删除的实时路由更新(middleware 模式下支持)
 
 ## 装饰器
 
-## antd support
+## Material-UI
 
 ## 数据自动注入原理上比较难以实现 改用redux connect
 

@@ -1,5 +1,9 @@
 import React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import createEmotionServer from "@emotion/server/create-instance";
 import { Provider } from "react-redux";
+import { ThemeProvider } from "@mui/material/styles";
+import { CacheProvider } from "@emotion/react";
 import { HelmetProvider } from "react-helmet-async";
 import { renderToString } from "react-dom/server";
 import { StaticRouter as Router } from "react-router-dom";
@@ -12,6 +16,8 @@ import { HTML } from "template/Html";
 import { allRoutes } from "router/routes";
 import { App } from "components/App";
 import { ServerError } from "server/utils/error";
+import { theme } from "config/theme";
+import { createEmotionCache } from "config/createEmotionCache";
 
 import type { RenderType } from "types/server";
 
@@ -21,17 +27,24 @@ const empty = {};
 
 const renderSSR: RenderType = async ({ req, res }) => {
   const store = sagaStore();
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
   const helmetContext = {};
   const routerContext: { url?: string } = {};
 
   const content = (
-    <Provider store={store}>
-      <Router location={req.url} context={routerContext}>
-        <HelmetProvider context={helmetContext}>
-          <App />
-        </HelmetProvider>
-      </Router>
-    </Provider>
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <Router location={req.url} context={routerContext}>
+            <HelmetProvider context={helmetContext}>
+              <CssBaseline />
+              <App />
+            </HelmetProvider>
+          </Router>
+        </Provider>
+      </ThemeProvider>
+    </CacheProvider>
   );
 
   const webExtractor = new ChunkExtractor({ statsFile: manifestLoadable("client") });
@@ -63,6 +76,9 @@ const renderSSR: RenderType = async ({ req, res }) => {
       return;
     }
 
+    // Grab the CSS from emotion
+    const emotionChunks = extractCriticalToChunks(body);
+
     const linkElements = webExtractor.getLinkElements();
     const styleElements = webExtractor.getStyleElements();
     const scriptElements = webExtractor.getScriptElements();
@@ -75,6 +91,7 @@ const renderSSR: RenderType = async ({ req, res }) => {
             helmetContext={helmetContext}
             script={scriptElements}
             reduxInitialState={JSON.stringify(store.getState())}
+            emotionChunks={emotionChunks}
           >
             {body}
           </HTML>

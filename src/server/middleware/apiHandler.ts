@@ -237,7 +237,7 @@ export const compose = (...middleWares: MiddlewareFunction[]) => {
     let runTime = 0;
     let index = -1;
     // 需要加上死循环判断
-    function dispatch(i: number): Promise<any> {
+    function dispatch(i: number): Promise<void> {
       if (i <= index) {
         // 这些错误将会被 catchMiddlewareHandler  进行捕获
         throw new ServerError("compose index error, every middleware only allow call once", 500);
@@ -254,7 +254,7 @@ export const compose = (...middleWares: MiddlewareFunction[]) => {
           return Promise.resolve(fn(ctx, () => dispatch(i + 1)));
         } catch (e) {
           log("compose catch error", "error");
-          return Promise.resolve(e);
+          return Promise.resolve();
         }
       } else {
         log("all middleware done, do not call next", "warn");

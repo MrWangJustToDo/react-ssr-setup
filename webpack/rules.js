@@ -41,15 +41,15 @@ const jsRules = (env, isDev = true) => {
           plugins:
             env === "client"
               ? [
-                  [
-                    "import",
-                    {
-                      libraryName: "@arco-design/web-react",
-                      libraryDirectory: "es",
-                      camel2DashComponentName: false,
-                      style: "css", // 样式按需加载
-                    },
-                  ],
+                  // [  lose!!
+                  //   "import",
+                  //   {
+                  //     libraryName: "@arco-design/web-react",
+                  //     libraryDirectory: "es",
+                  //     camel2DashComponentName: false,
+                  //     style: "css", // 样式按需加载
+                  //   },
+                  // ],
                   isDev && "react-refresh/babel",
                 ].filter(Boolean)
               : ["@babel/transform-modules-commonjs"],

@@ -25,7 +25,7 @@ export const routes: PreLoadRouteConfig[] = [
     },
     component: loadable<unknown>(() => import("../components/A")),
   },
-  { path: "/home/bar", component: loadable<unknown>(() => import("../components/B")) },
+  { path: "/home/bar", component: loadable<unknown>(() => import("../components/B").then((c) => c.B)) },
   { path: "/home/baz", component: loadable<unknown>(() => import("../components/C")) },
 ];
 

@@ -35,11 +35,11 @@ class ListNode<T, K> {
     } else if (!pre) {
       // 如果前一个不存在，表示当前就是第一个
       this.head = next;
-      next!.previous = undefined;
+      next && (next.previous = undefined);
     } else if (!next) {
       // 如果后一个不存在，表示当前就是最后一个
       this.foot = pre;
-      pre!.next = undefined;
+      pre && (pre.next = undefined);
     } else {
       // 两边都有
       pre.next = next;

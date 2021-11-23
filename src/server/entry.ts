@@ -18,14 +18,6 @@ const app = express();
 
 const port = process.env.NODE_ENV === "development" ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
 
-app.use(express.static(`${process.cwd()}/static`));
-
-app.use(express.static(`${process.cwd()}/dist`));
-
-app.use(express.json({ limit: "5mb" }));
-
-app.use(express.urlencoded({ extended: true }));
-
 setUp(app);
 
 init(app);
@@ -40,7 +32,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 develop(app).then(() => {
   app.use(
     wrapperMiddlewareRequest({
-      requestHandler: async function renderSSR({ req, res }) {
+      requestHandler: async function renderPage({ req, res }) {
         await render({ req, res });
       },
       errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
