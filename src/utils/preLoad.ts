@@ -1,5 +1,8 @@
 import { match } from "react-router";
 import { matchRoutes } from "react-router-config";
+import { determineUserLang } from "i18n";
+import { getDataAction_Server } from "store/reducer/server/share/action";
+import { apiName } from "config/api";
 import type { ComponentClass } from "react";
 import type { SagaStore } from "types/store";
 import type { ExpressRequest } from "types/server";
@@ -11,7 +14,7 @@ function preLoad(
   pathName: string,
   store: SagaStore,
   routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } },
-  config: { req: ExpressRequest }
+  config: { req: ExpressRequest; lang: string }
 ): Promise<{
   redirect?: string;
   error?: string;
@@ -33,7 +36,7 @@ function preLoad(
   pathname: string,
   store: SagaStore,
   routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } },
-  config?: { req: ExpressRequest }
+  config?: { req: ExpressRequest; lang: string }
 ): Promise<void | { redirect?: string; error?: string; headers?: { [props: string]: string }; cookies?: { [props: string]: string } }> {
   const branch = matchRoutes<MathProps, PreLoadRouteConfig>(routes, pathname);
   const promises: Promise<{
@@ -49,11 +52,13 @@ function preLoad(
       preLoadFromRoute({ route, store, match, animateConfig: routerAnimate, config })
     );
   });
-  return Promise.all(promises).then((val) =>
-    val.filter(Boolean).reduce((res, c) => {
-      return { ...res, ...c };
-    }, {})
-  );
+  return preLoadLang({ store, config })
+    .then(() => Promise.all(promises))
+    .then((val) =>
+      val.filter(Boolean).reduce((res, c) => {
+        return { ...res, ...c };
+      }, {})
+    );
 }
 
 type PreLoadProps = {
@@ -61,7 +66,7 @@ type PreLoadProps = {
   store: SagaStore;
   match: match<MathProps>;
   animateConfig: { [pathname: string]: { routerIn?: string; routerOut?: string } };
-  config?: { req: ExpressRequest };
+  config?: { req: ExpressRequest; lang: string };
 };
 
 type PreLoadType = (props: PreLoadProps) => Promise<{
@@ -117,6 +122,21 @@ const preLoadFromRoute: PreLoadType = ({ route, store, match, animateConfig, con
         .catch(resolve);
     } else {
       resolve();
+    }
+  });
+};
+
+const preLoadLang = ({ store, config }: Pick<PreLoadProps, "store" | "config">): Promise<void> => {
+  return new Promise((resolve) => {
+    const lang = store.getState().client.currentLang.data;
+    const currentLang = determineUserLang(config?.lang ? [config.lang] : [lang]);
+    if (store.getState().server.lang.data[currentLang]) {
+      resolve();
+    } else {
+      store
+        .dispatch(getDataAction_Server({ name: apiName.lang, lang: currentLang }))
+        .then(resolve)
+        .catch(resolve);
     }
   });
 };

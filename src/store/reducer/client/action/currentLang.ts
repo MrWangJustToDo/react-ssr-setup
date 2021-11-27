@@ -8,7 +8,7 @@ type CurrentState = ReducerState<string>;
 
 const initState: CurrentState = { data: "", error: null, loaded: false, loading: false };
 
-const blogIdReducer: Reducer<CurrentState> = (state: CurrentState = initState, action: ReducerStateAction<string>) => {
+const langReducer: Reducer<CurrentState> = (state: CurrentState = initState, action: ReducerStateAction<string>) => {
   const actionReducer = actionReducerMap[action.type];
   if (actionReducer) {
     return actionReducer(state, action);
@@ -18,21 +18,21 @@ const blogIdReducer: Reducer<CurrentState> = (state: CurrentState = initState, a
 };
 
 const actionReducerMap: ReducerStateActionMapType<string> = {
-  [clientAction.SET_DATA_LOADING(actionName.currentBlogId)]: (state, action) =>
+  [clientAction.SET_DATA_LOADING(actionName.currentLang)]: (state, action) =>
     produce(state, (proxy) => {
       proxy.data = "";
       proxy.error = null;
       proxy.loading = action.loadingState || true;
       proxy.loaded = false;
     }),
-  [clientAction.SET_DATA_SUCCESS(actionName.currentBlogId)]: (state, action) =>
+  [clientAction.SET_DATA_SUCCESS(actionName.currentLang)]: (state, action) =>
     produce(state, (proxy) => {
       proxy.data = action.data || "";
       proxy.error = null;
       proxy.loading = false;
       proxy.loaded = true;
     }),
-  [clientAction.SET_DATA_FAIL(actionName.currentBlogId)]: (state, action) =>
+  [clientAction.SET_DATA_FAIL(actionName.currentLang)]: (state, action) =>
     produce(state, (proxy) => {
       proxy.data = "";
       proxy.error = action.error;
@@ -40,4 +40,5 @@ const actionReducerMap: ReducerStateActionMapType<string> = {
       proxy.loaded = true;
     }),
 };
-export { blogIdReducer };
+
+export { langReducer };

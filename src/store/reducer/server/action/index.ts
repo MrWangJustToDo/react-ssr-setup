@@ -1,5 +1,3 @@
-export { blogReducer } from "./blog";
+export { langReducer } from "./lang";
 export { homeReducer } from "./home";
-export { tagReducer } from "./tag";
-export { typeReducer } from "./type";
-export { userHomeReducer } from "./userHome";
+export { blogReducer } from "./blog";

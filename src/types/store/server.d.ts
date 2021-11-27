@@ -1,16 +1,14 @@
 import { apiName } from "config/api";
 import { Dispatch } from "redux";
-import { homeReducer, typeReducer, tagReducer, blogReducer, userHomeReducer } from "store/reducer/server/action";
+import { homeReducer, blogReducer, langReducer } from "store/reducer/server/action";
 import { ReducerStateAction } from "./reducer";
 
-export type ServerReducerKey = apiName.home | apiName.type | apiName.tag | apiName.blog | apiName.userHome;
+export type ServerReducerKey = apiName;
 
 export type ServerReducer = {
   [apiName.home]: ReturnType<typeof homeReducer>;
-  [apiName.type]: ReturnType<typeof typeReducer>;
-  [apiName.tag]: ReturnType<typeof tagReducer>;
   [apiName.blog]: ReturnType<typeof blogReducer>;
-  [apiName.userHome]: ReturnType<typeof userHomeReducer>;
+  [apiName.lang]: ReturnType<typeof langReducer>;
 };
 
 export interface ServerActionType {

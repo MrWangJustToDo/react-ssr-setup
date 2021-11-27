@@ -10,10 +10,10 @@ import { loadableReady } from "@loadable/component";
 
 import { log } from "utils/log";
 import { sagaStore } from "store";
-import { StoreState } from "types/store";
 import { App } from "components/App";
 import { theme } from "config/theme";
 import { createEmotionCache } from "config/createEmotionCache";
+import { StoreState } from "types/store";
 
 const cache = createEmotionCache();
 
@@ -21,23 +21,25 @@ const place = document.querySelector("#content");
 
 const store = sagaStore({ initialState: window.__PRELOADED_STATE__ as StoreState });
 
-const content = (
-  <CacheProvider value={cache}>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Router>
-          <HelmetProvider>
-            <React.StrictMode>
-              <CssBaseline />
-              <App />
-            </React.StrictMode>
-          </HelmetProvider>
-        </Router>
-      </Provider>
-    </ThemeProvider>
-  </CacheProvider>
-);
+const Root = () => {
+  return (
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <Router>
+            <HelmetProvider>
+              <React.StrictMode>
+                <CssBaseline />
+                <App />
+              </React.StrictMode>
+            </HelmetProvider>
+          </Router>
+        </Provider>
+      </ThemeProvider>
+    </CacheProvider>
+  );
+};
 
 loadableReady(() =>
-  (__DEVELOPMENT__ && __MIDDLEWARE__) || !__SSR__ ? (log("not hydrate render on client", "warn"), render(content, place)) : hydrate(content, place)
+  (__DEVELOPMENT__ && __MIDDLEWARE__) || !__SSR__ ? (log("not hydrate render on client", "warn"), render(<Root />, place)) : hydrate(<Root />, place)
 );

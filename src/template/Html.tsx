@@ -4,6 +4,7 @@ import type { HelmetData } from "react-helmet-async";
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
 
 type HTMLProps = {
+  lang?: string;
   children?: string;
   link?: React.ReactElement[];
   script?: React.ReactElement[];
@@ -12,11 +13,11 @@ type HTMLProps = {
   helmetContext?: { helmet?: HelmetData };
 };
 
-export const HTML = ({ children = "", link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks }: HTMLProps) => {
+export const HTML = ({ lang, children = "", link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks }: HTMLProps) => {
   const { helmet } = helmetContext;
 
   return (
-    <html lang="zh">
+    <html lang={lang}>
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={theme.palette.primary.main} />

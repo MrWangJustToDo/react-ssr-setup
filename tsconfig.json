@@ -31,12 +31,14 @@
       "style/*": ["src/style/*"],
       "utils/*": ["src/utils/*"],
       "store": ["src/store"],
+      "i18n": ["src/i18n"],
       "store/*": ["src/store/*"],
       "types/*": ["src/types/*"],
       "template/*": ["src/template/*"],
       "components/*": ["src/components/*"],
       "webpackConfig/*": ["webpack/*"],
-      "script/*": ["script/*"]
+      "script/*": ["script/*"],
+      "lang/*": ["lang/*"]
     }
   },
   "include": ["src"]

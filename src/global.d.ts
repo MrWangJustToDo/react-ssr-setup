@@ -70,6 +70,7 @@ declare const __SSR__: boolean;
 declare const __DEVELOPMENT__: boolean;
 declare const __MIDDLEWARE__: boolean;
 declare const __ANIMATE_ROUTER__: boolean;
+declare const __API_HOST__: string;
 
 interface Window {
   __PRELOADED_STATE__: unknown;

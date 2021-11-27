@@ -9,7 +9,7 @@ import type { AutoRequestProps, AutoRequestType, CreateRequestType } from "types
 
 const cacheResult = new Cache<string, Promise<any>>(60000);
 
-if (__CLIENT__ && process.env.NODE_ENV === "development") {
+if (__CLIENT__ && __DEVELOPMENT__) {
   (window as any).__cache = cacheResult;
 }
 

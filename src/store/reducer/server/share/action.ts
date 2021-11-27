@@ -8,13 +8,13 @@ const serverAction: ServerActionType = {
 };
 
 const getDataAction_Server: CreateServerActionWithDispatchType =
-  ({ name }) =>
+  ({ name, ...resProps }) =>
   (dispatch) => {
     let done: null | (() => void) = null;
     const temp = new Promise<void>((r) => {
       done = r;
     });
-    dispatch({ type: serverAction.GET_DATA_ACTION(name), done });
+    dispatch({ type: serverAction.GET_DATA_ACTION(name), done, ...resProps });
     return temp;
   };
 

@@ -24,7 +24,7 @@ const log = (message: string | Error, lev: "normal" | "warn" | "error") => {
   } else if (lev === "warn") {
     console.log(`[${side}]`, chalk.green(message.toString()));
   } else {
-    if (process.env.NODE_ENV === "development") {
+    if (__DEVELOPMENT__) {
       console.log(`[${side}]`, message.toString());
     }
   }

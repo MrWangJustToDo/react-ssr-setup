@@ -9,7 +9,7 @@ interface UsePreLoadProps {
 }
 export interface UsePreLoadType {
   (props: UsePreLoadProps): {
-    loading: boolean;
+    loading?: boolean;
     location: ReturnType<typeof useLocation>;
   };
 }

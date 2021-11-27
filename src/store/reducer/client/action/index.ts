@@ -1,10 +1,3 @@
-export { archiveReducer } from "./currentArchive";
-export { blogIdReducer } from "./currentBlogId";
-export { headerReducer } from "./currentHeader";
-export { homePageReducer } from "./currentHomePage";
-export { ipReducer } from "./currentIp";
-export { resultReducer } from "./currentResult";
-export { tagReducer } from "./currentTag";
-export { tagPageReducer } from "./currentTagPage";
 export { tokenReducer } from "./currentToken";
-export { typeReducer } from "./currentType";
+export { langReducer } from "./currentLang";
+export { loadingReducer } from "./currentLoading";

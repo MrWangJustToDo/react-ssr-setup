@@ -1,4 +1,7 @@
-import { useEffect, useRef } from "react";
+import { actionName } from "config/action";
+import { useCallback, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setDataSuccess_client } from "store/reducer/client/share/action";
 import { delay, cancel } from "utils/delay";
 
 type LoadingBarProps = {
@@ -55,4 +58,12 @@ const useLoadingBar = (props: LoadingBarProps = {}) => {
   return { ref };
 };
 
-export { useLoadingBar };
+const useChangeLoading = () => {
+  const dispatch = useDispatch();
+  const start = useCallback(() => dispatch(setDataSuccess_client({ name: actionName.currentLoading, data: true })), [dispatch]);
+  const end = useCallback(() => dispatch(setDataSuccess_client({ name: actionName.currentLoading, data: false })), [dispatch]);
+
+  return { start, end };
+};
+
+export { useLoadingBar, useChangeLoading };

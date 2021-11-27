@@ -13,11 +13,11 @@ const Great: PreLoadComponentType<{ type: string[] }> = ({ type }) => {
 
 Great.getInitialState = async ({ store }) => {
   console.log("开始");
-  await store.dispatch(getDataAction_Server({ name: apiName.type }));
+  await store.dispatch(getDataAction_Server({ name: apiName.blog }));
   console.log(store.sagaTask?.isRunning(), store.sagaTask?.isCancelled());
   console.log("dispatch done");
 };
 
 export default connect((state: StoreState) => ({
-  type: state.server.type.data,
+  blog: state.server.blog.data,
 }))(Great);

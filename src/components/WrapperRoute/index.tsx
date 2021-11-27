@@ -10,7 +10,7 @@ import "./index.css";
 const routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } } = {};
 
 export const WrapperRoute: WrapperRouteType = ({ children, routes, LoadingBar, animationRouter = true }) => {
-  const { location, loading } = usePreLoad({ routes, preLoad, routerAnimate });
+  const { location } = usePreLoad({ routes, preLoad, routerAnimate });
 
   const getAnimateFromRouter = useCallback((key, isEnter) => {
     if (routerAnimate.current && routerAnimate[key]) {
@@ -50,7 +50,7 @@ export const WrapperRoute: WrapperRouteType = ({ children, routes, LoadingBar, a
 
   return (
     <>
-      <LoadingBar loading={loading} />
+      <LoadingBar />
       {routeChildren}
     </>
   );

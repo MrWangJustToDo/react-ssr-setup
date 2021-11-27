@@ -17,6 +17,7 @@ import { allRoutes } from "router/routes";
 import { App } from "components/App";
 import { ServerError } from "server/utils/error";
 import { theme } from "config/theme";
+import { determineUserLang } from "i18n";
 import { createEmotionCache } from "config/createEmotionCache";
 
 import type { RenderType } from "types/server";
@@ -28,6 +29,7 @@ const empty = {};
 const renderSSR: RenderType = async ({ req, res }) => {
   const store = sagaStore();
   const cache = createEmotionCache();
+  const lang = determineUserLang(req.acceptsLanguages(), req.path);
   const { extractCriticalToChunks } = createEmotionServer(cache);
   const helmetContext = {};
   const routerContext: { url?: string } = {};
@@ -39,7 +41,7 @@ const renderSSR: RenderType = async ({ req, res }) => {
           <Router location={req.url} context={routerContext}>
             <HelmetProvider context={helmetContext}>
               <CssBaseline />
-              <App />
+              <App lang={lang} />
             </HelmetProvider>
           </Router>
         </Provider>
@@ -51,7 +53,7 @@ const renderSSR: RenderType = async ({ req, res }) => {
 
   const jsx = webExtractor.collectChunks(content);
 
-  const { redirect, error, headers } = await preLoad(allRoutes, req.url, store, empty, { req });
+  const { redirect, error, headers } = await preLoad(allRoutes, req.url, store, empty, { req, lang });
 
   if (headers) {
     Object.keys(headers).forEach((key) => res.setHeader(key, headers[key]));
@@ -87,11 +89,12 @@ const renderSSR: RenderType = async ({ req, res }) => {
       "<!doctype html>" +
         renderToString(
           <HTML
-            link={linkElements.concat(styleElements)}
-            helmetContext={helmetContext}
+            lang={lang}
             script={scriptElements}
-            reduxInitialState={JSON.stringify(store.getState())}
+            helmetContext={helmetContext}
             emotionChunks={emotionChunks}
+            link={linkElements.concat(styleElements)}
+            reduxInitialState={JSON.stringify(store.getState())}
           >
             {body}
           </HTML>

@@ -5,6 +5,7 @@ import express from "express";
 import { log } from "utils/log";
 import { init } from "./init";
 import { setUp } from "./setup";
+import { apiHandler } from "./api";
 import { render } from "server/middleware/render";
 import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
@@ -16,7 +17,7 @@ const upload = multer({ dest: "./cache" });
 
 const app = express();
 
-const port = process.env.NODE_ENV === "development" ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
+const port = __DEVELOPMENT__ ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
 
 setUp(app);
 
@@ -28,6 +29,8 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     code: 0,
   });
 });
+
+app.use("/api", apiHandler);
 
 develop(app).then(() => {
   app.use(
