@@ -10,7 +10,7 @@ import { StaticRouter as Router } from "react-router-dom";
 import { ChunkExtractor } from "@loadable/server";
 
 import { sagaStore } from "store";
-import { preLoad } from "utils/preLoad";
+import { preLoad, preLoadLang } from "utils/preLoad";
 import { manifestLoadable } from "utils/manifest";
 import { HTML } from "template/Html";
 import { allRoutes } from "router/routes";
@@ -41,7 +41,7 @@ const renderSSR: RenderType = async ({ req, res }) => {
           <Router location={req.url} context={routerContext}>
             <HelmetProvider context={helmetContext}>
               <CssBaseline />
-              <App lang={lang} />
+              <App />
             </HelmetProvider>
           </Router>
         </Provider>
@@ -60,47 +60,52 @@ const renderSSR: RenderType = async ({ req, res }) => {
   }
 
   if (error) {
-    throw new ServerError(error, 404);
-  } else if (redirect) {
+    throw new ServerError(error, 403);
+  }
+
+  if (redirect) {
     res.writeHead(302, {
       Location: redirect,
     });
     res.end();
-  } else {
-    // must run first!!  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
-    const body = renderToString(jsx);
-
-    if (routerContext.url) {
-      res.writeHead(301, {
-        Location: routerContext.url,
-      });
-      res.end();
-      return;
-    }
-
-    // Grab the CSS from emotion
-    const emotionChunks = extractCriticalToChunks(body);
-
-    const linkElements = webExtractor.getLinkElements();
-    const styleElements = webExtractor.getStyleElements();
-    const scriptElements = webExtractor.getScriptElements();
-
-    res.send(
-      "<!doctype html>" +
-        renderToString(
-          <HTML
-            lang={lang}
-            script={scriptElements}
-            helmetContext={helmetContext}
-            emotionChunks={emotionChunks}
-            link={linkElements.concat(styleElements)}
-            reduxInitialState={JSON.stringify(store.getState())}
-          >
-            {body}
-          </HTML>
-        )
-    );
+    return;
   }
+
+  // 加载语言文件
+  await preLoadLang({ store, lang });
+  // 运行程序  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
+  const body = renderToString(jsx);
+
+  if (routerContext.url) {
+    res.writeHead(301, {
+      Location: routerContext.url,
+    });
+    res.end();
+    return;
+  }
+
+  // Grab the CSS from emotion
+  const emotionChunks = extractCriticalToChunks(body);
+
+  const linkElements = webExtractor.getLinkElements();
+  const styleElements = webExtractor.getStyleElements();
+  const scriptElements = webExtractor.getScriptElements();
+
+  res.status(200).send(
+    "<!doctype html>" +
+      renderToString(
+        <HTML
+          lang={lang}
+          script={scriptElements}
+          helmetContext={helmetContext}
+          emotionChunks={emotionChunks}
+          link={linkElements.concat(styleElements)}
+          reduxInitialState={JSON.stringify(store.getState())}
+        >
+          {body}
+        </HTML>
+      )
+  );
 };
 
 export { renderSSR };

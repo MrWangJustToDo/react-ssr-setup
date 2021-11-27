@@ -52,13 +52,11 @@ function preLoad(
       preLoadFromRoute({ route, store, match, animateConfig: routerAnimate, config })
     );
   });
-  return preLoadLang({ store, config })
-    .then(() => Promise.all(promises))
-    .then((val) =>
-      val.filter(Boolean).reduce((res, c) => {
-        return { ...res, ...c };
-      }, {})
-    );
+  return Promise.all(promises).then((val) =>
+    val.filter(Boolean).reduce((res, c) => {
+      return { ...res, ...c };
+    }, {})
+  );
 }
 
 type PreLoadProps = {
@@ -126,17 +124,16 @@ const preLoadFromRoute: PreLoadType = ({ route, store, match, animateConfig, con
   });
 };
 
-const preLoadLang = ({ store, config }: Pick<PreLoadProps, "store" | "config">): Promise<void> => {
+const preLoadLang = ({ store, lang }: Pick<PreLoadProps, "store"> & { lang: string }): Promise<void> => {
   return new Promise((resolve) => {
-    const lang = store.getState().client.currentLang.data;
-    const currentLang = determineUserLang(config?.lang ? [config.lang] : [lang]);
+    const currentLang = determineUserLang([lang]);
     if (store.getState().server.lang.data[currentLang]) {
       resolve();
     } else {
       store
         .dispatch(getDataAction_Server({ name: apiName.lang, lang: currentLang }))
-        .then(resolve)
-        .catch(resolve);
+        .then(() => resolve())
+        .catch(() => resolve());
     }
   });
 };
@@ -148,4 +145,4 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
   return Wrapper;
 }
 
-export { preLoad, preLoadWrapper };
+export { preLoad, preLoadLang, preLoadWrapper };

@@ -14,8 +14,8 @@ export const useLang = () => {
   const changeLang = useCallback(
     (newLang: string) => {
       if (langRef.current !== newLang) {
-        start();
-        Promise.resolve(dispatch(getDataAction_Server({ name: apiName.lang, lang: newLang })))
+        Promise.resolve(start())
+          .then(() => dispatch(getDataAction_Server({ name: apiName.lang, lang: newLang })))
           .then(end)
           .catch(end);
       }

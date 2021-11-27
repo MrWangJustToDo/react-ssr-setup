@@ -13,7 +13,7 @@ export function* getBlogData({ done }: { done: () => void }) {
       yield put(getDataFail_Server({ name: apiName.blog, data: state }));
     }
   } catch (e) {
-    yield put(getDataFail_Server({ name: apiName.blog, data: (e as Error).toString() }));
+    yield put(getDataFail_Server({ name: apiName.blog, error: (e as Error).toString() }));
   } finally {
     done();
   }

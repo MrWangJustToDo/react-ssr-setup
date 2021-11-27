@@ -20,7 +20,7 @@ export function* getLangData({ done, lang }: { done: () => void; lang: string })
     }
     yield put(setDataSuccess_client({ name: actionName.currentLang, data: lang }));
   } catch (e) {
-    yield put(getDataFail_Server({ name: apiName.lang, data: (e as Error).message }));
+    yield put(getDataFail_Server({ name: apiName.lang, error: (e as Error).toString() }));
   } finally {
     done();
   }

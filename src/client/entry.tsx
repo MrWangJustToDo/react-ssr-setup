@@ -8,9 +8,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { loadableReady } from "@loadable/component";
 
-import { log } from "utils/log";
+import { defaultLang } from "i18n";
 import { sagaStore } from "store";
 import { App } from "components/App";
+import { log } from "utils/log";
+import { preLoadLang } from "utils/preLoad";
 import { theme } from "config/theme";
 import { createEmotionCache } from "config/createEmotionCache";
 import { StoreState } from "types/store";
@@ -40,6 +42,10 @@ const Root = () => {
   );
 };
 
-loadableReady(() =>
-  (__DEVELOPMENT__ && __MIDDLEWARE__) || !__SSR__ ? (log("not hydrate render on client", "warn"), render(<Root />, place)) : hydrate(<Root />, place)
-);
+if (!__SSR__) {
+  preLoadLang({ store, lang: defaultLang })
+    .then(() => loadableReady())
+    .then(() => render(<Root />, place));
+} else {
+  loadableReady(() => (__DEVELOPMENT__ && __MIDDLEWARE__ ? (log("not hydrate render on client", "warn"), render(<Root />, place)) : hydrate(<Root />, place)));
+}

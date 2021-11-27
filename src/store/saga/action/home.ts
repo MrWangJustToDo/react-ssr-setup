@@ -13,7 +13,7 @@ export function* getHomeData({ done }: { done: () => void }) {
       yield put(getDataFail_Server({ name: apiName.home, data: state }));
     }
   } catch (e) {
-    yield put(getDataFail_Server({ name: apiName.home, data: (e as Error).toString() }));
+    yield put(getDataFail_Server({ name: apiName.home, error: (e as Error).toString() }));
   } finally {
     done();
   }
