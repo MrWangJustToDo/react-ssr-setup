@@ -1,6 +1,5 @@
 import { match } from "react-router";
 import { matchRoutes } from "react-router-config";
-import { determineUserLang } from "i18n";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 import { apiName } from "config/api";
 import type { ComponentClass } from "react";
@@ -126,12 +125,11 @@ const preLoadFromRoute: PreLoadType = ({ route, store, match, animateConfig, con
 
 const preLoadLang = ({ store, lang }: Pick<PreLoadProps, "store"> & { lang: string }): Promise<void> => {
   return new Promise((resolve) => {
-    const currentLang = determineUserLang([lang]);
-    if (store.getState().server.lang.data[currentLang]) {
+    if (store.getState().server.lang.data[lang]) {
       resolve();
     } else {
       store
-        .dispatch(getDataAction_Server({ name: apiName.lang, lang: currentLang }))
+        .dispatch(getDataAction_Server({ name: apiName.lang, lang }))
         .then(() => resolve())
         .catch(() => resolve());
     }

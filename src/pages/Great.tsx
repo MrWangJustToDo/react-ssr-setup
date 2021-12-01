@@ -6,9 +6,9 @@ import { getDataAction_Server } from "store/reducer/server/share/action";
 import type { StoreState } from "types/store";
 import type { PreLoadComponentType } from "types/components";
 
-const Great: PreLoadComponentType<{ type: string[] }> = ({ type }) => {
-  console.log(type);
-  return <div>Great</div>;
+const Great: PreLoadComponentType<{ blog: string[] }> = ({ blog }) => {
+  console.log(blog, "666");
+  return <div>Great rt</div>;
 };
 
 Great.getInitialState = async ({ store }) => {

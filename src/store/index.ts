@@ -17,7 +17,7 @@ const devTools =
 
 const composeEnhancers = devTools || compose;
 
-export const sagaStore = (props: CreateStoreProps = {}): SagaStore => {
+export const createUniversalStore = (props: CreateStoreProps = {}): SagaStore => {
   const { initialState, middleware = [] } = props;
   const sagaMiddleware = createSagaMiddleware();
   const allMiddleware = [thunkMiddleware, sagaMiddleware, ...middleware];

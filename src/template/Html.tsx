@@ -4,6 +4,7 @@ import type { HelmetData } from "react-helmet-async";
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
 
 type HTMLProps = {
+  env?: string;
   lang?: string;
   children?: string;
   link?: React.ReactElement[];
@@ -13,7 +14,7 @@ type HTMLProps = {
   helmetContext?: { helmet?: HelmetData };
 };
 
-export const HTML = ({ lang, children = "", link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks }: HTMLProps) => {
+export const HTML = ({ lang, children = "", link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks, env = "{}" }: HTMLProps) => {
   const { helmet } = helmetContext;
 
   return (
@@ -21,6 +22,7 @@ export const HTML = ({ lang, children = "", link = [], script = [], reduxInitial
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={theme.palette.primary.main} />
+        <meta name="build-time" content={__BUILD_TIME__} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         {helmet?.base.toComponent()}
@@ -37,6 +39,8 @@ export const HTML = ({ lang, children = "", link = [], script = [], reduxInitial
             __html: `window.__PRELOADED_STATE__ = ${reduxInitialState}`,
           }}
         />
+        <script dangerouslySetInnerHTML={{ __html: `window.__ENV__ = ${env}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.__LANG__ = '${lang}'` }} />
       </head>
       <body>
         <div id="loading_bar" />

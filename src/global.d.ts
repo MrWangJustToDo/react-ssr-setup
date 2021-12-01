@@ -70,9 +70,15 @@ declare const __SSR__: boolean;
 declare const __DEVELOPMENT__: boolean;
 declare const __MIDDLEWARE__: boolean;
 declare const __ANIMATE_ROUTER__: boolean;
-declare const __API_HOST__: string;
+declare const __BUILD_TIME__: string;
+declare const PUBLIC_API_HOST: string;
+declare const ANIMATE_ROUTER: boolean;
 
 interface Window {
+  __ENV__: unknown;
+  __LANG__: unknown;
+  ANIMATE_ROUTER: boolean;
+  PUBLIC_API_HOST: string;
   __PRELOADED_STATE__: unknown;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 }
