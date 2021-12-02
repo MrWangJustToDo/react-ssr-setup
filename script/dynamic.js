@@ -33,7 +33,6 @@ class DynamicRouter {
                 } else {
                   config.path = `${prePath}${fileName}`;
                 }
-                config.exact = true;
                 config.componentPath = `${prePath.slice(1)}${fileName}`;
                 // 文件名字重复
                 if (routes.some((route) => route.path === config.path)) {

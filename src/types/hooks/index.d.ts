@@ -5,7 +5,6 @@ import { preLoad } from "utils/preLoad";
 interface UsePreLoadProps {
   routes: PreLoadRouteConfig[];
   preLoad: typeof preLoad;
-  routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } };
 }
 export interface UsePreLoadType {
   (props: UsePreLoadProps): {

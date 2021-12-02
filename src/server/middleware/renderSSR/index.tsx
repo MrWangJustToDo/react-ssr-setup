@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider } from "@emotion/react";
 import { HelmetProvider } from "react-helmet-async";
 import { renderToString } from "react-dom/server";
-import { StaticRouter as Router } from "react-router-dom";
+import { StaticRouter as Router } from "react-router-dom/server";
 import { ChunkExtractor } from "@loadable/server";
 
 import { manifestLoadable } from "utils/manifest";
@@ -22,16 +22,15 @@ const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
   if (!store) {
     throw new ServerError("store 初始化失败", 403);
   } else {
+    const helmetContext = {};
     const cache = createEmotionCache();
     const { extractCriticalToChunks } = createEmotionServer(cache);
-    const helmetContext = {};
-    const routerContext: { url?: string } = {};
 
     const content = (
       <CacheProvider value={cache}>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <Router location={req.url} context={routerContext}>
+            <Router location={req.url}>
               <HelmetProvider context={helmetContext}>
                 <CssBaseline />
                 <App />
@@ -48,14 +47,6 @@ const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
 
     // 运行程序  https://stackoverflow.com/questions/57725515/did-not-expect-server-html-to-contain-a-div-in-main
     const body = renderToString(jsx);
-
-    if (routerContext.url) {
-      res.writeHead(301, {
-        Location: routerContext.url,
-      });
-      res.end();
-      return;
-    }
 
     // Grab the CSS from emotion
     const emotionChunks = extractCriticalToChunks(body);

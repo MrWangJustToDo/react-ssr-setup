@@ -1,11 +1,11 @@
-import { match } from "react-router";
 import { SagaStore } from "types/store";
+import { Params } from "react-router";
 import { ExpressRequest } from "types/server";
-import { PreLoadRouteConfig, MathProps } from "types/router";
+import { PreLoadRouteConfig } from "types/router";
 
 interface GetInitialStateProps {
   store: SagaStore;
-  match: match<MathProps>;
+  match: { params: Params<string>; pathname: string };
   config?: { req: ExpressRequest };
 }
 

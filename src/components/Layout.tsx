@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { Helmet } from "react-helmet-async";
-import { renderRoutes } from "react-router-config";
 import Box from "@mui/material/Box";
 import { Link } from "@mui/material";
 import { useIntl } from "react-intl";
-import { useHistory } from "react-router";
 
 import { supportedLangs } from "i18n";
 import { allRoutes } from "router/routes";
 import { useLang } from "hooks/useLang";
+import { useNavigate, useRoutes } from "react-router";
+import { LoadedLocationContext } from "./WrapperRoute";
 
 import style from "./index.module.scss";
+
+const All = () => {
+  const location = useContext(LoadedLocationContext);
+  return useRoutes(allRoutes, location);
+};
 
 export const Layout = () => {
   const { locale: lang } = useIntl();
   const { changeLang } = useLang();
-  const { push } = useHistory();
+  const navigate = useNavigate();
   return (
     <Container className={style.container}>
       <header className={style.header}>
@@ -32,11 +37,11 @@ export const Layout = () => {
         </Box>
       </header>
       <main className={style.content}>
-        {renderRoutes(allRoutes)}
+        <All />
         <hr />
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           {allRoutes.map((item) => (
-            <Button variant="contained" key={item.path} onClick={() => push(item.path)}>
+            <Button variant="contained" key={item.path} onClick={() => navigate(item.path)}>
               {item.path}
             </Button>
           ))}

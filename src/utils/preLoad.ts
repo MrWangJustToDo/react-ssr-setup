@@ -1,18 +1,16 @@
-import { match } from "react-router";
-import { matchRoutes } from "react-router-config";
+import { matchRoutes, Params } from "react-router";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 import { apiName } from "config/api";
 import type { ComponentClass } from "react";
 import type { SagaStore } from "types/store";
 import type { ExpressRequest } from "types/server";
-import type { MathProps, PreLoadRouteConfig } from "types/router";
+import type { PreLoadRouteConfig } from "types/router";
 import type { GetInitialStateType, PreLoadComponentType } from "types/components";
 
 function preLoad(
   routes: PreLoadRouteConfig[],
   pathName: string,
   store: SagaStore,
-  routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } },
   config: { req: ExpressRequest; lang: string }
 ): Promise<{
   redirect?: string;
@@ -22,8 +20,7 @@ function preLoad(
 function preLoad(
   routes: PreLoadRouteConfig[],
   pathName: string,
-  store: SagaStore,
-  routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } }
+  store: SagaStore
 ): Promise<{
   redirect?: string;
   error?: string;
@@ -34,21 +31,23 @@ function preLoad(
   routes: PreLoadRouteConfig[],
   pathname: string,
   store: SagaStore,
-  routerAnimate: { [props: string]: { routerIn?: string; routerOut?: string } },
   config?: { req: ExpressRequest; lang: string }
 ): Promise<void | { redirect?: string; error?: string; headers?: { [props: string]: string }; cookies?: { [props: string]: string } }> {
-  const branch = matchRoutes<MathProps, PreLoadRouteConfig>(routes, pathname);
+  const branch = matchRoutes(routes, pathname) || [];
+
   const promises: Promise<{
     redirect?: string;
     error?: string;
     header?: { [key: string]: string };
   } | void>[] = [];
-  branch.forEach(({ route, match }) => {
+
+  branch.forEach(({ route, params, pathname }) => {
+    const match = { params, pathname };
     promises.push(
       // for component
-      preLoadFromComponent({ route, store, match, animateConfig: routerAnimate, config }),
+      preLoadFromComponent({ route: route as PreLoadRouteConfig, store, match, config }),
       // for router
-      preLoadFromRoute({ route, store, match, animateConfig: routerAnimate, config })
+      preLoadFromRoute({ route: route as PreLoadRouteConfig, store, match, config })
     );
   });
   return Promise.all(promises).then((val) =>
@@ -61,8 +60,7 @@ function preLoad(
 type PreLoadProps = {
   route: PreLoadRouteConfig;
   store: SagaStore;
-  match: match<MathProps>;
-  animateConfig: { [pathname: string]: { routerIn?: string; routerOut?: string } };
+  match: { params: Params<string>; pathname: string };
   config?: { req: ExpressRequest; lang: string };
 };
 
@@ -72,15 +70,12 @@ type PreLoadType = (props: PreLoadProps) => Promise<{
   header?: { [key: string]: string };
 } | void>;
 
-const preLoadFromComponent: PreLoadType = ({ route, store, match, animateConfig, config }) => {
+const preLoadFromComponent: PreLoadType = ({ route, store, match, config }) => {
   return new Promise((resolve) => {
-    const component = route.component as any;
+    const component = route.Component;
     if (typeof component.load === "function") {
       component.load().then((component: PreLoadComponentType & { readonly default?: PreLoadComponentType }) => {
         const Target = typeof component.default !== "undefined" ? component.default : component;
-        if (Target.routerIn || Target.routerOut) {
-          animateConfig[match.path] = { routerIn: Target.routerIn, routerOut: Target.routerOut };
-        }
         if (Target.getInitialState && typeof Target.getInitialState === "function") {
           Promise.resolve()
             .then(() => Target.getInitialState && Target.getInitialState({ store, match, config }))
@@ -91,10 +86,7 @@ const preLoadFromComponent: PreLoadType = ({ route, store, match, animateConfig,
         }
       });
     } else {
-      const preLoadComponent = route.component as PreLoadComponentType;
-      if (preLoadComponent.routerIn || preLoadComponent.routerOut) {
-        animateConfig[match.path] = { routerIn: preLoadComponent.routerIn, routerOut: preLoadComponent.routerOut };
-      }
+      const preLoadComponent = route.Component as PreLoadComponentType;
       if (preLoadComponent.getInitialState && typeof preLoadComponent.getInitialState === "function") {
         Promise.resolve()
           .then(() => preLoadComponent.getInitialState && preLoadComponent.getInitialState({ store, match, config }))
@@ -107,11 +99,8 @@ const preLoadFromComponent: PreLoadType = ({ route, store, match, animateConfig,
   });
 };
 
-const preLoadFromRoute: PreLoadType = ({ route, store, match, animateConfig, config }) => {
+const preLoadFromRoute: PreLoadType = ({ route, store, match, config }) => {
   return new Promise((resolve) => {
-    if (route.animationRouter) {
-      animateConfig[match.path] = { routerIn: route.animationRouter.routerIn, routerOut: route.animationRouter.routerOut };
-    }
     if (route.getInitialState && typeof route.getInitialState === "function") {
       Promise.resolve()
         .then(() => route.getInitialState && route.getInitialState({ store, match, config }))
