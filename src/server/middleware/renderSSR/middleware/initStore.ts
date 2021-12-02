@@ -7,6 +7,9 @@ import { Middleware } from "../compose";
 const empty = {};
 export const initStore: Middleware = (next) => async (args) => {
   const { req, res, lang } = args;
+  if (!lang) {
+    throw new ServerError("lang 初始化失败", 500);
+  }
   const store = createUniversalStore();
   const { headers, error, redirect } = await preLoad(allRoutes, req.url, store, empty, { req, lang });
   if (headers) {

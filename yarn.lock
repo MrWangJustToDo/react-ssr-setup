@@ -7794,7 +7794,7 @@ webpack-dev-server@^4.6.0:
     webpack-dev-middleware "^5.2.1"
     ws "^8.1.0"
 
-webpack-hot-middleware@^2.25.0:
+webpack-hot-middleware@^2.25.1:
   version "2.25.1"
   resolved "https://registry.nlark.com/webpack-hot-middleware/download/webpack-hot-middleware-2.25.1.tgz#581f59edf0781743f4ca4c200fd32c9266c6cf7c"
   integrity sha1-WB9Z7fB4F0P0ykwgD9MskmbGz3w=

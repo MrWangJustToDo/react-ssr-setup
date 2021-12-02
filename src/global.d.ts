@@ -75,10 +75,8 @@ declare const PUBLIC_API_HOST: string;
 declare const ANIMATE_ROUTER: boolean;
 
 interface Window {
-  __ENV__: unknown;
   __LANG__: unknown;
-  ANIMATE_ROUTER: boolean;
-  PUBLIC_API_HOST: string;
   __PRELOADED_STATE__: unknown;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  __ENV__: { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean };
 }

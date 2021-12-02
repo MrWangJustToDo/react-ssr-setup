@@ -22,11 +22,6 @@ const place = document.querySelector("#content");
 
 const store = createUniversalStore({ initialState: window.__PRELOADED_STATE__ as StoreState });
 
-const { PUBLIC_API_HOST, ANIMATE_ROUTER } = window.__ENV__ as { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean };
-
-window.ANIMATE_ROUTER = ANIMATE_ROUTER;
-window.PUBLIC_API_HOST = PUBLIC_API_HOST;
-
 const Root = () => {
   return (
     <React.StrictMode>

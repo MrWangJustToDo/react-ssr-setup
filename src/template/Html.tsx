@@ -36,11 +36,9 @@ export const HTML = ({ lang, children = "", link = [], script = [], reduxInitial
         ))}
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.__PRELOADED_STATE__ = ${reduxInitialState}`,
+            __html: `window.__PRELOADED_STATE__ = ${reduxInitialState}; window.__ENV__ = ${env}; window.__LANG__ = '${lang}'`,
           }}
         />
-        <script dangerouslySetInnerHTML={{ __html: `window.__ENV__ = ${env}` }} />
-        <script dangerouslySetInnerHTML={{ __html: `window.__LANG__ = '${lang}'` }} />
       </head>
       <body>
         <div id="loading_bar" />
