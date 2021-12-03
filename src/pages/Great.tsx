@@ -16,6 +16,7 @@ Great.getInitialState = async ({ store }) => {
   await store.dispatch(getDataAction_Server({ name: apiName.blog }));
   console.log(store.sagaTask?.isRunning(), store.sagaTask?.isCancelled());
   console.log("dispatch done");
+  return { redirect: "/tcc", cookies: { foo: "bar" } };
 };
 
 export default connect((state: StoreState) => ({

@@ -2,6 +2,7 @@ import React from "react";
 import loadable from "@loadable/component";
 import { T } from "components/T";
 import { apiName } from "config/api";
+import { Layout } from "components/Layout";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 import { dynamicRouteConfig } from "./dynamicRoutes";
 import { PreLoadRouteConfig } from "types/router";
@@ -13,23 +14,25 @@ const LoadAble_C = loadable<unknown>(() => import("../components/C"));
 
 export const routes: PreLoadRouteConfig[] = [
   {
-    path: "/",
-    element: <T />,
-    Component: T,
+    element: <Layout />,
+    Component: Layout,
+    children: [
+      { path: "/", element: <T />, Component: T },
+      {
+        path: "home",
+        element: <T />,
+        Component: T,
+      },
+      {
+        path: "home/foo",
+        getInitialState: async ({ store }) => await store.dispatch(getDataAction_Server({ name: apiName.home })),
+        element: <LoadAble_A />,
+        Component: LoadAble_A,
+      },
+      { path: "home/bar", element: <LoadAble_B />, Component: LoadAble_B },
+      { path: "home/baz", element: <LoadAble_C />, Component: LoadAble_C },
+    ],
   },
-  {
-    path: "home",
-    element: <T />,
-    Component: T,
-  },
-  {
-    path: "home/foo",
-    getInitialState: async ({ store }) => await store.dispatch(getDataAction_Server({ name: apiName.home })),
-    element: <LoadAble_A />,
-    Component: LoadAble_A,
-  },
-  { path: "home/bar", element: <LoadAble_B />, Component: LoadAble_B },
-  { path: "home/baz", element: <LoadAble_C />, Component: LoadAble_C },
 ];
 
 const dynamicRoutes = dynamicRouteConfig
@@ -39,6 +42,8 @@ const dynamicRoutes = dynamicRouteConfig
   }))
   .map(({ path, component: Component }) => ({ path: path, Component, element: <Component /> }));
 
-export const allRoutes = filter(routes.concat(dynamicRoutes))
+routes[0].children = filter(routes[0].children?.concat(dynamicRoutes) || [])
   .sort((a) => (a.path === "/*" ? 1 : 0))
   .sort((_, b) => (b.path === "/*" ? -1 : 0));
+
+export const allRoutes = routes;

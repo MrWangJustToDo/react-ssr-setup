@@ -4,8 +4,6 @@ import { usePreLoad } from "hooks/usePreLoad";
 import { preLoad } from "utils/preLoad";
 import { WrapperRouteType } from "types/components";
 
-import "./index.css";
-
 export const LoadedLocationContext = createContext<ReturnType<typeof useLocation> | Record<string, never>>({});
 
 export const WrapperRoute: WrapperRouteType = ({ children, routes, LoadingBar }) => {
