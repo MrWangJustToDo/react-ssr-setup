@@ -44,7 +44,7 @@ yarn run start
 
 ## 代码分割
 
-## preLoad data   标准化预加载行为  通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}
+## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}
 
 ## sass
 
@@ -54,13 +54,13 @@ yarn run start
 
 ## 静态路由
 
-## 文件路由 自动 query 参数支持 使用 \_参数名(\_id.tsx) 文件作为的约定 开发环境支持page新建删除的实时路由更新(middleware 模式下支持)
+## 文件路由 自动 query 参数支持 使用 \_参数名(\_id.tsx) 文件作为的约定 开发环境支持 page 新建删除的实时路由更新(middleware 模式下支持)
 
 ## 装饰器
 
 ## Material-UI
 
-## 数据自动注入原理上比较难以实现 改用redux connect
+## 数据自动注入原理上比较难以实现 改用 redux connect
 
 ## middleware develop 适合手机等远程调试
 
@@ -68,12 +68,8 @@ yarn run start
 
 ## animate router 路由切换动画
 
-## 尝试 file router 开发自动更新 存在其他问题。。。
+## 尝试 file router 开发自动更新 存在其他问题。。。 (middleware 模式 下)
 
-## ~~css hmr 还存在一些问题。。。 不能解决~~ 引入 style-loader 成功解决
+## 全新版本 升级优化修复重构 ^\_^
 
-## ~~animate router 第一次渲染会存在点问题 暂时不好解决~~  统一server一client端代码  成功解决
-
-## ~~不小心引入了production的css打包问题，一直没发现。。。~~    修改配置文件解决
-
-## 全新版本  升级优化修复重构 ^_^ 
+## react router 6
