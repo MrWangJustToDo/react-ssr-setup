@@ -78,5 +78,5 @@ interface Window {
   __LANG__: unknown;
   __PRELOADED_STATE__: unknown;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  __ENV__: { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean };
+  __ENV__: { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean; SSR: boolean };
 }

@@ -9,7 +9,7 @@ export const All = () => {
   const location = useContext(LoadedLocationContext);
   const all = useRoutes(allRoutes, location);
 
-  return (
+  return __ANIMATE_ROUTER__ ? (
     <AnimatePresence exitBeforeEnter>
       <React.Fragment key={location.pathname}>
         <motion.div
@@ -37,5 +37,7 @@ export const All = () => {
         </motion.div>
       </React.Fragment>
     </AnimatePresence>
+  ) : (
+    all
   );
 };

@@ -11,7 +11,6 @@ import { loadableReady } from "@loadable/component";
 import { createUniversalStore } from "store";
 import { App } from "components/App";
 import { log } from "utils/log";
-import { preLoadLang } from "utils/preLoad";
 import { theme } from "config/theme";
 import { createEmotionCache } from "config/createEmotionCache";
 import { StoreState } from "types/store";
@@ -41,8 +40,8 @@ const Root = () => {
   );
 };
 
-if (!__SSR__) {
-  Promise.all([preLoadLang({ store, lang: window.__LANG__ as string }), loadableReady()]).then(() => render(<Root />, place));
+if (!window.__ENV__.SSR) {
+  loadableReady(() => render(<Root />, place));
 } else {
   loadableReady(() => (__DEVELOPMENT__ && __MIDDLEWARE__ ? (log("not hydrate render on client", "warn"), render(<Root />, place)) : hydrate(<Root />, place)));
 }

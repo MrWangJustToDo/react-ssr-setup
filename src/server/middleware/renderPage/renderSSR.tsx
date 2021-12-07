@@ -15,11 +15,11 @@ import { App } from "components/App";
 import { theme } from "config/theme";
 import { createEmotionCache } from "config/createEmotionCache";
 import { AnyAction, composeRender } from "./compose";
-import { globalEnv, initLang, initStore, loadLang } from "./middleware";
+import { globalEnv, initLang, initStore, loadLang, loadStore } from "./middleware";
 import { ServerError } from "server/utils/error";
 
 const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
-  if (!store) {
+  if (!store || !lang || !env) {
     throw new ServerError("store 初始化失败", 403);
   } else {
     const helmetContext = {};
@@ -74,4 +74,4 @@ const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
   }
 };
 
-export const renderSSR = composeRender(globalEnv, initLang, initStore, loadLang)(targetRender);
+export const renderSSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang)(targetRender);

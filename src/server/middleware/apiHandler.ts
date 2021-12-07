@@ -3,7 +3,7 @@ import chalk from "chalk";
 import { log } from "utils/log";
 import { Cache } from "utils/cache";
 import { ServerError } from "server/utils/error";
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ApiResponseProps, CacheConfigProps, ExpressRequest, MiddlewareConfig, MiddlewareContext, MiddlewareFunction, RequestHandlerType } from "types/server";
 
 const cache = new Cache<string, unknown>();
@@ -40,6 +40,7 @@ export const catchMiddlewareHandler: MiddlewareFunction = async (ctx, nextMiddle
   try {
     await nextMiddleware();
   } catch (e) {
+    ctx.hasError = true;
     log(new Error(`url: ${req.originalUrl}, method: ${req.method} error, ${(e as Error).message}`), "error");
 
     if (errorHandler && typeof errorHandler === "function") {
@@ -154,6 +155,34 @@ const cacheMiddlewareHandler: MiddlewareFunction = async (ctx, nextMiddleware) =
   currentResponseDate = null;
 };
 
+const checkCodeMiddlewareHandler: MiddlewareFunction = async (ctx, nextMiddleware) => {
+  const { req, checkCodeConfig } = ctx;
+  const currentCheckCodeConfig = assign({}, checkCodeConfig, req.config?.check);
+  const needCheck = currentCheckCodeConfig.needCheck;
+  const fieldName = currentCheckCodeConfig.fieldName || "checkCode";
+  const fromQuery = currentCheckCodeConfig.fromQuery;
+  if (needCheck) {
+    if (fromQuery) {
+      const checkCode = req.query[fieldName];
+      if (!checkCode) {
+        throw new ServerError(`请求参数不存在: ${fieldName}`, 400);
+      }
+      if (checkCode !== req.session.captcha) {
+        throw new ServerError("验证码不正确 from query", 400);
+      }
+    } else {
+      const checkCode = req.body[fieldName];
+      if (!checkCode) {
+        throw new ServerError(`请求参数不存在: ${fieldName}`, 400);
+      }
+      if (checkCode !== req.session.captcha) {
+        throw new ServerError("验证码不正确 from body", 400);
+      }
+    }
+  }
+  await nextMiddleware();
+};
+
 const checkParamsMiddlewareHandler: MiddlewareFunction = async (ctx, nextMiddleware) => {
   const { paramsConfig, req } = ctx;
   const currentCheckParamsConfig = assign({}, paramsConfig, req.config?.params);
@@ -232,7 +261,8 @@ export const compose = (...middleWares: MiddlewareFunction[]) => {
         try {
           return Promise.resolve(fn(ctx, () => dispatch(i + 1)));
         } catch (e) {
-          log("compose catch error", "error");
+          ctx.hasError = true;
+          log(`compose catch error: ${(e as Error).message}`, "error");
           return Promise.resolve();
         }
       } else {
@@ -244,28 +274,30 @@ export const compose = (...middleWares: MiddlewareFunction[]) => {
   };
 };
 
-const composedHandler = compose(
+const composedMiddleware = compose(
   logMiddlewareHandler,
   catchMiddlewareHandler,
   decodeMiddlewareHandler,
   checkParamsMiddlewareHandler,
+  checkCodeMiddlewareHandler,
   cacheMiddlewareHandler,
   runRequestMiddlewareHandler
 );
 
-export const wrapperMiddlewareRequest = function (config: MiddlewareConfig, composed: ReturnType<typeof compose> = composedHandler) {
-  return async (req: ExpressRequest, res: Response, next: NextFunction) => {
+export const defaultRunRequestMiddleware = runRequestMiddlewareHandler;
+
+export const wrapperMiddlewareRequest = function (config: MiddlewareConfig, composed: ReturnType<typeof compose> = composedMiddleware, goNext?: boolean) {
+  return async (req: Request, res: Response, next: NextFunction) => {
     // 每一个新的请求  需要清除原始的缓存数据
     currentResponseDate = null;
     const ctx = { ...config, req, res, next, cache };
     try {
       await composed(ctx, ctx.requestHandler);
-    } catch (e) {
-      fail({ res, statusCode: 500, resDate: { data: (e as Error).toString(), methodName: "composed" } });
-    } finally {
-      if (ctx.goNext) {
+      if ((ctx.goNext || goNext) && !ctx.hasError) {
         next();
       }
+    } catch (e) {
+      fail({ res, statusCode: 500, resDate: { data: (e as Error).toString(), methodName: "composed" } });
     }
   };
 };

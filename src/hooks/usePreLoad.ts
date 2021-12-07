@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "react-redux";
 import cookie from "js-cookie";
 import { useLocation, useNavigate } from "react-router";
 import { log } from "utils/log";
-import { useChangeLoading } from "./useLoadingBar";
+import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
 import { UsePreLoadType } from "types/hooks";
+import shallow from "zustand/shallow";
 
 /* WrapperRoute */
 const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
@@ -12,7 +13,10 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   const store = useStore();
   const location = useLocation();
   const navigate = useNavigate();
-  const { start, end } = useChangeLoading();
+  const { start, end } = useChangeLoadingWithoutRedux(
+    useCallback((s) => ({ start: s.start, end: s.end }), []),
+    shallow
+  );
   const firstLoad = useRef(true);
   const loadedPath = useRef<string | null>("");
   const loadingPath = useRef<string | null>("");

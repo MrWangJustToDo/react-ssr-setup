@@ -1,13 +1,17 @@
 import { apiName } from "config/api";
+import shallow from "zustand/shallow";
 import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useChangeLoading } from "./useLoadingBar";
+import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 import type { StoreState } from "types/store";
 
 export const useLang = () => {
   const lang = useSelector<StoreState, string>((state) => state.client.currentLang.data);
-  const { start, end } = useChangeLoading();
+  const { start, end } = useChangeLoadingWithoutRedux(
+    useCallback((s) => ({ start: s.start, end: s.end }), []),
+    shallow
+  );
   const langRef = useRef(lang);
   const dispatch = useDispatch();
   langRef.current = lang;

@@ -84,6 +84,7 @@ export interface MiddlewareConfig {
   encodeConfig?: boolean;
   logConfig?: boolean;
   goNext?: boolean;
+  hasError?: boolean;
 }
 export type MiddlewareContext = MiddlewareConfig & {
   req: ExpressRequest;
