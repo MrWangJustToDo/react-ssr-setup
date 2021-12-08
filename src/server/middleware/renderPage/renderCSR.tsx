@@ -21,7 +21,13 @@ const targetRender: AnyAction = async ({ res, store, lang, env }) => {
   res.send(
     "<!doctype html>" +
       renderToString(
-        <HTML link={linkElements.concat(styleElements)} script={scriptElements} lang={lang} env={env} reduxInitialState={JSON.stringify(store.getState())} />
+        <HTML
+        env={JSON.stringify(env)}
+        lang={JSON.stringify(lang)}
+        script={scriptElements}
+        link={linkElements.concat(styleElements)}
+          reduxInitialState={JSON.stringify(store.getState())}
+        />
       )
   );
 };

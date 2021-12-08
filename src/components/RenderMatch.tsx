@@ -5,7 +5,7 @@ import { useRoutes } from "react-router";
 import { allRoutes } from "router/routes";
 import { LoadedLocationContext } from "./WrapperRoute";
 
-export const All = () => {
+export const RenderMatch = () => {
   const location = useContext(LoadedLocationContext);
   const all = useRoutes(allRoutes, location);
 

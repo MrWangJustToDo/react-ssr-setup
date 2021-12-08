@@ -9,6 +9,9 @@ const LoadablePlugin = require("@loadable/webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 快速刷新
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+// 打包阶段错误检查
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
@@ -35,6 +38,12 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
     env === "client" && isDev && new ReactRefreshPlugin(),
     // 对于 webpack-hot-middleware必须启用
     env === "client" && isDev && isMiddleWareDevelop && new webpack.HotModuleReplacementPlugin(),
+    // 检查错误
+    env === "client" && new ForkTsCheckerWebpackPlugin({ async: false }),
+    env === "client" &&
+      new ESLintPlugin({
+        extensions: ["js", "jsx", "ts", "tsx"],
+      }),
     // 查看打包
     // env === "client" && new BundleAnalyzerPlugin(),
   ].filter(Boolean);

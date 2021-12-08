@@ -14,11 +14,11 @@ type HTMLProps = {
   helmetContext?: { helmet?: HelmetData };
 };
 
-export const HTML = ({ lang, children = "", link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks, env = "{}" }: HTMLProps) => {
+export const HTML = ({ lang, children, link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks, env = "{}" }: HTMLProps) => {
   const { helmet } = helmetContext;
 
   return (
-    <html lang={lang}>
+    <html lang={lang || ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={theme.palette.primary.main} />
@@ -36,13 +36,12 @@ export const HTML = ({ lang, children = "", link = [], script = [], reduxInitial
         ))}
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.__PRELOADED_STATE__ = ${reduxInitialState}; window.__ENV__ = ${env}; window.__LANG__ = '${lang}'`,
+            __html: `window.__PRELOADED_STATE__ = ${reduxInitialState}; window.__ENV__ = ${env}; window.__LANG__ = ${lang}`,
           }}
         />
       </head>
       <body>
-        <div id="loading_bar" />
-        <div id="content" dangerouslySetInnerHTML={{ __html: children }} />
+        <div id="content" dangerouslySetInnerHTML={{ __html: children || "" }} />
         {script.filter(Boolean).map((ele) => ele)}
       </body>
     </html>

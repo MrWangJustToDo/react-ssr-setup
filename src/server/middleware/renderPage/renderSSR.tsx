@@ -59,8 +59,8 @@ const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
       "<!doctype html>" +
         renderToString(
           <HTML
-            lang={lang}
-            env={env}
+            lang={JSON.stringify(lang)}
+            env={JSON.stringify(env)}
             script={scriptElements}
             helmetContext={helmetContext}
             emotionChunks={emotionChunks}

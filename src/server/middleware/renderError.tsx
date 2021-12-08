@@ -14,14 +14,14 @@ const renderError: RenderErrorType = ({ res, code, e }) =>
         <HTML>
           {`<h1>server render error!</h1>
             <hr />
-            <p style='padding-left: 10px; font-size: 20px'>
+            <div style='padding-left: 10px; font-size: 20px'>
               error code:
               <b>${code}</b>
               <br />
               <br />
-              <pre style='font-size: 18px; color: red'>${e.toString()}</pre>
-            </p>
-          <script>console.log(\`${pre.render(e)}\`)</script>`}
+              <pre style='font-size: 18px; color: red;'>${e.stack}</pre>
+            </div>
+          <script>console.error(\`${pre.render(e, true, false)}\`)</script>`}
         </HTML>
       )
   );
