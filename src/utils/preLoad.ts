@@ -50,6 +50,7 @@ function preLoad(
       preLoadFromRoute({ route: route as PreLoadRouteConfig, store, match, config })
     );
   });
+  
   return Promise.all(promises).then((val) => {
     if (val.length) {
       return val.filter(Boolean).reduce((res, c) => {

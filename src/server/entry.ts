@@ -9,7 +9,7 @@ import { apiHandler } from "./api";
 import { render } from "server/middleware/render";
 import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
-import { wrapperMiddlewareRequest } from "server/middleware/apiHandler";
+import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
 
 dotenv.config();
 
@@ -34,12 +34,13 @@ app.use("/api", apiHandler);
 
 develop(app).then(() => {
   app.use(
-    wrapperMiddlewareRequest({
-      requestHandler: async function renderPage({ req, res }) {
-        await render({ req, res });
+    wrapperMiddlewareRequest(
+      {
+        requestHandler: render,
+        errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
       },
-      errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
-    })
+      compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
+    )
   );
   app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
 });

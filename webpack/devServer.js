@@ -10,7 +10,7 @@ const devServerConfig = ({ publicPath }) => {
   return {
     hot: "only",
     client: {
-      logging: "error",
+      logging: "verbose",
       progress: true,
       reconnect: true,
     },

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "react-redux";
 import cookie from "js-cookie";
+import shallow from "zustand/shallow";
 import { useLocation, useNavigate } from "react-router";
 import { log } from "utils/log";
 import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
 import { UsePreLoadType } from "types/hooks";
-import shallow from "zustand/shallow";
 
 /* WrapperRoute */
 const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
