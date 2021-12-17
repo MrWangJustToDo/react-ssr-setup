@@ -9,11 +9,7 @@ import type { AutoRequestProps, AutoRequestType, CreateRequestType } from "types
 
 const cacheResult = new Cache<string, Promise<any>>(60000);
 
-if (__CLIENT__ && __DEVELOPMENT__) {
-  (window as any).__cache = cacheResult;
-}
-
-const autoParse = (params: string | any) => {
+const autoParse = (params: string | unknown) => {
   if (typeof params === "string") {
     return JSON.parse(params);
   } else if (params) {
@@ -23,7 +19,7 @@ const autoParse = (params: string | any) => {
   }
 };
 
-const autoStringify = (params: string | any) => {
+const autoStringify = (params: string | unknown) => {
   if (typeof params === "string") {
     return params;
   } else if (params) {
@@ -99,7 +95,7 @@ const createRequest: CreateRequestType = (props: AutoRequestProps = {}) => {
 
     const currentHeader = header !== false && __CLIENT__ ? getHeader(autoParse(header)) : autoParse(header);
 
-    const currentData = data !== false ? (encode ? { encode: btoa(autoStringify(data) || "") + process.env.NEXT_PUBLIC_STRING } : autoParse(data)) : undefined;
+    const currentData = data !== false ? (encode ? { encode: btoa(autoStringify(data) || "") + window.__ENV__.CRYPTO_KEY } : autoParse(data)) : undefined;
 
     const requestPromise: Promise<AxiosResponse<T>> = instance({
       method: currentMethod,
@@ -120,5 +116,10 @@ const createRequest: CreateRequestType = (props: AutoRequestProps = {}) => {
 
   return autoRequest;
 };
+
+if (__CLIENT__ && __DEVELOPMENT__) {
+  window.__cache = cacheResult;
+  window.__request = createRequest;
+}
 
 export { createRequest, autoAssignParams, autoStringify };

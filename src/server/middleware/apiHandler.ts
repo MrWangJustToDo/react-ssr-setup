@@ -214,8 +214,8 @@ const decodeMiddlewareHandler: MiddlewareFunction = async (ctx, nextMiddleware) 
     } else {
       let encodeBodyString = req.body["encode"].toString() as string;
       if (process.env) {
-        if (encodeBodyString.endsWith(process.env.NEXT_PUBLIC_STRING as string)) {
-          encodeBodyString = encodeBodyString.slice(0, -(process.env.NEXT_PUBLIC_STRING || "").length);
+        if (encodeBodyString.endsWith(process.env.CRYPTO_KEY)) {
+          encodeBodyString = encodeBodyString.slice(0, -process.env.CRYPTO_KEY.length);
         }
       }
       const bodyString = Buffer.from(encodeBodyString, "base64").toString();
@@ -293,11 +293,11 @@ export const wrapperMiddlewareRequest = function (config: MiddlewareConfig, comp
     const ctx = { ...config, req, res, next, cache };
     try {
       await composed(ctx, ctx.requestHandler);
-      if ((ctx.goNext || goNext) && !ctx.hasError) {
-        next();
-      }
     } catch (e) {
       fail({ res, statusCode: 500, resDate: { data: (e as Error).toString(), methodName: "composed" } });
+    }
+    if ((ctx.goNext || goNext) && !ctx.hasError) {
+      next();
     }
   };
 };

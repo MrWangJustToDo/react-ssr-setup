@@ -39,7 +39,7 @@ const withPromise = async () => {
   const script = nodemon({
     script: path.resolve(process.cwd(), "dev", `server/app.js`),
     watch: path.resolve(process.cwd(), "dev", "server"),
-    delay: 200,
+    delay: 1000,
   });
 
   script.on("restart", () => {

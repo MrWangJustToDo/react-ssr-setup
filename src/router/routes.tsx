@@ -12,27 +12,26 @@ const LoadAble_A = loadable<unknown>(() => import("../components/A"));
 const LoadAble_B = loadable<unknown>(() => import("../components/B"));
 const LoadAble_C = loadable<unknown>(() => import("../components/C"));
 
+const baseRouter: PreLoadRouteConfig = {
+  element: <Layout />,
+  Component: Layout,
+};
+
 export const routes: PreLoadRouteConfig[] = [
+  { path: "/", element: <T />, Component: T },
   {
-    element: <Layout />,
-    Component: Layout,
-    children: [
-      { path: "/", element: <T />, Component: T },
-      {
-        path: "home",
-        element: <T />,
-        Component: T,
-      },
-      {
-        path: "home/foo",
-        getInitialState: async ({ store }) => await store.dispatch(getDataAction_Server({ name: apiName.home })),
-        element: <LoadAble_A />,
-        Component: LoadAble_A,
-      },
-      { path: "home/bar", element: <LoadAble_B />, Component: LoadAble_B },
-      { path: "home/baz", element: <LoadAble_C />, Component: LoadAble_C },
-    ],
+    path: "home",
+    element: <T />,
+    Component: T,
   },
+  {
+    path: "home/foo",
+    getInitialState: async ({ store }) => await store.dispatch(getDataAction_Server({ name: apiName.home })),
+    element: <LoadAble_A />,
+    Component: LoadAble_A,
+  },
+  { path: "home/bar", element: <LoadAble_B />, Component: LoadAble_B },
+  { path: "home/baz", element: <LoadAble_C />, Component: LoadAble_C },
 ];
 
 const dynamicRoutes = dynamicRouteConfig
@@ -42,8 +41,8 @@ const dynamicRoutes = dynamicRouteConfig
   }))
   .map(({ path, component: Component }) => ({ path: path, Component, element: <Component /> }));
 
-routes[0].children = filter(routes[0].children?.concat(dynamicRoutes) || [])
+baseRouter.children = filter(routes.concat(dynamicRoutes) || [])
   .sort((a) => (a.path === "/*" ? 1 : 0))
   .sort((_, b) => (b.path === "/*" ? -1 : 0));
 
-export const allRoutes = routes;
+export const allRoutes = [baseRouter];
