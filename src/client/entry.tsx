@@ -11,6 +11,7 @@ import { loadableReady } from "@loadable/component";
 import { createUniversalStore } from "store";
 import { App } from "components/App";
 import { log } from "utils/log";
+import { safeData } from "utils/safeData";
 import { theme } from "config/theme";
 import { createEmotionCache } from "config/createEmotionCache";
 import { StoreState } from "types/store";
@@ -19,7 +20,13 @@ const cache = createEmotionCache();
 
 const place = document.querySelector("#content");
 
-const store = createUniversalStore({ initialState: window.__PRELOADED_STATE__ as StoreState });
+const preLoadEnvElement = document.querySelector("script#__preload_env__");
+
+const preLoadStateElement = document.querySelector("script#__preload_state__");
+
+const store = createUniversalStore({ initialState: JSON.parse(preLoadStateElement?.innerHTML || "") as StoreState });
+
+window.__ENV__ = safeData(JSON.parse(preLoadEnvElement?.innerHTML || ""));
 
 const Root = () => {
   return (

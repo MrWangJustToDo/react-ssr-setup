@@ -34,11 +34,8 @@ export const HTML = ({ lang, children, link = [], script = [], reduxInitialState
         {emotionChunks?.styles.map((style) => (
           <style data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
         ))}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.__PRELOADED_STATE__ = ${reduxInitialState}; window.__ENV__ = ${env}; window.__LANG__ = ${lang}`,
-          }}
-        />
+        <script id="__preload_env__" type="text/json" dangerouslySetInnerHTML={{ __html: `${env}` }} />
+        <script id="__preload_state__" type="text/json" dangerouslySetInnerHTML={{ __html: `${reduxInitialState}` }} />
       </head>
       <body>
         <div id="content" dangerouslySetInnerHTML={{ __html: children || "" }} />

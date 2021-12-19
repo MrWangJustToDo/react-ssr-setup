@@ -18,6 +18,9 @@ const targetRender: AnyAction = async ({ res, store, lang, env }) => {
   const linkElements = webExtractor.getLinkElements();
   const styleElements = webExtractor.getStyleElements();
   const scriptElements = webExtractor.getScriptElements();
+
+  env["LANG"] = lang;
+
   res.send(
     "<!doctype html>" +
       renderToString(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useContext } from "react";
 import { useRoutes } from "react-router";
@@ -6,10 +6,11 @@ import { allRoutes } from "router/routes";
 import { LoadedLocationContext } from "./WrapperRoute";
 
 export const RenderMatch = () => {
+  const isAnimateRouter = useMemo(() => (__SERVER__ ? JSON.parse(process.env.ANIMATE_ROUTER) : window.__ENV__.ANIMATE_ROUTER), []);
   const location = useContext(LoadedLocationContext);
   const all = useRoutes(allRoutes, location);
 
-  return __ANIMATE_ROUTER__ ? (
+  return isAnimateRouter ? (
     <AnimatePresence exitBeforeEnter>
       <React.Fragment key={location.pathname}>
         <motion.div
