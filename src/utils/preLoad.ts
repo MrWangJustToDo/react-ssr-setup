@@ -50,7 +50,7 @@ function preLoad(
       preLoadFromRoute({ route: route as PreLoadRouteConfig, store, match, config })
     );
   });
-  
+
   return Promise.all(promises).then((val) => {
     if (val.length) {
       return val.filter(Boolean).reduce((res, c) => {
@@ -76,9 +76,9 @@ type PreLoadType = (props: PreLoadProps) => Promise<{
 
 const preLoadFromComponent: PreLoadType = ({ route, store, match, config }) => {
   return new Promise((resolve) => {
-    const component = route.Component;
-    if (typeof component.load === "function") {
-      component.load().then((component: PreLoadComponentType & { readonly default?: PreLoadComponentType }) => {
+    const loadAbleComponent = route.Component;
+    if (typeof loadAbleComponent.load === "function") {
+      loadAbleComponent.load().then((component: PreLoadComponentType & { readonly default?: PreLoadComponentType }) => {
         const Target = typeof component.default !== "undefined" ? component.default : component;
         if (Target.getInitialState && typeof Target.getInitialState === "function") {
           Promise.resolve()

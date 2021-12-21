@@ -54,7 +54,7 @@ yarn run start
 
 ## 静态路由
 
-## 文件路由 自动 query 参数支持 使用 \_参数名(\_id.tsx) 文件作为的约定 开发环境支持 page 新建删除的实时路由更新(middleware 模式下支持)
+## 文件路由 自动 query 参数支持 使用 :参数名(:id.tsx) 文件作为的约定 开发环境支持 page 新建删除的实时路由更新(middleware 模式下支持)
 
 ## 装饰器
 

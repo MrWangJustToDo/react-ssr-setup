@@ -10,7 +10,7 @@ import { filter } from "./tools";
 
 const LoadAble_A = loadable<unknown>(() => import("../components/A"));
 const LoadAble_B = loadable<unknown>(() => import("../components/B"));
-const LoadAble_C = loadable<unknown>(() => import("../components/C"));
+const LoadAble_C = loadable<unknown>(() => import("../components/C").then((c) => c.C));
 
 const baseRouter: PreLoadRouteConfig = {
   element: <Layout />,

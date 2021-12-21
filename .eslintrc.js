@@ -11,7 +11,7 @@ module.exports = {
     "plugin:jsx-a11y/recommended", // Accessibility rules
     "prettier",
   ],
-  ignorePatterns: ["node_modules/*", "script/*", "dist/*", "dev/*", "webpack/*", "!.prettierrc", ".eslintrc.js"], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
+  ignorePatterns: ["node_modules/*", "script/*", "dist/*", "dev/*", "webpack/*", "!.prettierrc", ".eslintrc.js", "babel.config.js", "postcss.config.js"], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {

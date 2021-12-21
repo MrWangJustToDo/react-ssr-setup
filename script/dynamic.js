@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
 
+const dynamicPathReg = /^:(.*)$/
+
 class DynamicRouter {
   constructor(cache, side) {
     this.side = side || "server";
@@ -20,12 +22,12 @@ class DynamicRouter {
               if (file.isFile() && /.[tj]sx?$/.test(file.name)) {
                 const [, fileName] = Array.from(/(.*).[tj]sx?$/.exec(file.name));
                 const config = {};
-                if (/^_(.*)$/.test(fileName)) {
-                  // 动态路由 文件名为 _key.tsx  -->  对应router配置 path: /:key
+                if (dynamicPathReg.test(fileName)) {
+                  // 动态路由 文件名为 :key.tsx  -->  对应router配置 path: /:key
                   if (dynamicPath === 0) {
                     // 确保同一级只会有一个
                     dynamicPath++;
-                    const [, params] = Array.from(/^_(.*)$/.exec(fileName));
+                    const [, params] = Array.from(dynamicPathReg.exec(fileName));
                     config.path = `${prePath}:${params}`;
                   } else {
                     throw new Error(`file router dynamicPath duplicate`);

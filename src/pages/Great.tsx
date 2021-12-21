@@ -4,7 +4,7 @@ import { apiName } from "config/api";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 
 import type { StoreState } from "types/store";
-import type { PreLoadComponentType } from "types/components";
+import type { GetInitialStateType, PreLoadComponentType } from "types/components";
 
 const Great: PreLoadComponentType<{ blog: string[] }> = ({ blog }) => {
   console.log(blog, "666");
@@ -16,7 +16,14 @@ Great.getInitialState = async ({ store }) => {
   await store.dispatch(getDataAction_Server({ name: apiName.blog }));
   console.log(store.sagaTask?.isRunning(), store.sagaTask?.isCancelled());
   console.log("dispatch done");
-  return { redirect: "/tcc", cookies: { foo: "bar" } };
+  // return { redirect: "/tcc", cookies: { foo: "bar" } };
+};
+
+export const getInitialState: GetInitialStateType = async ({ store }) => {
+  console.log("开始");
+  await store.dispatch(getDataAction_Server({ name: apiName.blog }));
+  console.log(store.sagaTask?.isRunning(), store.sagaTask?.isCancelled());
+  console.log("dispatch done");
 };
 
 export default connect((state: StoreState) => ({
