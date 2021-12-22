@@ -79,12 +79,22 @@ const preLoadFromComponent: PreLoadType = ({ route, store, match, config }) => {
     const loadAbleComponent = route.Component;
     if (typeof loadAbleComponent.load === "function") {
       loadAbleComponent.load().then((component: PreLoadComponentType & { readonly default?: PreLoadComponentType }) => {
-        const Target = typeof component.default !== "undefined" ? component.default : component;
-        if (Target.getInitialState && typeof Target.getInitialState === "function") {
+        // like next.js, will handle a initial function which not bind in the component
+        if (component.getInitialState && typeof component.getInitialState === "function") {
           Promise.resolve()
-            .then(() => Target.getInitialState && Target.getInitialState({ store, match, config }))
+            .then(() => (component.getInitialState ? component.getInitialState({ store, match, config }) : undefined))
             .then(resolve)
             .catch(resolve);
+        } else if (typeof component.default !== "undefined") {
+          const target = component.default;
+          if (target.getInitialState && typeof target.getInitialState === "function") {
+            Promise.resolve()
+              .then(() => (target.getInitialState ? target.getInitialState({ store, match, config }) : undefined))
+              .then(resolve)
+              .catch(resolve);
+          } else {
+            resolve();
+          }
         } else {
           resolve();
         }

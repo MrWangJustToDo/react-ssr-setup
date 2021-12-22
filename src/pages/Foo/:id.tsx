@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch } from "@mui/material";
-import { PreLoadComponentType } from "types/components";
+import { GetInitialStateType, PreLoadComponentType } from "types/components";
 import { useParams } from "react-router";
 
 const Id: PreLoadComponentType = () => {
@@ -9,7 +9,7 @@ const Id: PreLoadComponentType = () => {
   return <Switch />;
 };
 
-Id.getInitialState = ({ match, config }) => {
+export const getInitialState: GetInitialStateType = ({ match, config }) => {
   console.log("当前id参数为:", match.params.id);
   console.log("server side request", config?.req);
 };

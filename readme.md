@@ -44,7 +44,7 @@ yarn run start
 
 ## 代码分割
 
-## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}
+## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}  more usage for getInitialState
 
 ## sass
 

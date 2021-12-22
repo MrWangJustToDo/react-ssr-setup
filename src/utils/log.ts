@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-var */
 import chalk from "chalk";
-// import PrettyError from "pretty-error";
+import type PrettyError from "pretty-error";
+
+const renderErrorObject: { pre: null | PrettyError } = {
+  pre: null,
+};
 
 if (__SERVER__) {
-  var PrettyError = require("pretty-error");
-  var pre = new PrettyError();
+  const PrettyError = require("pretty-error");
+  renderErrorObject.pre = new PrettyError();
 }
 
 const side = __CLIENT__ ? "client" : "server";
@@ -14,9 +17,9 @@ const log = (message: string | Error, lev: "normal" | "warn" | "error") => {
   if (lev === "error") {
     if (side === "server") {
       if (message instanceof Error) {
-        console.log(`[${side}]`, pre.render(message));
+        console.log(`[${side}]`, renderErrorObject.pre?.render(message));
       } else {
-        console.log(`[${side}]`, pre.render(new Error(message)));
+        console.log(`[${side}]`, renderErrorObject.pre?.render(new Error(message)));
       }
     } else {
       console.log(`[client]`, chalk.red(message.toString()));

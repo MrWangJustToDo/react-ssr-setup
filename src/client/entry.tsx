@@ -26,7 +26,9 @@ const preLoadStateElement = document.querySelector("script#__preload_state__");
 
 const store = createUniversalStore({ initialState: JSON.parse(preLoadStateElement?.innerHTML || "") as StoreState });
 
-window.__ENV__ = safeData(JSON.parse(preLoadEnvElement?.innerHTML || ""));
+window.__ENV__ = safeData(JSON.parse(preLoadEnvElement?.innerHTML || "{}"));
+
+safeData(window as unknown as Record<string, unknown>, "__ENV__");
 
 const Root = () => {
   return (
