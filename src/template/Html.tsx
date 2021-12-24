@@ -1,5 +1,5 @@
 import React from "react";
-import { theme } from "config/theme";
+import { theme } from "config/materialTheme";
 import type { HelmetData } from "react-helmet-async";
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
 

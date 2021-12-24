@@ -39,10 +39,18 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
     // 对于 webpack-hot-middleware必须启用
     env === "client" && isDev && isMiddleWareDevelop && new webpack.HotModuleReplacementPlugin(),
     // 检查错误
-    env === "client" && new ForkTsCheckerWebpackPlugin({ async: false }),
+    env === "client" &&
+      new ForkTsCheckerWebpackPlugin({
+        async: false,
+        // logger: {
+        //   infastructure: "silent",
+        //   issues: "console",
+        // },
+      }),
     env === "client" &&
       new ESLintPlugin({
         extensions: ["js", "jsx", "ts", "tsx"],
+        quiet: true,
       }),
     // 查看打包
     // env === "client" && new BundleAnalyzerPlugin(),

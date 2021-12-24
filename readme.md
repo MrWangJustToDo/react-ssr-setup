@@ -44,7 +44,7 @@ yarn run start
 
 ## 代码分割
 
-## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)}  more usage for getInitialState
+## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client)} more usage for getInitialState
 
 ## sass
 
@@ -73,3 +73,5 @@ yarn run start
 ## 全新版本 升级优化修复重构 ^\_^
 
 ## react router 6
+
+## 开箱既支持多种 UI 组件库 通过环境变量 UI 切换（antd,material,chakra-ui -> todo）

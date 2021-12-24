@@ -9,6 +9,8 @@ export type OverrideBase<T = unknown> = BaseArgs & T;
 
 export type AnyAction<T = BaseArgs> = (args: T) => Promise<void>;
 
+export type SafeAction<T = Required<BaseArgs>> = (args: T) => Promise<void>;
+
 export type Middleware<T = BaseArgs> = (next: AnyAction<T>) => AnyAction<T>;
 
 export const composeRender =

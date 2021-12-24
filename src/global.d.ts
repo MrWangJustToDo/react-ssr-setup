@@ -6,6 +6,7 @@ declare namespace NodeJS {
     WDS_PORT: string;
     PROD_PORT: string;
     SSR: string;
+    UI: "antd" | "material";
     PUBLIC_API_HOST: string;
     CRYPTO_KEY: string;
     SERVER_ENTRY: string;
@@ -79,5 +80,5 @@ interface Window {
   __cache: unknown;
   __request: unknown;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  __ENV__: { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean; SSR: boolean; CRYPTO_KEY: string; LANG: string };
+  __ENV__: { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean; SSR: boolean; CRYPTO_KEY: string; LANG: string; UI: "antd" | "material" };
 }

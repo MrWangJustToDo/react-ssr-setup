@@ -6,6 +6,7 @@ export const initLang: Middleware = (next) => async (args) => {
   const lang = determineUserLang(req.acceptsLanguages(), req.path);
 
   args.lang = lang;
+  args.env && (args.env["LANG"] = lang);
 
   await next(args);
 };
