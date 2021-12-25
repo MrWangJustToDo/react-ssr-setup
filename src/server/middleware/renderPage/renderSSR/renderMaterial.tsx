@@ -50,8 +50,6 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env }) =
   const styleElements = webExtractor.getStyleElements();
   const scriptElements = webExtractor.getScriptElements();
 
-  env["LANG"] = lang;
-
   res.status(200).send(
     "<!doctype html>" +
       renderToString(

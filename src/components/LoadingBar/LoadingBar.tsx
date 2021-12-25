@@ -11,7 +11,7 @@ export const Bar = React.memo(
   React.forwardRef<HTMLDivElement>(function Bar(_, ref) {
     useEffectOnce(() => {
       div = document.createElement("div");
-      div.id = "loading_bar";
+      div.id = "__loading_bar__";
       document.body.prepend(div);
     });
 

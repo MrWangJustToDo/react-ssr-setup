@@ -1,37 +1,32 @@
 import React from "react";
 import loadable from "@loadable/component";
-import { T } from "components/T";
-import { apiName } from "config/api";
 import { Layout } from "components/Layout";
-import { getDataAction_Server } from "store/reducer/server/share/action";
-import { dynamicRouteConfig } from "./dynamicRoutes";
-import { PreLoadRouteConfig } from "types/router";
+import { UI } from "components/UI";
 import { filter } from "./tools";
+import { dynamicRouteConfig } from "./dynamicRoutes";
+import { getUniverSalUI } from "utils/universal";
+import { PreLoadRouteConfig } from "types/router";
 
-const LoadAble_A = loadable<unknown>(() => import("../components/A"));
-const LoadAble_B = loadable<unknown>(() => import("../components/B"));
-const LoadAble_C = loadable<unknown>(() => import("../components/C").then((c) => c.C));
+const LoadAble_I18n = loadable<unknown>(() => import("../components/i18n"));
+const LoadAble_Antd = loadable<unknown>(() => import("../components/antDesignComponent"));
+const LoadAble_Chakra = loadable<unknown>(() => import("../components/chakraComponent"));
+const LoadAble_Material = loadable<unknown>(() => import("../components/materialComponent"));
 
 const baseRouter: PreLoadRouteConfig = {
   element: <Layout />,
   Component: Layout,
 };
 
+const currentUI = getUniverSalUI();
+
 export const routes: PreLoadRouteConfig[] = [
-  { path: "/", element: <T />, Component: T },
-  {
-    path: "home",
-    element: <T />,
-    Component: T,
-  },
-  {
-    path: "home/foo",
-    getInitialState: async ({ store }) => await store.dispatch(getDataAction_Server({ name: apiName.home })),
-    element: <LoadAble_A />,
-    Component: LoadAble_A,
-  },
-  { path: "home/bar", element: <LoadAble_B />, Component: LoadAble_B },
-  { path: "home/baz", element: <LoadAble_C />, Component: LoadAble_C },
+  { path: "/", element: <UI />, Component: UI },
+  { path: "/i18n", element: <LoadAble_I18n />, Component: LoadAble_I18n },
+  currentUI === "antd"
+    ? { path: "/antd", element: <LoadAble_Antd />, Component: LoadAble_Antd }
+    : currentUI === "material"
+    ? { path: "/material", element: <LoadAble_Material />, Component: LoadAble_Material }
+    : { path: "/chakra", element: <LoadAble_Chakra />, Component: LoadAble_Chakra },
 ];
 
 const dynamicRoutes = dynamicRouteConfig

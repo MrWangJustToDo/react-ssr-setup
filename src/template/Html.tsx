@@ -32,13 +32,14 @@ export const HTML = ({ lang, children, link = [], script = [], reduxInitialState
         {helmet?.script.toComponent()}
         {link.filter(Boolean).map((ele) => ele)}
         {emotionChunks?.styles.map((style) => (
-          <style data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
+          <style data-server data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
         ))}
+        <script id="__preload_env__inject" dangerouslySetInnerHTML={{ __html: `window.__ENV__ = ${env}` }} />
         <script id="__preload_env__" type="text/json" dangerouslySetInnerHTML={{ __html: `${env}` }} />
         <script id="__preload_state__" type="text/json" dangerouslySetInnerHTML={{ __html: `${reduxInitialState}` }} />
       </head>
       <body>
-        <div id="content" dangerouslySetInnerHTML={{ __html: children || "" }} />
+        <div id="__content__" dangerouslySetInnerHTML={{ __html: children || "" }} />
         {script.filter(Boolean).map((ele) => ele)}
       </body>
     </html>

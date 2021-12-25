@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@mui/material/Button";
 
 import { allRoutes } from "router/routes";
 import { useNavigate } from "react-router";
@@ -14,15 +13,14 @@ export const Footer = () => {
         {(allRoutes[0].children || [])
           .filter((it) => it.path)
           .map((item) => (
-            <Button
-              variant="contained"
+            <button
               key={item.path}
               onClick={() => {
                 item.path && navigate(item.path);
               }}
             >
               {item.path}
-            </Button>
+            </button>
           ))}
       </div>
       <footer className={style.footer}>footer</footer>

@@ -7,9 +7,10 @@ import { log } from "utils/log";
 import { safeData } from "utils/safeData";
 import { StoreState } from "types/store";
 import { Root as AntRoot } from "./antDesignEntry";
+import { Root as ChakraRoot } from "./chakraEntry";
 import { Root as MaterialRoot } from "./materialEntry";
 
-const place = document.querySelector("#content");
+const place = document.querySelector("#__content__");
 
 const preLoadEnvElement = document.querySelector("script#__preload_env__");
 
@@ -21,7 +22,7 @@ window.__ENV__ = safeData(JSON.parse(preLoadEnvElement?.innerHTML || "{}"));
 
 safeData(window as unknown as Record<string, unknown>, "__ENV__");
 
-const Root = window.__ENV__.UI === "material" ? MaterialRoot : AntRoot;
+const Root = window.__ENV__.UI === "material" ? MaterialRoot : window.__ENV__.UI === "antd" ? AntRoot : ChakraRoot;
 
 if (!window.__ENV__.SSR) {
   loadableReady(() => render(<Root store={store} />, place));

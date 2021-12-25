@@ -58,7 +58,7 @@ yarn run start
 
 ## 装饰器
 
-## Material-UI
+## multiple UI (Material-UI, antd, chakra-ui)
 
 ## 数据自动注入原理上比较难以实现 改用 redux connect
 
@@ -74,4 +74,4 @@ yarn run start
 
 ## react router 6
 
-## 开箱既支持多种 UI 组件库 通过环境变量 UI 切换（antd,material,chakra-ui -> todo）
+## 开箱既支持多种 UI 组件库(CSR / SSR) 通过环境变量 UI 切换（antd,material,chakra-ui,...)

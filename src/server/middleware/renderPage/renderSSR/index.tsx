@@ -3,6 +3,7 @@ import { AnyAction, composeRender } from "../compose";
 import { globalEnv, initLang, initStore, loadLang, loadStore } from "../middleware";
 import { targetRender as antDesignRender } from "./renderAntDesign";
 import { targetRender as materialRender } from "./renderMaterial";
+import { targetRender as chakraRender } from "./renderChakra";
 
 const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
   if (!store || !lang || !env) {
@@ -10,8 +11,10 @@ const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
   } else {
     if (env.UI === "antd") {
       return antDesignRender({ req, res, store, lang, env });
-    } else {
+    } else if (env.UI === "material") {
       return materialRender({ req, res, store, lang, env });
+    } else {
+      return chakraRender({ req, res, store, lang, env });
     }
   }
 };

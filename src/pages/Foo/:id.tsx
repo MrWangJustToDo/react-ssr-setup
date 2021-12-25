@@ -1,12 +1,11 @@
 import React from "react";
-import { Switch } from "@mui/material";
-import { GetInitialStateType, PreLoadComponentType } from "types/components";
 import { useParams } from "react-router";
+import { GetInitialStateType, PreLoadComponentType } from "types/components";
 
 const Id: PreLoadComponentType = () => {
-  const f = useParams();
+  const f = useParams<{ id: string }>();
   console.log("params", f);
-  return <Switch />;
+  return <div>params: {f.id}</div>;
 };
 
 export const getInitialState: GetInitialStateType = ({ match, config }) => {
