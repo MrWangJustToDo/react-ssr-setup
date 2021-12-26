@@ -15,6 +15,9 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
+const UI = process.env.UI;
+const currentUI = UI === "antd" || UI === "material" || UI === "chakra" ? UI : "material";
+
 const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = false, isAnimationRouter = false }) => {
   return [
     new CleanWebpackPlugin(),
@@ -28,6 +31,7 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
       __MIDDLEWARE__: isMiddleWareDevelop,
       __ANIMATE_ROUTER__: isAnimationRouter,
       __BUILD_TIME__: JSON.stringify(new Date().toLocaleString()),
+      __UI__: JSON.stringify(currentUI),
     }),
     env === "client" &&
       new MiniCssExtractPlugin({
@@ -42,10 +46,6 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
     env === "client" &&
       new ForkTsCheckerWebpackPlugin({
         async: false,
-        // logger: {
-        //   infastructure: "silent",
-        //   issues: "console",
-        // },
       }),
     env === "client" &&
       new ESLintPlugin({

@@ -13,21 +13,22 @@ const cache = createEmotionCache();
 const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => {
   console.warn("you are using chakra UI component library!");
 
+  /* for chakra UI always have id not match issue on the develop mode */
   return (
-    // <React.StrictMode> for chakra UI always have id not match issue on the develop mode
-    <CacheProvider value={cache}>
-      <ChakraProvider resetCSS>
-        <Provider store={store}>
-          <Router>
-            <HelmetProvider>
-              <ColorModeScript />
-              <App />
-            </HelmetProvider>
-          </Router>
-        </Provider>
-      </ChakraProvider>
-    </CacheProvider>
-    // </React.StrictMode>
+    <React.StrictMode>
+      <CacheProvider value={cache}>
+        <ChakraProvider resetCSS>
+          <Provider store={store}>
+            <Router>
+              <HelmetProvider>
+                <ColorModeScript />
+                <App />
+              </HelmetProvider>
+            </Router>
+          </Provider>
+        </ChakraProvider>
+      </CacheProvider>
+    </React.StrictMode>
   );
 };
 

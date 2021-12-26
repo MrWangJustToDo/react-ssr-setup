@@ -1,10 +1,9 @@
 import React from "react";
-import { getUniverSalUI } from "utils/universal";
 
 export function UI() {
   return (
     <div>
-      <h3>当前UI Component： {getUniverSalUI()}</h3>
+      <h3>当前UI Component： {__UI__}</h3>
     </div>
   );
 }

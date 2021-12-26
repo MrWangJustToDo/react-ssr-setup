@@ -73,8 +73,7 @@ declare const __DEVELOPMENT__: boolean;
 declare const __MIDDLEWARE__: boolean;
 declare const __ANIMATE_ROUTER__: boolean;
 declare const __BUILD_TIME__: string;
-declare const PUBLIC_API_HOST: string;
-declare const ANIMATE_ROUTER: boolean;
+declare const __UI__: "material" | "antd" | "chakra";
 
 interface Window {
   __cache: unknown;

@@ -1,6 +1,6 @@
 {
   "name": "react-ssr",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "author": "mrwang",
   "license": "MIT",
   "scripts": {
@@ -43,7 +43,7 @@
     "redux-thunk": "^2.4.1",
     "spark-md5": "^3.0.1",
     "webpack": "^5.65.0",
-    "zustand": "^3.6.7"
+    "zustand": "^3.6.8"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
@@ -72,10 +72,10 @@
     "@types/loadable__server": "^5.12.3",
     "@types/lodash": "^4.14.178",
     "@types/multer": "^1.4.7",
-    "@types/node": "^17.0.2",
-    "@types/react": "^17.0.37",
+    "@types/node": "^17.0.4",
+    "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
-    "@types/react-redux": "^7.1.16",
+    "@types/react-redux": "^7.1.21",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-middleware": "^5.0.2",
     "@types/webpack-env": "^1.16.3",
@@ -86,7 +86,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-import": "^1.13.3",
     "clean-webpack-plugin": "^4.0.0",
-    "core-js": "^3.20.0",
+    "core-js": "^3.20.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.5.1",
     "css-minimizer-webpack-plugin": "^3.3.1",
@@ -94,7 +94,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-webpack-plugin": "^3.1.1",
     "file-loader": "^6.2.0",
@@ -114,7 +114,7 @@
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^4.5.0",
     "webpack-dev-middleware": "^5.3.0",
-    "webpack-dev-server": "^4.7.0",
+    "webpack-dev-server": "^4.7.1",
     "webpack-hot-middleware": "^2.25.1",
     "webpack-manifest-plugin": "^4.0.2",
     "webpack-merge": "^5.7.3",

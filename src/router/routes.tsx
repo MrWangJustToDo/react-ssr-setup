@@ -4,29 +4,30 @@ import { Layout } from "components/Layout";
 import { UI } from "components/UI";
 import { filter } from "./tools";
 import { dynamicRouteConfig } from "./dynamicRoutes";
-import { getUniverSalUI } from "utils/universal";
 import { PreLoadRouteConfig } from "types/router";
 
 const LoadAble_I18n = loadable<unknown>(() => import("../components/i18n"));
-const LoadAble_Antd = loadable<unknown>(() => import("../components/antDesignComponent"));
-const LoadAble_Chakra = loadable<unknown>(() => import("../components/chakraComponent"));
-const LoadAble_Material = loadable<unknown>(() => import("../components/materialComponent"));
 
 const baseRouter: PreLoadRouteConfig = {
   element: <Layout />,
   Component: Layout,
 };
 
-const currentUI = getUniverSalUI();
+let LoadAble_UI: ReturnType<typeof loadable> | (() => JSX.Element) = () => <></>;
+if (__UI__ === "antd") {
+  LoadAble_UI = loadable<unknown>(() => import("../components/antDesignComponent"));
+}
+if (__UI__ === "material") {
+  LoadAble_UI = loadable<unknown>(() => import("../components/materialComponent"));
+}
+if (__UI__ === "chakra") {
+  LoadAble_UI = loadable<unknown>(() => import("../components/chakraComponent"));
+}
 
 export const routes: PreLoadRouteConfig[] = [
   { path: "/", element: <UI />, Component: UI },
   { path: "/i18n", element: <LoadAble_I18n />, Component: LoadAble_I18n },
-  currentUI === "antd"
-    ? { path: "/antd", element: <LoadAble_Antd />, Component: LoadAble_Antd }
-    : currentUI === "material"
-    ? { path: "/material", element: <LoadAble_Material />, Component: LoadAble_Material }
-    : { path: "/chakra", element: <LoadAble_Chakra />, Component: LoadAble_Chakra },
+  { path: __UI__ === "antd" ? "/antd" : __UI__ === "material" ? "/material" : "chakra", element: <LoadAble_UI />, Component: LoadAble_UI },
 ];
 
 const dynamicRoutes = dynamicRouteConfig
