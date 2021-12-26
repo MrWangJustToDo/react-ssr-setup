@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-import { supportedLangs } from "i18n";
+import { supportedLangs } from "utils/i18n";
 import { useLang } from "hooks/useLang";
 
 import style from "./index.module.scss";

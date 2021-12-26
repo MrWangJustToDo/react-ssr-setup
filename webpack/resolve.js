@@ -11,7 +11,6 @@ const resolveConfig = () => {
       config: path.resolve(basePath, "src", "config"),
       pages: path.resolve(basePath, "src", "pages"),
       utils: path.resolve(basePath, "src", "utils"),
-      i18n: path.resolve(basePath, "src", "i18n"),
       template: path.resolve(basePath, "src", "template"),
       components: path.resolve(basePath, "src", "components"),
       types: path.resolve(basePath, "src", "types"),

@@ -1,4 +1,4 @@
-import { determineUserLang } from "i18n";
+import { determineUserLang } from "utils/i18n";
 import { Middleware } from "../compose";
 
 export const initLang: Middleware = (next) => async (args) => {
