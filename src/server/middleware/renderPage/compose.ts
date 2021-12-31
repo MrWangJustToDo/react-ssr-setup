@@ -3,7 +3,7 @@
 import type { Request, Response } from "express";
 import type { SagaStore } from "types/store";
 
-type BaseArgs = { req: Request; res: Response; store?: SagaStore; env?: { [p: string]: unknown }; lang?: string };
+type BaseArgs = { req: Request; res: Response; store?: SagaStore; env?: { [p: string]: unknown }; lang?: string; serverSideProps?: { [key: string]: any } };
 
 export type OverrideBase<T = unknown> = BaseArgs & T;
 

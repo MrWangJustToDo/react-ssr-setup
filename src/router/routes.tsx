@@ -24,7 +24,7 @@ if (__UI__ === "chakra") {
   LoadAble_UI = loadable<unknown>(() => import("../components/chakraComponent"));
 }
 
-export const routes: PreLoadRouteConfig[] = [
+const routes: PreLoadRouteConfig[] = [
   { path: "/", element: <UI />, Component: UI },
   { path: "/i18n", element: <LoadAble_I18n />, Component: LoadAble_I18n },
   { path: __UI__ === "antd" ? "/antd" : __UI__ === "material" ? "/material" : "chakra", element: <LoadAble_UI />, Component: LoadAble_UI },

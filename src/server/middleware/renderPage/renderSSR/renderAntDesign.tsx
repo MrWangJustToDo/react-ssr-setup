@@ -10,7 +10,7 @@ import { HTML } from "template/Html";
 import { App } from "components/App";
 import { SafeAction } from "../compose";
 
-export const targetRender: SafeAction = async ({ req, res, store, lang, env }) => {
+export const targetRender: SafeAction = async ({ req, res, store, lang, env, serverSideProps }) => {
   const helmetContext = {};
 
   const content = (
@@ -43,6 +43,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env }) =
           script={scriptElements}
           helmetContext={helmetContext}
           link={linkElements.concat(styleElements)}
+          serverSideProps={JSON.stringify(serverSideProps)}
           reduxInitialState={JSON.stringify(store.getState())}
         >
           {body}

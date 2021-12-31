@@ -3,7 +3,7 @@ import { Params } from "react-router";
 import { ExpressRequest } from "types/server";
 import { PreLoadRouteConfig } from "types/router";
 
-interface GetInitialStateProps {
+export interface GetInitialStateProps {
   store: SagaStore;
   match: { params: Params<string>; pathname: string };
   config?: { req: ExpressRequest };
@@ -13,16 +13,14 @@ export interface GetInitialStateType {
   (props: GetInitialStateProps): Promise<{
     redirect?: string;
     error?: string;
-    headers?: { [key: string]: string };
     cookies?: { [key: string]: string };
+    props?: any; // support auto inject props when data loaded
   } | void> | void;
 }
 
 export interface PreLoadComponentType<T = any> {
   (props: T): JSX.Element;
   getInitialState?: GetInitialStateType;
-  routerIn?: string;
-  routerOut?: string;
 }
 
 /* WrapperRoute */

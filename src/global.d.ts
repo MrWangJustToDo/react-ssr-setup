@@ -79,5 +79,6 @@ interface Window {
   __cache: unknown;
   __request: unknown;
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  __INITIAL_PROPS_SSR__: { [key: string]: any };
   __ENV__: { PUBLIC_API_HOST: string; ANIMATE_ROUTER: boolean; SSR: boolean; CRYPTO_KEY: string; LANG: string; UI: "antd" | "material" | "chakra" };
 }

@@ -10,10 +10,9 @@ export const loadStore: Middleware = (next) => async (args) => {
     throw new ServerError(`server 初始化失败 lang: ${lang}, store: ${store}`, 500);
   }
 
-  const { headers, error, redirect } = await preLoad(allRoutes, req.url, store, { req, lang });
-  if (headers) {
-    Object.keys(headers).forEach((key) => res.setHeader(key, headers[key]));
-  }
+  const { error, redirect, serverSideProps } = await preLoad(allRoutes, req.url, store, { req, lang });
+
+  // console.log(serverSideProps);
 
   if (error) {
     throw new ServerError(error, 403);
@@ -23,6 +22,7 @@ export const loadStore: Middleware = (next) => async (args) => {
     res.writeHead(302, { Location: redirect });
     res.end();
   } else {
+    args.serverSideProps = serverSideProps;
     await next(args);
   }
 };

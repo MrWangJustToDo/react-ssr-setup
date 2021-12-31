@@ -1,11 +1,12 @@
+import { cloneElement, ComponentClass, isValidElement } from "react";
 import { matchRoutes, Params } from "react-router";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 import { apiName } from "config/api";
-import type { ComponentClass } from "react";
+import { log } from "./log";
 import type { SagaStore } from "types/store";
 import type { ExpressRequest } from "types/server";
 import type { PreLoadRouteConfig } from "types/router";
-import type { GetInitialStateType, PreLoadComponentType } from "types/components";
+import type { GetInitialStateProps, GetInitialStateType, PreLoadComponentType } from "types/components";
 
 function preLoad(
   routes: PreLoadRouteConfig[],
@@ -15,8 +16,10 @@ function preLoad(
 ): Promise<{
   redirect?: string;
   error?: string;
-  headers?: { [key: string]: string };
+  cookies?: { [key: string]: string };
+  serverSideProps?: { [key: string]: any };
 }>;
+
 function preLoad(
   routes: PreLoadRouteConfig[],
   pathName: string,
@@ -32,32 +35,52 @@ function preLoad(
   pathname: string,
   store: SagaStore,
   config?: { req: ExpressRequest; lang: string }
-): Promise<void | { redirect?: string; error?: string; headers?: { [props: string]: string }; cookies?: { [props: string]: string } }> {
+): Promise<void | {
+  redirect?: string;
+  error?: string;
+  cookies?: { [props: string]: string };
+  serverSideProps?: { [key: string]: any };
+}> {
   const branch = matchRoutes(routes, pathname) || [];
 
   const promises: Promise<{
     redirect?: string;
     error?: string;
-    header?: { [key: string]: string };
+    cookie?: { [key: string]: string };
+    serverSideProps?: { [key: string]: any };
   } | void>[] = [];
 
   branch.forEach(({ route, params, pathname }) => {
     const match = { params, pathname };
-    promises.push(
-      // for component
-      preLoadFromComponent({ route: route as PreLoadRouteConfig, store, match, config }),
-      // for router
-      preLoadFromRoute({ route: route as PreLoadRouteConfig, store, match, config })
-    );
+    promises.push(_preLoad({ route: route as PreLoadRouteConfig, store, match, config }));
   });
 
   return Promise.all(promises).then((val) => {
     if (val.length) {
-      return val.filter(Boolean).reduce((res, c) => {
-        return { ...res, ...c };
+      return val.filter(Boolean).reduce<{
+        redirect?: string | undefined;
+        error?: string | undefined;
+        cookies?: { [key: string]: string } | undefined;
+        serverSideProps?: { [key: string]: any };
+      }>((s, c) => {
+        if (!c) return s;
+        s.serverSideProps = { ...s.serverSideProps, ...c.serverSideProps };
+        s.cookies = { ...s.cookies, ...c.cookie };
+        s.error = [s.error, c.error].filter(Boolean).join(" || ");
+        s.redirect = c.redirect ? c.redirect : s.redirect;
+        return s;
       }, {});
     }
     return { redirect: "/404" };
+  });
+}
+
+function hydrateLoad(routes: PreLoadRouteConfig[], pathname: string) {
+  const branch = matchRoutes(routes, pathname) || [];
+
+  branch.forEach(({ route, params, pathname }) => {
+    const match = { params, pathname };
+    _hydrateLoad({ route: route as PreLoadRouteConfig, match });
   });
 }
 
@@ -71,59 +94,89 @@ type PreLoadProps = {
 type PreLoadType = (props: PreLoadProps) => Promise<{
   redirect?: string;
   error?: string;
-  header?: { [key: string]: string };
+  cookie?: { [key: string]: string };
+  serverSideProps?: { [key: string]: any };
 } | void>;
 
-const preLoadFromComponent: PreLoadType = ({ route, store, match, config }) => {
-  return new Promise((resolve) => {
-    const loadAbleComponent = route.Component;
-    if (typeof loadAbleComponent.load === "function") {
-      loadAbleComponent.load().then((component: PreLoadComponentType & { readonly default?: PreLoadComponentType }) => {
-        // like next.js, will handle a initial function which not bind in the component
-        if (component.getInitialState && typeof component.getInitialState === "function") {
-          Promise.resolve()
-            .then(() => (component.getInitialState ? component.getInitialState({ store, match, config }) : undefined))
-            .then(resolve)
-            .catch(resolve);
-        } else if (typeof component.default !== "undefined") {
-          const target = component.default;
-          if (target.getInitialState && typeof target.getInitialState === "function") {
-            Promise.resolve()
-              .then(() => (target.getInitialState ? target.getInitialState({ store, match, config }) : undefined))
-              .then(resolve)
-              .catch(resolve);
-          } else {
-            resolve();
-          }
-        } else {
-          resolve();
-        }
-      });
-    } else {
-      const preLoadComponent = route.Component as PreLoadComponentType;
-      if (preLoadComponent.getInitialState && typeof preLoadComponent.getInitialState === "function") {
-        Promise.resolve()
-          .then(() => preLoadComponent.getInitialState && preLoadComponent.getInitialState({ store, match, config }))
-          .then(resolve)
-          .catch(resolve);
-      } else {
-        resolve();
-      }
-    }
-  });
+type HydrateLoadType = (props: Pick<PreLoadProps, "route" | "match">) => void;
+
+const _hydrateLoad: HydrateLoadType = ({ route, match }) => {
+  if (__CLIENT__ && window.__INITIAL_PROPS_SSR__ && route.element && isValidElement(route.element)) {
+    const cacheKey = `${match.pathname}--${JSON.stringify(match.params)}`;
+    const props = window.__INITIAL_PROPS_SSR__[cacheKey];
+    route.element = cloneElement(route.element, props);
+  }
 };
 
-const preLoadFromRoute: PreLoadType = ({ route, store, match, config }) => {
-  return new Promise((resolve) => {
-    if (route.getInitialState && typeof route.getInitialState === "function") {
-      Promise.resolve()
-        .then(() => route.getInitialState && route.getInitialState({ store, match, config }))
-        .then(resolve)
-        .catch(resolve);
+const resolveGetInitialState = async ({ route }: Pick<PreLoadProps, "route">): Promise<GetInitialStateType> => {
+  const getInitialStateArray: GetInitialStateType[] = [];
+  // for Router
+  if (route.getInitialState) {
+    getInitialStateArray.push(route.getInitialState);
+  }
+  // for Component
+  if (route.Component) {
+    const WrapperComponent = route.Component;
+    if (typeof WrapperComponent.load === "function") {
+      const loadAbleComponent: PreLoadComponentType & { readonly default?: PreLoadComponentType } = await WrapperComponent.load();
+      if (loadAbleComponent.getInitialState && typeof loadAbleComponent.getInitialState === "function") {
+        getInitialStateArray.push(loadAbleComponent.getInitialState);
+      }
+      if (typeof loadAbleComponent.default !== "undefined") {
+        const c = loadAbleComponent.default;
+        if (c.getInitialState && typeof c.getInitialState === "function") {
+          getInitialStateArray.push(c.getInitialState);
+        }
+      }
     } else {
-      resolve();
+      const preLoadComponent = WrapperComponent as PreLoadComponentType;
+      if (preLoadComponent.getInitialState && typeof preLoadComponent.getInitialState === "function") {
+        getInitialStateArray.push(preLoadComponent.getInitialState);
+      }
     }
-  });
+  }
+
+  return async ({ store, match, config }: GetInitialStateProps) => {
+    const res = await Promise.all(
+      getInitialStateArray.map((fn) =>
+        Promise.resolve()
+          .then(() => fn({ store, match, config }))
+          .catch((e) => {
+            // catch all error by default
+            log(`getInitialState error ${e}`, "error");
+            return null;
+          })
+      )
+    );
+    return res.filter(Boolean).reduce<{
+      redirect?: string | undefined;
+      error?: string | undefined;
+      cookies?: { [key: string]: string } | undefined;
+      props?: any;
+    }>((s, c) => {
+      if (!c) return s;
+      s.cookies = { ...s.cookies, ...c.cookies };
+      s.error = [s.error, c.error].filter(Boolean).join(" || ");
+      s.props = { ...s.props, ...c.props };
+      s.redirect = c.redirect ? c.redirect : s.redirect;
+      return s;
+    }, {});
+  };
+};
+
+const _preLoad: PreLoadType = async ({ route, store, match, config }) => {
+  const getInitialState = await resolveGetInitialState({ route });
+  const initialState = await getInitialState({ store, match, config });
+  if (initialState) {
+    const { props, ...resProps } = initialState;
+    if (route.element && isValidElement(route.element)) {
+      // support autoInject props for component
+      route.element = cloneElement(route.element, props);
+      const cacheKey = `${match.pathname}--${JSON.stringify(match.params)}`;
+      return { ...resProps, serverSideProps: { [cacheKey]: props } };
+    }
+    return resProps;
+  }
 };
 
 const preLoadLang = ({ store, lang }: Pick<PreLoadProps, "store"> & { lang: string }): Promise<void> => {
@@ -146,4 +199,4 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
   return Wrapper;
 }
 
-export { preLoad, preLoadLang, preLoadWrapper };
+export { preLoad, preLoadLang, preLoadWrapper, hydrateLoad };

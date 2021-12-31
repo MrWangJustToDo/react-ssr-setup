@@ -14,7 +14,7 @@ import { HTML } from "template/Html";
 import { manifestLoadable } from "utils/manifest";
 import { SafeAction } from "../compose";
 
-export const targetRender: SafeAction = async ({ req, res, store, lang, env }) => {
+export const targetRender: SafeAction = async ({ req, res, store, lang, env, serverSideProps }) => {
   const helmetContext = {};
   const cache = createEmotionCache();
   const { extractCriticalToChunks } = createEmotionServer(cache);
@@ -58,6 +58,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env }) =
           helmetContext={helmetContext}
           emotionChunks={emotionChunks}
           link={linkElements.concat(styleElements)}
+          serverSideProps={JSON.stringify(serverSideProps)}
           reduxInitialState={JSON.stringify(store.getState())}
         >
           {body}
