@@ -10,9 +10,13 @@ export const loadStore: Middleware = (next) => async (args) => {
     throw new ServerError(`server 初始化失败 lang: ${lang}, store: ${store}`, 500);
   }
 
-  const { error, redirect, serverSideProps } = await preLoad(allRoutes, req.url, store, { req, lang });
+  const { error, redirect, serverSideProps, cookies } = await preLoad(allRoutes, req.url, store, { req, lang });
 
-  // console.log(serverSideProps);
+  if (cookies) {
+    Object.keys(cookies).forEach((key) => {
+      res.cookie(key, cookies[key]);
+    });
+  }
 
   if (error) {
     throw new ServerError(error, 403);

@@ -46,7 +46,7 @@ function preLoad(
   const promises: Promise<{
     redirect?: string;
     error?: string;
-    cookie?: { [key: string]: string };
+    cookies?: { [key: string]: string };
     serverSideProps?: { [key: string]: any };
   } | void>[] = [];
 
@@ -65,7 +65,7 @@ function preLoad(
       }>((s, c) => {
         if (!c) return s;
         s.serverSideProps = { ...s.serverSideProps, ...c.serverSideProps };
-        s.cookies = { ...s.cookies, ...c.cookie };
+        s.cookies = { ...s.cookies, ...c.cookies };
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
         s.redirect = c.redirect ? c.redirect : s.redirect;
         return s;
@@ -75,14 +75,16 @@ function preLoad(
   });
 }
 
-function hydrateLoad(routes: PreLoadRouteConfig[], pathname: string) {
+const hydrateLoad = (routes: PreLoadRouteConfig[], pathname: string) => {
   const branch = matchRoutes(routes, pathname) || [];
 
   branch.forEach(({ route, params, pathname }) => {
     const match = { params, pathname };
     _hydrateLoad({ route: route as PreLoadRouteConfig, match });
   });
-}
+};
+
+const generateServerSidePropsKey = (match: PreLoadProps["match"]) => `__preload-${match.pathname}-${JSON.stringify(match.params)}-props__`;
 
 type PreLoadProps = {
   route: PreLoadRouteConfig;
@@ -102,8 +104,7 @@ type HydrateLoadType = (props: Pick<PreLoadProps, "route" | "match">) => void;
 
 const _hydrateLoad: HydrateLoadType = ({ route, match }) => {
   if (__CLIENT__ && window.__INITIAL_PROPS_SSR__ && route.element && isValidElement(route.element)) {
-    const cacheKey = `${match.pathname}--${JSON.stringify(match.params)}`;
-    const props = window.__INITIAL_PROPS_SSR__[cacheKey];
+    const props = window.__INITIAL_PROPS_SSR__[generateServerSidePropsKey(match)];
     route.element = cloneElement(route.element, props);
   }
 };
@@ -172,8 +173,7 @@ const _preLoad: PreLoadType = async ({ route, store, match, config }) => {
     if (route.element && isValidElement(route.element)) {
       // support autoInject props for component
       route.element = cloneElement(route.element, props);
-      const cacheKey = `${match.pathname}--${JSON.stringify(match.params)}`;
-      return { ...resProps, serverSideProps: { [cacheKey]: props } };
+      return { ...resProps, serverSideProps: { [generateServerSidePropsKey(match)]: props } };
     }
     return resProps;
   }

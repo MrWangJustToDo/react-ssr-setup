@@ -44,7 +44,7 @@ yarn run start
 
 ## 代码分割
 
-## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, headers(server), cookies(client), props: {auto inject data}} more usage for getInitialState
+## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, cookies, props: {auto inject data}} more usage for getInitialState
 
 ## sass
 
@@ -60,7 +60,7 @@ yarn run start
 
 ## multiple UI (Material-UI, antd, chakra-ui)
 
-## 数据自动注入 getInitialState: () => ({props: xxx})  see pages/Great.tsx
+## 数据自动注入 getInitialState: () => ({props: xxx}) see pages/Great.tsx
 
 ## middleware develop 适合手机等远程调试
 

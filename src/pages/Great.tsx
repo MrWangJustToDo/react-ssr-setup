@@ -14,7 +14,7 @@ export const getInitialState: GetInitialStateType = async ({ store }) => {
   await store.dispatch(getDataAction_Server({ name: apiName.blog }));
   console.log(store.sagaTask?.isRunning(), store.sagaTask?.isCancelled());
   console.log("dispatch done");
-  return { props: { blog: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 0] } };
+  return { props: { blog: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 0], foo: { a: 1, b: 2, c: 3 } }, cookies: { foo: "foo", bar: "bar" } };
 };
 
 export default Great;
