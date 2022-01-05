@@ -7,8 +7,6 @@ import { createUniversalStore } from "store";
 import { log } from "utils/log";
 import { safeData } from "utils/safeData";
 import { StoreState } from "types/store";
-import { preLoad } from "utils/preLoad";
-import { allRoutes } from "router/routes";
 
 const place = document.querySelector("#__content__");
 
@@ -49,8 +47,7 @@ if (__UI__ === "material") {
 }
 
 if (!window.__ENV__.SSR) {
-  // for client side render, we need load component props first
-  preLoad(allRoutes, location.pathname, store).then(() => loadableReady(() => render(<Root store={store} />, place)));
+  loadableReady(() => render(<Root store={store} />, place));
 } else {
   if (__DEVELOPMENT__ && __MIDDLEWARE__) {
     log("not hydrate render on client", "warn");

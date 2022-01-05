@@ -6,11 +6,11 @@ import { HTML } from "template/Html";
 import { manifestLoadable } from "utils/manifest";
 
 import { AnyAction, composeRender } from "./compose";
-import { globalEnv, initLang, initStore, loadLang } from "./middleware";
+import { globalEnv, initLang, initStore, loadLang, loadStore } from "./middleware";
 import { ServerError } from "server/utils/error";
 
 // 客户端渲染
-const targetRender: AnyAction = async ({ res, store, lang, env }) => {
+const targetRender: AnyAction = async ({ res, store, lang, env, serverSideProps = {} }) => {
   if (!store || !lang || !env) {
     throw new ServerError("server 初始化失败", 500);
   }
@@ -19,20 +19,19 @@ const targetRender: AnyAction = async ({ res, store, lang, env }) => {
   const styleElements = webExtractor.getStyleElements();
   const scriptElements = webExtractor.getScriptElements();
 
-  env["LANG"] = lang;
-
   res.send(
     "<!doctype html>" +
       renderToString(
         <HTML
-        env={JSON.stringify(env)}
-        lang={JSON.stringify(lang)}
-        script={scriptElements}
-        link={linkElements.concat(styleElements)}
+          env={JSON.stringify(env)}
+          lang={JSON.stringify(lang)}
+          script={scriptElements}
+          link={linkElements.concat(styleElements)}
+          serverSideProps={JSON.stringify(serverSideProps)}
           reduxInitialState={JSON.stringify(store.getState())}
         />
       )
   );
 };
 
-export const renderCSR = composeRender(globalEnv, initLang, initStore, loadLang)(targetRender);
+export const renderCSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang)(targetRender);
