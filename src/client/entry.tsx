@@ -46,10 +46,10 @@ if (__UI__ === "material") {
   Root = originalRoot;
 }
 
-if (!window.__ENV__.SSR) {
+if (!window.__ENV__.isSSR) {
   loadableReady(() => render(<Root store={store} />, place));
 } else {
-  if (__DEVELOPMENT__ && __MIDDLEWARE__) {
+  if (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE) {
     log("not hydrate render on client", "warn");
     loadableReady(() => render(<Root store={store} />, place));
   } else {

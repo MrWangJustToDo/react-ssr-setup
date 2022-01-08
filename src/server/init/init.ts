@@ -1,4 +1,4 @@
-import { catchMiddlewareHandler, compose, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
+import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
 
 const initSession = wrapperMiddlewareRequest(
   {
@@ -9,7 +9,7 @@ const initSession = wrapperMiddlewareRequest(
     },
     goNext: true,
   },
-  compose(catchMiddlewareHandler)
+  compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
 );
 
 const decodeURI = wrapperMiddlewareRequest(
@@ -19,7 +19,7 @@ const decodeURI = wrapperMiddlewareRequest(
     },
     goNext: true,
   },
-  compose(catchMiddlewareHandler)
+  compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
 );
 
 export { initSession, decodeURI };

@@ -28,10 +28,10 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,
+      __UI__: JSON.stringify(currentUI),
       __MIDDLEWARE__: isMiddleWareDevelop,
       __ANIMATE_ROUTER__: isAnimationRouter,
       __BUILD_TIME__: JSON.stringify(new Date().toLocaleString()),
-      __UI__: JSON.stringify(currentUI),
     }),
     env === "client" &&
       new MiniCssExtractPlugin({

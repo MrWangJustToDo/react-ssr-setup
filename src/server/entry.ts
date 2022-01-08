@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import multer from "multer";
 import express from "express";
 
 import { log } from "utils/log";
@@ -13,8 +12,6 @@ import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMi
 
 dotenv.config();
 
-const upload = multer({ dest: "./cache" });
-
 const app = express();
 
 const port = __DEVELOPMENT__ ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
@@ -22,13 +19,6 @@ const port = __DEVELOPMENT__ ? process.env.DEV_PORT || 3000 : process.env.PROD_P
 setUp(app);
 
 init(app);
-
-app.post("/api/upload", upload.single("file"), async (req, res) => {
-  console.log("上传文件", req.file?.destination, req.file?.size);
-  res.json({
-    code: 0,
-  });
-});
 
 app.use("/api", apiHandler);
 

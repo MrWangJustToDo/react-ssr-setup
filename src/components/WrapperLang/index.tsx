@@ -13,7 +13,9 @@ export const WrapperLang = ({ children }: { children: React.ReactChild }) => {
     if (!htmlRef.current) {
       htmlRef.current = document.querySelector("html");
     }
-    htmlRef.current && (htmlRef.current.lang = lang);
+    if (htmlRef.current) {
+      htmlRef.current.lang = lang;
+    }
   }, [lang]);
 
   return (

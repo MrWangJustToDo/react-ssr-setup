@@ -4,7 +4,7 @@ import { Layout } from "components/Layout";
 import { UI } from "components/UI";
 import { filter } from "./tools";
 import { dynamicRouteConfig } from "./dynamicRoutes";
-import { PreLoadRouteConfig } from "types/router";
+import type { PreLoadRouteConfig } from "types/router";
 
 const LoadAble_I18n = loadable<unknown>(() => import("../components/i18n"));
 
