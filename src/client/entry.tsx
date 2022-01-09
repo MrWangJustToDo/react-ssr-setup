@@ -30,6 +30,8 @@ safeData(window.__INITIAL_PROPS_SSR__);
 
 safeData(window as unknown as Record<string, unknown>, "__INITIAL_PROPS_SSR__");
 
+document.querySelector("script#__autoInject__")?.remove();
+
 let Root = ({ store: _store }: { store: ReturnType<typeof createUniversalStore> }) => <></>;
 
 // multiple UI component

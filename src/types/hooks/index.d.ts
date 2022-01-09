@@ -12,3 +12,7 @@ export interface UsePreLoadType {
     location: ReturnType<typeof useLocation>;
   };
 }
+
+export interface UseHydrate {
+  (props: {routes: PreLoadRouteConfig[], pathName: string}): void
+}

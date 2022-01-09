@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "react-redux";
 import cookie from "js-cookie";
 import shallow from "zustand/shallow";
 import { useLocation, useNavigate } from "react-router";
 import { log } from "utils/log";
-import { hydrateLoad } from "utils/preLoad";
 import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
 import { UsePreLoadType } from "types/hooks";
 
@@ -25,12 +24,6 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   const timer2 = useRef<NodeJS.Timeout | null>(null);
   const storeRef = useRef(store);
   const [loadedLocation, setLoadedLocation] = useState(location);
-
-  // hydrate to auto inject props
-  useMemo(() => {
-    hydrateLoad(routes, location.pathname);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   loadingPath.current = location.pathname;
 

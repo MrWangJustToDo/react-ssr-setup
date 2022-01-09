@@ -22,7 +22,7 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
   return [
     new CleanWebpackPlugin(),
     env === "client" && new LoadablePlugin({ filename: "manifest-loadable.json" }),
-    env === "client" && new WebpackManifestPlugin({ fileName: "manifest-dev.json" }),
+    env === "client" && new WebpackManifestPlugin({ fileName: isDev ? "manifest-dev.json" : "manifest-prod.json" }),
     new webpack.DefinePlugin({
       __SSR__: isSSR,
       __CLIENT__: env === "client",
