@@ -1,4 +1,4 @@
-import React, { Children, ReactElement } from "react";
+import { Children, ReactElement } from "react";
 
 const Text = ({ children }: { children: ReactElement[] }) => {
   const foo = { props: {} };

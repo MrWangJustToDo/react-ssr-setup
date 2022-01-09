@@ -1,4 +1,3 @@
-import React from "react";
 import { Provider } from "react-redux";
 import { HelmetProvider } from "react-helmet-async";
 import { renderToString } from "react-dom/server";

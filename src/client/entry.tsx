@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React from "react";
 import { hydrate, render } from "react-dom";
 import { loadableReady } from "@loadable/component";
 

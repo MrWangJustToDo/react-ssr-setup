@@ -1,4 +1,4 @@
-import React from "react";
+import { StrictMode } from "react";
 import { CacheProvider } from "@emotion/react";
 import { ColorModeScript, ChakraProvider } from "@chakra-ui/react";
 import { App } from "components/App";
@@ -13,9 +13,8 @@ const cache = createEmotionCache();
 const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => {
   console.warn("you are using chakra UI component library!");
 
-  /* for chakra UI always have id not match issue on the develop mode */
   return (
-    <React.StrictMode>
+    <StrictMode>
       <CacheProvider value={cache}>
         <ChakraProvider resetCSS>
           <Provider store={store}>
@@ -28,7 +27,7 @@ const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => 
           </Provider>
         </ChakraProvider>
       </CacheProvider>
-    </React.StrictMode>
+    </StrictMode>
   );
 };
 

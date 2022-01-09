@@ -1,4 +1,3 @@
-import React from "react";
 import PrettyError from "pretty-error";
 import { renderToString } from "react-dom/server";
 

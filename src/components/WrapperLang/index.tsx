@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, ReactChild } from "react";
 import { IntlProvider } from "react-intl";
 import { useSelector } from "react-redux";
 import { defaultLang } from "utils/i18n";
 import type { StoreState } from "types/store";
 
-export const WrapperLang = ({ children }: { children: React.ReactChild }) => {
+export const WrapperLang = ({ children }: { children: ReactChild }) => {
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const data = useSelector<StoreState, StoreState["server"]["lang"]["data"]>((state) => state.server.lang.data);
   const lang = useSelector<StoreState, StoreState["client"]["currentLang"]["data"]>((state) => state.client.currentLang.data);

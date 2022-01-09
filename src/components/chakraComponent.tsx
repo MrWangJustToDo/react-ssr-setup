@@ -1,4 +1,3 @@
-import React from "react";
 import { Select, Button, Box, Fade, useDisclosure, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 
 export default function ChakraComponent() {

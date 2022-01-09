@@ -1,4 +1,3 @@
-import React from "react";
 import { DatePicker, Carousel } from "antd";
 
 const AntDesignComponent = () => {

@@ -9,6 +9,7 @@ module.exports = {
     "plugin:react/recommended", // React rules
     "plugin:react-hooks/recommended", // React hooks rules
     "plugin:jsx-a11y/recommended", // Accessibility rules
+    "plugin:react/jsx-runtime", // new JSX runtime for react
     "prettier",
   ],
   ignorePatterns: ["node_modules/*", "script/*", "dist/*", "dev/*", "webpack/*", "!.prettierrc", ".eslintrc.js", "babel.config.js", "postcss.config.js"], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)

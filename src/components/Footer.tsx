@@ -1,5 +1,3 @@
-import React from "react";
-
 import { allRoutes } from "router/routes";
 import { useNavigate } from "react-router";
 

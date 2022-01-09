@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 import { useLocation } from "react-router";
 import { usePreLoad } from "hooks/usePreLoad";
 import { useHydrate } from "hooks/useHydrate";
@@ -19,4 +19,4 @@ export const WrapperRoute: WrapperRouteType = ({ children, routes, LoadingBar })
   );
 };
 
-export const useLoadedLocation = () => useContext(LoadedLocationContext)
+export const useLoadedLocation = () => useContext(LoadedLocationContext);

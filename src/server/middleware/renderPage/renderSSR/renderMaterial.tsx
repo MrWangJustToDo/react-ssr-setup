@@ -1,4 +1,3 @@
-import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import createEmotionServer from "@emotion/server/create-instance";
 import { Provider } from "react-redux";

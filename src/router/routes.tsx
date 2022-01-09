@@ -1,4 +1,3 @@
-import React from "react";
 import loadable from "@loadable/component";
 import { Layout } from "components/Layout";
 import { UI } from "components/UI";

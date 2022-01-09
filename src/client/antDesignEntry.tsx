@@ -1,4 +1,4 @@
-import React from "react";
+import { StrictMode } from "react";
 import { App } from "components/App";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
@@ -9,7 +9,7 @@ const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => 
   console.warn("you are using antDesign component library!");
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <Provider store={store}>
         <Router>
           <HelmetProvider>
@@ -17,7 +17,7 @@ const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => 
           </HelmetProvider>
         </Router>
       </Provider>
-    </React.StrictMode>
+    </StrictMode>
   );
 };
 

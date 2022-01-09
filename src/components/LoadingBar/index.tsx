@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useChangeLoadingWithoutRedux, useLoadingBar } from "hooks/useLoadingBar";
 import { Bar } from "./LoadingBar";
 import type { LoadingBarWrapperType } from "types/components";

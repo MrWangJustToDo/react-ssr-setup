@@ -1,6 +1,6 @@
-import React, { ErrorInfo } from "react";
+import { ErrorInfo, Component, ReactNode } from "react";
 
-export class WrapperErrorCatch extends React.Component<Record<string, unknown>, { error: string; stack: string; hasError: boolean }> {
+export class WrapperErrorCatch extends Component<Record<string, unknown>, { error: string; stack: string; hasError: boolean }> {
   state = {
     stack: "",
     error: "",
@@ -18,7 +18,7 @@ export class WrapperErrorCatch extends React.Component<Record<string, unknown>, 
     });
   }
 
-  render(): React.ReactNode {
+  render(): ReactNode {
     if (this.state.hasError)
       return (
         <pre>
