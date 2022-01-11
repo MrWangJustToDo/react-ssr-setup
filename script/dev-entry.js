@@ -67,7 +67,7 @@ const withMiddleWare = async () => {
   const [_, serverConfig] = multiConfig;
   const serverCompiler = webpack(serverConfig);
   const serverPromise = compilerPromise("server", serverCompiler);
-  startServerWatch(serverCompiler);
+  serverCompiler.run()
   try {
     await serverPromise;
   } catch (e) {

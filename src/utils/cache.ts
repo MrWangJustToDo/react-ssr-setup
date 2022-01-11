@@ -116,6 +116,10 @@ class Cache<T, K> {
     }
     log(`error, nothing need to delete. keys: [${tryKeys.join(", ")}]`, "error");
   };
+
+  has = (key: T) => {
+    return this.store.has(key);
+  };
 }
 
-export { Cache };
+export { Cache, CacheData };
