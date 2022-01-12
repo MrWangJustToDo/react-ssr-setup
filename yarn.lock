@@ -2158,6 +2158,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cookie-parser@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.npmmirror.com/@types/cookie-parser/download/@types/cookie-parser-1.4.2.tgz#e4d5c5ffda82b80672a88a4281aaceefb1bd9df5"
+  integrity sha1-5NXF/9qCuAZyqIpCgarO77G9nfU=
+  dependencies:
+    "@types/express" "*"
+
 "@types/cors@^2.8.10":
   version "2.8.12"
   resolved "https://registry.npmmirror.com/@types/cors/download/@types/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
@@ -3624,7 +3631,7 @@ convert-source-map@^1.1.0, convert-source-map@^1.5.0, convert-source-map@^1.7.0:
 cookie-parser@^1.4.6:
   version "1.4.6"
   resolved "https://registry.npmmirror.com/cookie-parser/download/cookie-parser-1.4.6.tgz#3ac3a7d35a7a03bbc7e365073a26074824214594"
-  integrity sha1-OsOn01p6A7vH42UHOiYHSCQhRZQ=
+  integrity sha512-z3IzaNjdwUC2olLIB5/ITd0/setiaFMLYiZJle7xg5Fe9KWAceil7xszYfHHBtDFYLSgJduS2Ty0P1uJdPDJeA==
   dependencies:
     cookie "0.4.1"
     cookie-signature "1.0.6"

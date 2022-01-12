@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { actionName } from "config/action";
 import { setDataSuccess_client } from "store/reducer/client/share/action";
 import { delay, cancel } from "utils/delay";
+import shallow from "zustand/shallow";
 
 type LoadingBarProps = {
   height?: number;
@@ -59,7 +60,7 @@ const useLoadingBar = (props: LoadingBarProps = {}) => {
   return { ref };
 };
 
-const useChangeLoadingWithoutRedux = create<{ loading: boolean; start: () => void; end: () => void }>((set) => ({
+const useLoadingBarState = create<{ loading: boolean; start: () => void; end: () => void }>((set) => ({
   loading: false,
   start: () => set({ loading: true }),
   end: () => set({ loading: false }),
@@ -73,4 +74,11 @@ const useChangeLoading = () => {
   return { start, end };
 };
 
-export { useLoadingBar, useChangeLoading, useChangeLoadingWithoutRedux };
+const useChangeLoadingWithoutRedux = () => {
+  return useLoadingBarState(
+    useCallback((s) => ({ start: s.start, end: s.end }), []),
+    shallow
+  );
+};
+
+export { useLoadingBar, useChangeLoading, useLoadingBarState, useChangeLoadingWithoutRedux };

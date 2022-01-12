@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { useChangeLoadingWithoutRedux, useLoadingBar } from "hooks/useLoadingBar";
+import { useLoadingBar, useLoadingBarState } from "hooks/useLoadingBar";
 import { Bar } from "./LoadingBar";
 import type { LoadingBarWrapperType } from "types/components";
 
 export const LoadingBar: LoadingBarWrapperType = () => {
   const [loading, setLoading] = useState(false);
-  const loadingState = useChangeLoadingWithoutRedux((s) => s.loading);
+  const loadingState = useLoadingBarState((s) => s.loading);
   useEffect(() => {
     let id: NodeJS.Timeout | null = null;
     if (loadingState) {

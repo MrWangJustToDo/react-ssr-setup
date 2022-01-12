@@ -2,8 +2,11 @@ import { determineUserLang } from "utils/i18n";
 import { Middleware } from "../compose";
 
 export const initLang: Middleware = (next) => async (args) => {
-  const { req } = args;
-  const lang = determineUserLang(req.acceptsLanguages(), req.path);
+  const { req, res } = args;
+  const cookieLang = req.cookies?.site_lang;
+  const lang = cookieLang || determineUserLang(req.acceptsLanguages(), req.path);
+
+  res.cookie("site_lang", lang);
 
   args.lang = lang;
   args.env && (args.env["LANG"] = lang);

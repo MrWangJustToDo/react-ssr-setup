@@ -1,4 +1,5 @@
 import express, { Express } from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import session from "express-session";
 
@@ -8,6 +9,8 @@ const setUp = (expressApp: Express) => {
   expressApp.use(express.static(`${process.cwd()}/lang`));
 
   expressApp.use(express.static(`${process.cwd()}/dist`));
+
+  expressApp.use(cookieParser())
 
   expressApp.use(express.json({ limit: "5mb" }));
 
