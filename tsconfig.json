@@ -27,6 +27,7 @@
       "client/*": ["src/client/*"],
       "hooks/*": ["src/hooks/*"],
       "router/*": ["src/router/*"],
+      "module/*": ["src/module/*"],
       "pages/*": ["src/pages/*"],
       "config/*": ["src/config/*"],
       "style/*": ["src/style/*"],

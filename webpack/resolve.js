@@ -9,6 +9,7 @@ const resolveConfig = () => {
       hooks: path.resolve(basePath, "src", "hooks"),
       router: path.resolve(basePath, "src", "router"),
       config: path.resolve(basePath, "src", "config"),
+      module: path.resolve(basePath, "src", "module"),
       pages: path.resolve(basePath, "src", "pages"),
       utils: path.resolve(basePath, "src", "utils"),
       template: path.resolve(basePath, "src", "template"),

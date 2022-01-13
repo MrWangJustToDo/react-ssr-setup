@@ -75,3 +75,5 @@ yarn run start
 ## react router 6
 
 ## 开箱既支持多种 UI 组件库(CSR / SSR) 通过环境变量 UI 切换（antd,material,chakra-ui,...)
+
+## TODO support swc-loader
