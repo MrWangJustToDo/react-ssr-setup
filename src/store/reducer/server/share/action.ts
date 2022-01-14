@@ -7,6 +7,7 @@ const serverAction: ServerActionType = {
   GET_DATA_FAIL: (name) => `getDataFail_server_${name}`,
 };
 
+// support a usage like await dispatch(getDataAction_Server({name})) compose redux-saga & redux-thunk
 const getDataAction_Server: CreateServerActionWithDispatchType =
   ({ name, ...resProps }) =>
   (dispatch) => {

@@ -15,7 +15,7 @@ const develop = (app: Express): Promise<void> => {
       const clientPromise = compilerPromise("client", compiler, true);
       app.use(webpackDevMiddleware(compiler, config.devServer.devMiddleware));
       app.use(webpackHotMiddleware(compiler));
-      return clientPromise.then(resolve);
+      return clientPromise.then(resolve).catch(resolve);
     } else {
       resolve();
     }

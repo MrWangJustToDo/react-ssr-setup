@@ -15,6 +15,7 @@ type HTMLProps = {
   helmetContext?: { helmet?: HelmetData };
 };
 
+// NOTE this template only run on the server
 export const HTML = ({
   lang,
   children,
@@ -45,7 +46,7 @@ export const HTML = ({
         {emotionChunks?.styles.map((style) => (
           <style data-server data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
         ))}
-        <script id="__autoInject__" dangerouslySetInnerHTML={{ __html: `window.__ENV__ = ${env}` }} />
+        <script id="__autoInject__" dangerouslySetInnerHTML={{ __html: `/* will delete this item when page hydrate */ window.__ENV__ = ${env}` }} />
         <script id="__preload_env__" type="application/json" dangerouslySetInnerHTML={{ __html: `${env}` }} />
         <script id="__preload_props__" type="application/json" dangerouslySetInnerHTML={{ __html: `${serverSideProps}` }} />
         <script id="__preload_state__" type="application/json" dangerouslySetInnerHTML={{ __html: `${reduxInitialState}` }} />
