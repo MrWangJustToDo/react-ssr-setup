@@ -10,12 +10,20 @@ export interface GetInitialStateProps {
 }
 
 export interface GetInitialStateType {
-  (props: GetInitialStateProps): Promise<{
-    redirect?: string;
-    error?: string;
-    cookies?: { [key: string]: string };
-    props?: any; // support auto inject props when data loaded
-  } | void> | void;
+  (props: GetInitialStateProps):
+    | Promise<{
+        redirect?: string;
+        error?: string;
+        cookies?: { [key: string]: string };
+        props?: any; // support auto inject props when data loaded
+      } | void>
+    | {
+        redirect?: string;
+        error?: string;
+        cookies?: { [key: string]: string };
+        props?: any; // support auto inject props when data loaded
+      }
+    | void;
 }
 
 export interface PreLoadComponentType<T = any> {

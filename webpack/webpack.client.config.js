@@ -17,7 +17,7 @@ const isAnimationRouter = process.env.ANIMATE_ROUTER && JSON.parse(process.env.A
  * @returns {import("webpack").Configuration}
  */
 const ClientConfig = (entryPath, isDev) => {
-  const clientBase = BaseConfig({ env: "client" });
+  const clientBase = BaseConfig({ env: "client", isDev });
   const rules = rulesConfig({ env: "client", isDev });
   const output = outputConfig({ env: "client", isDev, isMiddleWareDevelop });
   const plugins = pluginsConfig({ env: "client", isDev, isMiddleWareDevelop, isSSR, isAnimationRouter });

@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
 require("dotenv").config();
+const webpack = require("webpack");
 const { spawn } = require("child_process");
+const { compilerPromise } = require("./compiler");
+const { config } = require("../webpack/webpack.config");
 const { DynamicRouter, dynamicCache } = require("./dynamic");
 
 process.env.NODE_ENV = "production";
 
-// first get dynamic router
-new DynamicRouter(dynamicCache, "universal").getDynamicRouter().then(() => {
+const withSpawn = async () => {
+  await new DynamicRouter(dynamicCache, "universal").getDynamicRouter();
   const cliCodeWatchProcess = spawn("node", ["./script/build-prod-client"], {
     stdio: "inherit",
     shell: true,
@@ -32,4 +35,23 @@ new DynamicRouter(dynamicCache, "universal").getDynamicRouter().then(() => {
     console.log("main process exit", code);
     killChild();
   });
-});
+};
+
+const withPromise = async () => {
+  await new DynamicRouter(dynamicCache, "universal").getDynamicRouter();
+  const multiConfig = config(false);
+  const multiCompiler = webpack(multiConfig);
+  const clientCompiler = multiCompiler.compilers.find((compiler) => compiler.name === "client");
+  const serverCompiler = multiCompiler.compilers.find((compiler) => compiler.name === "server");
+  const clientPromise = compilerPromise("client", clientCompiler, { development: false });
+  const serverPromise = compilerPromise("server", serverCompiler, { development: false });
+  serverCompiler.run();
+  clientCompiler.run();
+  try {
+    await Promise.all([clientPromise, serverPromise]);
+  } catch (e) {
+    console.error(e.message);
+  }
+};
+
+withPromise();

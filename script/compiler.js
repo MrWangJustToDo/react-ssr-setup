@@ -6,16 +6,18 @@ const { dynamicCache, DynamicRouter } = require("./dynamic");
  *
  * @param {'client' | 'server'} name
  * @param {Compiler} compiler
- * @param {boolean} devRouter
+ * @param {{dynamicRouter: boolean, development: boolean}} compilerConfig
  * @returns {Promise<void>}
  */
-const compilerPromise = (name, compiler, devRouter = false) => {
-  var count = 0;
-  var dynamicCount = 0;
+const compilerPromise = (name, compiler, compilerConfig = {}) => {
+  let count = 0;
+  let dynamicCount = 0;
+  const dynamicRouter = compilerConfig.dynamicRouter ?? false;
+  const development = compilerConfig.development ?? true;
   const dynamicFactory = new DynamicRouter(dynamicCache, name);
   return new Promise((resolve, reject) => {
     compiler.hooks.compile.tap(name, () => console.log(`[${name}]`, chalk.blue(`Compiling`)));
-    if (devRouter) {
+    if (dynamicRouter) {
       compiler.hooks.beforeCompile.tapPromise("beforeCompile", () => {
         if (dynamicCount === count) {
           dynamicCount++;
@@ -27,7 +29,9 @@ const compilerPromise = (name, compiler, devRouter = false) => {
     }
     compiler.hooks.done.tap(name, (stats) => {
       if (!stats.hasErrors()) {
-        console.log(`[${name}]`, chalk.blue(`compiler done, compiler count: ${count++}`));
+        development
+          ? console.log(`[${name}]`, chalk.blue(`compiler done, compiler count: ${count++}`))
+          : console.log(`[${name}]`, chalk.blue("production code compiler done"));
         return resolve();
       }
       return reject(`Failed to compile ${name}`);

@@ -12,7 +12,8 @@ const develop = (app: Express): Promise<void> => {
       const { ClientConfig } = require("webpackConfig/webpack.client.config");
       const config = ClientConfig(path.resolve(process.cwd(), process.env.CLIENT_ENTRY), true);
       const compiler = webpack(config);
-      const clientPromise = compilerPromise("client", compiler, true);
+      const clientPromise = compilerPromise("client", compiler, { dynamicRouter: true, development: true });
+      
       app.use(webpackDevMiddleware(compiler, config.devServer.devMiddleware));
       app.use(webpackHotMiddleware(compiler));
       return clientPromise.then(resolve).catch(resolve);
