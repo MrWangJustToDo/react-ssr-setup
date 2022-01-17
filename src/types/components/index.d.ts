@@ -12,13 +12,13 @@ export interface GetInitialStateProps {
 export interface GetInitialStateType {
   (props: GetInitialStateProps):
     | Promise<{
-        redirect?: string;
+        redirect?: string | { code: number; redirect: string };
         error?: string;
         cookies?: { [key: string]: string };
         props?: any; // support auto inject props when data loaded
       } | void>
     | {
-        redirect?: string;
+        redirect?: string | { code: number; redirect: string };
         error?: string;
         cookies?: { [key: string]: string };
         props?: any; // support auto inject props when data loaded

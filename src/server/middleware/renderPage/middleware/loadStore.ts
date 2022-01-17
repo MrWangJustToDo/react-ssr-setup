@@ -23,7 +23,11 @@ export const loadStore: Middleware = (next) => async (args) => {
   }
 
   if (redirect) {
-    res.writeHead(302, { Location: redirect });
+    if (typeof redirect === "object") {
+      res.writeHead(redirect.code, { location: redirect.redirect });
+    } else {
+      res.writeHead(302, { Location: redirect });
+    }
     res.end();
   } else {
     args.serverSideProps = serverSideProps;

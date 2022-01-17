@@ -14,7 +14,7 @@ function preLoad(
   store: SagaStore,
   config: { req: ExpressRequest; lang: string }
 ): Promise<{
-  redirect?: string;
+  redirect?: string | { code: number; redirect: string };
   error?: string;
   cookies?: { [key: string]: string };
   serverSideProps?: { [key: string]: any };
@@ -25,7 +25,7 @@ function preLoad(
   pathName: string,
   store: SagaStore
 ): Promise<{
-  redirect?: string;
+  redirect?: string | { code: number; redirect: string };
   error?: string;
   cookies?: { [key: string]: string };
 }>;
@@ -36,7 +36,7 @@ function preLoad(
   store: SagaStore,
   config?: { req: ExpressRequest; lang: string }
 ): Promise<void | {
-  redirect?: string;
+  redirect?: string | { code: number; redirect: string };
   error?: string;
   cookies?: { [props: string]: string };
   serverSideProps?: { [key: string]: any };
@@ -44,7 +44,7 @@ function preLoad(
   const branch = matchRoutes(routes, pathname) || [];
 
   const promises: Promise<{
-    redirect?: string;
+    redirect?: string | { code: number; redirect: string };
     error?: string;
     cookies?: { [key: string]: string };
     serverSideProps?: { [key: string]: any };
@@ -58,7 +58,7 @@ function preLoad(
   return Promise.all(promises).then((val) => {
     if (val.length) {
       return val.filter(Boolean).reduce<{
-        redirect?: string | undefined;
+        redirect?: string | { code: number; redirect: string } | undefined;
         error?: string | undefined;
         cookies?: { [key: string]: string } | undefined;
         serverSideProps?: { [key: string]: any };
@@ -71,7 +71,7 @@ function preLoad(
         return s;
       }, {});
     }
-    return { redirect: "/404" };
+    return { redirect: { code: 301, redirect: "/404" } };
   });
 }
 
@@ -94,7 +94,7 @@ type PreLoadProps = {
 };
 
 type PreLoadType = (props: PreLoadProps) => Promise<{
-  redirect?: string;
+  redirect?: string | { code: number; redirect: string };
   error?: string;
   cookie?: { [key: string]: string };
   serverSideProps?: { [key: string]: any };
@@ -109,7 +109,7 @@ const _hydrateLoad: HydrateLoadType = ({ route, match }) => {
   }
 };
 
-const resolveGetInitialState = async ({ route }: Pick<PreLoadProps, "route">): Promise<GetInitialStateType> => {
+const resolveGetInitialState = async ({ route }: Pick<PreLoadProps, "route">): Promise<GetInitialStateType | null> => {
   const getInitialStateArray: GetInitialStateType[] = [];
   // for Router
   if (route.getInitialState) {
@@ -137,45 +137,51 @@ const resolveGetInitialState = async ({ route }: Pick<PreLoadProps, "route">): P
     }
   }
 
-  return async ({ store, match, config }: GetInitialStateProps) => {
-    const res = await Promise.all(
-      getInitialStateArray.map((fn) =>
-        Promise.resolve()
-          .then(() => fn({ store, match, config }))
-          .catch((e) => {
-            // catch all error by default
-            log(`getInitialState error ${e}`, "error");
-            return null;
-          })
-      )
-    );
-    return res.filter(Boolean).reduce<{
-      redirect?: string | undefined;
-      error?: string | undefined;
-      cookies?: { [key: string]: string } | undefined;
-      props?: any;
-    }>((s, c) => {
-      if (!c) return s;
-      s.cookies = { ...s.cookies, ...c.cookies };
-      s.error = [s.error, c.error].filter(Boolean).join(" || ");
-      s.props = { ...s.props, ...c.props };
-      s.redirect = c.redirect ? c.redirect : s.redirect;
-      return s;
-    }, {});
-  };
+  if (getInitialStateArray.length) {
+    return async ({ store, match, config }: GetInitialStateProps) => {
+      const res = await Promise.all(
+        getInitialStateArray.map((fn) =>
+          Promise.resolve()
+            .then(() => fn({ store, match, config }))
+            .catch((e) => {
+              // catch all error by default
+              log(`getInitialState error ${e}`, "error");
+              return null;
+            })
+        )
+      );
+      return res.filter(Boolean).reduce<{
+        redirect?: string | { code: number; redirect: string } | undefined;
+        error?: string | undefined;
+        cookies?: { [key: string]: string } | undefined;
+        props?: any;
+      }>((s, c) => {
+        if (!c) return s;
+        s.cookies = { ...s.cookies, ...c.cookies };
+        s.error = [s.error, c.error].filter(Boolean).join(" || ");
+        s.props = { ...s.props, ...c.props };
+        s.redirect = c.redirect ? c.redirect : s.redirect;
+        return s;
+      }, {});
+    };
+  } else {
+    return null;
+  }
 };
 
 const _preLoad: PreLoadType = async ({ route, store, match, config }) => {
   const getInitialState = await resolveGetInitialState({ route });
-  const initialState = await getInitialState({ store, match, config });
-  if (initialState) {
-    const { props, ...resProps } = initialState;
-    if (route.element && isValidElement(route.element)) {
-      // support autoInject props for component
-      route.element = cloneElement(route.element, props);
-      return { ...resProps, serverSideProps: { [generateServerSidePropsKey(match)]: props } };
+  if (getInitialState) {
+    const initialState = await getInitialState({ store, match, config });
+    if (initialState) {
+      const { props, ...resProps } = initialState;
+      if (route.element && isValidElement(route.element)) {
+        // support autoInject props for component
+        route.element = cloneElement(route.element, props);
+        return { ...resProps, serverSideProps: { [generateServerSidePropsKey(match)]: props } };
+      }
+      return resProps;
     }
-    return resProps;
   }
 };
 

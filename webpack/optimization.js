@@ -5,6 +5,7 @@ const optimizationConfig = ({ env, isDev = true }) => {
   if (env === "client") {
     return isDev
       ? {
+          usedExports: true,
           runtimeChunk: "single",
           splitChunks: {
             chunks: "all",
@@ -42,6 +43,10 @@ const optimizationConfig = ({ env, isDev = true }) => {
             },
           },
         };
+  } else {
+    return {
+      usedExports: true,
+    };
   }
 };
 

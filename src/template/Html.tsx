@@ -16,6 +16,7 @@ type HTMLProps = {
 };
 
 // NOTE this template only run on the server
+// like _document.js in the next.js
 export const HTML = ({
   lang,
   children,

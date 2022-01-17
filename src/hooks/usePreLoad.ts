@@ -48,7 +48,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
           preLoad(routes, location.pathname, storeRef.current).then((config) => {
             if (location.pathname === loadingPath.current) {
               const { redirect, error, cookies } = config;
-              isRedirect.current = redirect;
+              isRedirect.current = typeof redirect === "object" ? redirect.redirect : redirect;
               if (cookies) {
                 Object.keys(cookies).forEach((key) => cookie.set(key, cookies[key]));
               }
@@ -56,7 +56,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
                 log(`error ${error.toString()}`, "error");
                 end();
               } else if (redirect) {
-                navigate(redirect);
+                navigate(typeof redirect === "object" ? redirect.redirect : redirect);
               } else {
                 timer2.current = setTimeout(() => {
                   timer1.current && clearTimeout(timer1.current) && (timer1.current = null);

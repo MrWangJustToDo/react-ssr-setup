@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
 import { actionName } from "config/action";
-import { langReducer, tokenReducer, loadingReducer } from "./action";
+import { langReducer, tokenReducer, loadingReducer, initialStateReducer } from "./action";
 
 export const client = combineReducers({
   [actionName.currentToken]: tokenReducer,
   [actionName.currentLang]: langReducer,
   [actionName.currentLoading]: loadingReducer,
+  [actionName.currentInitialState]: initialStateReducer,
 });

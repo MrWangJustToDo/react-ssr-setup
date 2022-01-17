@@ -48,6 +48,7 @@ if (__UI__ === "material") {
 }
 
 if (!window.__ENV__.isSSR) {
+  // for client side render, will get preloadState on the server, should remove?
   loadableReady(() => render(<Root store={store} />, place));
 } else {
   if (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE) {

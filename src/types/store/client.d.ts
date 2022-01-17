@@ -1,5 +1,5 @@
 import { actionName } from "config/action";
-import { langReducer, loadingReducer, tokenReducer } from "store/reducer/client/action";
+import { initialStateReducer, langReducer, loadingReducer, tokenReducer } from "store/reducer/client/action";
 import { ReducerStateAction } from "./reducer";
 
 export type ClientReducerKey = actionName;
@@ -8,6 +8,7 @@ export type ClientReducer = {
   [actionName.currentLang]: ReturnType<typeof langReducer>;
   [actionName.currentToken]: ReturnType<typeof tokenReducer>;
   [actionName.currentLoading]: ReturnType<typeof loadingReducer>;
+  [actionName.currentInitialState]: ReturnType<typeof initialStateReducer>;
 };
 
 export interface ClientActionType {
