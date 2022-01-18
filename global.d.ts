@@ -1,6 +1,7 @@
 declare global {
   const __CLIENT__: boolean;
   const __SERVER__: boolean;
+  const __CSR__: boolean;
   const __SSR__: boolean;
   const __DEVELOPMENT__: boolean;
   const __MIDDLEWARE__: boolean;

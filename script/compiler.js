@@ -30,8 +30,8 @@ const compilerPromise = (name, compiler, compilerConfig = {}) => {
     compiler.hooks.done.tap(name, (stats) => {
       if (!stats.hasErrors()) {
         development
-          ? console.log(`[${name}]`, chalk.blue(`compiler done, compiler count: ${count++}`))
-          : console.log(`[${name}]`, chalk.blue("production code compiler done"));
+          ? console.log(`[${name}]`, chalk.blue(`compiler done, compiler count: ${count++}`), `-- time: ${stats.endTime - stats.startTime} ms`)
+          : console.log(`[${name}]`, chalk.blue("production code compiler done"), `-- time: ${stats.endTime - stats.startTime} ms`);
         return resolve();
       }
       return reject(`Failed to compile ${name}`);

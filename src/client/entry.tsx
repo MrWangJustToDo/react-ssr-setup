@@ -3,8 +3,10 @@ import { hydrate, render } from "react-dom";
 import { loadableReady } from "@loadable/component";
 
 import { createUniversalStore } from "store";
+import { allRoutes } from "router/routes";
 import { log } from "utils/log";
 import { safeData } from "utils/safeData";
+import { preLoad, preLoadLang } from "utils/preLoad";
 import { StoreState } from "types/store";
 
 const place = document.querySelector("#__content__");
@@ -47,14 +49,20 @@ if (__UI__ === "material") {
   Root = originalRoot;
 }
 
-if (!window.__ENV__.isSSR) {
-  // for client side render, will get preloadState on the server, should remove?
-  loadableReady(() => render(<Root store={store} />, place));
+if (__CSR__) {
+  log("pure render by client", "warn");
+  Promise.all([preLoadLang({ store, lang: window.__ENV__.LANG }), preLoad(allRoutes, location.pathname, store)]).then(() =>
+    loadableReady(() => render(<Root store={store} />, place))
+  );
 } else {
-  if (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE) {
-    log("not hydrate render on client", "warn");
+  if (!window.__ENV__.isSSR) {
     loadableReady(() => render(<Root store={store} />, place));
   } else {
-    loadableReady(() => hydrate(<Root store={store} />, place));
+    if (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE) {
+      log("not hydrate render on client", "warn");
+      loadableReady(() => render(<Root store={store} />, place));
+    } else {
+      loadableReady(() => hydrate(<Root store={store} />, place));
+    }
   }
 }

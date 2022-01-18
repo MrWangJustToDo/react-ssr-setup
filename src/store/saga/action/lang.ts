@@ -1,6 +1,7 @@
 import { call, put, select } from "redux-saga/effects";
 import { apiName } from "config/api";
 import { actionName } from "config/action";
+import { log } from "utils/log";
 import { createRequest } from "utils/fetcher";
 import { setDataSuccess_client } from "store/reducer/client/share/action";
 import { getDataFail_Server, getDataLoading_server, getDataSuccess_Server } from "store/reducer/server/share/action";
@@ -15,11 +16,13 @@ export function* getLangData({ done, lang }: { done: () => void; lang: string })
       if (code === 0) {
         yield put(getDataSuccess_Server({ name: apiName.lang, data }));
       } else {
+        log(`getLangData error: ${state}`, "error");
         yield put(getDataFail_Server({ name: apiName.lang, data: state }));
       }
     }
     yield put(setDataSuccess_client({ name: actionName.currentLang, data: lang }));
   } catch (e) {
+    log(`getLangData error: ${typeof e === "object" ? (e as Error).message : e}`, "error");
     yield put(getDataFail_Server({ name: apiName.lang, error: (e as Error).toString() }));
   } finally {
     done();

@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "./script/start-dev",
+    "dev:csr": "cross-env CSR=true ./script/start-dev",
     "build": "./script/start-prod",
+    "build:csr": "cross-env CSR=true ./script/start-prod",
     "start": "cross-env NODE_ENV=production node ./dist/server/app"
   },
   "dependencies": {

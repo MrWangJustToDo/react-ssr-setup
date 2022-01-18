@@ -25,6 +25,8 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
     env === "client" && new WebpackManifestPlugin({ fileName: isDev ? "manifest-dev.json" : "manifest-prod.json" }),
     new webpack.DefinePlugin({
       __SSR__: isSSR,
+      // pure client render
+      __CSR__: process.env.CSR && JSON.parse(process.env.CSR),
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,

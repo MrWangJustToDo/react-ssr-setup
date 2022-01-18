@@ -1,5 +1,6 @@
 import { call, put } from "redux-saga/effects";
 import { apiName } from "config/api";
+import { log } from "utils/log";
 import { delay } from "utils/delay";
 import { getDataFail_Server, getDataLoading_server, getDataSuccess_Server } from "store/reducer/server/share/action";
 
@@ -13,6 +14,7 @@ export function* getHomeData({ done }: { done: () => void }) {
       yield put(getDataFail_Server({ name: apiName.home, data: state }));
     }
   } catch (e) {
+    log(`getHomeData error: ${(e as Error).message}`, "error");
     yield put(getDataFail_Server({ name: apiName.home, error: (e as Error).toString() }));
   } finally {
     done();

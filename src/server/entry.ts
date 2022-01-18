@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import dotenv from "dotenv";
 import express from "express";
 
@@ -5,7 +6,6 @@ import { log } from "utils/log";
 import { init } from "./init";
 import { setUp } from "./setup";
 import { apiHandler } from "./api";
-import { render } from "server/middleware/render";
 import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
 import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
@@ -22,15 +22,32 @@ init(app);
 
 app.use("/api", apiHandler);
 
-develop(app).then(() => {
-  app.use(
-    wrapperMiddlewareRequest(
-      {
-        requestHandler: render,
-        errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
-      },
-      compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
-    )
-  );
-  app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
-});
+if (__CSR__) {
+  const { renderP_CSR } = require("server/middleware/renderPage/renderP_CSR");
+  develop(app).then(() => {
+    app.use(
+      wrapperMiddlewareRequest(
+        {
+          requestHandler: renderP_CSR,
+          errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
+        },
+        compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
+      )
+    );
+    app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
+  });
+} else {
+  const { render } = require("server/middleware/render");
+  develop(app).then(() => {
+    app.use(
+      wrapperMiddlewareRequest(
+        {
+          requestHandler: render,
+          errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
+        },
+        compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
+      )
+    );
+    app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
+  });
+}
