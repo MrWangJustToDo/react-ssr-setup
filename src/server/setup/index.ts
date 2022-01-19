@@ -1,7 +1,9 @@
-import express, { Express } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import express from "express";
 import session from "express-session";
+
+import type { Express } from "express";
 
 const setUp = (expressApp: Express) => {
   expressApp.use(express.static(`${process.cwd()}/static`));

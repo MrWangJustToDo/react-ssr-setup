@@ -1,13 +1,14 @@
-import { Provider } from "react-redux";
-import { HelmetProvider } from "react-helmet-async";
-import { renderToString } from "react-dom/server";
-import { StaticRouter as Router } from "react-router-dom/server";
 import { ChunkExtractor } from "@loadable/server";
+import { renderToString } from "react-dom/server";
+import { HelmetProvider } from "react-helmet-async";
+import { Provider } from "react-redux";
+import { StaticRouter as Router } from "react-router-dom/server";
 
-import { manifestLoadable } from "utils/manifest";
-import { HTML } from "template/Html";
 import { App } from "components/App";
-import { SafeAction } from "../compose";
+import { HTML } from "template/Html";
+import { manifestLoadable } from "utils/manifest";
+
+import type { SafeAction } from "../compose";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, serverSideProps }) => {
   const helmetContext = {};

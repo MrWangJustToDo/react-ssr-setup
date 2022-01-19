@@ -1,4 +1,5 @@
 import { log } from "./log";
+
 import type { Cancel, Delay, KeyMap, ReJectMap, TimeoutMap } from "types/utils";
 
 const timeoutMap: TimeoutMap = {};

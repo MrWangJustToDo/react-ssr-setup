@@ -1,10 +1,12 @@
-import { AxiosResponse } from "axios";
 import assign from "lodash/assign";
-import { log } from "./log";
+
 import { Cache } from "./cache";
-import { instance } from "./request";
 import { getHeader } from "./headers";
+import { log } from "./log";
 import { transformPath } from "./path";
+import { instance } from "./request";
+
+import type { AxiosResponse } from "axios";
 import type { AutoRequestProps, AutoRequestType, CreateRequestType } from "types/utils";
 
 const cacheResult = new Cache<string, Promise<any>>(60000);

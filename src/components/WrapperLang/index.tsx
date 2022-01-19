@@ -1,7 +1,10 @@
-import { useEffect, useRef, ReactChild } from "react";
+import { useEffect, useRef } from "react";
 import { IntlProvider } from "react-intl";
 import { useSelector } from "react-redux";
+
 import { defaultLang } from "utils/i18n";
+
+import type { ReactChild } from "react";
 import type { StoreState } from "types/store";
 
 export const WrapperLang = ({ children }: { children: ReactChild }) => {

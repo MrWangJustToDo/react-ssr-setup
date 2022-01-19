@@ -1,6 +1,9 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { log } from "./log";
+import axios from "axios";
+
 import { delay } from "./delay";
+import { log } from "./log";
+
+import type { AxiosRequestConfig } from "axios";
 import type { PendingType, RemovePendingType } from "types/utils";
 
 const pending: Array<PendingType> = [];

@@ -1,12 +1,14 @@
-import { renderToString } from "react-dom/server";
 import { ChunkExtractor } from "@loadable/server";
+import { renderToString } from "react-dom/server";
 
+import { ServerError } from "server/utils/error";
 import { HTML } from "template/Html";
 import { manifestLoadable } from "utils/manifest";
 
-import { AnyAction, composeRender } from "./compose";
+import { composeRender } from "./compose";
 import { globalEnv, initLang, initStore, loadLang, loadStore } from "./middleware";
-import { ServerError } from "server/utils/error";
+
+import type { AnyAction} from "./compose";
 
 // 客户端渲染
 const targetRender: AnyAction = async ({ res, store, lang, env, serverSideProps = {} }) => {

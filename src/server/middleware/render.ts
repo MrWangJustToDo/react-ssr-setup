@@ -1,5 +1,7 @@
-import { renderSSR, renderCSR } from "./renderPage";
 import { getIsSSR } from "utils/env";
+
+import { renderSSR, renderCSR } from "./renderPage";
+
 import type { RenderType } from "types/server";
 
 // 渲染函数

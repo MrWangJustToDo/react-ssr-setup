@@ -1,6 +1,6 @@
-import { useLocation } from "react-router";
-import { PreLoadRouteConfig } from "types/router";
-import { preLoad } from "utils/preLoad";
+import type { useLocation } from "react-router";
+import type { PreLoadRouteConfig } from "types/router";
+import type { preLoad } from "utils/preLoad";
 
 interface UsePreLoadProps {
   routes: PreLoadRouteConfig[];
@@ -14,5 +14,5 @@ export interface UsePreLoadType {
 }
 
 export interface UseHydrate {
-  (props: {routes: PreLoadRouteConfig[], pathName: string}): void
+  (props: { routes: PreLoadRouteConfig[]; pathName: string }): void;
 }

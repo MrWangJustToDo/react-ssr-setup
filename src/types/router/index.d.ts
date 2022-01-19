@@ -1,6 +1,6 @@
-import React from "react";
-import { RouteObject } from "react-router";
-import { GetInitialStateType } from "types/components";
+import type React from "react";
+import type { RouteObject } from "react-router";
+import type { GetInitialStateType } from "types/components";
 
 export interface PreLoadRouteConfig extends RouteObject {
   children?: PreLoadRouteConfig[];

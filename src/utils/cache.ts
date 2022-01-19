@@ -1,6 +1,6 @@
-import { log } from "./log";
 import { parseToString } from "./data";
 import { cancel, delay } from "./delay";
+import { log } from "./log";
 
 const maxTimeStore = 1000 * 60 * 10;
 

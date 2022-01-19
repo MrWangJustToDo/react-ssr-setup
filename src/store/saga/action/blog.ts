@@ -1,8 +1,9 @@
 import { call, put } from "redux-saga/effects";
+
 import { apiName } from "config/api";
-import { log } from "utils/log";
-import { delay } from "utils/delay";
 import { getDataFail_Server, getDataLoading_server, getDataSuccess_Server } from "store/reducer/server/share/action";
+import { delay } from "utils/delay";
+import { log } from "utils/log";
 
 export function* getBlogData({ done }: { done: () => void }) {
   try {

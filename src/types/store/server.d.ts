@@ -1,7 +1,7 @@
-import { apiName } from "config/api";
-import { Dispatch } from "redux";
-import { homeReducer, blogReducer, langReducer } from "store/reducer/server/action";
-import { ReducerStateAction } from "./reducer";
+import type { ReducerStateAction } from "./reducer";
+import type { apiName } from "config/api";
+import type { Dispatch } from "redux";
+import type { homeReducer, blogReducer, langReducer } from "store/reducer/server/action";
 
 export type ServerReducerKey = apiName;
 

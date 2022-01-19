@@ -1,7 +1,7 @@
-import { IncomingHttpHeaders } from "http";
-import { AxiosRequestConfig, Method } from "axios";
-import { Cache } from "utils/cache";
-import { apiName } from "config/api";
+import type { AxiosRequestConfig, Method } from "axios";
+import type { apiName } from "config/api";
+import type { IncomingHttpHeaders } from "http";
+import type { Cache } from "utils/cache";
 
 /* delay */
 interface Cancel {

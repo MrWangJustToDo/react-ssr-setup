@@ -1,5 +1,6 @@
-import { allRoutes } from "router/routes";
 import { useNavigate } from "react-router";
+
+import { allRoutes } from "router/routes";
 
 import style from "./index.module.scss";
 

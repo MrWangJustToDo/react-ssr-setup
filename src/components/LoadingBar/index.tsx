@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+
 import { useLoadingBar, useLoadingBarState } from "hooks/useLoadingBar";
+
 import { Bar } from "./LoadingBar";
+
 import type { LoadingBarWrapperType } from "types/components";
 
 export const LoadingBar: LoadingBarWrapperType = () => {

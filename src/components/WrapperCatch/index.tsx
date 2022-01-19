@@ -1,4 +1,6 @@
-import { ErrorInfo, Component, ReactNode } from "react";
+import { Component } from "react";
+
+import type { ErrorInfo, ReactNode } from "react";
 
 export class WrapperErrorCatch extends Component<Record<string, unknown>, { error: string; stack: string; hasError: boolean }> {
   state = {

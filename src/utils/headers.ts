@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+
 import type { GetHeaderType, HeaderProps } from "types/utils";
 
 const getHeader: GetHeaderType = (header = {}) => {

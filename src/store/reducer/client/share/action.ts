@@ -1,4 +1,4 @@
-import { ClientActionType, CreateClientActionProps, CreateClientActionType } from "types/store/client";
+import type { ClientActionType, CreateClientActionProps, CreateClientActionType } from "types/store/client";
 
 const clientAction: ClientActionType = {
   SET_DATA_LOADING: (name) => `setDataAction_client_${name}`,

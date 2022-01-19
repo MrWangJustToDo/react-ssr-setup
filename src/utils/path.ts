@@ -1,4 +1,5 @@
 import { log } from "./log";
+
 import type { TransformPathType } from "types/utils";
 
 export const transformPath: TransformPathType = ({ path, apiPath, query, needPre = true }) => {

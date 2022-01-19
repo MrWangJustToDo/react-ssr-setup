@@ -1,9 +1,11 @@
-import { apiName } from "config/api";
 import fs from "fs";
 import path from "path";
-import { ServerError } from "server/utils/error";
+
+import { apiName } from "config/api";
 import { fail, success, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
-import { Request, Response, NextFunction } from "express";
+import { ServerError } from "server/utils/error";
+
+import type { Request, Response, NextFunction } from "express";
 
 const getFileExist = (resolvePath: string) => {
   return new Promise<boolean>((resolve) => {

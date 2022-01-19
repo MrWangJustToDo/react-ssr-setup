@@ -1,8 +1,11 @@
 import { produce } from "immer";
-import { Reducer } from "redux";
+
 import { apiName } from "config/api";
+
 import { serverAction } from "../share/action";
-import { ReducerState, ReducerStateAction, ReducerStateActionMapType } from "types/store/reducer";
+
+import type { Reducer } from "redux";
+import type { ReducerState, ReducerStateAction, ReducerStateActionMapType } from "types/store/reducer";
 
 type BlogContentObject = string[];
 

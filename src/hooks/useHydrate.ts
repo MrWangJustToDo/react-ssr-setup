@@ -1,6 +1,8 @@
 import { useMemo } from "react";
-import { UseHydrate } from "types/hooks";
+
 import { hydrateLoad } from "utils/preLoad";
+
+import type { UseHydrate } from "types/hooks";
 
 const useHydrate: UseHydrate = ({ routes, pathName }) => {
   useMemo(() => {

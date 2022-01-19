@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { hydrate, render } from "react-dom";
 import { loadableReady } from "@loadable/component";
+import { hydrate, render } from "react-dom";
 
-import { createUniversalStore } from "store";
 import { allRoutes } from "router/routes";
+import { createUniversalStore } from "store";
 import { log } from "utils/log";
-import { safeData } from "utils/safeData";
 import { preLoad, preLoadLang } from "utils/preLoad";
-import { StoreState } from "types/store";
+import { safeData } from "utils/safeData";
+
+import type { StoreState } from "types/store";
 
 const place = document.querySelector("#__content__");
 

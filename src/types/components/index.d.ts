@@ -1,7 +1,7 @@
-import { SagaStore } from "types/store";
-import { Params } from "react-router";
-import { ExpressRequest } from "types/server";
-import { PreLoadRouteConfig } from "types/router";
+import type { Params } from "react-router";
+import type { PreLoadRouteConfig } from "types/router";
+import type { ExpressRequest } from "types/server";
+import type { SagaStore } from "types/store";
 
 export interface GetInitialStateProps {
   store: SagaStore;

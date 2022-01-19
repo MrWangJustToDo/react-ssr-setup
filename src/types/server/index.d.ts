@@ -1,6 +1,6 @@
+import type { ServerError } from "./utils/error";
 import type { NextFunction, Request, Response } from "express";
-import { Cache } from "utils/cache";
-import { ServerError } from "./utils/error";
+import type { Cache } from "utils/cache";
 
 export type ExpressRequest = Request & {
   session?: { [props: string]: any };

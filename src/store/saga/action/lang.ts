@@ -1,11 +1,13 @@
 import { call, put, select } from "redux-saga/effects";
-import { apiName } from "config/api";
+
 import { actionName } from "config/action";
-import { log } from "utils/log";
-import { createRequest } from "utils/fetcher";
+import { apiName } from "config/api";
 import { setDataSuccess_client } from "store/reducer/client/share/action";
 import { getDataFail_Server, getDataLoading_server, getDataSuccess_Server } from "store/reducer/server/share/action";
-import { StoreState } from "types/store";
+import { createRequest } from "utils/fetcher";
+import { log } from "utils/log";
+
+import type { StoreState } from "types/store";
 
 export function* getLangData({ done, lang }: { done: () => void; lang: string }) {
   try {

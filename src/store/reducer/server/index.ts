@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
+
 import { apiName } from "config/api";
+
 import { blogReducer, homeReducer, langReducer } from "./action";
 
 export const server = combineReducers({

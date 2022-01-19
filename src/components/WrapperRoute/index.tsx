@@ -1,9 +1,11 @@
 import { createContext, useContext } from "react";
-import { useLocation } from "react-router";
-import { usePreLoad } from "hooks/usePreLoad";
+
 import { useHydrate } from "hooks/useHydrate";
+import { usePreLoad } from "hooks/usePreLoad";
 import { preLoad } from "utils/preLoad";
-import { WrapperRouteType } from "types/components";
+
+import type { useLocation } from "react-router";
+import type { WrapperRouteType } from "types/components";
 
 export const LoadedLocationContext = createContext<ReturnType<typeof useLocation> | Record<string, never>>({});
 

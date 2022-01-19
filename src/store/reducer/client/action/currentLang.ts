@@ -1,8 +1,11 @@
 import { produce } from "immer";
-import { Reducer } from "redux";
+
 import { actionName } from "config/action";
+
 import { clientAction } from "../share/action";
-import { ReducerState, ReducerStateAction, ReducerStateActionMapType } from "types/store/reducer";
+
+import type { Reducer } from "redux";
+import type { ReducerState, ReducerStateAction, ReducerStateActionMapType } from "types/store/reducer";
 
 type CurrentState = ReducerState<string>;
 

@@ -1,4 +1,5 @@
 import { useIntl } from "react-intl";
+
 import style from "./style.module.scss";
 
 export const I18n = () => {

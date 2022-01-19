@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
-import { GetInitialStateType, PreLoadComponentType } from "types/components";
+
+import type { GetInitialStateType, PreLoadComponentType } from "types/components";
 
 const Id: PreLoadComponentType = () => {
   const f = useParams<{ id: string }>();

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import chalk from "chalk";
+
 import type PrettyError from "pretty-error";
 
 const renderErrorObject: { pre: null | PrettyError } = {

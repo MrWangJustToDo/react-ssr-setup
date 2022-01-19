@@ -1,8 +1,8 @@
-import { Store } from "redux";
-import { Task } from "redux-saga";
-import { ThunkDispatch } from "redux-thunk";
-import { ClientReducer, ClientReducerKey } from "./client";
-import { ServerReducer, ServerReducerKey } from "./server";
+import type { ClientReducer, ClientReducerKey } from "./client";
+import type { ServerReducer, ServerReducerKey } from "./server";
+import type { Store } from "redux";
+import type { Task } from "redux-saga";
+import type { ThunkDispatch } from "redux-thunk";
 
 export interface StoreState {
   server: { [T in ServerReducerKey]: ServerReducer[T] };

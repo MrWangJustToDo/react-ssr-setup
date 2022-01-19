@@ -1,6 +1,8 @@
-import { apiName } from "config/api";
 import { all, takeLatest } from "redux-saga/effects";
+
+import { apiName } from "config/api";
 import { serverAction } from "store/reducer/server/share/action";
+
 import { getHomeData, getBlogData, getLangData } from "./action";
 
 type StartActionType = { type: ReturnType<typeof serverAction.GET_DATA_ACTION>; done: () => void; [props: string]: any };

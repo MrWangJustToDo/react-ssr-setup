@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import path from "path";
-import { Express } from "express";
+
+import type { Express } from "express";
 
 const develop = (app: Express): Promise<void> => {
   return new Promise((resolve) => {

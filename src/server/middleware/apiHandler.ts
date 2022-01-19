@@ -1,10 +1,12 @@
-import assign from "lodash/assign";
 import chalk from "chalk";
-import { log } from "utils/log";
-import { Cache } from "utils/cache";
+import assign from "lodash/assign";
+
 import { ServerError } from "server/utils/error";
-import { NextFunction, Request, Response } from "express";
-import { ApiResponseProps, CacheConfigProps, ExpressRequest, MiddlewareConfig, MiddlewareContext, MiddlewareFunction, RequestHandlerType } from "types/server";
+import { Cache } from "utils/cache";
+import { log } from "utils/log";
+
+import type { NextFunction, Request, Response } from "express";
+import type { ApiResponseProps, CacheConfigProps, ExpressRequest, MiddlewareConfig, MiddlewareContext, MiddlewareFunction, RequestHandlerType } from "types/server";
 
 const cache = new Cache<string, unknown>();
 

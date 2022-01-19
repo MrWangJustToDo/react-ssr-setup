@@ -1,4 +1,3 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Fade from "@mui/material/Fade";
@@ -6,6 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { useState } from "react";
 
 const FRUITS = ["🍏 Apple", "🍌 Banana", "🍍 Pineapple", "🥥 Coconut", "🍉 Watermelon"];
 
@@ -24,7 +24,7 @@ function renderItem({ item, handleRemoveFruit }: { item: string; handleRemoveFru
 }
 
 export default function MaterialComponent() {
-  const [fruitsInBasket, setFruitsInBasket] = React.useState(FRUITS.slice(0, 3));
+  const [fruitsInBasket, setFruitsInBasket] = useState(FRUITS.slice(0, 3));
 
   const handleAddFruit = () => {
     const nextHiddenItem = FRUITS.find((i) => !fruitsInBasket.includes(i));

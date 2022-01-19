@@ -1,17 +1,18 @@
-import { Provider } from "react-redux";
-import { renderToString } from "react-dom/server";
-import { CacheProvider } from "@emotion/react";
-import { ChunkExtractor } from "@loadable/server";
 import { ColorModeScript, ChakraProvider } from "@chakra-ui/react";
-import { HelmetProvider } from "react-helmet-async";
-import { StaticRouter as Router } from "react-router-dom/server";
+import { CacheProvider } from "@emotion/react";
 import createEmotionServer from "@emotion/server/create-instance";
+import { ChunkExtractor } from "@loadable/server";
+import { renderToString } from "react-dom/server";
+import { HelmetProvider } from "react-helmet-async";
+import { Provider } from "react-redux";
+import { StaticRouter as Router } from "react-router-dom/server";
 
-import { createEmotionCache } from "config/createEmotionCache";
 import { App } from "components/App";
+import { createEmotionCache } from "config/createEmotionCache";
 import { HTML } from "template/Html";
 import { manifestLoadable } from "utils/manifest";
-import { SafeAction } from "../compose";
+
+import type { SafeAction } from "../compose";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, serverSideProps }) => {
   const helmetContext = {};

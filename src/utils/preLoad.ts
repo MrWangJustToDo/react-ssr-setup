@@ -1,12 +1,17 @@
-import { cloneElement, ComponentClass, isValidElement } from "react";
-import { matchRoutes, Params } from "react-router";
-import { getDataAction_Server } from "store/reducer/server/share/action";
+import { cloneElement, isValidElement } from "react";
+import { matchRoutes } from "react-router";
+
 import { apiName } from "config/api";
+import { getDataAction_Server } from "store/reducer/server/share/action";
+
 import { log } from "./log";
-import type { SagaStore } from "types/store";
-import type { ExpressRequest } from "types/server";
-import type { PreLoadRouteConfig } from "types/router";
+
+import type { ComponentClass } from "react";
+import type { Params } from "react-router";
 import type { GetInitialStateProps, GetInitialStateType, PreLoadComponentType } from "types/components";
+import type { PreLoadRouteConfig } from "types/router";
+import type { ExpressRequest } from "types/server";
+import type { SagaStore } from "types/store";
 
 function preLoad(
   routes: PreLoadRouteConfig[],
@@ -63,7 +68,9 @@ function preLoad(
         cookies?: { [key: string]: string } | undefined;
         serverSideProps?: { [key: string]: any };
       }>((s, c) => {
-        if (!c) return s;
+        if (!c) {
+          return s;
+        }
         s.serverSideProps = { ...s.serverSideProps, ...c.serverSideProps };
         s.cookies = { ...s.cookies, ...c.cookies };
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
@@ -156,7 +163,9 @@ const resolveGetInitialState = async ({ route }: Pick<PreLoadProps, "route">): P
         cookies?: { [key: string]: string } | undefined;
         props?: any;
       }>((s, c) => {
-        if (!c) return s;
+        if (!c) {
+          return s;
+        }
         s.cookies = { ...s.cookies, ...c.cookies };
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
         s.props = { ...s.props, ...c.props };

@@ -1,10 +1,11 @@
-import create from "zustand";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import create from "zustand";
+import shallow from "zustand/shallow";
+
 import { actionName } from "config/action";
 import { setDataSuccess_client } from "store/reducer/client/share/action";
 import { delay, cancel } from "utils/delay";
-import shallow from "zustand/shallow";
 
 type LoadingBarProps = {
   height?: number;

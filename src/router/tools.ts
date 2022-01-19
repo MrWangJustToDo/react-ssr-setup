@@ -1,4 +1,4 @@
-import { TransformType } from "types/router";
+import type { TransformType } from "types/router";
 
 const filter: TransformType = (routers) => {
   const temp: { [props: string]: boolean } = {};

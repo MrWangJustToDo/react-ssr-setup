@@ -1,7 +1,8 @@
 import { allRoutes } from "router/routes";
 import { ServerError } from "server/utils/error";
 import { preLoad } from "utils/preLoad";
-import { Middleware } from "../compose";
+
+import type { Middleware } from "../compose";
 
 export const loadStore: Middleware = (next) => async (args) => {
   const { req, res, lang, store } = args;

@@ -1,13 +1,15 @@
 import { CacheProvider, ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
-import { App } from "components/App";
-import { createEmotionCache } from "config/createEmotionCache";
-import { theme } from "config/materialTheme";
 import React from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { createUniversalStore } from "store";
+
+import { App } from "components/App";
+import { createEmotionCache } from "config/createEmotionCache";
+import { theme } from "config/materialTheme";
+
+import type { createUniversalStore } from "store";
 
 const cache = createEmotionCache();
 

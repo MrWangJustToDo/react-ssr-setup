@@ -2,13 +2,14 @@
 import dotenv from "dotenv";
 import express from "express";
 
-import { log } from "utils/log";
-import { init } from "./init";
-import { setUp } from "./setup";
-import { apiHandler } from "./api";
+import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
 import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
-import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
+import { log } from "utils/log";
+
+import { apiHandler } from "./api";
+import { init } from "./init";
+import { setUp } from "./setup";
 
 dotenv.config();
 

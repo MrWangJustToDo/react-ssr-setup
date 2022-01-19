@@ -1,9 +1,10 @@
 import { allRoutes } from "router/routes";
+
 import { LoadingBar } from "./LoadingBar";
-import { WrapperRoute } from "./WrapperRoute";
-import { WrapperLang } from "./WrapperLang";
 import { RenderMatch } from "./RenderMatch";
 import { WrapperErrorCatch } from "./WrapperCatch";
+import { WrapperLang } from "./WrapperLang";
+import { WrapperRoute } from "./WrapperRoute";
 
 export const App = () => {
   return (

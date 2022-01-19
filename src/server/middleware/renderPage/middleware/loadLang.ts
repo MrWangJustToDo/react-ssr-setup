@@ -1,6 +1,7 @@
 import { ServerError } from "server/utils/error";
 import { preLoadLang } from "utils/preLoad";
-import { Middleware } from "../compose";
+
+import type { Middleware } from "../compose";
 
 export const loadLang: Middleware = (next) => async (args) => {
   const { store, lang } = args;

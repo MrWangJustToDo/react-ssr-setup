@@ -1,6 +1,6 @@
-import { actionName } from "config/action";
-import { initialStateReducer, langReducer, loadingReducer, tokenReducer } from "store/reducer/client/action";
-import { ReducerStateAction } from "./reducer";
+import type { ReducerStateAction } from "./reducer";
+import type { actionName } from "config/action";
+import type { initialStateReducer, langReducer, loadingReducer, tokenReducer } from "store/reducer/client/action";
 
 export type ClientReducerKey = actionName;
 

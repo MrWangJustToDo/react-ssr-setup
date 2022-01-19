@@ -1,9 +1,11 @@
-import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
 import { useRoutes } from "react-router";
+
 import { allRoutes } from "router/routes";
-import { useLoadedLocation } from "./WrapperRoute";
 import { getIsAnimateRouter } from "utils/env";
+
+import { useLoadedLocation } from "./WrapperRoute";
 
 export const RenderMatch = () => {
   const location = useLoadedLocation();

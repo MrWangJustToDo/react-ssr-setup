@@ -1,10 +1,12 @@
-import thunkMiddleware from "redux-thunk";
+import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
-import { createStore, applyMiddleware, compose, Middleware } from "redux";
+import thunkMiddleware from "redux-thunk";
 
-import { rootSaga } from "./saga";
 import { rootReducer } from "./reducer";
+import { rootSaga } from "./saga";
 import { SagaManager } from "./saga/utils";
+
+import type { Middleware } from "redux";
 import type { SagaStore, StoreState } from "types/store";
 
 type CreateStoreProps = {

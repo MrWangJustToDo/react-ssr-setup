@@ -1,10 +1,13 @@
+import cookie from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "react-redux";
-import cookie from "js-cookie";
 import { useLocation, useNavigate } from "react-router";
+
 import { log } from "utils/log";
+
 import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
-import { UsePreLoadType } from "types/hooks";
+
+import type { UsePreLoadType } from "types/hooks";
 
 /* WrapperRoute */
 const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {

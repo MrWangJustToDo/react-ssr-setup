@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { ServerError } from "server/utils/error";
-import { AnyAction, composeRender } from "../compose";
+
+import { composeRender } from "../compose";
 import { globalEnv, initLang, initStore, loadLang, loadStore } from "../middleware";
+
+import type { AnyAction} from "../compose";
+
 
 const targetRender: AnyAction = async ({ req, res, store, lang, env, serverSideProps = {} }) => {
   if (!store || !lang || !env) {

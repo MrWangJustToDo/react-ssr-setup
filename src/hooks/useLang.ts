@@ -1,9 +1,12 @@
-import { apiName } from "config/api";
+import cookie from "js-cookie";
 import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import cookie from "js-cookie";
-import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
+
+import { apiName } from "config/api";
 import { getDataAction_Server } from "store/reducer/server/share/action";
+
+import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
+
 import type { StoreState } from "types/store";
 
 export const useLang = () => {

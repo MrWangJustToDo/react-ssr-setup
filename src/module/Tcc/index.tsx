@@ -1,4 +1,5 @@
 import { Component } from "react";
+
 import { Box } from "./Box";
 
 export class Tcc extends Component {

@@ -2,6 +2,7 @@ import PrettyError from "pretty-error";
 import { renderToString } from "react-dom/server";
 
 import { HTML } from "template/Html";
+
 import type { RenderErrorType } from "types/server";
 
 const pre = new PrettyError();

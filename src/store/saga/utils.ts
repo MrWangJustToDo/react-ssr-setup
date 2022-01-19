@@ -1,8 +1,9 @@
-import createSagaMiddleware from "@redux-saga/core";
-import { Saga, Task } from "@redux-saga/types";
 import { fork, take, cancel } from "redux-saga/effects";
-import { SagaStore } from "types/store";
-import { rootSaga } from ".";
+
+import type { rootSaga } from ".";
+import type createSagaMiddleware from "@redux-saga/core";
+import type { Saga, Task } from "@redux-saga/types";
+import type { SagaStore } from "types/store";
 
 export const CANCEL_SAGAS_HMR = "CANCEL_SAGAS_HMR";
 
