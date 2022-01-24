@@ -9,7 +9,7 @@ import { composeRender } from "./compose";
 import { globalEnv } from "./middleware/globalEnv";
 import { initLang } from "./middleware/initLang";
 
-import type { AnyAction} from "./compose";
+import type { AnyAction } from "./compose";
 
 const targetRender: AnyAction = async ({ res, env, lang }) => {
   if (!env || !lang) {

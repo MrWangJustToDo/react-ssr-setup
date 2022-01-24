@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
 
-const dynamicPathReg = /^:(.*)$/
+const dynamicPathReg = /^:(.*)$/;
 
 class DynamicRouter {
   constructor(cache, side) {
@@ -63,7 +63,7 @@ class DynamicRouter {
   getRouterTemplate = (routerResult) => {
     const template = `/* eslint-disable prettier/prettier */
 /* do not editor this template */
-import { DynamicRouteConfig } from "types/router";
+import type { DynamicRouteConfig } from "types/router";
 
 export const dynamicRouteConfig: DynamicRouteConfig[] = ${routerResult};`;
     return template;

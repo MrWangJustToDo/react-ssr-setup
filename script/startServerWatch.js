@@ -9,7 +9,7 @@ const startServerWatch = (serverCompiler) => {
   serverCompiler.watch(
     {
       aggregateTimeout: 800, // 聚合多个修改一起构建
-      ignored: ["**/node_modules/**", "**/router/dynamicRoutes.ts", "**/webpack/**", "**/dev/client/**"], // 排除文件
+      ignored: ["**/node_modules/**", "**/router/dynamicRoutes.ts", "**/dev/**", "**/dist/**"], // 排除文件
     },
     (err, stats) => {
       if (err) {

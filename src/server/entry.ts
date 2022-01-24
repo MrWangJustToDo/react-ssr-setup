@@ -11,6 +11,7 @@ import { apiHandler } from "./api";
 import { init } from "./init";
 import { setUp } from "./setup";
 
+// eslint-disable-next-line import/no-named-as-default-member
 dotenv.config();
 
 const app = express();
