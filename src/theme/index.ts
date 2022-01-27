@@ -1,0 +1,14 @@
+import { extendTheme } from "@chakra-ui/react";
+
+export const theme = extendTheme({
+  config: { initialColorMode: "light", useSystemColorMode: true },
+  semanticTokens: {
+    colors: {
+      // 根据data-theme进行响应  不需要进行其他js计算
+      text: {
+        default: "gray.900",
+        _dark: "gray.50",
+      },
+    },
+  },
+});

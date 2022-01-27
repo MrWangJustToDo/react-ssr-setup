@@ -1,15 +1,18 @@
-import { Select, Button, Box, Fade, useDisclosure, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { Select, Button, Box, Fade, useDisclosure, Menu, MenuButton, MenuList, MenuItem, useColorMode, Text } from "@chakra-ui/react";
 
 export default function ChakraComponent() {
+  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
   return (
     <>
       <h2>Chakra UI</h2>
+      <Button onClick={toggleColorMode}>{colorMode}</Button>
       <Select placeholder="Select option">
         <option value="option1">Option 1</option>
         <option value="option2">Option 2</option>
         <option value="option3">Option 3</option>
       </Select>
+      <Text color="text">color mode!!</Text>
       <hr />
       <Button onClick={onToggle}>Click Me</Button>
       <Fade in={isOpen}>

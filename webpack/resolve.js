@@ -16,6 +16,7 @@ const resolveConfig = () => {
       components: path.resolve(basePath, "src", "components"),
       types: path.resolve(basePath, "src", "types"),
       store: path.resolve(basePath, "src", "store"),
+      theme: path.resolve(basePath, "src", "theme"),
       webpackConfig: path.resolve(basePath, "webpack"),
       script: path.resolve(basePath, "script"),
       lang: path.resolve(basePath, "lang"),

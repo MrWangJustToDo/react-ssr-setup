@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { App } from "components/App";
 import { createEmotionCache } from "config/createEmotionCache";
+import { theme } from "theme";
 
 import type { createUniversalStore } from "store";
 
@@ -18,7 +19,7 @@ const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => 
   return (
     <StrictMode>
       <CacheProvider value={cache}>
-        <ChakraProvider resetCSS>
+        <ChakraProvider resetCSS theme={theme}>
           <Provider store={store}>
             <Router>
               <HelmetProvider>

@@ -10,6 +10,7 @@ import { StaticRouter as Router } from "react-router-dom/server";
 import { App } from "components/App";
 import { createEmotionCache } from "config/createEmotionCache";
 import { HTML } from "template/Html";
+import { theme } from "theme";
 import { manifestLoadable } from "utils/manifest";
 
 import type { SafeAction } from "../compose";
@@ -21,7 +22,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ser
 
   const content = (
     <CacheProvider value={cache}>
-      <ChakraProvider resetCSS>
+      <ChakraProvider resetCSS theme={theme}>
         <Provider store={store}>
           <Router location={req.url}>
             <HelmetProvider context={helmetContext}>

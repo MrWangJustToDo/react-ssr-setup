@@ -35,6 +35,8 @@
       "store": ["src/store"],
       "store/*": ["src/store/*"],
       "types/*": ["src/types/*"],
+      "theme": ["src/theme"],
+      "theme/*": ["src/theme/*"],
       "template/*": ["src/template/*"],
       "components/*": ["src/components/*"],
       "webpackConfig/*": ["webpack/*"],
