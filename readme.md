@@ -54,7 +54,7 @@ yarn run start
 
 ## 静态路由
 
-## 文件路由 自动 query 参数支持 使用 :参数名(:id.tsx) 文件作为的约定 开发环境支持 page 新建删除的实时路由更新(middleware 模式下支持)
+## 文件路由 自动 query 参数支持 使用 :参数名(:id.tsx) 文件作为的约定 开发环境支持 page 新建删除的实时路由更新(middleware 模式下支持, 加载一次后删除会出错)
 
 ## 装饰器
 
@@ -76,4 +76,4 @@ yarn run start
 
 ## 开箱既支持多种 UI 组件库(CSR / SSR) 通过环境变量 UI 切换（antd,material,chakra-ui,...)
 
-## TODO support swc-loader
+## TODO support swc-loader jest

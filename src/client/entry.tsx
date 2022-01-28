@@ -2,10 +2,8 @@
 import { loadableReady } from "@loadable/component";
 import { hydrate, render } from "react-dom";
 
-import { allRoutes } from "router/routes";
 import { createUniversalStore } from "store";
 import { log } from "utils/log";
-import { preLoad, preLoadLang } from "utils/preLoad";
 import { safeData } from "utils/safeData";
 
 import type { StoreState } from "types/store";
@@ -52,6 +50,8 @@ if (__UI__ === "material") {
 
 if (__CSR__) {
   log("pure render by client", "warn");
+  const { allRoutes } = require("router/routes");
+  const { preLoad, preLoadLang } = require("utils/preLoad");
   Promise.all([preLoadLang({ store, lang: window.__ENV__.LANG }), preLoad(allRoutes, location.pathname, store)]).then(() =>
     loadableReady(() => render(<Root store={store} />, place))
   );

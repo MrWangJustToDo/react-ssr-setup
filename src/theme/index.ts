@@ -7,7 +7,8 @@ export const theme = extendTheme({
       // 根据data-theme进行响应  不需要进行其他js计算
       text: {
         default: "gray.900",
-        _dark: "gray.50",
+        _light: "blue.600",
+        _dark: "red.500",
       },
     },
   },

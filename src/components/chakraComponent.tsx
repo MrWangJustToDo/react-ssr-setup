@@ -12,7 +12,7 @@ export default function ChakraComponent() {
         <option value="option2">Option 2</option>
         <option value="option3">Option 3</option>
       </Select>
-      <Text color="text">color mode!!</Text>
+      <Text color="text">color mode!! css variable</Text>
       <hr />
       <Button onClick={onToggle}>Click Me</Button>
       <Fade in={isOpen}>

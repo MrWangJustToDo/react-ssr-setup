@@ -1,4 +1,3 @@
-const path = require("path");
 const WebpackDevServer = require("webpack-dev-server");
 
 /**
@@ -23,13 +22,6 @@ const devServerConfig = ({ publicPath }) => {
     port: process.env.WDS_PORT,
     static: {
       publicPath,
-    },
-    watchFiles: {
-      // TODO look like not work, need more work for this
-      paths: [path.resolve(process.cwd(), "src"), path.resolve(process.cwd(), "webpack"), path.resolve(process.cwd(), "script")],
-      options: {
-        ignored: ["**/node_modules/**", "**/router/dynamicRoutes.ts", "**/server/**"],
-      },
     },
     devMiddleware: {
       publicPath,
