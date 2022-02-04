@@ -3,7 +3,8 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const optimizationConfig = ({ env, isDev = true }) => {
   if (env === "client") {
-    return isDev
+    // 开发模式下   为了使动态路由即使生效不出错， 不能使用这个配置
+    return isDev && false
       ? {
           usedExports: true,
           runtimeChunk: "single",

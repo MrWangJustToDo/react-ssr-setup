@@ -50,11 +50,8 @@ if (__UI__ === "material") {
 
 if (__CSR__) {
   log("pure render by client", "warn");
-  const { allRoutes } = require("router/routes");
-  const { preLoad, preLoadLang } = require("utils/preLoad");
-  Promise.all([preLoadLang({ store, lang: window.__ENV__.LANG }), preLoad(allRoutes, location.pathname, store)]).then(() =>
-    loadableReady(() => render(<Root store={store} />, place))
-  );
+  const { preLoadLang } = require("utils/preLoad");
+  preLoadLang({ store, lang: window.__ENV__.LANG }).then(() => loadableReady(() => render(<Root store={store} />, place)));
 } else {
   if (!window.__ENV__.isSSR) {
     loadableReady(() => render(<Root store={store} />, place));

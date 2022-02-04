@@ -8,7 +8,7 @@ import { manifestLoadable } from "utils/manifest";
 import { composeRender } from "./compose";
 import { globalEnv, initLang, initStore, loadLang, loadStore } from "./middleware";
 
-import type { AnyAction} from "./compose";
+import type { AnyAction } from "./compose";
 
 // 客户端渲染
 const targetRender: AnyAction = async ({ res, store, lang, env, serverSideProps = {} }) => {

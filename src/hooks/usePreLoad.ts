@@ -1,5 +1,5 @@
 import cookie from "js-cookie";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 
@@ -10,28 +10,37 @@ import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
 import type { UsePreLoadType } from "types/hooks";
 
 /* WrapperRoute */
-const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
+const usePreLoad: UsePreLoadType = ({ routes, preLoad, hydrate }) => {
   const isRedirect = useRef<string | undefined>();
   const store = useStore();
   const location = useLocation();
   const navigate = useNavigate();
   const { start, end } = useChangeLoadingWithoutRedux();
-  const firstLoad = useRef(true);
-  const loadedPath = useRef<string | null>("");
+  // for pure client render, need preload data
+  const firstLoad = useRef(__CSR__ ? false : true);
+  const loadedPath = useRef<string | undefined>("");
   const loadingPath = useRef<string | null>("");
   const timer1 = useRef<NodeJS.Timeout | null>(null);
   const timer2 = useRef<NodeJS.Timeout | null>(null);
   const storeRef = useRef(store);
-  const [loadedLocation, setLoadedLocation] = useState(location);
+  // for pure client render, there are not exist loaded location
+  const [loadedLocation, setLoadedLocation] = useState(__CSR__ ? undefined : location);
 
   loadingPath.current = location.pathname;
 
-  loadedPath.current = loadedLocation.pathname;
+  loadedPath.current = loadedLocation?.pathname;
 
   storeRef.current = store;
 
+  useMemo(() => {
+    if (loadedLocation?.pathname) {
+      hydrate(routes, loadedLocation.pathname);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
-    // skip first load
+    // skip first load if need
     if (!firstLoad.current) {
       const isRedirectCurrentPath = isRedirect.current && isRedirect.current === location.pathname;
       if (!isRedirectCurrentPath) {

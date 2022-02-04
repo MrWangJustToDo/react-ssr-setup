@@ -6,7 +6,7 @@ export const globalEnv: Middleware = (next) => async (args) => {
   const { PUBLIC_API_HOST, CRYPTO_KEY } = process.env;
   args.env = {
     UI: __UI__,
-    isSSR: getIsSSR() || args.req.query.isSSR,
+    isSSR: getIsSSR() || args.req.query.isSSR || false,
     CRYPTO_KEY,
     PUBLIC_API_HOST,
     isMIDDLEWARE: getIsMiddleware(),
