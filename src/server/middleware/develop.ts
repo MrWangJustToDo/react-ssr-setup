@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import path from "path";
 
 import type { Express } from "express";
 
@@ -10,12 +9,13 @@ const develop = (app: Express): Promise<void> => {
       const webpackHotMiddleware = require("webpack-hot-middleware");
       const webpackDevMiddleware = require("webpack-dev-middleware");
       const { compilerPromise } = require("script/compiler");
-      const { ClientConfig } = require("webpackConfig/webpack.client.config");
-      const config = ClientConfig(path.resolve(process.cwd(), process.env.CLIENT_ENTRY), true);
-      const compiler = webpack(config);
+      const { config } = require("webpackConfig/webpack.config");
+      const multiConfig = config(true);
+      const [clientConfig] = multiConfig;
+      const compiler = webpack(clientConfig);
       const clientPromise = compilerPromise("client", compiler, { dynamicRouter: true, development: true });
-      
-      app.use(webpackDevMiddleware(compiler, config.devServer.devMiddleware));
+
+      app.use(webpackDevMiddleware(compiler, clientConfig.devServer.devMiddleware));
       app.use(webpackHotMiddleware(compiler));
       return clientPromise.then(resolve).catch(resolve);
     } else {

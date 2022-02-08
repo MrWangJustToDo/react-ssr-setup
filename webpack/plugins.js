@@ -15,18 +15,14 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
-const UI = process.env.UI;
-const currentUI = UI === "antd" || UI === "material" || UI === "chakra" ? UI : "material";
-
-const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = false, isAnimationRouter = false }) => {
+const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = false, isAnimationRouter = false, isCSR = false, currentUI }) => {
   return [
     new CleanWebpackPlugin(),
     env === "client" && new LoadablePlugin({ filename: "manifest-loadable.json" }),
     env === "client" && new WebpackManifestPlugin({ fileName: isDev ? "manifest-dev.json" : "manifest-prod.json" }),
     new webpack.DefinePlugin({
       __SSR__: isSSR,
-      // pure client render
-      __CSR__: process.env.CSR && JSON.parse(process.env.CSR),
+      __CSR__: isCSR, // pure client render
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDev,

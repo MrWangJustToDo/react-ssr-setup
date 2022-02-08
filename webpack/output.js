@@ -15,7 +15,7 @@ const outputConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
       publicPath: isDev
         ? isMiddleWareDevelop
           ? "/dev/"
-          : `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`
+          : `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dev/`
         : `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
       // 打包资源的名称
       // assetModuleFilename: "[hash].[ext]",
@@ -32,7 +32,7 @@ const outputConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
       publicPath: isDev
         ? isMiddleWareDevelop
           ? "/dev/"
-          : `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dist/`
+          : `http://${process.env.DEV_HOST}:${process.env.WDS_PORT}/dev/`
         : `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}/client/`,
       // 打包资源的名称
       // assetModuleFilename: "[hash].[ext]",

@@ -6,22 +6,17 @@ const { devServerConfig } = require("./devServer");
 const { BaseConfig } = require("./webpack.base.config");
 const { optimizationConfig } = require("./optimization");
 
-const isSSR = process.env.SSR && JSON.parse(process.env.SSR);
-const isMiddleWareDevelop = process.env.MIDDLEWARE && JSON.parse(process.env.MIDDLEWARE);
-const isAnimationRouter = process.env.ANIMATE_ROUTER && JSON.parse(process.env.ANIMATE_ROUTER);
-
 /**
  *
- * @param {string} entryPath
- * @param {boolean} isDev
- * @returns {import("webpack").Configuration}
+ * @param {{entryPath: string, isDev: boolean, isSSR: boolean, isMiddleWareDevelop: boolean, isAnimationRouter: boolean, isCSR: boolean, currentUI: 'antd' | 'chakra' | 'material'}} param
+ * @returns {import('webpack').Configuration}
  */
-const ClientConfig = (entryPath, isDev) => {
+const ClientConfig = ({ entryPath, isDev, isSSR, isMiddleWareDevelop, isAnimationRouter, isCSR, currentUI }) => {
   const clientBase = BaseConfig({ env: "client", isDev });
   const rules = rulesConfig({ env: "client", isDev });
   const output = outputConfig({ env: "client", isDev, isMiddleWareDevelop });
-  const plugins = pluginsConfig({ env: "client", isDev, isMiddleWareDevelop, isSSR, isAnimationRouter });
-  const optimization = optimizationConfig({ env: "client", isDev });
+  const plugins = pluginsConfig({ env: "client", isDev, isMiddleWareDevelop, isSSR, isCSR, isAnimationRouter, currentUI });
+  const optimization = optimizationConfig({ env: "client", isDev, isMiddleWareDevelop });
   const devServer = devServerConfig({ publicPath: output.publicPath });
   return merge(clientBase, {
     // 控制显示source-map

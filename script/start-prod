@@ -2,40 +2,11 @@
 
 require("dotenv").config();
 const webpack = require("webpack");
-const { spawn } = require("child_process");
 const { compilerPromise } = require("./compiler");
 const { config } = require("../webpack/webpack.config");
 const { DynamicRouter, dynamicCache } = require("./dynamic");
 
 process.env.NODE_ENV = "production";
-
-const withSpawn = async () => {
-  await new DynamicRouter(dynamicCache, "universal").getDynamicRouter();
-  const cliCodeWatchProcess = spawn("node", ["./script/build-prod-client"], {
-    stdio: "inherit",
-    shell: true,
-  });
-
-  const svrCodeWatchProcess = spawn("node", ["./script/build-prod-server"], {
-    stdio: "inherit",
-    shell: true,
-  });
-
-  const killChild = () => {
-    svrCodeWatchProcess && svrCodeWatchProcess.kill();
-    cliCodeWatchProcess && cliCodeWatchProcess.kill();
-  };
-
-  process.on("close", (code) => {
-    console.log("main process close", code);
-    killChild();
-  });
-
-  process.on("exit", (code) => {
-    console.log("main process exit", code);
-    killChild();
-  });
-};
 
 const withPromise = async () => {
   await new DynamicRouter(dynamicCache, "universal").getDynamicRouter();
