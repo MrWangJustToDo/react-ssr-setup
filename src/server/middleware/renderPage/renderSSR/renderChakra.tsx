@@ -1,4 +1,4 @@
-import { ColorModeScript, ChakraProvider } from "@chakra-ui/react";
+import { ColorModeScript, ChakraProvider, cookieStorageManager } from "@chakra-ui/react";
 import { CacheProvider } from "@emotion/react";
 import createEmotionServer from "@emotion/server/create-instance";
 import { ChunkExtractor } from "@loadable/server";
@@ -19,14 +19,15 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ser
   const helmetContext = {};
   const cache = createEmotionCache();
   const { extractCriticalToChunks } = createEmotionServer(cache);
+  const cookieStore = cookieStorageManager(store.getState().server.cookie.data);
 
   const content = (
     <CacheProvider value={cache}>
-      <ChakraProvider resetCSS theme={theme}>
+      <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
         <Provider store={store}>
           <Router location={req.url}>
             <HelmetProvider context={helmetContext}>
-              <ColorModeScript />
+              <ColorModeScript initialColorMode={cookieStore.get(theme.config.initialColorMode)} />
               <App />
             </HelmetProvider>
           </Router>

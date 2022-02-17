@@ -6,7 +6,7 @@ import { HTML } from "template/Html";
 import { manifestLoadable } from "utils/manifest";
 
 import { composeRender } from "./compose";
-import { globalEnv, initLang, initStore, loadLang, loadStore } from "./middleware";
+import { globalEnv, initLang, initStore, loadCookie, loadLang, loadStore } from "./middleware";
 
 import type { AnyAction } from "./compose";
 
@@ -35,4 +35,4 @@ const targetRender: AnyAction = async ({ res, store, lang, env, serverSideProps 
   );
 };
 
-export const renderCSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang)(targetRender);
+export const renderCSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang, loadCookie)(targetRender);

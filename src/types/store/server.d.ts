@@ -1,7 +1,7 @@
 import type { ReducerStateAction } from "./reducer";
 import type { apiName } from "config/api";
 import type { Dispatch } from "redux";
-import type { homeReducer, blogReducer, langReducer } from "store/reducer/server/action";
+import type { homeReducer, blogReducer, langReducer, cookieReducer } from "store/reducer/server/action";
 
 export type ServerReducerKey = apiName;
 
@@ -9,6 +9,7 @@ export type ServerReducer = {
   [apiName.home]: ReturnType<typeof homeReducer>;
   [apiName.blog]: ReturnType<typeof blogReducer>;
   [apiName.lang]: ReturnType<typeof langReducer>;
+  [apiName.cookie]: ReturnType<typeof cookieReducer>;
 };
 
 export interface ServerActionType {

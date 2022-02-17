@@ -1,7 +1,7 @@
 import type { CreateServerActionProps, CreateServerActionType, CreateServerActionWithDispatchType, ServerActionType } from "types/store/server";
 
 const serverAction: ServerActionType = {
-  GET_DATA_ACTION: (name) => `getDataAction_server_${name}`,
+  GET_DATA_ACTION: (name) => `getDataAction_server_${name}_withSaga`,
   GET_DATA_LOADING: (name) => `getDataLoading_server_${name}`,
   GET_DATA_SUCCESS: (name) => `getDataSuccess_server_${name}`,
   GET_DATA_FAIL: (name) => `getDataFail_server_${name}`,

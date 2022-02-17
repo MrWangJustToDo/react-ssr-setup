@@ -2,7 +2,7 @@ import { theme } from "config/materialTheme";
 
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
 import type React from "react";
-import type { HelmetData } from "react-helmet-async";
+import type { HelmetServerState } from "react-helmet-async";
 
 type HTMLProps = {
   env?: string;
@@ -13,7 +13,7 @@ type HTMLProps = {
   serverSideProps?: string;
   reduxInitialState?: string;
   emotionChunks?: EmotionCriticalToChunks;
-  helmetContext?: { helmet?: HelmetData };
+  helmetContext?: { helmet?: HelmetServerState };
 };
 
 // NOTE this template only run on the server
@@ -43,7 +43,9 @@ export const HTML = ({
         {helmet?.title.toComponent()}
         {helmet?.meta.toComponent()}
         {helmet?.link.toComponent()}
+        {helmet?.noscript.toComponent()}
         {helmet?.script.toComponent()}
+        {helmet?.style.toComponent()}
         {link.filter(Boolean).map((ele) => ele)}
         {emotionChunks?.styles.map((style) => (
           <style data-server data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />

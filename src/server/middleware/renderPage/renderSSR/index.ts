@@ -2,10 +2,9 @@
 import { ServerError } from "server/utils/error";
 
 import { composeRender } from "../compose";
-import { globalEnv, initLang, initStore, loadLang, loadStore } from "../middleware";
+import { globalEnv, initLang, initStore, loadCookie, loadLang, loadStore } from "../middleware";
 
-import type { AnyAction} from "../compose";
-
+import type { AnyAction } from "../compose";
 
 const targetRender: AnyAction = async ({ req, res, store, lang, env, serverSideProps = {} }) => {
   if (!store || !lang || !env) {
@@ -26,4 +25,4 @@ const targetRender: AnyAction = async ({ req, res, store, lang, env, serverSideP
   }
 };
 
-export const renderSSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang)(targetRender);
+export const renderSSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang, loadCookie)(targetRender);
