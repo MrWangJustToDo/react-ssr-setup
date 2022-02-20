@@ -23,6 +23,7 @@ const withPromise = async () => {
   } catch (e) {
     console.error(e.message);
   }
+  console.log("compiler done. before start this app, pls set PUBLIC_API_HOST in the env file!");
 };
 
 withPromise();

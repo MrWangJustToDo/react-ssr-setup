@@ -22,6 +22,8 @@ window.__ENV__ = JSON.parse(preLoadEnvElement?.innerHTML || "{}");
 
 window.__INITIAL_PROPS_SSR__ = JSON.parse(preLoadPropsElement?.innerHTML || "{}");
 
+window.__PRELOAD_STORE_STATE__ = JSON.parse(preLoadStateElement?.innerHTML || "{}");
+
 safeData(window.__ENV__);
 
 safeData(window as unknown as Record<string, unknown>, "__ENV__");
@@ -30,7 +32,9 @@ safeData(window.__INITIAL_PROPS_SSR__);
 
 safeData(window as unknown as Record<string, unknown>, "__INITIAL_PROPS_SSR__");
 
-document.querySelector("script#__autoInject__")?.remove();
+safeData(window.__PRELOAD_STORE_STATE__);
+
+safeData(window as unknown as Record<string, unknown>, "__PRELOAD_STORE_STATE__");
 
 let Root = ({ store: _store }: { store: ReturnType<typeof createUniversalStore> }) => <></>;
 
