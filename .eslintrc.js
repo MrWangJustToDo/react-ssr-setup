@@ -15,7 +15,19 @@ module.exports = {
     "plugin:react/jsx-runtime", // new JSX runtime for react
     "prettier",
   ],
-  ignorePatterns: ["node_modules/*", "script/*", "dist/*", "dev/*", "webpack/*", "!.prettierrc", ".eslintrc.js", "babel.config.js", "postcss.config.js"], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
+  ignorePatterns: [
+    "node_modules/*",
+    "script/*",
+    "dist/*",
+    "dev/*",
+    "src/__mocks__/*",
+    "webpack/*",
+    "!.prettierrc",
+    ".eslintrc.js",
+    "babel.config.js",
+    "postcss.config.js",
+    "jest.config.js",
+  ], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
   parser: "@typescript-eslint/parser",
   root: true,
   parserOptions: {
