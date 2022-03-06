@@ -1,6 +1,6 @@
 {
   "name": "react-ssr",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "author": "mrwang",
   "license": "MIT",
   "scripts": {
@@ -48,7 +48,7 @@
     "redux-saga": "^1.1.3",
     "redux-thunk": "^2.4.1",
     "spark-md5": "^3.0.1",
-    "webpack": "^5.69.1",
+    "webpack": "^5.70.0",
     "zustand": "^3.7.1"
   },
   "devDependencies": {
@@ -96,7 +96,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "core-js": "^3.21.1",
     "cross-env": "^7.0.3",
-    "css-loader": "^6.6.0",
+    "css-loader": "^6.7.0",
     "css-minimizer-webpack-plugin": "^3.4.1",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
@@ -104,14 +104,14 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.2",
+    "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-webpack-plugin": "^3.1.1",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
-    "mini-css-extract-plugin": "^2.5.3",
+    "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
     "nodemon": "^2.0.15",
     "postcss": "^8.4.7",
