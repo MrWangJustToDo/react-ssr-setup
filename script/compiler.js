@@ -15,6 +15,9 @@ const compilerPromise = (name, compiler, compilerConfig = {}) => {
   const dynamicRouter = compilerConfig.dynamicRouter ?? false;
   const development = compilerConfig.development ?? true;
   const dynamicFactory = new DynamicRouter(dynamicCache, name);
+  if (development && dynamicRouter) {
+    console.log(`[${name}]`, chalk.redBright("Dynamic Router enabled!, now you can create a new page under the pages folder"));
+  }
   return new Promise((resolve, reject) => {
     compiler.hooks.compile.tap(name, () => console.log(`[${name}]`, chalk.blue(`Compiling`)));
     if (dynamicRouter) {

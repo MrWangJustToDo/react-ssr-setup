@@ -10,7 +10,7 @@ const { startDevServer } = require("./startDevServer");
 const { startServerWatch } = require("./startServerWatch");
 const { config } = require("../webpack/webpack.config");
 
-const withPromise = async () => {
+const withHydrate = async () => {
   try {
     await Promise.all([freePort(process.env.DEV_PORT), freePort(process.env.WDS_PORT), new DynamicRouter().getDynamicRouter()]);
   } catch (e) {
@@ -67,7 +67,7 @@ const withMiddleWare = async () => {
   const [_, serverConfig] = multiConfig;
   const serverCompiler = webpack(serverConfig);
   const serverPromise = compilerPromise("server", serverCompiler);
-  serverCompiler.run()
+  serverCompiler.run();
   try {
     await serverPromise;
   } catch (e) {
@@ -98,6 +98,6 @@ exports.start = () => {
   if (isMiddleWareDevelop) {
     withMiddleWare();
   } else {
-    withPromise();
+    withHydrate();
   }
 };
