@@ -6,7 +6,6 @@ import style from "./index.module.scss";
 
 import type { PreLoadComponentType } from "types/components";
 
-
 export const Layout: PreLoadComponentType = () => {
   return (
     <div className={style.container}>
