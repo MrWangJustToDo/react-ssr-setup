@@ -9,27 +9,32 @@ import { filter } from "./tools";
 
 import type { PreLoadRouteConfig } from "types/router";
 
-const LoadAble_I18n = loadable<unknown>(() => import("../components/i18n"));
+// some bug for loadable type
+const LoadAble_I18n = loadable(() => import("../components/i18n")) as React.ComponentClass;
 
 const baseRouter: PreLoadRouteConfig = {
   element: <Layout />,
   Component: Layout,
 };
 
-let LoadAble_UI: ReturnType<typeof loadable> | (() => JSX.Element) = () => <></>;
+let LoadAble_UI: React.FunctionComponent = () => <></>;
 if (__UI__ === "antd") {
-  LoadAble_UI = loadable<unknown>(() => import("../components/antDesignComponent"));
+  LoadAble_UI = loadable(() => import("../components/antDesignComponent")) as React.FunctionComponent;
 }
 if (__UI__ === "material") {
-  LoadAble_UI = loadable<unknown>(() => import("../components/materialComponent"));
+  LoadAble_UI = loadable(() => import("../components/materialComponent")) as React.FunctionComponent;
 }
 if (__UI__ === "chakra") {
-  LoadAble_UI = loadable<unknown>(() => import("../components/chakraComponent"));
+  LoadAble_UI = loadable(() => import("../components/chakraComponent")) as React.FunctionComponent;
 }
 
 const routes: PreLoadRouteConfig[] = [
   { path: "/", element: <UI />, Component: UI },
-  { path: "/i18n", element: <LoadAble_I18n />, Component: LoadAble_I18n },
+  {
+    path: "/i18n",
+    element: <LoadAble_I18n />,
+    Component: LoadAble_I18n,
+  },
   { path: __UI__ === "antd" ? "/antd" : __UI__ === "material" ? "/material" : "chakra", element: <LoadAble_UI />, Component: LoadAble_UI },
 ];
 

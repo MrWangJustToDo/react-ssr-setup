@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { loadableReady } from "@loadable/component";
-import { hydrate, render } from "react-dom";
+import { createRoot, hydrateRoot } from "react-dom/client";
 
 import { createUniversalStore } from "store";
 import { log } from "utils/log";
@@ -8,7 +8,7 @@ import { safeData } from "utils/safeData";
 
 import type { StoreState } from "types/store";
 
-const place = document.querySelector("#__content__");
+const place = document.querySelector("#__content__") as HTMLDivElement;
 
 const preLoadEnvElement = document.querySelector("script#__preload_env__");
 
@@ -47,16 +47,14 @@ if (__UI__ === "material") {
 if (__CSR__) {
   log("pure render by client", "warn");
   const { preLoadLang } = require("utils/preLoad");
-  preLoadLang({ store, lang: window.__ENV__.LANG }).then(() => loadableReady(() => render(<Root store={store} />, place)));
+  const root = createRoot(place);
+  preLoadLang({ store, lang: window.__ENV__.LANG }).then(() => loadableReady(() => root.render(<Root store={store} />)));
 } else {
-  if (!window.__ENV__.isSSR) {
-    loadableReady(() => render(<Root store={store} />, place));
+  if (!window.__ENV__.isSSR || (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE)) {
+    log("not hydrate render on client", "warn");
+    const root = createRoot(place);
+    loadableReady(() => root.render(<Root store={store} />));
   } else {
-    if (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE) {
-      log("not hydrate render on client", "warn");
-      loadableReady(() => render(<Root store={store} />, place));
-    } else {
-      loadableReady(() => hydrate(<Root store={store} />, place));
-    }
+    loadableReady(() => hydrateRoot(place, <Root store={store} />));
   }
 }

@@ -1,7 +1,6 @@
 import { theme } from "config/materialTheme";
 
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
-import type React from "react";
 import type { HelmetServerState } from "react-helmet-async";
 
 type HTMLProps = {
@@ -28,13 +27,16 @@ export const HTML = ({ lang, children, link = [], script = [], reduxInitialState
         <meta name="build-time" content={__BUILD_TIME__} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-        {helmet?.base.toComponent()}
-        {helmet?.title.toComponent()}
-        {helmet?.meta.toComponent()}
-        {helmet?.link.toComponent()}
-        {helmet?.noscript.toComponent()}
-        {helmet?.script.toComponent()}
-        {helmet?.style.toComponent()}
+        {/* a type issue for react-helmet-async  */}
+        <>
+          {helmet?.base.toComponent()}
+          {helmet?.title.toComponent()}
+          {helmet?.meta.toComponent()}
+          {helmet?.link.toComponent()}
+          {helmet?.noscript.toComponent()}
+          {helmet?.style.toComponent()}
+          {helmet?.script.toComponent()}
+        </>
         {link.filter(Boolean).map((ele) => ele)}
         {emotionChunks?.styles.map((style) => (
           <style data-server data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
