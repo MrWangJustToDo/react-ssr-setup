@@ -13,5 +13,5 @@ export const useGetInitialProps = () => {
   const propsKey = generateInitialPropsKey(loaded?.location.pathname || "", loaded?.query || new URLSearchParams());
   const props = globalInitialProps[propsKey];
 
-  return props;
+  return props as any;
 };

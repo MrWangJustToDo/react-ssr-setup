@@ -10,7 +10,8 @@ const Great: PreLoadComponentType<{ blog: string[] }> = (props) => {
   const [, setSearch] = useSearchParams();
   return (
     <div>
-      Great rt, {props?.blog?.join(", ")} 454545
+      Great rt, {props?.blog?.join(", ")} props
+      <br />
       <button onClick={() => setSearch({ a: Math.random().toString() })}>click</button>
     </div>
   );
@@ -21,7 +22,7 @@ export const getInitialState: GetInitialStateType = async ({ store }) => {
   await store.dispatch(getDataAction_Server({ name: apiName.blog }));
   console.log(store.sagaTask?.isRunning(), store.sagaTask?.isCancelled());
   console.log("dispatch done");
-  return { props: { blog: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 0, "1", "2", "3", "4", "5"], foo: { a: 1, b: 2, c: 3 } }, cookies: { foo: "foo", bar: "bar" } };
+  return { props: { blog: [1, 2, 3, 4, 5, 6, 7, 7, 8, 9, "bbbb   "], foo: { a: 1, b: 2, c: 3 } }, cookies: { foo: "foo", bar: "bar" } };
 };
 
 export default Great;

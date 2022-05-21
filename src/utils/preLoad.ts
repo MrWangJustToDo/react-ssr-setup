@@ -1,4 +1,4 @@
-import { createElement, isValidElement } from "react";
+import { createElement, isValidElement, memo } from "react";
 import { matchRoutes } from "react-router";
 
 import { actionName } from "config/action";
@@ -186,10 +186,11 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
 }
 
 function AutoInjectInitialProps(Component: LoadableComponent<any>) {
+  const memoComponent = memo(Component);
   const RouterComponentWithProps = () => {
     const props = useGetInitialProps();
 
-    return createElement(Component, props);
+    return createElement(memoComponent, props);
   };
   return RouterComponentWithProps;
 }
