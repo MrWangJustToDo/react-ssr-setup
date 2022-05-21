@@ -2,6 +2,7 @@ import loadable from "@loadable/component";
 
 import { Layout } from "components/Layout";
 import { UI } from "components/UI";
+import { AutoInjectInitialProps } from "utils/preLoad";
 
 import { dynamicRouteConfig } from "./dynamicRoutes";
 import { filter } from "./tools";
@@ -35,7 +36,9 @@ const routes: PreLoadRouteConfig[] = [
 const dynamicRoutes = dynamicRouteConfig
   .map((it) => ({
     path: it.componentPath === "404" ? "/*" : it.path,
-    component: loadable(() => import(`../pages/${it.componentPath}`)),
+    component: loadable(() => import(`../pages/${it.componentPath}`), {
+      resolveComponent: (module) => AutoInjectInitialProps(module.default),
+    }),
   }))
   .map(({ path, component: Component }) => ({ path: path, Component, element: <Component /> }));
 

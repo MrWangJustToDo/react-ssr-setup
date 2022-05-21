@@ -1,4 +1,5 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { useDispatch as OriginalUseDispatch } from "react-redux";
+import { legacy_createStore as createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
 import thunkMiddleware from "redux-thunk";
 
@@ -6,7 +7,8 @@ import { rootReducer } from "./reducer";
 import { rootSaga } from "./saga";
 import { SagaManager } from "./saga/utils";
 
-import type { Middleware } from "redux";
+import type { Middleware, AnyAction } from "redux";
+import type { ThunkDispatch } from "redux-thunk";
 import type { SagaStore, StoreState } from "types/store";
 
 type CreateStoreProps = {
@@ -43,4 +45,10 @@ export const createUniversalStore = (props: CreateStoreProps = {}): SagaStore =>
   }
 
   return store;
+};
+
+export const useDispatch = () => {
+  const dispatch = OriginalUseDispatch<ThunkDispatch<StoreState, Record<string, unknown>, AnyAction>>();
+
+  return dispatch;
 };

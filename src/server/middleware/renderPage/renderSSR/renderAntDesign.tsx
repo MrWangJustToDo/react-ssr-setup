@@ -10,7 +10,7 @@ import { manifestLoadable } from "utils/manifest";
 
 import type { SafeAction } from "../compose";
 
-export const targetRender: SafeAction = async ({ req, res, store, lang, env, serverSideProps }) => {
+export const targetRender: SafeAction = async ({ req, res, store, lang, env }) => {
   const helmetContext = {};
 
   const content = (
@@ -43,7 +43,6 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ser
           script={scriptElements}
           helmetContext={helmetContext}
           link={linkElements.concat(styleElements)}
-          serverSideProps={JSON.stringify(serverSideProps)}
           reduxInitialState={JSON.stringify(store.getState())}
         >
           {body}

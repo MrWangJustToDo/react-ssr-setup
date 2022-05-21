@@ -1,8 +1,9 @@
 import cookie from "js-cookie";
 import { useCallback, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { apiName } from "config/api";
+import { useDispatch } from "store";
 import { getDataAction_Server } from "store/reducer/server/share/action";
 
 import { useChangeLoadingWithoutRedux } from "./useLoadingBar";

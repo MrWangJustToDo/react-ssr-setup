@@ -10,7 +10,6 @@ type HTMLProps = {
   children?: string;
   link?: React.ReactElement[];
   script?: React.ReactElement[];
-  serverSideProps?: string;
   reduxInitialState?: string;
   emotionChunks?: EmotionCriticalToChunks;
   helmetContext?: { helmet?: HelmetServerState };
@@ -18,17 +17,7 @@ type HTMLProps = {
 
 // NOTE this template only run on the server
 // like _document.js in the next.js
-export const HTML = ({
-  lang,
-  children,
-  link = [],
-  script = [],
-  serverSideProps = "{}",
-  reduxInitialState = "{}",
-  helmetContext = {},
-  emotionChunks,
-  env = "{}",
-}: HTMLProps) => {
+export const HTML = ({ lang, children, link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks, env = "{}" }: HTMLProps) => {
   const { helmet } = helmetContext;
 
   return (
@@ -57,7 +46,6 @@ export const HTML = ({
           }}
         />
         <script id="__preload_env__" type="application/json" dangerouslySetInnerHTML={{ __html: `${env}` }} />
-        <script id="__preload_props__" type="application/json" dangerouslySetInnerHTML={{ __html: `${serverSideProps}` }} />
         <script id="__preload_state__" type="application/json" dangerouslySetInnerHTML={{ __html: `${reduxInitialState}` }} />
       </head>
       <body>

@@ -12,25 +12,17 @@ const place = document.querySelector("#__content__");
 
 const preLoadEnvElement = document.querySelector("script#__preload_env__");
 
-const preLoadPropsElement = document.querySelector("script#__preload_props__");
-
 const preLoadStateElement = document.querySelector("script#__preload_state__");
 
 const store = createUniversalStore({ initialState: JSON.parse(preLoadStateElement?.innerHTML || "{}") as StoreState });
 
 window.__ENV__ = JSON.parse(preLoadEnvElement?.innerHTML || "{}");
 
-window.__INITIAL_PROPS_SSR__ = JSON.parse(preLoadPropsElement?.innerHTML || "{}");
-
 window.__PRELOAD_STORE_STATE__ = JSON.parse(preLoadStateElement?.innerHTML || "{}");
 
 safeData(window.__ENV__);
 
 safeData(window as unknown as Record<string, unknown>, "__ENV__");
-
-safeData(window.__INITIAL_PROPS_SSR__);
-
-safeData(window as unknown as Record<string, unknown>, "__INITIAL_PROPS_SSR__");
 
 safeData(window.__PRELOAD_STORE_STATE__);
 

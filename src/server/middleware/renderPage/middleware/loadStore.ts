@@ -11,7 +11,7 @@ export const loadStore: Middleware = (next) => async (args) => {
     throw new ServerError(`server 初始化失败 lang: ${lang}, store: ${store}`, 500);
   }
 
-  const { error, redirect, serverSideProps, cookies } = await preLoad(allRoutes, req.url, store, { req, lang });
+  const { error, redirect, cookies } = (await preLoad(allRoutes, req.path, new URLSearchParams(req.url.split("?")[1]), store)) || {};
 
   if (cookies) {
     Object.keys(cookies).forEach((key) => {
@@ -24,14 +24,11 @@ export const loadStore: Middleware = (next) => async (args) => {
   }
 
   if (redirect) {
-    if (typeof redirect === "object") {
-      res.writeHead(redirect.code, { location: redirect.redirect });
-    } else {
-      res.writeHead(302, { Location: redirect });
-    }
+    const query = redirect.location.query.toString();
+    const path = query.length ? redirect.location.pathName + "?" + query : redirect.location.pathName;
+    res.writeHead(redirect.code || 302, { location: path });
     res.end();
   } else {
-    args.serverSideProps = serverSideProps;
     await next(args);
   }
 };

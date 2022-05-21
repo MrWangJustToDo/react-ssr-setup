@@ -45,6 +45,6 @@
     },
     "incremental": true
   },
-  "exclude": ["dist", "dev", "lang", "script", "webpack"],
+  "exclude": ["dist", "dev", "lang", "script", "webpack", "node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
 }

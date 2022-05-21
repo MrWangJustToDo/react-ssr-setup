@@ -8,9 +8,9 @@ const Id: PreLoadComponentType = () => {
   return <div>params: {f.id}</div>;
 };
 
-export const getInitialState: GetInitialStateType = ({ match, config }) => {
-  console.log("当前id参数为:", match.params.id);
-  console.log("server side request", config?.req);
+export const getInitialState: GetInitialStateType = ({ query, params }) => {
+  console.log("当前id参数为:", params.id);
+  console.log("当前query为", query);
 };
 
 export default Id;

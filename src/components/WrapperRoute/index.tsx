@@ -1,21 +1,20 @@
 import { createContext, useContext } from "react";
 
 import { usePreLoad } from "hooks/usePreLoad";
-import { hydrateLoad, preLoad } from "utils/preLoad";
+import { preLoad } from "utils/preLoad";
 
-import type { useLocation } from "react-router";
 import type { WrapperRouteType } from "types/components";
 
-export const LoadedLocationContext = createContext<ReturnType<typeof useLocation> | Record<string, never>>({});
+export const LoadedLocationContext = createContext<ReturnType<typeof usePreLoad>["loaded"] | null>(null);
 
 export const WrapperRoute: WrapperRouteType = ({ children, routes, LoadingBar }) => {
-  const { location } = usePreLoad({ routes, preLoad, hydrate: hydrateLoad });
+  const { loaded } = usePreLoad({ routes, preLoad });
 
   // for pure client render
-  if (!location) return null;
+  if (!loaded) return null;
 
   return (
-    <LoadedLocationContext.Provider value={location}>
+    <LoadedLocationContext.Provider value={loaded}>
       <LoadingBar />
       {children}
     </LoadedLocationContext.Provider>

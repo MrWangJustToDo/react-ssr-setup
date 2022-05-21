@@ -1,24 +1,25 @@
 import type { Params } from "react-router";
 import type { PreLoadRouteConfig } from "types/router";
-import type { ExpressRequest } from "types/server";
 import type { SagaStore } from "types/store";
+import type { RedirectType } from "utils/preLoad";
 
 export interface GetInitialStateProps {
   store: SagaStore;
-  match: { params: Params<string>; pathname: string };
-  config?: { req: ExpressRequest };
+  pathName: string;
+  params: Params<string>;
+  query: URLSearchParams;
 }
 
 export interface GetInitialStateType {
   (props: GetInitialStateProps):
     | Promise<{
-        redirect?: string | { code: number; redirect: string };
+        redirect?: RedirectType;
         error?: string;
         cookies?: { [key: string]: string };
         props?: any; // support auto inject props when data loaded
       } | void>
     | {
-        redirect?: string | { code: number; redirect: string };
+        redirect?: RedirectType;
         error?: string;
         cookies?: { [key: string]: string };
         props?: any; // support auto inject props when data loaded

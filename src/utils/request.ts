@@ -3,7 +3,7 @@ import axios from "axios";
 import { delay } from "./delay";
 import { log } from "./log";
 
-import type { AxiosRequestConfig } from "axios";
+import type { AxiosRequestConfig, Method } from "axios";
 import type { PendingType, RemovePendingType } from "types/utils";
 
 const pending: Array<PendingType> = [];
@@ -45,7 +45,7 @@ instance.interceptors.request.use(
     if (__CLIENT__) {
       removePending(request, true);
       request.cancelToken = new CancelToken((c) => {
-        pending.push({ url: request.url, method: request.method, params: request.params, data: request.data, cancel: c });
+        pending.push({ url: request.url, method: request.method as Method, params: request.params, data: request.data, cancel: c });
       });
     }
     return request;

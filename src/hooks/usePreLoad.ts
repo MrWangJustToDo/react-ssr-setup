@@ -1,20 +1,26 @@
 import cookie from "js-cookie";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 
 import { log } from "utils/log";
+import { generateInitialPropsKey } from "utils/preLoad";
 
 import { useChangeLoadingWithoutRedux } from "./useLoadingBar";
 
+import type { Params } from "react-router";
 import type { UsePreLoadType } from "types/hooks";
+import type { StoreState } from "types/store";
 
 /* WrapperRoute */
-const usePreLoad: UsePreLoadType = ({ routes, preLoad, hydrate }) => {
+const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   const isRedirect = useRef<string | undefined>();
-  const store = useStore();
+  const store = useStore<StoreState>();
   const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
+  const [query] = useSearchParams();
   const { start, end } = useChangeLoadingWithoutRedux();
   // for pure client render, need preload data
   const firstLoad = useRef(__CSR__ ? false : true);
@@ -24,29 +30,22 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, hydrate }) => {
   const timer2 = useRef<NodeJS.Timeout | null>(null);
   const storeRef = useRef(store);
   // for pure client render, there are not exist loaded location
-  const [loadedLocation, setLoadedLocation] = useState(__CSR__ ? undefined : location);
+  const [loadedLocation, setLoadedLocation] = useState(__CSR__ ? undefined : { location, params, query });
 
-  loadingPath.current = location.pathname;
+  loadingPath.current = generateInitialPropsKey(location.pathname, query);
 
-  loadedPath.current = loadedLocation?.pathname;
+  loadedPath.current = loadedLocation ? generateInitialPropsKey(loadedLocation.location.pathname, loadedLocation.query) : "";
 
   storeRef.current = store;
-
-  useMemo(() => {
-    if (loadedLocation?.pathname) {
-      hydrate(routes, loadedLocation.pathname);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     // skip first load if need
     if (!firstLoad.current) {
-      const isRedirectCurrentPath = isRedirect.current && isRedirect.current === location.pathname;
+      const isRedirectCurrentPath = isRedirect.current && isRedirect.current === generateInitialPropsKey(location.pathname, query);
       if (!isRedirectCurrentPath) {
         end();
       }
-      if (loadedPath.current !== location.pathname) {
+      if (loadedPath.current !== generateInitialPropsKey(location.pathname, query)) {
         if (!isRedirectCurrentPath) {
           timer1.current && clearTimeout(timer1.current) && (timer1.current = null);
           timer2.current && clearTimeout(timer2.current) && (timer2.current = null);
@@ -56,11 +55,16 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, hydrate }) => {
         }
 
         // 分离每次load逻辑  避免跳转错乱
-        const currentLoad = (location: ReturnType<typeof useLocation>): void => {
-          preLoad(routes, location.pathname, storeRef.current).then((config) => {
-            if (location.pathname === loadingPath.current) {
-              const { redirect, error, cookies } = config;
-              isRedirect.current = typeof redirect === "object" ? redirect.redirect : redirect;
+        const currentLoad = (location: ReturnType<typeof useLocation>, params: Params<string>, query: URLSearchParams): void => {
+          preLoad(routes, location.pathname, query, storeRef.current).then((config) => {
+            const currentLoadKey = generateInitialPropsKey(location.pathname, query);
+            if (currentLoadKey === loadingPath.current) {
+              const { redirect, error, cookies } = config || {};
+              if (redirect) {
+                isRedirect.current = generateInitialPropsKey(redirect.location.pathName, redirect.location.query);
+              } else {
+                isRedirect.current = "";
+              }
               if (cookies) {
                 Object.keys(cookies).forEach((key) => cookie.set(key, cookies[key]));
               }
@@ -68,13 +72,13 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, hydrate }) => {
                 log(`error ${error.toString()}`, "error");
                 end();
               } else if (redirect) {
-                navigate(typeof redirect === "object" ? redirect.redirect : redirect);
+                navigate(isRedirect.current);
               } else {
                 timer2.current = setTimeout(() => {
                   timer1.current && clearTimeout(timer1.current) && (timer1.current = null);
-                  if (loadingPath.current === location.pathname) {
+                  if (loadingPath.current === currentLoadKey) {
                     end();
-                    setLoadedLocation(location);
+                    setLoadedLocation({ location, params, query });
                   }
                 }, 50);
               }
@@ -82,14 +86,14 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad, hydrate }) => {
           });
         };
 
-        currentLoad(location);
+        currentLoad(location, params, query);
       }
     } else {
       firstLoad.current = false;
     }
-  }, [location, preLoad, routes, navigate, end, start]);
+  }, [location, preLoad, routes, navigate, end, start, params, query]);
 
-  return { location: loadedLocation };
+  return { loaded: loadedLocation };
 };
 
 export { usePreLoad };

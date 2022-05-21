@@ -11,7 +11,7 @@ import { globalEnv, initLang, initStore, loadCookie, loadLang, loadStore } from 
 import type { AnyAction } from "./compose";
 
 // 客户端渲染
-const targetRender: AnyAction = async ({ res, store, lang, env, serverSideProps = {} }) => {
+const targetRender: AnyAction = async ({ res, store, lang, env }) => {
   if (!store || !lang || !env) {
     throw new ServerError("server 初始化失败", 500);
   }
@@ -28,7 +28,6 @@ const targetRender: AnyAction = async ({ res, store, lang, env, serverSideProps 
           lang={JSON.stringify(lang)}
           script={scriptElements}
           link={linkElements.concat(styleElements)}
-          serverSideProps={JSON.stringify(serverSideProps)}
           reduxInitialState={JSON.stringify(store.getState())}
         />
       )

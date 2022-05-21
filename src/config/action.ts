@@ -1,8 +1,8 @@
 enum actionName {
+  globalInitialProps = "globalInitialProps",
   currentToken = "currentToken",
   currentLang = "currentLang",
   currentLoading = "currentLoading",
-  currentInitialState = "currentInitialState",
 }
 
 export { actionName };

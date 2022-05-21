@@ -8,12 +8,12 @@ import { getIsAnimateRouter } from "utils/env";
 import { useLoadedLocation } from "./WrapperRoute";
 
 export const RenderMatch = () => {
-  const location = useLoadedLocation();
-  const all = useRoutes(allRoutes, location);
+  const loaded = useLoadedLocation();
+  const all = useRoutes(allRoutes, loaded?.location);
 
   return getIsAnimateRouter() ? (
     <AnimatePresence exitBeforeEnter>
-      <React.Fragment key={location.pathname}>
+      <React.Fragment key={loaded?.location.pathname}>
         <motion.div
           initial="initial"
           animate="in"

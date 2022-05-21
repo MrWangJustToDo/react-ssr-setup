@@ -6,21 +6,21 @@ import { globalEnv, initLang, initStore, loadCookie, loadLang, loadStore } from 
 
 import type { AnyAction } from "../compose";
 
-const targetRender: AnyAction = async ({ req, res, store, lang, env, serverSideProps = {} }) => {
+const targetRender: AnyAction = async ({ req, res, store, lang, env }) => {
   if (!store || !lang || !env) {
     throw new ServerError("初始化失败", 500);
   } else {
     if (__UI__ === "antd") {
       const { targetRender } = require("./renderAntDesign");
-      return targetRender({ req, res, store, lang, env, serverSideProps });
+      return targetRender({ req, res, store, lang, env });
     }
     if (__UI__ === "material") {
       const { targetRender } = require("./renderMaterial");
-      return targetRender({ req, res, store, lang, env, serverSideProps });
+      return targetRender({ req, res, store, lang, env });
     }
     if (__UI__ === "chakra") {
       const { targetRender } = require("./renderChakra");
-      return targetRender({ req, res, store, lang, env, serverSideProps });
+      return targetRender({ req, res, store, lang, env });
     }
   }
 };
