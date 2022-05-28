@@ -47,8 +47,10 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
       }
       if (loadedPath.current !== generateInitialPropsKey(location.pathname, query)) {
         if (!isRedirectCurrentPath) {
-          timer1.current && clearTimeout(timer1.current) && (timer1.current = null);
-          timer2.current && clearTimeout(timer2.current) && (timer2.current = null);
+          timer1.current && clearTimeout(timer1.current);
+          timer1.current = null;
+          timer2.current && clearTimeout(timer2.current);
+          timer2.current = null;
           timer1.current = setTimeout(() => {
             start();
           }, 200);
@@ -75,7 +77,8 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
                 navigate(isRedirect.current);
               } else {
                 timer2.current = setTimeout(() => {
-                  timer1.current && clearTimeout(timer1.current) && (timer1.current = null);
+                  timer1.current && clearTimeout(timer1.current);
+                  timer1.current = null;
                   if (loadingPath.current === currentLoadKey) {
                     end();
                     setLoadedLocation({ location, params, query });

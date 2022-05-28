@@ -68,14 +68,12 @@ yarn run start
 
 ## animate router 路由切换动画
 
-## 尝试 file router 开发自动更新 存在其他问题。。。 (middleware 模式 下)
+## file router 开发自动更新 (middleware 模式 下)
 
 ## 全新版本 升级优化修复重构 ^\_^
 
 ## react router 6
 
-## 开箱既支持多种 UI 组件库(CSR / SSR) 通过环境变量 UI 切换（antd,material,chakra-ui,...)
-
 ## jest
 
-## TODO support swc-loader react18
+## TODO support swc-loader  new SSR from React18

@@ -8,7 +8,7 @@ const { optimizationConfig } = require("./optimization");
 
 /**
  *
- * @param {{entryPath: string, isDev: boolean, isSSR: boolean, isMiddleWareDevelop: boolean, isAnimationRouter: boolean, isCSR: boolean, currentUI: 'antd' | 'chakra' | 'material'}} param
+ * @param {{entryPath: string, isDev: boolean, isSSR: boolean, isMiddleWareDevelop: boolean, isAnimationRouter: boolean, isCSR: boolean, currentUI: 'chakra'}} param
  * @returns {import('webpack').Configuration}
  */
 const ClientConfig = ({ entryPath, isDev, isSSR, isMiddleWareDevelop, isAnimationRouter, isCSR, currentUI }) => {

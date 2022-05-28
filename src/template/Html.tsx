@@ -1,5 +1,6 @@
-import { theme } from "config/materialTheme";
+import { ColorModeScript } from "@chakra-ui/react";
 
+import type { StorageManager } from "@chakra-ui/react";
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
 import type { HelmetServerState } from "react-helmet-async";
 
@@ -7,26 +8,36 @@ type HTMLProps = {
   env?: string;
   lang?: string;
   children?: string;
+  cookieStorage?: StorageManager;
+  reduxInitialState?: string;
   link?: React.ReactElement[];
   script?: React.ReactElement[];
-  reduxInitialState?: string;
   emotionChunks?: EmotionCriticalToChunks;
   helmetContext?: { helmet?: HelmetServerState };
 };
 
 // NOTE this template only run on the server
 // like _document.js in the next.js
-export const HTML = ({ lang, children, link = [], script = [], reduxInitialState = "{}", helmetContext = {}, emotionChunks, env = "{}" }: HTMLProps) => {
+export const HTML = ({
+  lang,
+  children,
+  link = [],
+  script = [],
+  cookieStorage,
+  emotionChunks,
+  helmetContext = {},
+  reduxInitialState = "{}",
+  env = "{}",
+}: HTMLProps) => {
   const { helmet } = helmetContext;
 
   return (
     <html lang={lang || ""}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content={theme.palette.primary.main} />
+        <meta name="theme-color" content="red" />
         <meta name="build-time" content={__BUILD_TIME__} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         {/* a type issue for react-helmet-async  */}
         <>
           {helmet?.base.toComponent()}
@@ -41,6 +52,7 @@ export const HTML = ({ lang, children, link = [], script = [], reduxInitialState
         {emotionChunks?.styles.map((style) => (
           <style data-server data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
         ))}
+        <ColorModeScript initialColorMode={cookieStorage?.get()} />
         <script
           id="__autoInject__"
           dangerouslySetInnerHTML={{

@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 
 import { apiName } from "config/api";
@@ -12,7 +13,8 @@ const Great: PreLoadComponentType<{ blog: string[] }> = (props) => {
     <div>
       Great rt, {props?.blog?.join(", ")} props
       <br />
-      <button onClick={() => setSearch({ a: Math.random().toString() })}>click</button>
+      cool test
+      <Button onClick={() => setSearch({ a: Math.random().toString() })}>click</Button>
     </div>
   );
 };

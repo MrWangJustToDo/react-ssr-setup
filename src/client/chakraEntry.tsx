@@ -1,4 +1,4 @@
-import { ColorModeScript, ChakraProvider, cookieStorageManager } from "@chakra-ui/react";
+import { ChakraProvider, createCookieStorageManager } from "@chakra-ui/react";
 import { CacheProvider } from "@emotion/react";
 import { StrictMode } from "react";
 import { HelmetProvider } from "react-helmet-async";
@@ -16,7 +16,7 @@ const cache = createEmotionCache();
 const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => {
   console.warn("you are using chakra UI component library!");
 
-  const cookieStore = cookieStorageManager(store.getState().server.cookie.data);
+  const cookieStore = createCookieStorageManager("chakra-ui-color-mode", store.getState().server.cookie.data);
 
   return (
     <StrictMode>
@@ -25,7 +25,6 @@ const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => 
           <Provider store={store}>
             <Router>
               <HelmetProvider>
-                <ColorModeScript initialColorMode={cookieStore.get(theme.config.initialColorMode)} />
                 <App />
               </HelmetProvider>
             </Router>

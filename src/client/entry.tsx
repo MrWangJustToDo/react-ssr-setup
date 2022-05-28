@@ -6,6 +6,8 @@ import { createUniversalStore } from "store";
 import { log } from "utils/log";
 import { safeData } from "utils/safeData";
 
+import { Root } from "./chakraEntry";
+
 import type { StoreState } from "types/store";
 
 const place = document.querySelector("#__content__") as HTMLDivElement;
@@ -27,22 +29,6 @@ safeData(window as unknown as Record<string, unknown>, "__ENV__");
 safeData(window.__PRELOAD_STORE_STATE__);
 
 safeData(window as unknown as Record<string, unknown>, "__PRELOAD_STORE_STATE__");
-
-let Root = ({ store: _store }: { store: ReturnType<typeof createUniversalStore> }) => <></>;
-
-// multiple UI component
-if (__UI__ === "antd") {
-  const { Root: originalRoot } = require("./antDesignEntry");
-  Root = originalRoot;
-}
-if (__UI__ === "chakra") {
-  const { Root: originalRoot } = require("./chakraEntry");
-  Root = originalRoot;
-}
-if (__UI__ === "material") {
-  const { Root: originalRoot } = require("./materialEntry");
-  Root = originalRoot;
-}
 
 if (__CSR__) {
   log("pure render by client", "warn");

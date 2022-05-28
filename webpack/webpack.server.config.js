@@ -7,7 +7,7 @@ const { BaseConfig } = require("./webpack.base.config");
 
 /**
  *
- * @param {{entryPath: string, isDev: boolean, isSSR: boolean, isMiddleWareDevelop: boolean, isAnimationRouter: boolean, isCSR: boolean, currentUI: 'antd' | 'chakra' | 'material'}} param
+ * @param {{entryPath: string, isDev: boolean, isSSR: boolean, isMiddleWareDevelop: boolean, isAnimationRouter: boolean, isCSR: boolean, currentUI: 'chakra'}} param
  * @returns {import('webpack').Configuration}
  */
 const ServerConfig = ({ entryPath, isDev, isSSR, isMiddleWareDevelop, isAnimationRouter, isCSR, currentUI }) => {

@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 
 import { allRoutes } from "router/routes";
@@ -12,14 +13,14 @@ export const Footer = () => {
         {(allRoutes[0].children || [])
           .filter((it) => it.path)
           .map((item) => (
-            <button
+            <Button
               key={item.path}
               onClick={() => {
                 item.path && navigate(item.path);
               }}
             >
               {item.path}
-            </button>
+            </Button>
           ))}
       </div>
       <footer className={style.footer}>footer</footer>
