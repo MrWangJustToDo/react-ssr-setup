@@ -85,22 +85,18 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
   }
   // for Component
   if (route.Component) {
-    const WrapperComponent = route.Component;
-    if (typeof WrapperComponent.load === "function") {
-      const loadAbleComponent: PreLoadComponentType & { readonly default?: PreLoadComponentType } = await WrapperComponent.load();
-      if (loadAbleComponent.getInitialState && typeof loadAbleComponent.getInitialState === "function") {
-        getInitialStateArray.push(loadAbleComponent.getInitialState);
+    if (typeof route.Component.load === "function") {
+      const loadableComponent: PreLoadComponentType & { readonly default?: PreLoadComponentType } = await route.Component.load();
+      if (loadableComponent.getInitialState) {
+        getInitialStateArray.push(loadableComponent.getInitialState);
       }
-      if (typeof loadAbleComponent.default !== "undefined") {
-        const c = loadAbleComponent.default;
-        if (c.getInitialState && typeof c.getInitialState === "function") {
-          getInitialStateArray.push(c.getInitialState);
-        }
+      if (loadableComponent.default && loadableComponent.default.getInitialState) {
+        getInitialStateArray.push(loadableComponent.default.getInitialState);
       }
     } else {
-      const preLoadComponent = WrapperComponent as PreLoadComponentType;
-      if (preLoadComponent.getInitialState && typeof preLoadComponent.getInitialState === "function") {
-        getInitialStateArray.push(preLoadComponent.getInitialState);
+      const loadableComponent = route.Component as PreLoadComponentType;
+      if (loadableComponent.getInitialState) {
+        getInitialStateArray.push(loadableComponent.getInitialState);
       }
     }
   }
@@ -122,7 +118,7 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
         redirect?: RedirectType;
         error?: string;
         cookies?: { [key: string]: string };
-        props?: any;
+        props?: Record<string, unknown>;
       }>((s, c) => {
         if (!c) {
           return s;
@@ -185,7 +181,7 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
   return Wrapper;
 }
 
-function AutoInjectInitialProps(Component: LoadableComponent<any>) {
+function AutoInjectInitialProps(Component: LoadableComponent<unknown>) {
   const memoComponent = memo(Component);
   const RouterComponentWithProps = () => {
     const props = useGetInitialProps();

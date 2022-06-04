@@ -1,10 +1,10 @@
-import type React from "react";
+import type { LoadableComponent } from "@loadable/component";
 import type { RouteObject } from "react-router";
-import type { GetInitialStateType } from "types/components";
+import type { GetInitialStateType, PreLoadComponentType } from "types/components";
 
 export interface PreLoadRouteConfig extends RouteObject {
   children?: PreLoadRouteConfig[];
-  Component: React.ReactElement | React.ReactComponentElement;
+  Component: LoadableComponent | PreLoadComponentType;
   getInitialState?: GetInitialStateType;
 }
 
