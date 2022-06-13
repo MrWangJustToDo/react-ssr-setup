@@ -9,7 +9,6 @@ function isWebpack(caller) {
 module.exports = (api) => {
   const web = api.caller(isWebTarget);
   const webpack = api.caller(isWebpack);
-  
 
   api.cache.using(() => process.env.NODE_ENV === "production");
 
@@ -39,7 +38,6 @@ module.exports = (api) => {
   // plugins.push("@babel/plugin-syntax-dynamic-import");
   plugins.push("@babel/plugin-transform-runtime");
   plugins.push("@babel/plugin-proposal-export-default-from");
-  plugins.push("@loadable/babel-plugin");
 
   return {
     presets,

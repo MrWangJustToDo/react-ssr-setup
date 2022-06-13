@@ -10,8 +10,8 @@ type HTMLProps = {
   children?: string;
   cookieStorage?: StorageManager;
   reduxInitialState?: string;
-  link?: React.ReactElement[];
-  script?: React.ReactElement[];
+  link?: JSX.Element[];
+  script?: JSX.Element[];
   emotionChunks?: EmotionCriticalToChunks;
   helmetContext?: { helmet?: HelmetServerState };
 };

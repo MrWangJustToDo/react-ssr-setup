@@ -38,26 +38,34 @@ const optimizationConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
       usedExports: true,
       runtimeChunk: "single",
       splitChunks: {
-        chunks: "all",
-        minSize: 20000,
-        maxSize: 20000,
-        minChunks: 3,
+        minChunks: 2,
+        minSize: 30000,
+
         cacheGroups: {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
-            filename: "[name]_vendors.js",
-            reuseExistingChunk: true,
-            priority: -10,
-          },
-          default: {
-            minChunks: 3,
-            filename: "common_[id].js",
-            priority: -20,
+            enforce: true,
+            chunks: "all",
+            name(module) {
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+              switch (packageName) {
+                case "react":
+                case "react-dom":
+                case "scheduler":
+                case "object-assign":
+                  return "react";
+                case "chakra":
+                  return "ui";
+                default:
+                  return "vendor";
+              }
+            },
           },
         },
       },
       runtimeChunk: {
-        name: (entrypoint) => `runtime-${entrypoint.name}`,
+        name: "runtime",
       },
     };
   } else {
