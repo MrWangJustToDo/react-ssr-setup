@@ -5,38 +5,49 @@ const optimizationConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
   if (env === "client") {
     if (!isDev) {
       return {
-        runtimeChunk: "single",
         minimizer: ["...", new CssMinimizerPlugin()],
+        moduleIds: "deterministic",
         splitChunks: {
+          minChunks: 2,
+          minSize: 30000,
+
           cacheGroups: {
-            commons: {
+            vendor: {
               test: /[\\/]node_modules[\\/]/,
-              name: "vendor",
+              enforce: true,
               chunks: "all",
+              name(module) {
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+                switch (packageName) {
+                  case "react":
+                  case "react-dom":
+                  case "react-router":
+                  case "react-router-dom":
+                  case "scheduler":
+                  case "object-assign":
+                    return "vendor-react";
+                  case "@chakra-ui":
+                    return "vendor-ui";
+                  case "core-js":
+                  case "core-js-pure":
+                    return "vendor-core-js";
+                  case "lodash":
+                  case "lodash-es":
+                    return "vendor-lodash";
+                  default:
+                    return "vendor";
+                }
+              },
             },
           },
         },
-      };
-    }
-    if (isMiddleWareDevelop) {
-      return {
-        runtimeChunk: "single",
-        splitChunks: {
-          minChunks: 3,
-          cacheGroups: {
-            commons: {
-              test: /[\\/]node_modules[\\/]/,
-              name: "vendor",
-              chunks: "all",
-            },
-          },
+        runtimeChunk: {
+          name: "runtime",
         },
       };
     }
-    // 开发模式下   为了使动态路由及时生效不出错， 不能使用这个配置
     return {
-      usedExports: true,
-      runtimeChunk: "single",
       splitChunks: {
         minChunks: 2,
         minSize: 30000,
@@ -52,11 +63,19 @@ const optimizationConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
               switch (packageName) {
                 case "react":
                 case "react-dom":
+                case "react-router":
+                case "react-router-dom":
                 case "scheduler":
                 case "object-assign":
-                  return "react";
-                case "chakra":
-                  return "ui";
+                  return "vendor-react";
+                case "@chakra-ui":
+                  return "vendor-ui";
+                case "core-js":
+                case "core-js-pure":
+                  return "vendor-core-js";
+                case "lodash":
+                case "lodash-es":
+                  return "vendor-lodash";
                 default:
                   return "vendor";
               }
@@ -67,10 +86,6 @@ const optimizationConfig = ({ env, isDev = true, isMiddleWareDevelop }) => {
       runtimeChunk: {
         name: "runtime",
       },
-    };
-  } else {
-    return {
-      usedExports: true,
     };
   }
 };
