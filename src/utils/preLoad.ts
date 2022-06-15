@@ -9,8 +9,7 @@ import { getDataAction_Server } from "store/reducer/server/share/action";
 
 import { log } from "./log";
 
-import type { LoadableComponent } from "@loadable/component";
-import type { ComponentClass } from "react";
+import type { ComponentClass, LazyExoticComponent, ComponentType } from "react";
 import type { Params } from "react-router";
 import type { GetInitialStateProps, GetInitialStateType, PreLoadComponentType } from "types/components";
 import type { PreLoadRouteConfig } from "types/router";
@@ -83,21 +82,17 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
   if (route.getInitialState) {
     getInitialStateArray.push(route.getInitialState);
   }
+  // for preload
+  if (route.preLoad) {
+    const component = await route.preLoad();
+    if (component.getInitialState) getInitialStateArray.push(component.getInitialState);
+    if (component.default && component.default.getInitialState) getInitialStateArray.push(component.default.getInitialState);
+  }
   // for Component
-  if (route.Component) {
-    if (typeof route.Component.load === "function") {
-      const loadableComponent: PreLoadComponentType & { readonly default?: PreLoadComponentType } = await route.Component.load();
-      if (loadableComponent.getInitialState) {
-        getInitialStateArray.push(loadableComponent.getInitialState);
-      }
-      if (loadableComponent.default && loadableComponent.default.getInitialState) {
-        getInitialStateArray.push(loadableComponent.default.getInitialState);
-      }
-    } else {
-      const loadableComponent = route.Component as PreLoadComponentType;
-      if (loadableComponent.getInitialState) {
-        getInitialStateArray.push(loadableComponent.getInitialState);
-      }
+  if (route.element) {
+    if (typeof (route.element as unknown as PreLoadComponentType)?.getInitialState === "function") {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      getInitialStateArray.push((route.element as unknown as PreLoadComponentType).getInitialState!);
     }
   }
 
@@ -142,10 +137,6 @@ const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
     if (initialState) {
       const { props, ...resProps } = initialState;
       if (route.element && isValidElement(route.element)) {
-        // current can not support fast refresh, so use another way
-        // support autoInject props for component
-        // route.element = cloneElement(route.element, props);
-
         // current props is invalid
         if (resProps.error || resProps.redirect) return resProps;
         // normally this is only happen on the router page
@@ -181,7 +172,7 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
   return Wrapper;
 }
 
-function AutoInjectInitialProps(Component: LoadableComponent<unknown>) {
+function AutoInjectInitialProps(Component: LazyExoticComponent<ComponentType<Record<string, unknown>>>) {
   const memoComponent = memo(Component);
   const RouterComponentWithProps = () => {
     const props = useGetInitialProps();

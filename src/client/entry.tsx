@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { loadableReady } from "@loadable/component";
 import { createRoot, hydrateRoot } from "react-dom/client";
 
 import { createUniversalStore } from "store";
@@ -34,13 +33,13 @@ if (__CSR__) {
   log("pure render by client", "warn");
   const { preLoadLang } = require("utils/preLoad");
   const root = createRoot(place);
-  preLoadLang({ store, lang: window.__ENV__.LANG }).then(() => loadableReady(() => root.render(<Root store={store} />)));
+  preLoadLang({ store, lang: window.__ENV__.LANG }).then(() => root.render(<Root store={store} />));
 } else {
   if (!window.__ENV__.isSSR || (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE)) {
     log("not hydrate render on client", "warn");
     const root = createRoot(place);
-    loadableReady(() => root.render(<Root store={store} />));
+    root.render(<Root store={store} />);
   } else {
-    loadableReady(() => hydrateRoot(place, <Root store={store} />));
+    hydrateRoot(place, <Root store={store} />);
   }
 }

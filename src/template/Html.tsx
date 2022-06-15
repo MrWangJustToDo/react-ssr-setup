@@ -2,16 +2,18 @@ import { ColorModeScript } from "@chakra-ui/react";
 
 import type { StorageManager } from "@chakra-ui/react";
 import type { EmotionCriticalToChunks } from "@emotion/server/types/create-instance";
+import type { ReactElement, ReactNode } from "react";
 import type { HelmetServerState } from "react-helmet-async";
 
 type HTMLProps = {
   env?: string;
   lang?: string;
-  children?: string;
+  children?: ReactNode;
   cookieStorage?: StorageManager;
   reduxInitialState?: string;
-  link?: JSX.Element[];
-  script?: JSX.Element[];
+  preLoad?: ReactElement[];
+  link?: ReactElement[];
+  script?: ReactElement[];
   emotionChunks?: EmotionCriticalToChunks;
   helmetContext?: { helmet?: HelmetServerState };
 };
@@ -23,6 +25,7 @@ export const HTML = ({
   children,
   link = [],
   script = [],
+  preLoad = [],
   cookieStorage,
   emotionChunks,
   helmetContext = {},
@@ -48,6 +51,7 @@ export const HTML = ({
           {helmet?.style.toComponent()}
           {helmet?.script.toComponent()}
         </>
+        {preLoad.filter(Boolean).map((ele) => ele)}
         {link.filter(Boolean).map((ele) => ele)}
         {emotionChunks?.styles.map((style) => (
           <style data-server data-emotion={`${style.key} ${style.ids.join(" ")}`} key={style.key} dangerouslySetInnerHTML={{ __html: style.css }} />
@@ -63,7 +67,7 @@ export const HTML = ({
         <script id="__preload_state__" type="application/json" dangerouslySetInnerHTML={{ __html: `${reduxInitialState}` }} />
       </head>
       <body>
-        <div id="__content__" dangerouslySetInnerHTML={{ __html: children || "" }} />
+        <div id="__content__">{children}</div>
         {script.filter(Boolean).map((ele) => ele)}
       </body>
     </html>
