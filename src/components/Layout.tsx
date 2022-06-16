@@ -13,9 +13,7 @@ export const Layout: PreLoadComponentType = () => {
     <div className={style.container}>
       <Header />
       <main className={style.content}>
-        <Suspense>
-          <Outlet />
-        </Suspense>
+        <Outlet />
         <hr />
       </main>
       <Suspense>

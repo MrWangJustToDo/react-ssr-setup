@@ -6,7 +6,11 @@ const outputPath = (env: "server" | "client"): string => (__DEVELOPMENT__ ? path
 
 const manifestFile = (): string => (__DEVELOPMENT__ ? "manifest-dev.json" : "manifest-prod.json");
 
+const manifestDeps = "manifest-deps.json";
+
 const manifestStateFile = (env: "server" | "client"): string => path.resolve(outputPath(env), manifestFile());
+
+const manifestDepsFile = (env: "server" | "client"): string => path.resolve(outputPath(env), manifestDeps);
 
 const getAllStateFileContent = async (path: string) => await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
 
@@ -16,25 +20,33 @@ const generateScriptElements = (paths: string[]) => paths.map((s, i) => createEl
 
 const generatePreloadScriptElements = (paths: string[]) => paths.map((s, i) => createElement("link", { key: i, rel: "preload", as: "script", href: s }));
 
-const mainStylesPath = (content: Record<string, any>) =>
+const baseStylesPath = (content: Record<string, any>, judge: (f: string) => boolean) =>
   Object.keys(content)
-    .filter((file) => file.endsWith(".css"))
-    .filter((file) => file.startsWith("main") || file.startsWith("vendor"))
+    .filter((file) => content[file].endsWith(".css"))
+    .filter(judge)
     .map((key) => content[key]);
 
-const runtimeScriptsPath = (content: Record<string, any>) =>
+const baseScriptsPath = (content: Record<string, any>, judge: (f: string) => boolean) =>
   Object.keys(content)
-    .filter((file) => file.endsWith(".js"))
-    .filter((file) => file.startsWith("runtime"))
+    .filter((file) => content[file].endsWith(".js"))
+    .filter(judge)
     .map((key) => content[key]);
 
-const mainScriptsPath = (content: Record<string, any>) =>
-  Object.keys(content)
-    .filter((file) => file.endsWith(".js"))
-    .filter((file) => file.startsWith("main") || file.startsWith("vendor"))
-    .map((key) => content[key]);
+const mainStylesPath = (content: Record<string, any>) => baseStylesPath(content, (file) => file.startsWith("main") || file.startsWith("vendor"));
 
-// const dynamicPageScriptsPath = (content: Record<string, any>, pageName) => Object.keys(content).filter((file) => file.endsWith('.js')).filter(file => file === pageName)
+const mainScriptsPath = (content: Record<string, any>) => baseScriptsPath(content, (f) => f.startsWith("main") || f.startsWith("vendor"));
+
+const runtimeScriptsPath = (content: Record<string, any>) => baseScriptsPath(content, (f) => f.startsWith("runtime"));
+
+const getDynamicPagePath = (content: Record<string, any>, page: string[]) =>
+  Object.keys(content)
+    .filter((key) => page.some((p) => p === key || p === key.slice(1)))
+    .map((key) => content[key])
+    .reduce((p, c) => p.concat(c), []);
+
+const dynamicPageScriptsPath = (content: Record<string, any>, pageName: string[]) => baseScriptsPath(content, (f) => pageName.includes(f));
+
+const dynamicPageStylesPath = (content: Record<string, any>, pageName: string[]) => baseStylesPath(content, (f) => pageName.includes(f));
 
 export {
   manifestStateFile,
@@ -45,4 +57,8 @@ export {
   mainScriptsPath,
   mainStylesPath,
   runtimeScriptsPath,
+  manifestDepsFile,
+  getDynamicPagePath,
+  dynamicPageScriptsPath,
+  dynamicPageStylesPath,
 };

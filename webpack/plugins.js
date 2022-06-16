@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 输出所有资源路径
 const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
+const { PageDependenciesManagerPlugin } = require("./plugin/pageDeps");
 // 抽离css文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 快速刷新
@@ -16,7 +17,11 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = false, isAnimationRouter = false, isCSR = false, currentUI }) => {
   return [
     new CleanWebpackPlugin(),
-    env === "client" && new WebpackManifestPlugin({ fileName: isDev ? "manifest-dev.json" : "manifest-prod.json" }),
+    env === "client" &&
+      new WebpackManifestPlugin({
+        fileName: isDev ? "manifest-dev.json" : "manifest-prod.json",
+      }),
+    env === "client" && new PageDependenciesManagerPlugin(),
     new webpack.DefinePlugin({
       __SSR__: isSSR,
       __CSR__: isCSR, // pure client render

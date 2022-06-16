@@ -16,12 +16,12 @@ const renderError: RenderErrorType = ({ res, code, e }) =>
           <hr />
           <div style={{ fontSize: "18px", color: "red" }}>
             error code:
-            <b>${code}</b>
+            <b> {code}</b>
             <br />
             <br />
             <pre style={{ fontSize: "18px", color: "red" }}>{e.stack}</pre>
           </div>
-          <script dangerouslySetInnerHTML={{ __html: `console.error(${pre.render(e, true, false)})` }} />
+          <script dangerouslySetInnerHTML={{ __html: `console.error(\`${pre.render(e, true, false)}\`)` }} />
         </HTML>
       )
   );

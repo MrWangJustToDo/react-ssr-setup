@@ -22,16 +22,19 @@ function preLoad(
   pathname: string,
   query: URLSearchParams,
   store: SagaStore
-): Promise<void | {
-  redirect?: RedirectType;
+): Promise<{
+  // used to preload script by page initial
+  page?: string[];
   error?: string;
+  redirect?: RedirectType;
   cookies?: { [props: string]: string };
 }> {
   const branch = matchRoutes(routes, pathname) || [];
 
   const promises: Promise<{
-    redirect?: RedirectType;
     error?: string;
+    page?: string[];
+    redirect?: RedirectType;
     cookies?: { [key: string]: string };
   } | void>[] = [];
 
@@ -43,12 +46,16 @@ function preLoad(
   return Promise.all(promises).then((val) => {
     if (val.length) {
       const allInitialProps = val.filter(Boolean).reduce<{
-        redirect?: RedirectType;
         error?: string;
+        page?: string[];
+        redirect?: RedirectType;
         cookies?: { [key: string]: string };
       }>((s, c) => {
         if (!c) {
           return s;
+        }
+        if (c.page) {
+          s.page = (s.page || []).concat(c.page);
         }
         s.cookies = { ...s.cookies, ...c.cookies };
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
@@ -71,8 +78,9 @@ type PreLoadProps = {
 };
 
 type PreLoadType = (props: PreLoadProps) => Promise<{
-  redirect?: RedirectType;
   error?: string;
+  page?: string[];
+  redirect?: RedirectType;
   cookie?: { [key: string]: string };
 } | void>;
 
@@ -134,21 +142,22 @@ const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
   const getInitialState = await resolveGetInitialStateFunction({ route });
   if (getInitialState) {
     const initialState = await getInitialState({ store, pathName: match.pathname, params: match.params, query });
-    if (initialState) {
-      const { props, ...resProps } = initialState;
-      if (route.element && isValidElement(route.element)) {
-        // current props is invalid
-        if (resProps.error || resProps.redirect) return resProps;
-        // normally this is only happen on the router page
-        // support fast refresh
-        const serverSideProps = {
-          [generateInitialPropsKey(match.pathname, query)]: props,
-        };
-        store.dispatch(setDataSuccess_client({ name: actionName.globalInitialProps, data: serverSideProps }));
-        return resProps;
-      }
+    const { props, ...resProps } = initialState || {};
+    if (route.element && props && isValidElement(route.element) && !resProps.error && !resProps.redirect) {
+      // normally this is only happen on the router page
+      // support fast refresh
+      const serverSideProps = {
+        [generateInitialPropsKey(match.pathname, query)]: props,
+      };
+      store.dispatch(setDataSuccess_client({ name: actionName.globalInitialProps, data: serverSideProps }));
+    }
+    if (route.path) {
+      return { ...resProps, page: [route.path] };
+    } else {
       return resProps;
     }
+  } else if (route.path) {
+    return { page: [route.path] };
   }
 };
 

@@ -13,7 +13,10 @@ class DynamicRouter {
   getRouterConfig = (prePath, dirName) => {
     return new Promise((resolve) => {
       const routes = [];
+      let indexPath = 0;
       let dynamicPath = 0;
+      let fallbackPath = 0;
+      const chunkPrePath = prePath.replaceAll("/", "-");
       fs.promises
         .readdir(dirName, { withFileTypes: true })
         .then((files) =>
@@ -29,11 +32,30 @@ class DynamicRouter {
                     dynamicPath++;
                     const [, params] = Array.from(dynamicPathReg.exec(fileName));
                     config.path = `${prePath}:${params}`;
+                    config.chunkName = `${chunkPrePath}-dynamic_${params}`.toLowerCase();
                   } else {
                     throw new Error(`file router dynamicPath duplicate`);
                   }
+                } else if (fileName.toLowerCase() === "index") {
+                  // 默认路由, 同一级只应该有一个
+                  if (indexPath === 0) {
+                    indexPath++;
+                    config.path = `${prePath}`;
+                    config.chunkName = `${chunkPrePath}-index`.toLowerCase();
+                  } else {
+                    throw new Error("file router default path duplicate");
+                  }
+                } else if (fileName === "404") {
+                  if (prePath === "/") {
+                    fallbackPath++;
+                    config.path = `${prePath}*`;
+                    config.chunkName = `${chunkPrePath}-${fileName}`.toLowerCase();
+                  } else {
+                    throw new Error(`can not add 404 page on the ${prePath}`);
+                  }
                 } else {
                   config.path = `${prePath}${fileName}`;
+                  config.chunkName = `${chunkPrePath}-${fileName}`.toLowerCase();
                 }
                 config.componentPath = `${prePath.slice(1)}${fileName}`;
                 // 文件名字重复
@@ -53,6 +75,12 @@ class DynamicRouter {
           if (dynamicPath === 1) {
             // 如果存在动态路由  进行排序放在当前层级最后面
             routes.sort((_, t) => (/^\[(.*)\]$/.test(t.path) ? -1 : 0));
+          }
+          if (indexPath === 1) {
+            routes.sort((_, t) => (t.path.endsWith("/") ? 1 : 0));
+          }
+          if (fallbackPath === 1) {
+            routes.sort((_, b) => (b.path === "/*" ? -1 : 0));
           }
         })
         .then(() => resolve(routes))
