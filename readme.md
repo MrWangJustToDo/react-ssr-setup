@@ -40,8 +40,6 @@ yarn run start
 
 ## 双端代码复用
 
-## loadable
-
 ## 代码分割
 
 ## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, cookies, props: {auto inject data}} more usage for getInitialState
@@ -58,8 +56,6 @@ yarn run start
 
 ## 装饰器
 
-## multiple UI (Material-UI, antd, chakra-ui)
-
 ## 数据自动注入 getInitialState: () => ({props: xxx}) see pages/Great.tsx
 
 ## middleware develop 适合手机等远程调试
@@ -75,3 +71,7 @@ yarn run start
 ## react router 6
 
 ## jest
+
+## swc
+
+## new ssr for react-18
