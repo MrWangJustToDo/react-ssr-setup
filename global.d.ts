@@ -36,7 +36,8 @@ declare global {
       PROD_PORT: string;
       SSR: string;
       UI: "antd" | "material" | "chakra";
-      PUBLIC_API_HOST: string;
+      PUBLIC_DEV_API_HOST: string;
+      PUBLIC_PROD_API_HOST: string;
       CRYPTO_KEY: string;
       SERVER_ENTRY: string;
       CLIENT_ENTRY: string;

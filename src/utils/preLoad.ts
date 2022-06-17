@@ -9,8 +9,7 @@ import { getDataAction_Server } from "store/reducer/server/share/action";
 
 import { log } from "./log";
 
-import type { LoadableComponent } from "@loadable/component";
-import type { ComponentClass } from "react";
+import type { ComponentClass, LazyExoticComponent, ComponentType } from "react";
 import type { Params } from "react-router";
 import type { GetInitialStateProps, GetInitialStateType, PreLoadComponentType } from "types/components";
 import type { PreLoadRouteConfig } from "types/router";
@@ -23,16 +22,19 @@ function preLoad(
   pathname: string,
   query: URLSearchParams,
   store: SagaStore
-): Promise<void | {
-  redirect?: RedirectType;
+): Promise<{
+  // used to preload script by page initial
+  page?: string[];
   error?: string;
+  redirect?: RedirectType;
   cookies?: { [props: string]: string };
 }> {
   const branch = matchRoutes(routes, pathname) || [];
 
   const promises: Promise<{
-    redirect?: RedirectType;
     error?: string;
+    page?: string[];
+    redirect?: RedirectType;
     cookies?: { [key: string]: string };
   } | void>[] = [];
 
@@ -44,12 +46,16 @@ function preLoad(
   return Promise.all(promises).then((val) => {
     if (val.length) {
       const allInitialProps = val.filter(Boolean).reduce<{
-        redirect?: RedirectType;
         error?: string;
+        page?: string[];
+        redirect?: RedirectType;
         cookies?: { [key: string]: string };
       }>((s, c) => {
         if (!c) {
           return s;
+        }
+        if (c.page) {
+          s.page = (s.page || []).concat(c.page);
         }
         s.cookies = { ...s.cookies, ...c.cookies };
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
@@ -72,8 +78,9 @@ type PreLoadProps = {
 };
 
 type PreLoadType = (props: PreLoadProps) => Promise<{
-  redirect?: RedirectType;
   error?: string;
+  page?: string[];
+  redirect?: RedirectType;
   cookie?: { [key: string]: string };
 } | void>;
 
@@ -83,25 +90,17 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
   if (route.getInitialState) {
     getInitialStateArray.push(route.getInitialState);
   }
+  // for preload
+  if (route.preLoad) {
+    const component = await route.preLoad();
+    if (component.getInitialState) getInitialStateArray.push(component.getInitialState);
+    if (component.default && component.default.getInitialState) getInitialStateArray.push(component.default.getInitialState);
+  }
   // for Component
-  if (route.Component) {
-    const WrapperComponent = route.Component;
-    if (typeof WrapperComponent.load === "function") {
-      const loadAbleComponent: PreLoadComponentType & { readonly default?: PreLoadComponentType } = await WrapperComponent.load();
-      if (loadAbleComponent.getInitialState && typeof loadAbleComponent.getInitialState === "function") {
-        getInitialStateArray.push(loadAbleComponent.getInitialState);
-      }
-      if (typeof loadAbleComponent.default !== "undefined") {
-        const c = loadAbleComponent.default;
-        if (c.getInitialState && typeof c.getInitialState === "function") {
-          getInitialStateArray.push(c.getInitialState);
-        }
-      }
-    } else {
-      const preLoadComponent = WrapperComponent as PreLoadComponentType;
-      if (preLoadComponent.getInitialState && typeof preLoadComponent.getInitialState === "function") {
-        getInitialStateArray.push(preLoadComponent.getInitialState);
-      }
+  if (route.element) {
+    if (typeof (route.element as unknown as PreLoadComponentType)?.getInitialState === "function") {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      getInitialStateArray.push((route.element as unknown as PreLoadComponentType).getInitialState!);
     }
   }
 
@@ -122,7 +121,7 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
         redirect?: RedirectType;
         error?: string;
         cookies?: { [key: string]: string };
-        props?: any;
+        props?: Record<string, unknown>;
       }>((s, c) => {
         if (!c) {
           return s;
@@ -143,25 +142,22 @@ const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
   const getInitialState = await resolveGetInitialStateFunction({ route });
   if (getInitialState) {
     const initialState = await getInitialState({ store, pathName: match.pathname, params: match.params, query });
-    if (initialState) {
-      const { props, ...resProps } = initialState;
-      if (route.element && isValidElement(route.element)) {
-        // current can not support fast refresh, so use another way
-        // support autoInject props for component
-        // route.element = cloneElement(route.element, props);
-
-        // current props is invalid
-        if (resProps.error || resProps.redirect) return resProps;
-        // normally this is only happen on the router page
-        // support fast refresh
-        const serverSideProps = {
-          [generateInitialPropsKey(match.pathname, query)]: props,
-        };
-        store.dispatch(setDataSuccess_client({ name: actionName.globalInitialProps, data: serverSideProps }));
-        return resProps;
-      }
+    const { props, ...resProps } = initialState || {};
+    if (route.element && props && isValidElement(route.element) && !resProps.error && !resProps.redirect) {
+      // normally this is only happen on the router page
+      // support fast refresh
+      const serverSideProps = {
+        [generateInitialPropsKey(match.pathname, query)]: props,
+      };
+      store.dispatch(setDataSuccess_client({ name: actionName.globalInitialProps, data: serverSideProps }));
+    }
+    if (route.path) {
+      return { ...resProps, page: [route.path] };
+    } else {
       return resProps;
     }
+  } else if (route.path) {
+    return { page: [route.path] };
   }
 };
 
@@ -185,7 +181,7 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
   return Wrapper;
 }
 
-function AutoInjectInitialProps(Component: LoadableComponent<any>) {
+function AutoInjectInitialProps(Component: LazyExoticComponent<ComponentType<Record<string, unknown>>>) {
   const memoComponent = memo(Component);
   const RouterComponentWithProps = () => {
     const props = useGetInitialProps();

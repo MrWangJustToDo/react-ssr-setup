@@ -19,7 +19,12 @@ export const transformPath: TransformPathType = ({ path, apiPath, query, needPre
       currentPath = "/api" + currentPath;
     }
     if (needPre) {
-      currentPath = (__SERVER__ ? process.env.PUBLIC_API_HOST : window.__ENV__.PUBLIC_API_HOST) + currentPath;
+      currentPath =
+        (__SERVER__
+          ? process.env.NODE_ENV === "development"
+            ? process.env.PUBLIC_DEV_API_HOST
+            : process.env.PUBLIC_PROD_API_HOST
+          : window.__ENV__.PUBLIC_API_HOST) + currentPath;
       if (!currentPath.startsWith("http")) {
         currentPath = "http://" + currentPath;
       }

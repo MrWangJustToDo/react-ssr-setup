@@ -3,23 +3,25 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // 输出所有资源路径
 const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
-// loadable json
-const LoadablePlugin = require("@loadable/webpack-plugin");
+const { PageDependenciesManagerPlugin } = require("./plugin/pageDeps");
 // 抽离css文件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // 快速刷新
 const ReactRefreshPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 // 打包阶段错误检查
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 // 查看打包
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = false, isAnimationRouter = false, isCSR = false, currentUI }) => {
   return [
     new CleanWebpackPlugin(),
-    env === "client" && new LoadablePlugin({ filename: "manifest-loadable.json" }),
-    env === "client" && new WebpackManifestPlugin({ fileName: isDev ? "manifest-dev.json" : "manifest-prod.json" }),
+    env === "client" &&
+      new WebpackManifestPlugin({
+        fileName: isDev ? "manifest-dev.json" : "manifest-prod.json",
+      }),
+    env === "client" && new PageDependenciesManagerPlugin(),
     new webpack.DefinePlugin({
       __SSR__: isSSR,
       __CSR__: isCSR, // pure client render
@@ -34,7 +36,7 @@ const pluginsConfig = ({ env, isDev = true, isSSR = true, isMiddleWareDevelop = 
     env === "client" &&
       new MiniCssExtractPlugin({
         filename: isDev ? "[name].css" : "[name]-[contenthash].css",
-        chunkFilename: isDev ? "css/[id].css" : "[id].[contenthash].css",
+        chunkFilename: isDev ? "[name]-[id].css" : "[name]-[id]-[contenthash].css",
       }),
     // 快速刷新
     env === "client" && isDev && new ReactRefreshPlugin(),

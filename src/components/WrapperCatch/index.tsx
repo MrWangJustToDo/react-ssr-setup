@@ -1,8 +1,8 @@
 import { Component } from "react";
 
-import type { ErrorInfo, ReactNode } from "react";
+import type { ErrorInfo, ReactNode, ReactElement } from "react";
 
-export class WrapperErrorCatch extends Component<Record<string, unknown>, { error: string; stack: string; hasError: boolean }> {
+export class WrapperErrorCatch extends Component<Record<string, unknown> & { children: ReactElement }, { error: string; stack: string; hasError: boolean }> {
   state = {
     stack: "",
     error: "",

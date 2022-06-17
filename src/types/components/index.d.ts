@@ -40,7 +40,7 @@ interface WrapperRouteProps {
   animationRouter?: boolean;
 }
 export interface WrapperRouteType {
-  (props: WrapperRouteProps): MemoExoticComponent;
+  (props: WrapperRouteProps): JSX.Element | null;
 }
 
 /* LoadingBar */

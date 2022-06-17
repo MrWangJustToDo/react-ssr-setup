@@ -1,10 +1,10 @@
+import { Button } from "@chakra-ui/react";
 import { Helmet } from "react-helmet-async";
 
 import { useLang } from "hooks/useLang";
 import { supportedLangs } from "utils/i18n";
 
 import style from "./index.module.scss";
-
 
 export const Header = () => {
   const { changeLang, lang } = useLang();
@@ -14,9 +14,9 @@ export const Header = () => {
       <div>
         当前 {lang}, 可用 {Object.keys(supportedLangs).join(" ")}
         {Object.keys(supportedLangs).map((code) => (
-          <button key={code} onClick={() => changeLang(code)}>
+          <Button key={code} onClick={() => changeLang(code)}>
             {supportedLangs[code as unknown as "en" | "ar"]}
-          </button>
+          </Button>
         ))}
       </div>
     </header>
