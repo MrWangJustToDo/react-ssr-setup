@@ -75,5 +75,3 @@ yarn run start
 ## react router 6
 
 ## jest
-
-## TODO support swc-loader  new SSR from React18

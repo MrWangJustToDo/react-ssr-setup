@@ -18,6 +18,16 @@ const cssRules = (env, isDev = true) => {
   };
 };
 
+const jsRulesWithSWC = (env, isDev = true) => {
+  return {
+    test: /\.[jt]sx?$/,
+    exclude: /node_modules/,
+    use: {
+      loader: "swc-loader",
+    },
+  };
+};
+
 const jsRules = (env, isDev = true) => {
   const workerPool = {
     workers: 3,
@@ -60,6 +70,16 @@ const jsRules = (env, isDev = true) => {
 
 const cssModuleRules = (env, isDev = true) => {
   // css module
+
+  // https://github.com/webpack-contrib/thread-loader/issues/135
+  // const workerPoolSass = {
+  //   workers: 3,
+  //   workerParallelJobs: 2,
+  //   poolTimeout: isDev ? Infinity : 2000,
+  // };
+
+  // threadLoader.warmup(workerPoolSass, ["sass-loader", "css-loader"]);
+
   return {
     test: /\.module\.s?css$/,
     use: [
@@ -70,6 +90,10 @@ const cssModuleRules = (env, isDev = true) => {
           : {
               loader: MiniCssExtractPlugin.loader,
             }),
+      // {
+      //   loader: require.resolve("thread-loader"),
+      //   options: workerPoolSass,
+      // },
       // 启用js中import css为对象，启用css module以及生成的类名
       {
         loader: "css-loader",
@@ -107,6 +131,6 @@ const resourceRules = (env, isDev = true) => {
   };
 };
 
-const rulesConfig = ({ env, isDev }) => [cssRules(env, isDev), jsRules(env, isDev), cssModuleRules(env, isDev), resourceRules(env, isDev)];
+const rulesConfig = ({ env, isDev }) => [cssRules(env, isDev), jsRulesWithSWC(env, isDev), cssModuleRules(env, isDev), resourceRules(env, isDev)];
 
 exports.rulesConfig = rulesConfig;

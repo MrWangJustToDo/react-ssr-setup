@@ -13,6 +13,5 @@ export interface TransformType {
 
 export interface DynamicRouteConfig {
   path: string;
-  chunkName: string;
   componentPath?: string;
 }

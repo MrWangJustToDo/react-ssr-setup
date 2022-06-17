@@ -16,7 +16,6 @@ class DynamicRouter {
       let indexPath = 0;
       let dynamicPath = 0;
       let fallbackPath = 0;
-      const chunkPrePath = prePath.replaceAll("/", "-");
       fs.promises
         .readdir(dirName, { withFileTypes: true })
         .then((files) =>
@@ -32,7 +31,6 @@ class DynamicRouter {
                     dynamicPath++;
                     const [, params] = Array.from(dynamicPathReg.exec(fileName));
                     config.path = `${prePath}:${params}`;
-                    config.chunkName = `${chunkPrePath}-dynamic_${params}`.toLowerCase();
                   } else {
                     throw new Error(`file router dynamicPath duplicate`);
                   }
@@ -41,7 +39,6 @@ class DynamicRouter {
                   if (indexPath === 0) {
                     indexPath++;
                     config.path = `${prePath}`;
-                    config.chunkName = `${chunkPrePath}-index`.toLowerCase();
                   } else {
                     throw new Error("file router default path duplicate");
                   }
@@ -49,13 +46,11 @@ class DynamicRouter {
                   if (prePath === "/") {
                     fallbackPath++;
                     config.path = `${prePath}*`;
-                    config.chunkName = `${chunkPrePath}-${fileName}`.toLowerCase();
                   } else {
                     throw new Error(`can not add 404 page on the ${prePath}`);
                   }
                 } else {
                   config.path = `${prePath}${fileName}`;
-                  config.chunkName = `${chunkPrePath}-${fileName}`.toLowerCase();
                 }
                 config.componentPath = `${prePath.slice(1)}${fileName}`;
                 // 文件名字重复
