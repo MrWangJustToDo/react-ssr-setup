@@ -1,10 +1,12 @@
 import { ChakraProvider, createCookieStorageManager } from "@chakra-ui/react";
+import { CacheProvider } from "@emotion/react";
 import { renderToPipeableStream } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { StaticRouter as Router } from "react-router-dom/server";
 
 import { App } from "components/App";
+import { createEmotionCache } from "config/emotionCache";
 import { HTML } from "template/Html";
 import { theme } from "theme";
 import {
@@ -25,6 +27,8 @@ import type { SafeAction } from "../compose";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, page }) => {
   const helmetContext = {};
+
+  const emotionCache = createEmotionCache();
 
   const cookieStore = createCookieStorageManager("chakra-ui-color-mode", store.getState().server.cookie.data);
 
@@ -55,15 +59,17 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
       preLoad={generatePreloadScriptElements(mainScripts.concat(runtimeScripts).concat(dynamicScriptsPath))}
       reduxInitialState={JSON.stringify(store.getState())}
     >
-      <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
-        <Provider store={store}>
-          <Router location={req.url}>
-            <HelmetProvider context={helmetContext}>
-              <App />
-            </HelmetProvider>
-          </Router>
-        </Provider>
-      </ChakraProvider>
+      <CacheProvider value={emotionCache}>
+        <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
+          <Provider store={store} serverState={store.getState()}>
+            <Router location={req.url}>
+              <HelmetProvider context={helmetContext}>
+                <App />
+              </HelmetProvider>
+            </Router>
+          </Provider>
+        </ChakraProvider>
+      </CacheProvider>
     </HTML>,
     {
       bootstrapScripts: [...runtimeScripts, ...mainScripts, ...dynamicScriptsPath],
