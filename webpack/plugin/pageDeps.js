@@ -48,11 +48,7 @@ class PageDependenciesManagerPlugin {
               return mutableAcc;
             }
 
-            /**
-             * It's possible, when chunk doesn't have its own name.
-             * In that case its id will be used as a name
-             */
-
+            // generate chunk name which keep same with `webpack-manifest-plugin`
             const files = Array.from(statsChunk.files || []).map((fileName) => {
               const replaced = fileName.replace(/\?.*/, "");
               const split = replaced.split(".");

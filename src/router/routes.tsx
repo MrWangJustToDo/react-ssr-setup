@@ -31,7 +31,7 @@ const dynamicRoutes = dynamicRouteConfig
         /* webpackChunkName: "page-[request]" */
         `../pages/${it.componentPath}`
       ).then((module) => ({
-        default: AutoInjectInitialProps(module.default),
+        default: AutoInjectInitialProps(module.default, it.path),
       }))
     ),
   }))

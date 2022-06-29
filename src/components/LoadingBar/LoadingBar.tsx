@@ -2,7 +2,7 @@ import { memo, forwardRef } from "react";
 import { createPortal } from "react-dom";
 
 import { useEffectOnce } from "hooks/useEffectOnce";
-import { useMounted } from "hooks/useMounted";
+import { useIsMounted } from "hooks/useIsMounted";
 
 import style from "./index.module.scss";
 
@@ -17,9 +17,9 @@ const _Bar = forwardRef<HTMLDivElement>(function Bar(_, ref) {
     document.body.prepend(div);
   });
 
-  const mounted = useMounted();
+  const isMounted = useIsMounted();
 
-  return mounted ? (
+  return isMounted ? (
     <>{createPortal(<div ref={ref} className={style.loadingBar} style={{ height: `0px`, transform: `scale(0, 1)` }} />, div as Element)}</>
   ) : null;
 });

@@ -181,10 +181,10 @@ function preLoadWrapper(preLoad: GetInitialStateType): (props: ComponentClass & 
   return Wrapper;
 }
 
-function AutoInjectInitialProps(Component: LazyExoticComponent<ComponentType<Record<string, unknown>>>) {
+function AutoInjectInitialProps(Component: LazyExoticComponent<ComponentType<Record<string, unknown>>>, componentPath: string) {
   const memoComponent = memo(Component);
   const RouterComponentWithProps = () => {
-    const props = useGetInitialProps();
+    const props = useGetInitialProps(componentPath);
 
     return createElement(memoComponent, props);
   };
