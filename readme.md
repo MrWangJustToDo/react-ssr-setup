@@ -64,7 +64,7 @@ yarn run start
 
 ## animate router 路由切换动画
 
-## file router 开发自动更新 (middleware 模式 下)
+## file router 开发自动更新
 
 ## 全新版本 升级优化修复重构 ^\_^
 
@@ -75,3 +75,5 @@ yarn run start
 ## swc
 
 ## new ssr for react-18
+
+## todo 静态生成...

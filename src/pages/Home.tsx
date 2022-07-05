@@ -6,8 +6,9 @@ export default function Home() {
   return (
     <div>
       home
-      <BB />
-      <Suspense></Suspense>
+      <Suspense>
+        <BB />
+      </Suspense>
     </div>
   );
 }

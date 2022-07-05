@@ -27,7 +27,7 @@ const withHydrate = async () => {
 
   startServerWatch(serverCompiler);
 
-  const clientPromise = compilerPromise("client", clientCompiler);
+  const clientPromise = compilerPromise("client", clientCompiler, { dynamicRouter: true, development: true });
   const serverPromise = compilerPromise("server", serverCompiler);
 
   try {

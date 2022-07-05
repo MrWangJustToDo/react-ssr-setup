@@ -49,6 +49,7 @@ class PageDependenciesManagerPlugin {
             }
 
             // generate chunk name which keep same with `webpack-manifest-plugin`
+            // files contain current chunk all files, like js, css...
             const files = Array.from(statsChunk.files || []).map((fileName) => {
               const replaced = fileName.replace(/\?.*/, "");
               const split = replaced.split(".");

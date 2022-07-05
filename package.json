@@ -5,12 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "./script/start-dev",
+    "dev:inspect": "node --inspect ./script/start-dev",
     "dev:csr": "cross-env CSR=true ./script/start-dev",
     "dev:dynamic": "cross-env CSR=true MIDDLEWARE=true ./script/start-dev",
     "build": "./script/start-prod",
+    "build:static": "./script/start-static",
+    "build:csr": "cross-env CSR=true ./script/start-prod",
     "lint": "eslint --cache --ext ts,tsx .",
     "lint:fix": "yarn run lint --fix",
-    "build:csr": "cross-env CSR=true ./script/start-prod",
     "start": "cross-env NODE_ENV=production node ./dist/server/app",
     "test": "jest"
   },
