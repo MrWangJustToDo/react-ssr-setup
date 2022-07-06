@@ -8,6 +8,7 @@ export const globalEnv: Middleware = (next) => async (args) => {
     UI: __UI__,
     isSSR: getIsSSR() || args.req.query.isSSR || false,
     CRYPTO_KEY,
+    isPure_CSR: false,
     PUBLIC_API_HOST: process.env.NODE_ENV === "development" ? PUBLIC_DEV_API_HOST : PUBLIC_PROD_API_HOST,
     isMIDDLEWARE: getIsMiddleware(),
     isDEVELOPMENT: __DEVELOPMENT__,

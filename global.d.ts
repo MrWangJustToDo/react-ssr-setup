@@ -7,7 +7,7 @@ declare global {
   const __MIDDLEWARE__: boolean;
   const __ANIMATE_ROUTER__: boolean;
   const __BUILD_TIME__: string;
-  const __UI__: "material" | "antd" | "chakra";
+  const __UI__: "chakra";
 
   interface Window {
     __cache: unknown;
@@ -18,12 +18,13 @@ declare global {
     __ENV__: {
       LANG: string;
       isSSR: boolean;
+      isPure_CSR: boolean;
       CRYPTO_KEY: string;
       PUBLIC_API_HOST: string;
       isMIDDLEWARE: boolean;
       isDEVELOPMENT: boolean;
       isANIMATE_ROUTER: boolean;
-      UI: "antd" | "material" | "chakra";
+      UI: "chakra";
     };
   }
 
@@ -35,7 +36,8 @@ declare global {
       WDS_PORT: string;
       PROD_PORT: string;
       SSR: string;
-      UI: "antd" | "material" | "chakra";
+      UI: "chakra";
+      STATIC_GENERATE: "true" | "false";
       PUBLIC_DEV_API_HOST: string;
       PUBLIC_PROD_API_HOST: string;
       CRYPTO_KEY: string;

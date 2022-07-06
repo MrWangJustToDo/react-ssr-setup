@@ -7,6 +7,7 @@
     "dev": "./script/start-dev",
     "dev:inspect": "node --inspect ./script/start-dev",
     "dev:csr": "cross-env CSR=true ./script/start-dev",
+    "dev:static": "cross-env STATIC_GENERATE=true ./script/start-dev",
     "dev:dynamic": "cross-env CSR=true MIDDLEWARE=true ./script/start-dev",
     "build": "./script/start-prod",
     "build:static": "./script/start-static",

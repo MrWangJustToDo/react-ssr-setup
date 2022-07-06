@@ -9,6 +9,7 @@ import { App } from "components/App";
 import { createEmotionCache } from "config/emotionCache";
 import { HTML } from "template/Html";
 import { theme } from "theme";
+import { log } from "utils/log";
 import {
   getAllStateFileContent,
   mainScriptsPath,
@@ -23,7 +24,11 @@ import {
   dynamicPageScriptsPath,
 } from "utils/manifest";
 
+import { renderP_CSR } from "../renderP_CSR";
+
 import type { SafeAction } from "../compose";
+
+const isStaticGenerate = process.env.STATIC_GENERATE === "true";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, page }) => {
   const helmetContext = {};
@@ -48,7 +53,11 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
 
   const mainScripts = mainScriptsPath(stateFileContent);
 
-  let didError = false;
+  const shellMethod = isStaticGenerate ? "onAllReady" : "onShellReady";
+
+  let error = false;
+
+  let initial = false;
 
   const stream = renderToPipeableStream(
     <HTML
@@ -73,21 +82,38 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
     </HTML>,
     {
       bootstrapScripts: [...runtimeScripts, ...mainScripts, ...dynamicScriptsPath],
-      onShellReady() {
-        // The content above all Suspense boundaries is ready.
-        // If something errored before we started streaming, we set the error code appropriately.
-        res.statusCode = didError ? 500 : 200;
-        res.setHeader("Content-type", "text/html");
-        stream.pipe(res);
+      // to support static generate, for SSR use
+      [shellMethod]() {
+        if (!error) {
+          initial = true;
+          res.statusCode = 200;
+          res.setHeader("Content-type", "text/html");
+          stream.pipe(res);
+        }
       },
       onShellError(err) {
-        // Something errored before we could complete the shell so we emit an alternative shell.
-        didError = true;
-        res.statusCode = 500;
-        res.send(`<!doctype html><p>${(err as Error).stack}</p>`);
+        error = true;
+        if (!initial) {
+          if (!isStaticGenerate) {
+            // Something errored before we could complete the shell so we fallback to client render
+            renderP_CSR({ req, res });
+          } else {
+            res.status(500).send("server render error!");
+          }
+        }
+        log(err as Error, "error");
       },
       onError(err) {
-        throw new Error((err as Error).message);
+        error = true;
+        if (!initial) {
+          if (!isStaticGenerate) {
+            // not set header, so we can safe to fallback to client render
+            renderP_CSR({ req, res });
+          } else {
+            res.status(500).send("server render error!");
+          }
+        }
+        log(err as Error, "error");
       },
     }
   );

@@ -101,7 +101,9 @@ class PageDependenciesManagerPlugin {
           const childrenIds = reducedStats.chunkIdToChildrenIds[chunkId];
           const files = getFiles(reducedStats.chunkIdToFileNameMap, reducedStats.chunkIdToChildrenIds, childrenIds);
 
-          mutableAcc[locName] = [chunkName, ...files];
+          const path = locName;
+
+          mutableAcc[path] = [chunkName, ...files];
 
           return mutableAcc;
         }, {});
