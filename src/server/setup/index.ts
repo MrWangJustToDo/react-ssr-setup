@@ -8,11 +8,9 @@ import type { Express } from "express";
 const setUp = (expressApp: Express) => {
   expressApp.use(express.static(`${process.cwd()}/static`));
 
-  expressApp.use(express.static(`${process.cwd()}/lang`));
-
   expressApp.use(express.static(`${process.cwd()}/dist`));
 
-  expressApp.use(cookieParser())
+  expressApp.use(cookieParser());
 
   expressApp.use(express.json({ limit: "5mb" }));
 

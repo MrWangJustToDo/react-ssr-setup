@@ -9,6 +9,7 @@ import { App } from "components/App";
 import { createEmotionCache } from "config/emotionCache";
 import { HTML } from "template/Html";
 import { theme } from "theme";
+import { getIsStaticGenerate } from "utils/env";
 import { log } from "utils/log";
 import {
   getAllStateFileContent,
@@ -27,8 +28,6 @@ import {
 import { renderP_CSR } from "../renderP_CSR";
 
 import type { SafeAction } from "../compose";
-
-const isStaticGenerate = process.env.STATIC_GENERATE === "true";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, page }) => {
   const helmetContext = {};
@@ -52,6 +51,8 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
   const runtimeScripts = runtimeScriptsPath(stateFileContent);
 
   const mainScripts = mainScriptsPath(stateFileContent);
+
+  const isStaticGenerate = getIsStaticGenerate();
 
   const shellMethod = isStaticGenerate ? "onAllReady" : "onShellReady";
 

@@ -29,7 +29,7 @@ safeData(window.__PRELOAD_STORE_STATE__);
 
 safeData(window as unknown as Record<string, unknown>, "__PRELOAD_STORE_STATE__");
 
-if (window.__ENV__.isPure_CSR) {
+if (window.__ENV__.isPURE_CSR) {
   log("pure render by client", "warn");
   const { preLoadLang } = require("utils/preLoad");
   const root = createRoot(place);

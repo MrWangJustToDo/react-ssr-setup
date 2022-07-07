@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 
-/* todo 静态生成支持 */
-
 require("dotenv").config();
 const { withPromise } = require("./prod-entry");
+const { runStaticGenerate } = require("./generate");
 
 process.env.NODE_ENV = "production";
 
-withPromise().then(() => {
-  console.log("start static page generate...");
-});
+withPromise().then(runStaticGenerate);

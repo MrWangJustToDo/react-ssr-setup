@@ -2,8 +2,9 @@ import fs from "fs";
 import path from "path";
 
 import { apiName } from "config/api";
-import { fail, success, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
+import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, fail, success, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
 import { ServerError } from "server/utils/error";
+import { getIsStaticGenerate } from "utils/env";
 
 import type { Request, Response, NextFunction } from "express";
 
@@ -16,21 +17,24 @@ const getFileExist = (resolvePath: string) => {
   });
 };
 
-const getI18nFile = wrapperMiddlewareRequest({
-  requestHandler: async function getI18nFile({ req, res }) {
-    const { lang } = req.query;
-    const relativePath = path.resolve(process.cwd(), "lang", `${lang}.json`);
-    const isExist = await getFileExist(relativePath);
-    if (isExist) {
-      const content = await fs.promises.readFile(relativePath, { encoding: "utf-8" });
-      success({ res, resDate: { data: { [lang as string]: JSON.parse(content) } } });
-    } else {
-      throw new ServerError(`${lang} 语言文件不存在`, 404);
-    }
+const getI18nFile = wrapperMiddlewareRequest(
+  {
+    requestHandler: async function getI18nFile({ req, res }) {
+      const { lang } = req.query;
+      const relativePath = path.resolve(process.cwd(), "lang", `${lang}.json`);
+      const isExist = await getFileExist(relativePath);
+      if (isExist) {
+        const content = await fs.promises.readFile(relativePath, { encoding: "utf-8" });
+        success({ res, resDate: { data: { [lang as string]: JSON.parse(content) } } });
+      } else {
+        throw new ServerError(`${lang} 语言文件不存在`, 404);
+      }
+    },
+    cacheConfig: { needCache: true },
+    paramsConfig: { fromQuery: ["lang"] },
   },
-  cacheConfig: { needCache: true },
-  paramsConfig: { fromQuery: ["lang"] },
-});
+  getIsStaticGenerate() ? compose(catchMiddlewareHandler, defaultRunRequestMiddleware) : undefined
+);
 
 const actionObject: { [props: string]: typeof getI18nFile } = {
   [apiName.lang]: getI18nFile,

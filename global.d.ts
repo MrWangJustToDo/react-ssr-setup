@@ -18,12 +18,13 @@ declare global {
     __ENV__: {
       LANG: string;
       isSSR: boolean;
-      isPure_CSR: boolean;
-      CRYPTO_KEY: string;
-      PUBLIC_API_HOST: string;
+      isSTATIC: boolean;
+      isPURE_CSR: boolean;
       isMIDDLEWARE: boolean;
       isDEVELOPMENT: boolean;
       isANIMATE_ROUTER: boolean;
+      CRYPTO_KEY: string;
+      PUBLIC_API_HOST: string;
       UI: "chakra";
     };
   }

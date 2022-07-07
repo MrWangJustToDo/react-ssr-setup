@@ -76,4 +76,4 @@ yarn run start
 
 ## new ssr for react-18
 
-## todo 静态生成...
+## 静态页面生成 build:static

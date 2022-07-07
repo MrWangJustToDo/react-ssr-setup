@@ -12,7 +12,10 @@ const manifestStateFile = (env: "server" | "client"): string => path.resolve(out
 
 const manifestDepsFile = (env: "server" | "client"): string => path.resolve(outputPath(env), manifestDeps);
 
-const getAllStateFileContent = async (path: string) => await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
+const manifestStaticPageFile = (env: "server" | "client"): string => path.resolve(outputPath(env), "manifest-static.json");
+
+const getAllStateFileContent = async (path: string): Promise<Record<string, string>> =>
+  await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
 
 const generateStyleElements = (paths: string[]) => paths.map((s, i) => createElement("link", { key: i, href: s, rel: "stylesheet" }));
 
@@ -50,6 +53,7 @@ const dynamicPageStylesPath = (content: Record<string, string>, pageName: string
 
 export {
   manifestStateFile,
+  manifestStaticPageFile,
   generateStyleElements,
   generateScriptElements,
   generatePreloadScriptElements,

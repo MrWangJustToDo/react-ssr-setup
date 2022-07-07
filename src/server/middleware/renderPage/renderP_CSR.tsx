@@ -34,7 +34,7 @@ const targetRender: AnyAction = async ({ res, env, lang }) => {
 
   env.isSSR = false;
 
-  env.isPure_CSR = true;
+  env.isPURE_CSR = true;
 
   res.send(
     "<!doctype html>" +

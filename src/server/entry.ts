@@ -5,11 +5,14 @@ import express from "express";
 import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
 import { develop } from "server/middleware/develop";
 import { renderError } from "server/middleware/renderError";
+import { getIsStaticGenerate } from "utils/env";
 import { log } from "utils/log";
 
 import { apiHandler } from "./api";
+import { generateStaticPage } from "./generator";
 import { init } from "./init";
 import { setUp } from "./setup";
+import { page } from "./static";
 
 // eslint-disable-next-line import/no-named-as-default-member
 dotenv.config();
@@ -19,6 +22,8 @@ const app = express();
 const port = __DEVELOPMENT__ ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
 
 setUp(app);
+
+page(app);
 
 init(app);
 
@@ -50,6 +55,13 @@ if (__CSR__) {
         compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
       )
     );
-    app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
+    app.listen(port, () => {
+      log(`App is running: http://localhost:${port}`, "warn");
+      if (getIsStaticGenerate()) {
+        generateStaticPage().then(() => {
+          process.exit(0);
+        });
+      }
+    });
   });
 }

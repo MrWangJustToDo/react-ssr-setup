@@ -36,7 +36,7 @@ const freePort = (port) => {
         resolve();
       }
     } else {
-      console.log(chalk.red("不支持的平台"));
+      console.log(chalk.red("unSupport platform"));
       resolve();
     }
   });
