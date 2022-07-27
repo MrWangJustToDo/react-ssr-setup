@@ -1,67 +1,41 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import dotenv from "dotenv";
 import express from "express";
 
-import { catchMiddlewareHandler, compose, defaultRunRequestMiddleware, wrapperMiddlewareRequest } from "server/middleware/apiHandler";
-import { develop } from "server/middleware/develop";
-import { renderError } from "server/middleware/renderError";
-import { getIsStaticGenerate } from "utils/env";
-import { log } from "utils/log";
+import { setApi } from "./api";
+import { generateHandler } from "./app";
+import { develop } from "./middleware/develop";
+import { serverLog } from "./util/serverLog";
 
-import { apiHandler } from "./api";
-import { generateStaticPage } from "./generator";
-import { init } from "./init";
-import { setUp } from "./setup";
-import { page } from "./static";
+let handlerRender = generateHandler;
 
-// eslint-disable-next-line import/no-named-as-default-member
 dotenv.config();
 
-const app = express();
+const startApp = async () => {
+  const app = express();
 
-const port = __DEVELOPMENT__ ? process.env.DEV_PORT || 3000 : process.env.PROD_PORT;
+  app.use(express.static(`${process.cwd()}/static`));
 
-setUp(app);
+  app.use(express.static(`${process.cwd()}/dist`));
 
-page(app);
+  setApi(app);
 
-init(app);
+  await develop(app);
 
-app.use("/api", apiHandler);
-
-if (__CSR__) {
-  const { renderP_CSR } = require("server/middleware/renderPage/renderP_CSR");
-  develop(app).then(() => {
-    app.use(
-      wrapperMiddlewareRequest(
-        {
-          requestHandler: renderP_CSR,
-          errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
-        },
-        compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
-      )
-    );
-    app.listen(port, () => log(`App is running: http://localhost:${port}`, "warn"));
+  app.use((req, res, next) => {
+    handlerRender()(req, res, next);
   });
-} else {
-  const { render } = require("server/middleware/render");
-  develop(app).then(() => {
-    app.use(
-      wrapperMiddlewareRequest(
-        {
-          requestHandler: render,
-          errorHandler: ({ req, res, code, e }) => renderError({ req, res, e, code }),
-        },
-        compose(catchMiddlewareHandler, defaultRunRequestMiddleware)
-      )
-    );
-    app.listen(port, () => {
-      log(`App is running: http://localhost:${port}`, "warn");
-      if (getIsStaticGenerate()) {
-        generateStaticPage().then(() => {
-          process.exit(0);
-        });
-      }
+
+  if (__DEVELOPMENT__ && module.hot) {
+    module.hot.accept("./app.ts", () => {
+      serverLog("app update", "info");
+      handlerRender = generateHandler;
     });
-  });
-}
+    module.hot.dispose(() => process.exit(0));
+  }
+
+  const port = __DEVELOPMENT__ ? process.env.DEV_PORT : process.env.PROD_PORT;
+
+  app.listen(port as string, () => serverLog(`app is running, open http://localhost:${port}`, "info"));
+};
+
+startApp();

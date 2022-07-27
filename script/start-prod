@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-
-require("dotenv").config();
-const { withPromise } = require("./prod-entry");
-
-process.env.NODE_ENV = "production";
-
-withPromise();

@@ -1,9 +1,10 @@
 // tiny compose function
 
+import type { RootStore } from "@app/store";
 import type { Request, Response } from "express";
-import type { SagaStore } from "types/store";
 
-type BaseArgs = { req: Request; res: Response; store?: SagaStore; env?: { [p: string]: unknown }; lang?: string; page?: string[] };
+
+type BaseArgs = { req: Request; res: Response; store?: RootStore; env?: { [p: string]: unknown }; lang?: string; page?: string[] };
 
 export type OverrideBase<T = unknown> = BaseArgs & T;
 

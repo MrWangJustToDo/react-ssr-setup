@@ -1,7 +1,6 @@
 import { renderToString } from "react-dom/server";
 
-import { ServerError } from "server/utils/error";
-import { HTML } from "template/Html";
+import { HTML } from "@app/template";
 import {
   generatePreloadScriptElements,
   generateScriptElements,
@@ -11,17 +10,18 @@ import {
   mainStylesPath,
   manifestStateFile,
   runtimeScriptsPath,
-} from "utils/manifest";
+} from "@app/util/manifest";
+import { RenderError } from "@server/util/renderError";
 
 import { composeRender } from "./compose";
-import { globalEnv, initLang, initStore, loadCookie, loadLang, loadStore } from "./middleware";
+import { globalEnv, initLang, initStore, loadLang, loadStore } from "./middleware";
 
 import type { AnyAction } from "./compose";
 
 // 客户端渲染
 const targetRender: AnyAction = async ({ res, store, lang, env }) => {
   if (!store || !lang || !env) {
-    throw new ServerError("server 初始化失败", 500);
+    throw new RenderError("server 初始化失败", 500);
   }
 
   const stateFileContent = await getAllStateFileContent(manifestStateFile("client"));
@@ -39,7 +39,7 @@ const targetRender: AnyAction = async ({ res, store, lang, env }) => {
           env={JSON.stringify(env)}
           lang={JSON.stringify(lang)}
           link={generateStyleElements(mainStyles)}
-          reduxInitialState={JSON.stringify(store.getState())}
+          preloadedState={JSON.stringify(store.getState())}
           preLoad={generatePreloadScriptElements(mainScripts)}
           script={generateScriptElements(runtimeScripts.concat(mainScripts))}
         />
@@ -47,4 +47,4 @@ const targetRender: AnyAction = async ({ res, store, lang, env }) => {
   );
 };
 
-export const renderCSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang, loadCookie)(targetRender);
+export const renderCSR = composeRender(globalEnv, initLang, initStore, loadStore, loadLang)(targetRender);

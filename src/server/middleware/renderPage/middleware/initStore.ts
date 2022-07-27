@@ -1,4 +1,5 @@
-import { createUniversalStore } from "store";
+
+import { createUniversalStore } from "@app/store";
 
 import type { Middleware } from "../compose";
 

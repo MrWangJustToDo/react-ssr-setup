@@ -5,12 +5,11 @@ import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { StaticRouter as Router } from "react-router-dom/server";
 
-import { App } from "components/App";
-import { createEmotionCache } from "config/emotionCache";
-import { HTML } from "template/Html";
-import { theme } from "theme";
-import { getIsStaticGenerate } from "utils/env";
-import { log } from "utils/log";
+import { App } from "@app/common/App";
+import { HTML } from "@app/template";
+import { theme } from "@app/theme";
+import { createEmotionCache } from "@app/util/emotionCache";
+import { getIsStaticGenerate } from "@app/util/env";
 import {
   getAllStateFileContent,
   mainScriptsPath,
@@ -23,7 +22,8 @@ import {
   getDynamicPagePath,
   dynamicPageStylesPath,
   dynamicPageScriptsPath,
-} from "utils/manifest";
+} from "@app/util/manifest";
+import { serverLog } from "@server/util/serverLog";
 
 import { renderP_CSR } from "../renderP_CSR";
 
@@ -34,7 +34,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
 
   const emotionCache = createEmotionCache();
 
-  const cookieStore = createCookieStorageManager("chakra-ui-color-mode", store.getState().server.cookie.data);
+  const cookieStore = createCookieStorageManager("chakra-ui-color-mode", req.headers.cookie);
 
   const stateFileContent = await getAllStateFileContent(manifestStateFile("client"));
 
@@ -65,9 +65,9 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
       env={JSON.stringify(env)}
       lang={JSON.stringify(lang)}
       helmetContext={helmetContext}
+      preloadedState={JSON.stringify(store.getState())}
       link={generateStyleElements(mainStyles.concat(dynamicStylesPath))}
       preLoad={generatePreloadScriptElements(mainScripts.concat(runtimeScripts).concat(dynamicScriptsPath))}
-      reduxInitialState={JSON.stringify(store.getState())}
     >
       <CacheProvider value={emotionCache}>
         <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
@@ -102,7 +102,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
             res.status(500).send("server render error!");
           }
         }
-        log(err as Error, "error");
+        serverLog((err as Error).message, "error");
       },
       onError(err) {
         error = true;
@@ -114,7 +114,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
             res.status(500).send("server render error!");
           }
         }
-        log(err as Error, "error");
+        serverLog((err as Error).message, "error");
       },
     }
   );

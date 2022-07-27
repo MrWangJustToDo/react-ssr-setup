@@ -7,12 +7,8 @@ declare global {
   const __MIDDLEWARE__: boolean;
   const __ANIMATE_ROUTER__: boolean;
   const __BUILD_TIME__: string;
-  const __UI__: "chakra";
 
   interface Window {
-    __cache: unknown;
-    __request: unknown;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any;
     __INITIAL_PROPS_SSR__: { [key: string]: any };
     __PRELOAD_STORE_STATE__: { [key: string]: any };
     __ENV__: {
@@ -23,9 +19,7 @@ declare global {
       isMIDDLEWARE: boolean;
       isDEVELOPMENT: boolean;
       isANIMATE_ROUTER: boolean;
-      CRYPTO_KEY: string;
       PUBLIC_API_HOST: string;
-      UI: "chakra";
     };
   }
 
@@ -37,11 +31,10 @@ declare global {
       WDS_PORT: string;
       PROD_PORT: string;
       SSR: string;
-      UI: "chakra";
+      CSR: string;
       STATIC_GENERATE: "true" | "false";
       PUBLIC_DEV_API_HOST: string;
       PUBLIC_PROD_API_HOST: string;
-      CRYPTO_KEY: string;
       SERVER_ENTRY: string;
       CLIENT_ENTRY: string;
       MIDDLEWARE: string;

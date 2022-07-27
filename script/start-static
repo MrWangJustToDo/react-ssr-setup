@@ -1,9 +1,0 @@
-#!/usr/bin/env node
-
-require("dotenv").config();
-const { withPromise } = require("./prod-entry");
-const { runStaticGenerate } = require("./generate");
-
-process.env.NODE_ENV = "production";
-
-withPromise().then(runStaticGenerate);

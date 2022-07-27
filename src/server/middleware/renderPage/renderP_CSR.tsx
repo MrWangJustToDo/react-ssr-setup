@@ -1,17 +1,17 @@
 import { renderToString } from "react-dom/server";
 
-import { ServerError } from "server/utils/error";
-import { HTML } from "template/Html";
+import { HTML } from "@app/template";
 import {
-  generatePreloadScriptElements,
-  generateScriptElements,
-  generateStyleElements,
   getAllStateFileContent,
   mainScriptsPath,
   mainStylesPath,
   manifestStateFile,
   runtimeScriptsPath,
-} from "utils/manifest";
+  generateStyleElements,
+  generateScriptElements,
+  generatePreloadScriptElements,
+} from "@app/util/manifest";
+import { RenderError } from "@server/util/renderError";
 
 import { composeRender } from "./compose";
 import { globalEnv } from "./middleware/globalEnv";
@@ -21,7 +21,7 @@ import type { AnyAction } from "./compose";
 
 const targetRender: AnyAction = async ({ res, env, lang }) => {
   if (!env || !lang) {
-    throw new ServerError("server 初始化失败", 500);
+    throw new RenderError("server 初始化失败", 500);
   }
 
   const stateFileContent = await getAllStateFileContent(manifestStateFile("client"));
