@@ -12,6 +12,7 @@ export default function Index() {
       <Button onClick={() => navigate("/Foo")}>goto foo</Button>
       <Button onClick={() => navigate("/Bar")}>goto bar</Button>
       <Button onClick={() => navigate("/Baz")}>goto baz</Button>
+      <Button onClick={() => navigate(`/Dynamic/${Math.random().toString().slice(2)}`)}>goto dynamic</Button>
       <Button onClick={() => navigate("/I18n")}>goto i18n</Button>
       <Button onClick={() => navigate("/HHH")}>404 page</Button>
     </>
