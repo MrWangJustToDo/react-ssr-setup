@@ -1,5 +1,6 @@
 import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ESLintWebpackPlugin from "eslint-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { DefinePlugin, HotModuleReplacementPlugin } from "webpack";
 import { WebpackManifestPlugin } from "webpack-manifest-plugin";
@@ -35,6 +36,12 @@ export const pluginsConfig = ({ env, isDEV, isSSR, isCSR, isMIDDLEWARE, isANIMAT
     env === "client" && isDEV && isMIDDLEWARE && new HotModuleReplacementPlugin(),
     env === "server" && isDEV && !isMIDDLEWARE && new HotModuleReplacementPlugin(),
     env === "client" &&
+      isDEV &&
+      new ForkTsCheckerWebpackPlugin({
+        async: false,
+      }),
+    env === "client" &&
+      isDEV &&
       new ESLintWebpackPlugin({
         extensions: ["js", "jsx", "ts", "tsx"],
         quiet: true,

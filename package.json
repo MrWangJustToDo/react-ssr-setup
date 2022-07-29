@@ -1,14 +1,15 @@
 {
   "name": "react-ssr",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "author": "mrwang",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-dev",
-    "build": "ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-prod",
+    "build": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-prod",
+    "build:static": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-static",
+    "start": "cross-env NODE_ENV=production node ./dist/server/app",
     "lint": "eslint --cache --ext ts,tsx .",
     "lint:fix": "yarn run lint --fix",
-    "start": "cross-env NODE_ENV=production node ./dist/server/app",
     "test": "jest"
   },
   "dependencies": {

@@ -60,3 +60,12 @@ export interface WrapperRouteType {
 export interface LoadingBarWrapperType {
   (props: { loading?: boolean }): JSX.Element | null;
 }
+
+/* initial state */
+export interface GetServerSideProps {
+  (props: { pathName: string; params: Params<string>; query: URLSearchParams }): Promise<{
+    redirect?: RedirectType;
+    error?: string;
+    props?: Record<string, unknown>;
+  }>;
+}
