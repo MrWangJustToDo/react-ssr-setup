@@ -75,7 +75,7 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
                   timer1.current && clearTimeout(timer1.current);
                   timer1.current = null;
                   if (loadingPath.current === currentLoadKey) {
-                    storeRef.current.dispatch(changeClientPropsSuccess(props));
+                    props && storeRef.current.dispatch(changeClientPropsSuccess(props));
                     setLoading(false);
                     setLoadedLocation({ location, query });
                   }

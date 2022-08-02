@@ -4,7 +4,7 @@ import path from "path";
 
 import { getAllStateFileContent, manifestDepsFile } from "@app/util/manifest";
 
-export const getStaticPageOutputPath = (fileName: string) => path.resolve(process.cwd(), "static", fileName);
+export const getStaticPageOutputPath = (fileName: string) => path.resolve(process.cwd(), "dist", "pages", fileName);
 
 export const getPageManifestContent = () => getAllStateFileContent(manifestDepsFile("client"));
 
