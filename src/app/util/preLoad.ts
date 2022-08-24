@@ -139,7 +139,7 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
 
       return {
         ...result,
-        props: { [preLoadPropsKey(pathName, query)]: result.props || {} },
+        props: { [propsKey]: result.props || {} },
       };
     };
   } else {
