@@ -1,12 +1,11 @@
-import { lazy } from 'react';
-import { Outlet } from 'react-router';
+import { lazy } from "react";
+import { Outlet } from "react-router";
 
-import { AutoInjectProps } from '@app/common/AutoInjectProps';
+import { AutoInjectProps } from "@app/common/AutoInjectProps";
 
-import { dynamicRouteConfig } from './dynamicRoutes';
+import { dynamicRouteConfig } from "./dynamicRoutes";
 
-import type { PreLoadRouteConfig } from '@app/types/router';
-
+import type { PreLoadRouteConfig } from "@app/types/router";
 
 const baseRouter: PreLoadRouteConfig = {
   element: <Outlet />,
@@ -32,7 +31,7 @@ const dynamicRoutes = dynamicRouteConfig
         `../pages/${it.componentPath}`
       ).then((module) => ({
         default: AutoInjectProps(module.default, it.path),
-      })),
+      }))
     ),
   }))
   .map(({ path, component: Component, preLoad }) => ({

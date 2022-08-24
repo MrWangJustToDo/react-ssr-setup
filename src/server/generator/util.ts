@@ -2,16 +2,31 @@ import fs from "fs/promises";
 import http from "http";
 import path from "path";
 
-import { getAllStateFileContent, manifestDepsFile } from "@app/util/manifest";
+import { getAllStateFileContent, manifestDepsFile } from "@server/util/manifest";
 
 export const getStaticPageOutputPath = (fileName: string) => path.resolve(process.cwd(), "dist", "pages", fileName);
 
-export const getPageManifestContent = () => getAllStateFileContent(manifestDepsFile("client"));
+export const getPageManifestContent = () =>
+  getAllStateFileContent<
+    Record<
+      string,
+      {
+        path: string[];
+        static: boolean;
+      }
+    >,
+    Record<string, boolean>
+  >(manifestDepsFile("client"), (content) =>
+    Object.keys(content)
+      .map((key) => ({ [key]: content[key].static }))
+      .reduce((p, c) => ({ ...p, ...c }), {})
+  );
 
-export const getAllStaticRouters = (allRouters: Record<string, string>) =>
+export const getAllStaticRouters = (allRouters: Record<string, boolean>) =>
   Object.keys(allRouters)
-    .filter((path) => path.split("/").every((p) => !p.startsWith(":")))
+    .filter((path) => allRouters[path])
     .map((p) => ({ url: `http://${process.env.PROD_HOST}:${process.env.PROD_PORT}${p.slice(1)}`, p }));
+
 export const generateStaticPage = (pathConfig: {
   url: string;
   p: string;
@@ -32,10 +47,13 @@ export const generateStaticPage = (pathConfig: {
       })
       .on("error", (error) => r({ pathConfig, error }));
   });
+
 export const getFileNameFromPath = (pathConfig: { p: string }) => {
   const path = pathConfig.p.slice(1);
   const fileName = path === "/" ? "index.html" : `${path.slice(1)}.html`;
   return { ...pathConfig, fileName };
 };
+
 export const prepareOutputPath = (p: string) => fs.mkdir(path.dirname(p), { recursive: true }).catch();
+
 export const writeContentToFilePath = (p: string, content: string) => fs.writeFile(p, content);

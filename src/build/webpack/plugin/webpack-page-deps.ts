@@ -1,6 +1,6 @@
 import { sources, Compilation } from "webpack";
 
-import type { Compiler } from "webpack";
+import type { Compiler, StatsModule } from "webpack";
 
 // https://github.com/artem-malko/react-ssr-template/blob/main/src/infrastructure/dependencyManager/webpack/plugin.ts
 const RawSource = sources.RawSource;
@@ -9,6 +9,8 @@ const pluginName = "webpack-page-deps-plugin";
 // https://github.com/shellscape/webpack-manifest-plugin/blob/6a521600b0b7dd66db805bf8fb8afaa8c41290cb/src/index.ts#L48
 const hashKey = /([a-f0-9]{16,32}\.?)/gi;
 const transformExtensions = /^(gz|map)$/i;
+
+const STATIC_PAGE_EXPORT = "isStatic";
 
 export class WebpackPageDepsPlugin {
   fileName: string;
@@ -41,6 +43,7 @@ export class WebpackPageDepsPlugin {
               locName: string;
             };
           };
+          chunkIdToModules: { [chunkId: string]: StatsModule[] };
           chunkIdToChildrenIds: { [chunkId: string]: (string | number)[] };
         }>(
           (mutableAcc, statsChunk) => {
@@ -65,6 +68,10 @@ export class WebpackPageDepsPlugin {
               locName: statsChunk.origins?.[0]?.request as string,
             };
 
+            if (statsChunk.modules) {
+              mutableAcc.chunkIdToModules[statsChunk.id] = statsChunk.modules;
+            }
+
             if (files[0]) {
               mutableAcc.chunkIdToFileNameMap[statsChunk.id] = files;
             }
@@ -83,13 +90,14 @@ export class WebpackPageDepsPlugin {
             return mutableAcc;
           },
           {
+            chunkIdToModules: {},
             chunkIdToFileNameMap: {},
             chunkIdToChunkName: {},
             chunkIdToChildrenIds: {},
           }
         );
 
-        return Object.keys(reducedStats.chunkIdToChunkName).reduce<{ [p: string]: string[] }>((mutableAcc, chunkId) => {
+        return Object.keys(reducedStats.chunkIdToChunkName).reduce<{ [p: string]: { path: string[]; static: boolean } }>((mutableAcc, chunkId) => {
           const { name: chunkName, locName } = reducedStats.chunkIdToChunkName[chunkId];
 
           // We do not collect deps for not page's chunks
@@ -98,11 +106,23 @@ export class WebpackPageDepsPlugin {
           }
 
           const childrenIds = reducedStats.chunkIdToChildrenIds[chunkId];
+
+          const modules = reducedStats.chunkIdToModules[chunkId];
+
           const files = getFiles(reducedStats.chunkIdToFileNameMap, reducedStats.chunkIdToChildrenIds, childrenIds);
+
+          const [lastModule] = modules.slice(-1);
+
+          const lastModuleExport = lastModule?.providedExports || [];
 
           const path = locName;
 
-          mutableAcc[path] = [chunkName, ...files];
+          const isDynamicPage = path.includes("/:");
+
+          mutableAcc[path] = {
+            path: [chunkName, ...files],
+            static: isDynamicPage ? false : lastModuleExport.some((name) => name === STATIC_PAGE_EXPORT),
+          };
 
           return mutableAcc;
         }, {});

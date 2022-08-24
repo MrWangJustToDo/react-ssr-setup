@@ -10,7 +10,7 @@ import {
   mainStylesPath,
   manifestStateFile,
   runtimeScriptsPath,
-} from "@app/util/manifest";
+} from "@server/util/manifest";
 import { RenderError } from "@server/util/renderError";
 
 import { composeRender } from "./compose";

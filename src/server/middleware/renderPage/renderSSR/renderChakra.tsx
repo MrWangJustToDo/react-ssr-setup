@@ -1,4 +1,4 @@
-import { ChakraProvider, createCookieStorageManager } from "@chakra-ui/react";
+import { ChakraProvider, cookieStorageManagerSSR } from "@chakra-ui/react";
 import { CacheProvider } from "@emotion/react";
 import { renderToPipeableStream } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
@@ -22,7 +22,7 @@ import {
   getDynamicPagePath,
   dynamicPageStylesPath,
   dynamicPageScriptsPath,
-} from "@app/util/manifest";
+} from "@server/util/manifest";
 import { serverLog } from "@server/util/serverLog";
 
 import { renderP_CSR } from "../renderP_CSR";
@@ -34,11 +34,24 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
 
   const emotionCache = createEmotionCache();
 
-  const cookieStore = createCookieStorageManager("chakra-ui-color-mode", req.headers.cookie);
+  const cookieStore = cookieStorageManagerSSR(req.headers.cookie || "");
 
   const stateFileContent = await getAllStateFileContent(manifestStateFile("client"));
 
-  const depsFileContent = await getAllStateFileContent(manifestDepsFile("client"));
+  const depsFileContent = await getAllStateFileContent<
+    Record<
+      string,
+      {
+        path: string[];
+        static: boolean;
+      }
+    >,
+    Record<string, string[]>
+  >(manifestDepsFile("client"), (content) =>
+    Object.keys(content)
+      .map((key) => ({ [key]: content[key].path }))
+      .reduce((p, c) => ({ ...p, ...c }), {})
+  );
 
   const dynamicPage = getDynamicPagePath(depsFileContent, page);
 

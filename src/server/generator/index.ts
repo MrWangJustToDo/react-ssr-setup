@@ -1,4 +1,4 @@
-import { manifestStaticPageFile } from "@app/util/manifest";
+import { manifestStaticPageFile } from "@server/util/manifest";
 
 import {
   getAllStaticRouters,

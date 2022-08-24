@@ -1,4 +1,4 @@
-import type { HTMLProps } from '.';
+import type { HTMLProps } from ".";
 
 export const Body = ({ children, script = [] }: HTMLProps) => (
   <body>

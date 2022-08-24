@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import { memoize } from "lodash";
 import path from "path";
 import { createElement } from "react";
 
@@ -14,8 +15,14 @@ const manifestDepsFile = (env: "server" | "client"): string => path.resolve(outp
 
 const manifestStaticPageFile = (env: "server" | "client"): string => path.resolve(outputPath(env), "manifest-static.json");
 
-const getAllStateFileContent = async (path: string): Promise<Record<string, string>> =>
-  await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
+const _getAllStateFileContent = async <T = Record<string, string>, P = T>(path: string, normalize: (content: T) => P | T = (s) => s): Promise<P> => {
+  const content = await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
+  return normalize(content) as P;
+};
+
+const getAllStateFileContent = __DEVELOPMENT__
+  ? _getAllStateFileContent
+  : memoize(_getAllStateFileContent, (path, normalize) => `${path}/${(normalize || "empty").toString()}`);
 
 const generateStyleElements = (paths: string[]) => paths.map((s, i) => createElement("link", { key: i, href: s, rel: "stylesheet" }));
 
@@ -41,7 +48,7 @@ const mainScriptsPath = (content: Record<string, string>) => baseScriptsPath(con
 
 const runtimeScriptsPath = (content: Record<string, string>) => baseScriptsPath(content, (f) => f.startsWith("runtime"));
 
-const getDynamicPagePath = (content: Record<string, string>, page: string[]) =>
+const getDynamicPagePath = (content: Record<string, string[]>, page: string[]) =>
   Object.keys(content)
     .filter((key) => page.some((p) => p === key || p === key.slice(1)))
     .map((key) => content[key])

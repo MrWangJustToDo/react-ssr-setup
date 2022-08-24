@@ -1,8 +1,8 @@
-import { Box, Button, Code } from '@chakra-ui/react';
-import { useIntl } from 'react-intl';
+import { Box, Button, Code } from "@chakra-ui/react";
+import { useIntl } from "react-intl";
 
-import { useLang } from '@app/hooks/useLang';
-import { supportedLang } from '@app/util/i18n';
+import { useLang } from "@app/hooks/useLang";
+import { supportedLang } from "@app/util/i18n";
 
 export default function Index() {
   const { formatMessage: f } = useIntl();
@@ -18,13 +18,15 @@ export default function Index() {
           </Button>
         ))}
         <br />
-        <Code>{f({ id: 'app.title', defaultMessage: 'hello' })}</Code>
+        <Code>{f({ id: "app.title", defaultMessage: "hello" })}</Code>
         <br />
-        <Code>{f({ id: 'home.lead', defaultMessage: 'test' })}</Code>
+        <Code>{f({ id: "home.lead", defaultMessage: "test" })}</Code>
         <br />
-        <Code>{f({ id: 'home.title', defaultMessage: 'title' })}</Code>
+        <Code>{f({ id: "home.title", defaultMessage: "title" })}</Code>
         <br />
       </Box>
     </>
   );
 }
+
+export const isStatic = true;

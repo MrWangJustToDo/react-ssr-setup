@@ -1,7 +1,7 @@
 import { matchRoutes } from "react-router";
 
 import type { RootStore } from "@app/store";
-import type { GetInitialStateProps, GetInitialStateType, GetInitialStateWithFullPropsType, PreLoadComponentType } from "@app/types/common";
+import type { PreLoadStateProps, GetInitialStateType, PreLoadStateType, AllPreLoadStateType, PreLoadComponentType } from "@app/types/common";
 import type { PreLoadRouteConfig } from "@app/types/router";
 import type { ComponentClass } from "react";
 import type { Params } from "react-router";
@@ -65,7 +65,7 @@ function preLoad(
   });
 }
 
-const generateInitialPropsKey = (pathName: string, query: URLSearchParams) => `__preload-${pathName}-${query.toString()}-props__`;
+const preLoadPropsKey = (pathName: string, query: URLSearchParams) => `__preload-${pathName}-${query.toString()}-props__`;
 
 type PreLoadProps = {
   route: PreLoadRouteConfig;
@@ -81,30 +81,38 @@ type PreLoadType = (props: PreLoadProps) => Promise<{
   props?: Record<string, Record<string, unknown>>;
 } | void>;
 
-const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "route">): Promise<GetInitialStateWithFullPropsType | null> => {
-  const getInitialStateArray: GetInitialStateType[] = [];
-  // for Router
-  if (route.getInitialState) {
-    getInitialStateArray.push(route.getInitialState);
-  }
+const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route">): Promise<AllPreLoadStateType | null> => {
+  const preLoadStateArray: PreLoadStateType[] = [];
   // for preload
   if (route.preLoad) {
     const component = await route.preLoad();
-    if (component.getInitialState) getInitialStateArray.push(component.getInitialState);
-    if (component.default && component.default.getInitialState) getInitialStateArray.push(component.default.getInitialState);
+    if (component.getInitialState) {
+      preLoadStateArray.push(component.getInitialState);
+    }
+    if (component.default) {
+      if (component.default.getInitialState) {
+        preLoadStateArray.push(component.default.getInitialState);
+      }
+    }
   }
   // for Component
   if (route.element) {
-    if (typeof (route.element as unknown as PreLoadComponentType)?.getInitialState === "function") {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      getInitialStateArray.push((route.element as unknown as PreLoadComponentType).getInitialState as GetInitialStateType);
+    const typedElement = route.element as unknown as PreLoadComponentType;
+    if (typeof typedElement?.getInitialState === "function") {
+      preLoadStateArray.push(typedElement.getInitialState);
     }
   }
 
-  if (getInitialStateArray.length) {
-    return async ({ store, pathName, params, query }: GetInitialStateProps) => {
+  if (preLoadStateArray.length) {
+    return async ({ store, pathName, params, query }: PreLoadStateProps) => {
+      const appState = store.getState();
+      const propsKey = preLoadPropsKey(pathName, query);
+      // current page props has already loaded
+      if (appState.client.clientProps.data[propsKey]) {
+        return void 0;
+      }
       const res = await Promise.all(
-        getInitialStateArray.map((fn) =>
+        preLoadStateArray.map((fn) =>
           Promise.resolve()
             .then(() => fn({ store, pathName, params, query }))
             .catch((e) => {
@@ -131,7 +139,7 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
 
       return {
         ...result,
-        props: { [generateInitialPropsKey(pathName, query)]: result.props || {} },
+        props: { [preLoadPropsKey(pathName, query)]: result.props || {} },
       };
     };
   } else {
@@ -140,7 +148,7 @@ const resolveGetInitialStateFunction = async ({ route }: Pick<PreLoadProps, "rou
 };
 
 const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
-  const getInitialState = await resolveGetInitialStateFunction({ route });
+  const getInitialState = await resolvePreLoadStateFunction({ route });
   if (getInitialState) {
     const initialState = await getInitialState({
       store,
@@ -158,13 +166,11 @@ const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
   }
 };
 
-function preLoadWrapper<T extends Record<string, unknown>>(
-  preLoad: GetInitialStateType
-): (props: ComponentClass<T> & { getInitialState?: GetInitialStateType }) => void {
-  function Wrapper(Component: ComponentClass<T> & { getInitialState?: GetInitialStateType }): void {
-    Component.getInitialState = preLoad;
+function initialStateWrapper<T extends Record<string, unknown>>(getInitialState: GetInitialStateType<T>) {
+  function Wrapper(Component: ComponentClass<T> & { getInitialState?: GetInitialStateType<T> }): void {
+    Component.getInitialState = getInitialState;
   }
   return Wrapper;
 }
 
-export { preLoad, preLoadWrapper, generateInitialPropsKey };
+export { preLoad, initialStateWrapper, preLoadPropsKey };

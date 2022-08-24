@@ -1,10 +1,11 @@
 {
   "name": "react-ssr",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "author": "mrwang",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-dev",
+    "dev:inspect": "cross-env TS_NODE_PROJECT=./tsconfig.build.json node --inspect -r ts-node/register -r tsconfig-paths/register src/build/scripts/start-dev",
     "build": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-prod",
     "build:static": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register --project tsconfig.build.json src/build/scripts/start-static",
     "start": "cross-env NODE_ENV=production node ./dist/server/app",

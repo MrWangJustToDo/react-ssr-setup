@@ -41,7 +41,7 @@ const startApp = async () => {
 
   const port = __DEVELOPMENT__ ? process.env.DEV_PORT : process.env.PROD_PORT;
 
-  app.listen(port as string, () => {
+  app.listen(port, () => {
     if (getIsStaticGenerate()) {
       serverLog(`start static page generate, base on current router`, "info");
       generateStaticPage().then(() => {

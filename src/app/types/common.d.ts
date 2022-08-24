@@ -3,30 +3,45 @@ import type { RootStore } from "@app/store";
 import type { RedirectType } from "@app/util/preLoad";
 import type { Params } from "react-router";
 
-export interface GetInitialStateProps {
+export interface PreLoadStateProps {
   store: RootStore;
   pathName: string;
   params: Params<string>;
   query: URLSearchParams;
 }
 
-export interface GetInitialStateType {
-  (props: GetInitialStateProps):
+export interface GetInitialStateType<P = Record<string, unknown>> {
+  (props: PreLoadStateProps):
     | Promise<{
         redirect?: RedirectType;
         error?: string;
-        props?: Record<string, unknown>; // support auto inject props when data loaded
+        props?: P; // support auto inject props when data loaded
       } | void>
     | {
         redirect?: RedirectType;
         error?: string;
-        props?: Record<string, unknown>; // support auto inject props when data loaded
+        props?: P; // support auto inject props when data loaded
       }
     | void;
 }
 
-export interface GetInitialStateWithFullPropsType {
-  (props: GetInitialStateProps):
+export interface PreLoadStateType<P = Record<string, unknown>> {
+  (props: PreLoadStateProps):
+    | Promise<{
+        redirect?: RedirectType;
+        error?: string;
+        props?: P; // support auto inject props when data loaded
+      } | void>
+    | {
+        redirect?: RedirectType;
+        error?: string;
+        props?: P; // support auto inject props when data loaded
+      }
+    | void;
+}
+
+export interface AllPreLoadStateType {
+  (props: PreLoadStateProps):
     | Promise<{
         redirect?: RedirectType;
         error?: string;
@@ -42,7 +57,7 @@ export interface GetInitialStateWithFullPropsType {
 
 export interface PreLoadComponentType<T = Record<string, unknown>> {
   (props: T): JSX.Element;
-  getInitialState?: GetInitialStateType;
+  getInitialState?: GetInitialStateType<T>;
 }
 
 /* WrapperRoute */
@@ -59,13 +74,4 @@ export interface WrapperRouteType {
 /* LoadingBar */
 export interface LoadingBarWrapperType {
   (props: { loading?: boolean }): JSX.Element | null;
-}
-
-/* initial state */
-export interface GetServerSideProps {
-  (props: { pathName: string; params: Params<string>; query: URLSearchParams }): Promise<{
-    redirect?: RedirectType;
-    error?: string;
-    props?: Record<string, unknown>;
-  }>;
 }
