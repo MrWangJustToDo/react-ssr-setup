@@ -1,10 +1,10 @@
-import { combineReducers } from '@reduxjs/toolkit'
+import { combineReducers } from "@reduxjs/toolkit";
 
-import { clientLangSlice } from './clientLang';
-import { clientPropsSlice } from './clientProps';
+import { clientLangSlice } from "./clientLang";
+import { clientPropsSlice } from "./clientProps";
 
-export { clientPropsSlice } from './clientProps';
-export { clientLangSlice } from './clientLang';
+export { clientPropsSlice } from "./clientProps";
+export { clientLangSlice } from "./clientLang";
 
 export const client = combineReducers({
   [clientLangSlice.name]: clientLangSlice.reducer,

@@ -1,20 +1,16 @@
-import type { Configuration } from 'webpack-dev-server';
+import type { Configuration } from "webpack-dev-server";
 
-export const devServerConfig = ({
-  publicPath,
-}: {
-  publicPath: string;
-}): Configuration => ({
-  hot: 'only',
+export const devServerConfig = ({ publicPath }: { publicPath: string }): Configuration => ({
+  hot: "only",
   client: {
-    logging: 'verbose',
+    logging: "verbose",
     progress: true,
     reconnect: true,
   },
   compress: true,
   liveReload: true,
   headers: {
-    'Access-Control-Allow-Origin': '*',
+    "Access-Control-Allow-Origin": "*",
   },
   host: process.env.DEV_HOST,
   port: process.env.WDS_PORT,
@@ -23,8 +19,6 @@ export const devServerConfig = ({
   },
   devMiddleware: {
     publicPath,
-    writeToDisk: (fileName) =>
-      fileName.includes('manifest-deps.json') ||
-      fileName.includes('manifest-dev.json'),
+    writeToDisk: (fileName) => fileName.includes("manifest-deps.json") || fileName.includes("manifest-dev.json"),
   },
 });

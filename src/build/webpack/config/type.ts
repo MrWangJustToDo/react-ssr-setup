@@ -1,5 +1,5 @@
 export interface GenerateActionProps {
-  env: 'client' | 'server';
+  env: "client" | "server";
   isDEV?: boolean;
   isSSR?: boolean;
   isCSR?: boolean;

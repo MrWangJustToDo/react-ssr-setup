@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
-import { IntlProvider } from 'react-intl';
+import { useEffect, useRef } from "react";
+import { IntlProvider } from "react-intl";
 
-import { useAppSelector } from '@app/store';
-import { defaultLang } from '@app/util/i18n';
+import { useAppSelector } from "@app/store";
+import { defaultLang } from "@app/util/i18n";
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 export const WrapperLang = ({ children }: { children: ReactNode }) => {
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
@@ -14,7 +14,7 @@ export const WrapperLang = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!htmlRef.current) {
-      htmlRef.current = document.querySelector('html');
+      htmlRef.current = document.querySelector("html");
     }
     if (htmlRef.current) {
       htmlRef.current.lang = lang;
@@ -22,11 +22,7 @@ export const WrapperLang = ({ children }: { children: ReactNode }) => {
   }, [lang]);
 
   return (
-    <IntlProvider
-      locale={lang}
-      messages={data[lang] || {}}
-      defaultLocale={defaultLang}
-    >
+    <IntlProvider locale={lang} messages={data[lang] || {}} defaultLocale={defaultLang}>
       {children}
     </IntlProvider>
   );

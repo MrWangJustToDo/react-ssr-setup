@@ -1,4 +1,4 @@
-import type { Cancel, Delay, KeyMap, ReJectMap, TimeoutMap } from '@app/types/util';
+import type { Cancel, Delay, KeyMap, ReJectMap, TimeoutMap } from "@app/types/util";
 
 const timeoutMap: TimeoutMap = {};
 const rejectMap: ReJectMap = {};
@@ -9,17 +9,11 @@ const maxKeyLength = 200;
 const cancel: Cancel = (key) => {
   if (timeoutMap[key]) {
     const length = timeoutMap[key].length;
-    timeoutMap[key] = timeoutMap[key]
-      .map((id) => id && clearTimeout(id))
-      .slice(length);
-    rejectMap[key] = rejectMap[key]
-      .map((reject) => reject && reject())
-      .slice(length);
+    timeoutMap[key] = timeoutMap[key].map((id) => id && clearTimeout(id)).slice(length);
+    rejectMap[key] = rejectMap[key].map((reject) => reject && reject()).slice(length);
   }
   if (keyLength > maxKeyLength) {
-    const keys = Object.keys(keyMap).sort((key1, key2) =>
-      keyMap[key1] > keyMap[key2] ? 1 : -1,
-    );
+    const keys = Object.keys(keyMap).sort((key1, key2) => (keyMap[key1] > keyMap[key2] ? 1 : -1));
     for (const keyItem of keys) {
       if (keyItem !== key && !rejectMap[keyItem].length) {
         delete keyMap[keyItem];
@@ -55,7 +49,7 @@ const delay: Delay = (time, action, key) => {
       timeoutMap[key].push(
         setTimeout(() => {
           resolve();
-        }, time),
+        }, time)
       );
     })
       .then(() => {

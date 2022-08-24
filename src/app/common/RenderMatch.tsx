@@ -1,19 +1,19 @@
-import { Container } from '@chakra-ui/react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Suspense, Fragment } from 'react';
-import { useRoutes } from 'react-router';
+import { Container } from "@chakra-ui/react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Suspense, Fragment } from "react";
+import { useRoutes } from "react-router";
 
-import { allRoutes } from '@app/router/routes';
-import { getIsAnimateRouter } from '@app/util/env';
+import { allRoutes } from "@app/router/routes";
+import { getIsAnimateRouter } from "@app/util/env";
 
-import { useLoadedLocation } from './WrapperRoute';
+import { useLoadedLocation } from "./WrapperRoute";
 
 export const RenderMatch = () => {
   const loaded = useLoadedLocation();
   const all = useRoutes(allRoutes, loaded?.location);
 
   return (
-    <Container minWidth={'container.lg'}>
+    <Container minWidth={"container.lg"}>
       {getIsAnimateRouter() ? (
         <AnimatePresence exitBeforeEnter>
           <Fragment key={loaded?.location.pathname}>
@@ -33,7 +33,7 @@ export const RenderMatch = () => {
                 },
               }}
               transition={{
-                type: 'spring',
+                type: "spring",
                 damping: 10,
                 stiffness: 50,
               }}

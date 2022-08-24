@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
-import { cancel, delay } from '@app/util/delay';
+import { cancel, delay } from "@app/util/delay";
 
 type LoadingBarProps = {
   height?: number;
@@ -35,8 +35,8 @@ const useLoadingBar = (props: LoadingBarProps = {}) => {
           let next = (state.current.present || 0) + count;
           next = next < 99.5 ? next : 99.5;
           ele.style.cssText =
-            'z-index: 1;' +
-            'top: 0;' +
+            "z-index: 1;" +
+            "top: 0;" +
             `height: ${state.current.height}px;` +
             `transform-origin: 0 0;` +
             `transform: scale(${next / 100}, 1);` +
@@ -47,10 +47,8 @@ const useLoadingBar = (props: LoadingBarProps = {}) => {
         id = requestAnimationFrame(start);
         return () => cancelAnimationFrame(id);
       } else {
-        delay(40, () => (ele.style.transform = 'scale(1)'), 'loadingBar').then(
-          () => delay(80, () => (ele.style.height = '0px'), 'loadingBar'),
-        );
-        return () => cancel('loadingBar');
+        delay(40, () => (ele.style.transform = "scale(1)"), "loadingBar").then(() => delay(80, () => (ele.style.height = "0px"), "loadingBar"));
+        return () => cancel("loadingBar");
       }
     }
   }, [loading]);

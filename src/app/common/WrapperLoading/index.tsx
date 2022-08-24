@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from "react";
 
-import type { ReactNode} from 'react';
+import type { ReactNode } from "react";
 
 export const LoadingStateContext = createContext<{
   loading: boolean;
@@ -9,11 +9,7 @@ export const LoadingStateContext = createContext<{
 
 export const WrapperLoading = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
-  return (
-    <LoadingStateContext.Provider value={{ loading, setLoading }}>
-      {children}
-    </LoadingStateContext.Provider>
-  );
+  return <LoadingStateContext.Provider value={{ loading, setLoading }}>{children}</LoadingStateContext.Provider>;
 };
 
 export const useLoadingState = () => useContext(LoadingStateContext);
