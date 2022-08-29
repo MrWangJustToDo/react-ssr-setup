@@ -30,6 +30,7 @@ declare global {
       DEV_PORT: string;
       WDS_PORT: string;
       PROD_PORT: string;
+      SWC: string;
       SSR: string;
       CSR: string;
       STATIC_GENERATE: "true" | "false";

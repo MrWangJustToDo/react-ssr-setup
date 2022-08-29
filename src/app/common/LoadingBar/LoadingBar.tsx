@@ -19,8 +19,6 @@ const _Bar = forwardRef<HTMLDivElement>(function Bar(_, ref) {
 
   const isMounted = useIsMounted();
 
-  return isMounted ? (
-    <>{createPortal(<div ref={ref} className={style.loadingBar} style={{ height: `0px`, transform: `scale(0, 1)` }} />, div as Element)}</>
-  ) : null;
+  return isMounted ? createPortal(<div ref={ref} className={style.loadingBar} style={{ height: `0px`, transform: `scale(0, 1)` }} />, div as Element) : null;
 });
 export const Bar = memo(_Bar);

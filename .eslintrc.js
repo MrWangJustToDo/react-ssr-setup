@@ -21,7 +21,7 @@ module.exports = {
     "dist/*",
     "dev/*",
     "src/__mocks__/*",
-    "webpack/*",
+    "coverage/*",
     "!.prettierrc",
     ".eslintrc.js",
     "babel.config.js",

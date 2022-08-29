@@ -1,7 +1,7 @@
 import { matchRoutes } from "react-router";
 
 import type { RootStore } from "@app/store";
-import type { PreLoadStateProps, GetInitialStateType, PreLoadStateType, AllPreLoadStateType, PreLoadComponentType } from "@app/types/common";
+import type { PreLoadStateProps, GetInitialStateType, PreLoadStateType, AllPreLoadStateType } from "@app/types/common";
 import type { PreLoadRouteConfig } from "@app/types/router";
 import type { ComponentClass } from "react";
 import type { Params } from "react-router";
@@ -83,6 +83,10 @@ type PreLoadType = (props: PreLoadProps) => Promise<{
 
 const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route">): Promise<AllPreLoadStateType | null> => {
   const preLoadStateArray: PreLoadStateType[] = [];
+  // for router
+  if (route.getInitialState) {
+    preLoadStateArray.push(route.getInitialState);
+  }
   // for preload
   if (route.preLoad) {
     const component = await route.preLoad();
@@ -93,13 +97,6 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
       if (component.default.getInitialState) {
         preLoadStateArray.push(component.default.getInitialState);
       }
-    }
-  }
-  // for Component
-  if (route.element) {
-    const typedElement = route.element as unknown as PreLoadComponentType;
-    if (typeof typedElement?.getInitialState === "function") {
-      preLoadStateArray.push(typedElement.getInitialState);
     }
   }
 

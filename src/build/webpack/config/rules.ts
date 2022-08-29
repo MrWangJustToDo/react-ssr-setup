@@ -15,7 +15,6 @@ const cssRules = ({ env, isDEV = true }: GenerateActionProps): RuleSetRule => ({
   exclude: /\.module\.s?css$/,
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const jsRulesWithSWC = (): RuleSetRule => ({
   test: /\.[jt]sx?$/,
   exclude: /node_modules/,
@@ -24,18 +23,17 @@ const jsRulesWithSWC = (): RuleSetRule => ({
   },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// const jsRules = ({ env, isDEV }: GenerateActionProps): RuleSetRule => ({
-//   test: /\.[jt]sx?$/,
-//   exclude: /node_modules/,
-//   use: {
-//     loader: "babel-loader",
-//     options: {
-//       cacheDirectory: true,
-//       plugins: env === "client" ? [isDEV && "react-refresh/babel"].filter(Boolean) : ["@babel/plugin-transform-modules-commonjs"],
-//     },
-//   },
-// });
+const jsRules = ({ env, isDEV }: GenerateActionProps): RuleSetRule => ({
+  test: /\.[jt]sx?$/,
+  exclude: /node_modules/,
+  use: {
+    loader: "babel-loader",
+    options: {
+      cacheDirectory: true,
+      plugins: env === "client" ? [isDEV && "react-refresh/babel"].filter(Boolean) : ["@babel/plugin-transform-modules-commonjs"],
+    },
+  },
+});
 
 const cssModuleRules = ({ env, isDEV = true }: GenerateActionProps): RuleSetRule => ({
   test: /\.module\.s?css$/,
@@ -79,10 +77,11 @@ const resourceRules = ({ env, isDEV = true }: GenerateActionProps): RuleSetRule 
   },
 });
 
+const isUSE_SWC = process.env.SWC && JSON.parse(process.env.SWC);
+
 export const rulesConfig = ({ env, isDEV }: GenerateActionProps) => [
   cssRules({ env, isDEV }),
-  jsRulesWithSWC(),
-  // jsRules({ env, isDEV }),
+  isUSE_SWC ? jsRulesWithSWC() : jsRules({ env, isDEV }),
   cssModuleRules({ env, isDEV }),
   resourceRules({ env, isDEV }),
 ];
