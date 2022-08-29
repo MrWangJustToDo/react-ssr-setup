@@ -1,4 +1,5 @@
 import { Code, Heading } from "@chakra-ui/react";
+import { lazy, Suspense } from "react";
 
 import { delay } from "@app/util/delay";
 
@@ -6,11 +7,16 @@ import type { GetInitialStateType } from "@app/types/common";
 
 // current page will generate static page
 
+const BazLazy = lazy(() => import("@app/component").then(({ LazyComponent }) => ({ default: LazyComponent })));
+
 export default function Index(props: { foo: string }) {
   return (
     <>
       <Heading>Baz page</Heading>
       <Code>{props.foo} page</Code>
+      <Suspense>
+        <BazLazy />
+      </Suspense>
     </>
   );
 }
