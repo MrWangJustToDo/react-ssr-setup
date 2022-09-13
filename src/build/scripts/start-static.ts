@@ -1,6 +1,9 @@
 import { spawn } from "child_process";
+import dotenv from "dotenv";
 
 import { start } from "./entry-prod";
+
+dotenv.config();
 
 const generate = async () => {
   await start();

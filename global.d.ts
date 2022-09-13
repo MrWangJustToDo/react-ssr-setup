@@ -31,6 +31,7 @@ declare global {
       WDS_PORT: string;
       PROD_PORT: string;
       SWC: string;
+      ESBUILD: string;
       SSR: string;
       CSR: string;
       STATIC_GENERATE: "true" | "false";

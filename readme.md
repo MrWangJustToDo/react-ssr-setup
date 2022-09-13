@@ -74,6 +74,8 @@ yarn run start
 
 ## swc
 
+## esbuild
+
 ## new ssr for react-18
 
 ## 静态页面生成 build:static  标记静态页面 export isStatic = true;

@@ -35,6 +35,31 @@ const jsRules = ({ env, isDEV }: GenerateActionProps): RuleSetRule => ({
   },
 });
 
+const jsRulesWithESBuild = (): RuleSetRule => ({
+  test: /\.jsx?$/,
+  exclude: /node_modules/,
+  use: {
+    loader: "esbuild-loader",
+    options: {
+      loader: "jsx",
+      target: "esnext",
+      jsx: "automatic",
+    },
+  },
+});
+
+const tsRulesWithESBuild = (): RuleSetRule => ({
+  test: /\.tsx?$/,
+  exclude: /node_modules/,
+  use: {
+    loader: "esbuild-loader",
+    options: {
+      loader: "tsx",
+      tsconfigRaw: require("../../../../tsconfig.json"),
+    },
+  },
+});
+
 const cssModuleRules = ({ env, isDEV = true }: GenerateActionProps): RuleSetRule => ({
   test: /\.module\.s?css$/,
   use: [
@@ -77,11 +102,20 @@ const resourceRules = ({ env, isDEV = true }: GenerateActionProps): RuleSetRule 
   },
 });
 
-const isUSE_SWC = process.env.SWC && JSON.parse(process.env.SWC);
+export const rulesConfig = ({ env, isDEV }: GenerateActionProps): RuleSetRule[] => {
+  const isUSE_SWC = process.env.SWC && JSON.parse(process.env.SWC) && (!process.env.ESBUILD || !JSON.parse(process.env.ESBUILD));
 
-export const rulesConfig = ({ env, isDEV }: GenerateActionProps) => [
-  cssRules({ env, isDEV }),
-  isUSE_SWC ? jsRulesWithSWC() : jsRules({ env, isDEV }),
-  cssModuleRules({ env, isDEV }),
-  resourceRules({ env, isDEV }),
-];
+  const isUSE_ESBUILD = process.env.ESBUILD && JSON.parse(process.env.ESBUILD) && (!process.env.SWC || !JSON.parse(process.env.SWC));
+
+  const isUSE_BABEL = !isUSE_SWC && !isUSE_ESBUILD;
+
+  return [
+    cssRules({ env, isDEV }),
+    isUSE_BABEL && jsRules({ env, isDEV }),
+    isUSE_SWC && jsRulesWithSWC(),
+    isUSE_ESBUILD && jsRulesWithESBuild(),
+    isUSE_ESBUILD && tsRulesWithESBuild(),
+    cssModuleRules({ env, isDEV }),
+    resourceRules({ env, isDEV }),
+  ].filter(Boolean);
+};
