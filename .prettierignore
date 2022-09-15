@@ -1,0 +1,9 @@
+
+pnpm-lock.yaml
+**/dist
+**/dev
+**/.github
+**/.changeset
+**/.husky
+**/.vscode
+**/node_modules

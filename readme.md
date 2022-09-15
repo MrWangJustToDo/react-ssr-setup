@@ -42,7 +42,7 @@ yarn run start
 
 ## 代码分割
 
-## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, cookies, props: {auto inject data}} more usage for getInitialState
+## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, props: {auto inject data}} more usage for getInitialState
 
 ## sass
 
@@ -66,8 +66,6 @@ yarn run start
 
 ## file router 开发自动更新
 
-## 全新版本 升级优化修复重构 ^\_^
-
 ## react router 6
 
 ## jest
@@ -78,4 +76,6 @@ yarn run start
 
 ## new ssr for react-18
 
-## 静态页面生成 build:static  标记静态页面 export isStatic = true;
+## monorepo
+
+## 静态页面生成 build:static 标记静态页面 export isStatic = true;

@@ -1,72 +1,23 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    jest: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-    "plugin:react/recommended", // React rules
-    "plugin:@typescript-eslint/recommended", // TypeScript rules
-    "plugin:react-hooks/recommended", // React hooks rules
-    "plugin:jsx-a11y/recommended", // Accessibility rules
-    "plugin:react/jsx-runtime", // new JSX runtime for react
-    "prettier",
-  ],
-  ignorePatterns: [
-    "node_modules/*",
-    "script/*",
-    "dist/*",
-    "dev/*",
-    "src/__mocks__/*",
-    "coverage/*",
-    "!.prettierrc",
-    ".eslintrc.js",
-    "babel.config.js",
-    "postcss.config.js",
-    "jest.config.js",
-  ], // We don't want to lint generated files nor node_modules, but we want to lint .prettierrc.js (ignored by default by eslint)
-  parser: "@typescript-eslint/parser",
   root: true,
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: "module",
-    project: "./tsconfig.json",
+  env: {
+    node: true,
   },
-  plugins: ["react", "@typescript-eslint", "react-hooks", "prettier", "import"],
-  settings: {
-    react: {
-      version: "detect",
-    },
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
-    },
-    "import/resolver": {
-      typescript: {
-        alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
-
-        // Choose from one of the "project" configs below or omit to use <root>/tsconfig.json by default
-      },
-    },
-  },
+  parser: "@typescript-eslint/parser",
+  ignorePatterns: ["node_modules/*", "**/*.js", "dist/*", "dev/*", "coverage/*", "!.prettierrc"],
+  plugins: ["@typescript-eslint", "prettier", "import"],
+  extends: ["eslint:recommended", "plugin:import/recommended", "plugin:import/typescript", "plugin:@typescript-eslint/recommended", "prettier"],
   rules: {
     // General
     // "no-console": "warn",
 
-    // TypeScript
-    // We will use TypeScript's types for component props instead
-    "react/prop-types": "off",
+    "max-lines": ["error", { max: 400, skipBlankLines: true }],
 
-    // No need to import React when using Next.js
-    // "react/react-in-jsx-scope": "off",
+    "import/first": "error",
 
-    // This rule is not compatible with Next.js's <Link /> components
-    "jsx-a11y/anchor-is-valid": "off",
+    "import/newline-after-import": "error",
+
+    "import/no-duplicates": "error",
 
     // Why would you want unused vars?
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],

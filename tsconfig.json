@@ -1,39 +1,30 @@
 {
-  "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "experimentalDecorators": true,
+    "strict": true,
     "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "module": "esnext",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
     "declaration": true,
-    "baseUrl": ".",
     "skipLibCheck": true,
+    "baseUrl": ".",
     "strictNullChecks": true,
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "types": ["node", "jest", "webpack-env" ],
+    "types": ["node"],
     "paths": {
-      "@server": ["src/server"],
-      "@server/*": ["src/server/*"],
-      "@build": ["src/build"],
-      "@build/*": ["src/build/*"],
-      "@app": ["src/app"],
-      "@app/*": ["src/app/*"]
+      "@build": ["ui/build"],
+      "@build/*": ["ui/build/*"],
+      "@server": ["ui/src/server"],
+      "@server/*": ["ui/src/server/*"],
+      "@client": ["ui/src/client"],
+      "@client/*": ["ui/src/client/*"],
+      "@shared": ["ui/src/shared"],
+      "@shared/*": ["ui/src/shared/*"]
     },
     "incremental": true
   },
-  "exclude": ["dist", "dev", "lang", "node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "exclude": ["dist", "dev", "node_modules"]
 }
