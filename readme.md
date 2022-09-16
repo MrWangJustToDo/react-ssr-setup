@@ -3,23 +3,28 @@
 ## install
 
 ```shell
-yarn install
+pnpm install
+```
+
+## prepare
+```shell
+pnpm run build:packages
 ```
 
 ## development
 
 ```shell
-yarn run dev
+pnpm run dev:ui
 ```
 
 ## production
 
 ```shell
-yarn run build
+pnpm run build:ui
 
 and
 
-yarn run start
+pnpm run start:ui
 ```
 
 # 包含功能

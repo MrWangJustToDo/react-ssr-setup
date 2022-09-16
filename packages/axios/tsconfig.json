@@ -1,11 +1,16 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["./src", "env.d.ts", "request.d.ts"],
+  "include": [
+    "./src",
+    "env.d.ts",
+    "request.d.ts"
+  ],
   "compilerOptions": {
     "rootDir": "src",
     "composite": true,
+    "module": "esnext",
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "dist/types"
+    "declarationDir": "dist/types",
+    "allowSyntheticDefaultImports": true,
   }
 }

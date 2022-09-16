@@ -1,7 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
-  "exclude": ["node_modules"],
-  "include": ["./src", "env.d.ts"],
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./src",
+    "env.d.ts"
+  ],
   "compilerOptions": {
     "rootDir": "src",
     "composite": true,
