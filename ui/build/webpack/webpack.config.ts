@@ -24,7 +24,7 @@ export const config = ({
 }: DefineWebpackConfigProps): Partial<Configuration>[] => {
   isSSR = Boolean(isSSR || safeParse<boolean>(process.env.SSR || "true"));
 
-  isCSR = !isSSR;
+  isCSR = Boolean(safeParse(process.env.CSR || "false"));
 
   const isDEV = process.env.NODE_ENV === "development";
 

@@ -1,6 +1,7 @@
 import type { PreLoadRouteConfig } from "./route";
 import type { RedirectType } from "@client/utils";
 import type { RootStore } from "@shared";
+import type { ComponentClass, FunctionComponent } from "react";
 import type { Params } from "react-router";
 
 export interface PreLoadStateProps {
@@ -55,10 +56,13 @@ export interface AllPreLoadStateType {
     | void;
 }
 
-export interface PreLoadComponentType<T = Record<string, unknown>> {
-  (props: T): JSX.Element;
-  getInitialState?: GetInitialStateType<T>;
-}
+export type PreLoadComponentType<T = Record<string, unknown>> =
+  | (FunctionComponent<T> & {
+      getInitialState?: GetInitialStateType<T>;
+    })
+  | (ComponentClass<T> & {
+      getInitialState?: GetInitialStateType<T>;
+    });
 
 /* WrapperRoute */
 interface WrapperRouteProps {

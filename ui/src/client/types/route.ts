@@ -3,7 +3,7 @@ import type { RouteObject } from "react-router";
 
 export interface PreLoadRouteConfig extends RouteObject {
   children?: PreLoadRouteConfig[];
-  preLoad?: () => Promise<PreLoadComponentType & { default: PreLoadComponentType }>;
+  preLoad?: () => Promise<PreLoadComponentType | { default: PreLoadComponentType }>;
   getInitialState?: GetInitialStateType;
 }
 

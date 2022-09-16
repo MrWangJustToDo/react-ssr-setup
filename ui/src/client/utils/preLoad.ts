@@ -1,6 +1,7 @@
+import merge from "lodash/merge";
 import { matchRoutes } from "react-router";
 
-import type { PreLoadStateProps, GetInitialStateType, PreLoadStateType, AllPreLoadStateType } from "@client/types/common";
+import type { PreLoadStateProps, GetInitialStateType, PreLoadStateType, AllPreLoadStateType, PreLoadComponentType } from "@client/types/common";
 import type { PreLoadRouteConfig } from "@client/types/route";
 import type { RootStore } from "@shared";
 import type { ComponentClass } from "react";
@@ -48,7 +49,7 @@ function preLoad(
         if (!c) {
           return s;
         }
-        s.props = { ...s.props, ...c.props };
+        s.props = merge(s.props, c.props);
         s.page = (s.page || []).concat(c.page || []);
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
         s.redirect = c.redirect ? c.redirect : s.redirect;
@@ -90,13 +91,15 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
   // for preload
   if (route.preLoad) {
     const component = await route.preLoad();
-    if (component.getInitialState) {
-      preLoadStateArray.push(component.getInitialState);
-    }
-    if (component.default) {
-      if (component.default.getInitialState) {
-        preLoadStateArray.push(component.default.getInitialState);
+    if (component["default"]) {
+      const typedComponent = component["default"] as PreLoadComponentType;
+      if (typedComponent.getInitialState) {
+        preLoadStateArray.push(typedComponent.getInitialState);
       }
+    }
+    if (component["getInitialState"]) {
+      const typedComponent = component as PreLoadComponentType;
+      preLoadStateArray.push(typedComponent.getInitialState);
     }
   }
 
@@ -106,6 +109,9 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
       const propsKey = preLoadPropsKey(pathName, query);
       // current page props has already loaded
       if (appState.client.clientProps.data[propsKey]) {
+        if (__DEVELOPMENT__) {
+          console.log(`ignore preload data for current page, key: ${propsKey}`);
+        }
         return void 0;
       }
       const res = await Promise.all(
@@ -129,7 +135,7 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
           return s;
         }
         s.error = [s.error, c.error].filter(Boolean).join(" || ");
-        s.props = { ...s.props, ...c.props };
+        s.props = merge(s.props, c.props);
         s.redirect = c.redirect ? c.redirect : s.redirect;
         return s;
       }, {});

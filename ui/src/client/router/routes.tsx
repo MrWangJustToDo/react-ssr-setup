@@ -1,14 +1,14 @@
 import { lazy } from "react";
-import { Outlet } from "react-router";
 
 import { AutoInjectProps } from "@client/common/AutoInjectProps";
+import { Layout } from "@client/common/Layout";
 
 import { dynamicRouteConfig } from "./dynamicRoutes";
 
 import type { PreLoadRouteConfig } from "@client/types/route";
 
 const baseRouter: PreLoadRouteConfig = {
-  element: <Outlet />,
+  element: <Layout />,
 };
 
 const dynamicRoutes = dynamicRouteConfig
