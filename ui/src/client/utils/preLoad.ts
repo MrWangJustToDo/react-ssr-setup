@@ -9,7 +9,7 @@ import type { Params } from "react-router";
 
 export type RedirectType = {
   code?: number;
-  location: { pathName: string; query: URLSearchParams };
+  location: { pathName: string; query?: URLSearchParams };
 };
 
 function preLoad(
@@ -26,6 +26,8 @@ function preLoad(
 }> {
   const branch = matchRoutes(routes, pathname) || [];
 
+  const relativePathname = pathname;
+
   const promises: Promise<{
     error?: string;
     page?: string[];
@@ -35,7 +37,7 @@ function preLoad(
 
   branch.forEach(({ route, params, pathname }) => {
     const match = { params, pathname };
-    promises.push(_preLoad({ route: route as PreLoadRouteConfig, store, match, query }));
+    promises.push(_preLoad({ route: route as PreLoadRouteConfig, store, match, query, relativePathname }));
   });
 
   return Promise.all(promises).then((val) => {
@@ -60,18 +62,19 @@ function preLoad(
     return {
       redirect: {
         code: 301,
-        location: { pathName: "/404", query: new URLSearchParams() },
+        location: { pathName: "/404" },
       },
     };
   });
 }
 
-const preLoadPropsKey = (pathName: string, query: URLSearchParams) => `__preload-${pathName}-${query.toString()}-props__`;
+const preLoadPropsKey = (pathName: string) => `__preload-[${pathName}]-props__`;
 
 type PreLoadProps = {
   route: PreLoadRouteConfig;
   store: RootStore;
   match: { params: Params<string>; pathname: string };
+  relativePathname: string;
   query: URLSearchParams;
 };
 
@@ -104,23 +107,23 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
   }
 
   if (preLoadStateArray.length) {
-    return async ({ store, pathName, params, query }: PreLoadStateProps) => {
-      const appState = store.getState();
-      const propsKey = preLoadPropsKey(pathName, query);
-      // current page props has already loaded
-      if (appState.client.clientProps.data[propsKey]) {
-        if (__DEVELOPMENT__) {
-          console.log(`ignore preload data for current page, key: ${propsKey}`);
-        }
-        return void 0;
-      }
+    return async ({ store, pathName, params, relativePathname, query }: PreLoadStateProps) => {
+      const propsKey = preLoadPropsKey(pathName);
+      // should not add this logic by default, do this in the `getInitialState` function
+      // const appState = store.getState();
+      // if (appState.client.clientProps.data[propsKey]) {
+      //   if (__DEVELOPMENT__) {
+      //     console.log(`ignore preload data for current page, key: ${propsKey}`);
+      //   }
+      //   return void 0;
+      // }
       const res = await Promise.all(
         preLoadStateArray.map((fn) =>
           Promise.resolve()
-            .then(() => fn({ store, pathName, params, query }))
+            .then(() => fn({ store, pathName, params, relativePathname, query }))
             .catch((e) => {
               // catch all error by default
-              console.error(`getInitialState error ${e.toString()}`);
+              console.error(`[${__CLIENT__ ? "client" : "server"}] getInitialState error ${e.toString()}`);
               return null;
             })
         )
@@ -150,13 +153,14 @@ const resolvePreLoadStateFunction = async ({ route }: Pick<PreLoadProps, "route"
   }
 };
 
-const _preLoad: PreLoadType = async ({ route, store, match, query }) => {
+const _preLoad: PreLoadType = async ({ route, store, match, query, relativePathname }) => {
   const getInitialState = await resolvePreLoadStateFunction({ route });
   if (getInitialState) {
     const initialState = await getInitialState({
       store,
       pathName: match.pathname,
       params: match.params,
+      relativePathname,
       query,
     });
     if (route.path) {

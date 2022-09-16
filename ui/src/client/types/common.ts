@@ -7,6 +7,7 @@ import type { Params } from "react-router";
 export interface PreLoadStateProps {
   store: RootStore;
   pathName: string;
+  relativePathname: string;
   params: Params<string>;
   query: URLSearchParams;
 }

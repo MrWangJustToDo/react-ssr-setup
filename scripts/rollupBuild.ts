@@ -53,6 +53,7 @@ const rollupBuild = async (packageName: packages) => {
 const start = async () => {
   await rollupBuild("env");
   await rollupBuild("axios");
+  await rollupBuild("chakra");
   process.exit(0);
 };
 

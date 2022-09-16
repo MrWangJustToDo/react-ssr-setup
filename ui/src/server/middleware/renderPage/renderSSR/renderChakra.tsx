@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { StaticRouter as Router } from "react-router-dom/server";
 
 import { App } from "@client/common/App";
-import { theme } from "@client/theme";
 import {
   getAllStateFileContent,
   mainScriptsPath,
@@ -21,7 +20,7 @@ import {
   dynamicPageScriptsPath,
 } from "@server/util/manifest";
 import { serverLog } from "@server/util/serverLog";
-import { createEmotionCache, getIsStaticGenerate, HTML } from "@shared";
+import { createEmotionCache, getIsStaticGenerate, HTML, theme } from "@shared";
 
 import { renderP_CSR } from "../renderP_CSR";
 

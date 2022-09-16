@@ -6,7 +6,7 @@ import type { Configuration } from "webpack-dev-server";
 type DevServerProps = SafeGenerateActionProps & { publicPath: string };
 
 export const devServerConfig = ({ publicPath, DEV_HOST, WDS_PORT }: DevServerProps): Configuration => ({
-  hot: "only",
+  hot: true,
   client: {
     logging: "verbose",
     progress: true,

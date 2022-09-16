@@ -10,6 +10,7 @@
     "module": "esnext",
     "declaration": true,
     "declarationMap": true,
+    "moduleResolution": "node",
     "declarationDir": "dist/types",
     "allowSyntheticDefaultImports": true,
   }

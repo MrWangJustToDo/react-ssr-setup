@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 
 import { useLoadingState } from "@client/common/WrapperLoading";
-import { preLoadPropsKey } from "@client/utils";
 import { getIsCSR } from "@shared";
 import { changeClientPropsSuccess } from "@shared/store/reducer/client/clientProps";
 
@@ -30,20 +29,20 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
   // for pure client render, there are not exist loaded location
   const [loadedLocation, setLoadedLocation] = useState(getIsCSR() ? undefined : { location, query });
 
-  loadingPath.current = preLoadPropsKey(location.pathname, query);
+  loadingPath.current = `${location.pathname}?${query.toString()}`;
 
-  loadedPath.current = loadedLocation ? preLoadPropsKey(loadedLocation.location.pathname, loadedLocation.query) : "";
+  loadedPath.current = loadedLocation ? `${loadedLocation.location.pathname}?${loadedLocation.query.toString()}` : "";
 
   storeRef.current = store;
 
   useEffect(() => {
     // skip first load if need
     if (!firstLoad.current) {
-      const isRedirectCurrentPath = isRedirect.current && isRedirect.current === preLoadPropsKey(location.pathname, query);
+      const isRedirectCurrentPath = isRedirect.current && isRedirect.current === `${location.pathname}?${query.toString()}`;
       if (!isRedirectCurrentPath) {
         setLoading(false);
       }
-      if (loadedPath.current !== preLoadPropsKey(location.pathname, query)) {
+      if (loadedPath.current !== `${location.pathname}?${query.toString()}`) {
         if (!isRedirectCurrentPath) {
           timer1.current && clearTimeout(timer1.current);
           timer1.current = null;
@@ -57,11 +56,11 @@ const usePreLoad: UsePreLoadType = ({ routes, preLoad }) => {
         // 分离每次load逻辑  避免跳转错乱
         const currentLoad = (location: ReturnType<typeof useLocation>, query: URLSearchParams): void => {
           preLoad(routes, location.pathname, query, storeRef.current).then((config) => {
-            const currentLoadKey = preLoadPropsKey(location.pathname, query);
+            const currentLoadKey = `${location.pathname}?${query.toString()}`;
             if (currentLoadKey === loadingPath.current) {
               const { redirect, error, props } = config || {};
               if (redirect) {
-                isRedirect.current = preLoadPropsKey(redirect.location.pathName, redirect.location.query);
+                isRedirect.current = `${redirect.location.pathName}?${redirect.location.query?.toString()}`;
               } else {
                 isRedirect.current = "";
               }

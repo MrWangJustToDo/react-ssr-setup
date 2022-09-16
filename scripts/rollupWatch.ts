@@ -2,10 +2,10 @@ import { watch as rollup } from "rollup";
 
 import { getRollupConfig } from "./rollupConfig";
 
-import type { Mode, packages } from "./type";
+import type { packages } from "./type";
 import type { RollupOptions } from "rollup";
 
-const watch = (packageName: string, rollupOptions: RollupOptions, mode: Mode, isUMD: boolean) => {
+const watch = (packageName: string, rollupOptions: RollupOptions, mode: string, isUMD: boolean) => {
   rollupOptions.watch = {
     buildDelay: 300,
     exclude: ["node_modules"],
@@ -28,10 +28,14 @@ const watch = (packageName: string, rollupOptions: RollupOptions, mode: Mode, is
 };
 
 const rollupWatch = async (packageName: packages) => {
-  const { allOtherDev, allUMDDev } = await getRollupConfig(packageName);
+  const { allOtherDev, allSingleOther, allUMDDev } = await getRollupConfig(packageName);
 
   if (allOtherDev) {
     watch(packageName, allOtherDev, "development", false);
+  }
+
+  if (allSingleOther) {
+    watch(packageName, allSingleOther, "process.env", false);
   }
 
   if (allUMDDev) {
@@ -42,3 +46,5 @@ const rollupWatch = async (packageName: packages) => {
 rollupWatch("env");
 
 rollupWatch("axios");
+
+rollupWatch("chakra");

@@ -19,6 +19,7 @@ import { initLang } from "./middleware/initLang";
 
 import type { AnyAction } from "./compose";
 
+// 纯净的客户端渲染
 const targetRender: AnyAction = async ({ res, env, lang }) => {
   if (!env || !lang) {
     throw new RenderError("server 初始化失败", 500);

@@ -6,8 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { App } from "@client/common/App";
-import { theme } from "@client/theme";
-import { createEmotionCache } from "@shared";
+import { createEmotionCache, theme } from "@shared";
 
 import type { createUniversalStore } from "@shared";
 

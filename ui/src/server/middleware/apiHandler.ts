@@ -67,7 +67,6 @@ export const defaultRunRequestMiddleware = runRequestMiddlewareHandler;
 
 export const wrapperMiddlewareRequest = function (config: MiddlewareConfig, composed: ReturnType<typeof compose> = composedMiddleware) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // 每一个新的请求  需要清除原始的缓存数据
     const ctx = { ...config, req, res, next };
     try {
       await composed(ctx, ctx.requestHandler);

@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { createElement, lazy } from "react";
 
 import { AutoInjectProps } from "@client/common/AutoInjectProps";
 import { Layout } from "@client/common/Layout";
@@ -8,7 +8,8 @@ import { dynamicRouteConfig } from "./dynamicRoutes";
 import type { PreLoadRouteConfig } from "@client/types/route";
 
 const baseRouter: PreLoadRouteConfig = {
-  element: <Layout />,
+  preLoad: () => Layout,
+  element: createElement(AutoInjectProps(Layout), ""),
 };
 
 const dynamicRoutes = dynamicRouteConfig
@@ -37,7 +38,7 @@ const dynamicRoutes = dynamicRouteConfig
   .map(({ path, component: Component, preLoad }) => ({
     path: path,
     preLoad,
-    element: <Component />,
+    element: createElement(Component),
   }));
 
 baseRouter.children = dynamicRoutes;

@@ -1,11 +1,20 @@
 import { Component } from "react";
+import { Helmet } from "react-helmet-async";
 import { Outlet } from "react-router";
+
+import { initialStateWrapper } from "@client/utils";
 
 import type { ReactNode } from "react";
 
 // TODO
-export class Layout extends Component {
+@initialStateWrapper<{ title: string }>(({ relativePathname }) => ({ props: { title: relativePathname } }))
+export class Layout extends Component<{ title: string }> {
   render(): ReactNode {
-    return <Outlet />;
+    return (
+      <>
+        <Helmet title={"path: " + this.props.title} />
+        <Outlet />
+      </>
+    );
   }
 }
