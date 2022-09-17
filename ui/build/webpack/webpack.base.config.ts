@@ -7,7 +7,7 @@ import type { Configuration } from "webpack";
 
 export const BaseConfig = (props: SafeGenerateActionProps): Partial<Configuration> => ({
   ...commonConfig(props),
-  resolve: resolveConfig(),
+  resolve: resolveConfig(props),
   stats: statsConfig(props),
   infrastructureLogging: {
     level: "error" as const,

@@ -2,7 +2,7 @@
 
 import { constants } from "fs";
 import { access, readFile } from "fs/promises";
-import { memoize, omit, pick } from "lodash-es";
+import { memoize, omit, pick } from "lodash";
 import { resolve } from "path";
 
 type SubKey = {

@@ -5,4 +5,3 @@ export * from "./env";
 export * from "./safeData";
 export * from "./i18n";
 export * from "./theme";
-export * from "./serverSideTranslations";

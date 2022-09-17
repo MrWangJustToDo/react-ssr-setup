@@ -15,7 +15,7 @@
     "lint": "eslint --cache --ext ts,tsx .",
     "lint:fix": "yarn run lint --fix",
     "prettier": "prettier --ignore-path .prettierignore --write .",
-    "clean": "pnpm -p -r -c exec rm -rf dist .cache",
+    "clean": "pnpm -p -r -c exec rm -rf dist .cache dev",
     "purge": "pnpm -p -r -c exec rm -rf node_modules",
     "test": "jest"
   },
