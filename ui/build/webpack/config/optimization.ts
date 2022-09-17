@@ -1,4 +1,4 @@
-import CssMinimizerPlugin from "mini-css-extract-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
 import type { SafeGenerateActionProps } from "../type";
 import type { Configuration } from "webpack";
