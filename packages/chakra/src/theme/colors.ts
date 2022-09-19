@@ -71,8 +71,8 @@ const purple = {
 };
 
 const text = {
-  primary: white[100],
-  primary_light: black[100],
+  primary: black[100],
+  primary_dark: white[100],
   secondary: grey[300],
   tertiary: grey[500],
   interactive: blue[500],
@@ -82,8 +82,8 @@ const text = {
 };
 
 const background = {
-  site: grey[900],
-  site_light: white[100],
+  site: white[100],
+  site_dark: grey[900],
 };
 
 const button = {

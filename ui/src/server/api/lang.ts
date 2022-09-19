@@ -39,6 +39,6 @@ export const apiHandler = async (req: Request, res: Response, next: NextFunction
   if (action) {
     await action(req, res, next);
   } else {
-    res.sendStatus(404).json({ data: "not found" });
+    res.status(404).json({ data: "not found" });
   }
 };
