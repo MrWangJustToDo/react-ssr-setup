@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "node ./dev.js",
+    "build": "pnpm run build:packages && pnpm run build:ui",
     "dev:packages": "ts-node ./scripts/rollupWatch.ts",
     "build:packages": "ts-node ./scripts/rollupBuild.ts",
     "dev:ui": "cd ui && pnpm run dev",

@@ -1,9 +1,5 @@
 {
-  "include": [
-    "./src",
-    "env.d.ts",
-    "request.d.ts"
-  ],
+  "include": ["./src", "env.d.ts", "request.d.ts"],
   "compilerOptions": {
     "rootDir": "src",
     "composite": true,
@@ -12,6 +8,6 @@
     "declarationMap": true,
     "moduleResolution": "node",
     "declarationDir": "dist/types",
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   }
 }

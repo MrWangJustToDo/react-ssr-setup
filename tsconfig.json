@@ -13,41 +13,18 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "strictNullChecks": true,
-    "types": [
-      "node",
-      "jest"
-    ],
+    "types": ["node", "jest"],
     "paths": {
-      "@build": [
-        "ui/build"
-      ],
-      "@build/*": [
-        "ui/build/*"
-      ],
-      "@server": [
-        "ui/src/server"
-      ],
-      "@server/*": [
-        "ui/src/server/*"
-      ],
-      "@client": [
-        "ui/src/client"
-      ],
-      "@client/*": [
-        "ui/src/client/*"
-      ],
-      "@shared": [
-        "ui/src/shared"
-      ],
-      "@shared/*": [
-        "ui/src/shared/*"
-      ]
+      "@build": ["ui/build"],
+      "@build/*": ["ui/build/*"],
+      "@server": ["ui/src/server"],
+      "@server/*": ["ui/src/server/*"],
+      "@client": ["ui/src/client"],
+      "@client/*": ["ui/src/client/*"],
+      "@shared": ["ui/src/shared"],
+      "@shared/*": ["ui/src/shared/*"]
     },
     "incremental": true
   },
-  "exclude": [
-    "dist",
-    "dev",
-    "node_modules"
-  ]
+  "exclude": ["dist", "dev", "node_modules"]
 }

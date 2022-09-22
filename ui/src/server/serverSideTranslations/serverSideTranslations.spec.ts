@@ -1,103 +1,103 @@
-import { modifyI18nStore } from './serverSideTranslations';
+import { modifyI18nStore } from "./serverSideTranslations";
 
 const mockI18nContent = {
   common: {
-    foo: 'bar',
-    bar: 'baz',
+    foo: "bar",
+    bar: "baz",
     a: {
-      b: '1',
-      c: '2',
-      d: '3',
+      b: "1",
+      c: "2",
+      d: "3",
       e: {
-        a: '1',
-        b: '2',
-        c: '3',
+        a: "1",
+        b: "2",
+        c: "3",
         d: {
-          a: '1',
-          b: '2',
-          c: '3',
+          a: "1",
+          b: "2",
+          c: "3",
         },
       },
     },
   },
 };
 
-describe('no exclude and include', () => {
-  test('should return original object', () => {
+describe("no exclude and include", () => {
+  test("should return original object", () => {
     expect(modifyI18nStore(mockI18nContent, [])).toMatchObject(mockI18nContent);
   });
 });
 
-describe('have include config', () => {
-  test('plain include', () => {
+describe("have include config", () => {
+  test("plain include", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          include: ['foo', 'bar'],
+          nameSpace: "common",
+          include: ["foo", "bar"],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        foo: 'bar',
-        bar: 'baz',
+        foo: "bar",
+        bar: "baz",
       },
     });
   });
-  test('deep include 1', () => {
+  test("deep include 1", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          include: ['foo', { a: 'b' }],
+          nameSpace: "common",
+          include: ["foo", { a: "b" }],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        foo: 'bar',
+        foo: "bar",
         a: {
-          b: '1',
+          b: "1",
         },
       },
     });
   });
-  test('deep include 2', () => {
+  test("deep include 2", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          include: ['foo', { a: ['b', 'd', { e: 'b' }] }],
+          nameSpace: "common",
+          include: ["foo", { a: ["b", "d", { e: "b" }] }],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        foo: 'bar',
+        foo: "bar",
         a: {
-          b: '1',
-          d: '3',
+          b: "1",
+          d: "3",
           e: {
-            b: '2',
+            b: "2",
           },
         },
       },
     });
   });
-  test('deep include 3', () => {
+  test("deep include 3", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          include: ['foo', { a: { e: { d: ['a', 'b'] } } }],
+          nameSpace: "common",
+          include: ["foo", { a: { e: { d: ["a", "b"] } } }],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        foo: 'bar',
+        foo: "bar",
         a: {
           e: {
             d: {
-              a: '1',
-              b: '2',
+              a: "1",
+              b: "2",
             },
           },
         },
@@ -106,80 +106,80 @@ describe('have include config', () => {
   });
 });
 
-describe('have exclude config', () => {
-  test('plain exclude', () => {
+describe("have exclude config", () => {
+  test("plain exclude", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          exclude: ['foo', 'a'],
+          nameSpace: "common",
+          exclude: ["foo", "a"],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        bar: 'baz',
+        bar: "baz",
       },
     });
   });
-  test('deep exclude 1', () => {
+  test("deep exclude 1", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          exclude: ['foo', { a: ['d', 'e'] }],
+          nameSpace: "common",
+          exclude: ["foo", { a: ["d", "e"] }],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        bar: 'baz',
+        bar: "baz",
         a: {
-          b: '1',
-          c: '2',
+          b: "1",
+          c: "2",
         },
       },
     });
   });
-  test('deep exclude 2', () => {
+  test("deep exclude 2", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          exclude: ['foo', { a: ['d', { e: ['b', 'd'] }] }],
+          nameSpace: "common",
+          exclude: ["foo", { a: ["d", { e: ["b", "d"] }] }],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        bar: 'baz',
+        bar: "baz",
         a: {
-          b: '1',
-          c: '2',
+          b: "1",
+          c: "2",
           e: {
-            a: '1',
-            c: '3',
+            a: "1",
+            c: "3",
           },
         },
       },
     });
   });
-  test('deep exclude 3', () => {
+  test("deep exclude 3", () => {
     expect(
       modifyI18nStore(mockI18nContent, [
         {
-          nameSpace: 'common',
-          exclude: ['foo', { a: ['d', { e: ['b', { d: ['a', 'c'] }] }] }],
+          nameSpace: "common",
+          exclude: ["foo", { a: ["d", { e: ["b", { d: ["a", "c"] }] }] }],
         },
-      ]),
+      ])
     ).toMatchObject({
       common: {
-        bar: 'baz',
+        bar: "baz",
         a: {
-          b: '1',
-          c: '2',
+          b: "1",
+          c: "2",
           e: {
-            a: '1',
-            c: '3',
+            a: "1",
+            c: "3",
             d: {
-              b: '2',
+              b: "2",
             },
           },
         },
