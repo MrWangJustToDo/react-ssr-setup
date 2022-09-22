@@ -34,13 +34,7 @@ const useLoadingBar = (props: LoadingBarProps = {}) => {
           }
           let next = (state.current.present || 0) + count;
           next = next < 99.5 ? next : 99.5;
-          ele.style.cssText =
-            "z-index: 1;" +
-            "top: 0;" +
-            `height: ${state.current.height}px;` +
-            `transform-origin: 0 0;` +
-            `transform: scale(${next / 100}, 1);` +
-            `filter: drop-shadow(2px 2px 2px rgba(200, 200, 200, .4))`;
+          ele.style.cssText = `height: ${state.current.height}px;` + `transform: scale(${next / 100}, 1);`;
           state.current.present = next;
           id = requestAnimationFrame(start);
         };
