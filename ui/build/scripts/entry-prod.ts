@@ -1,6 +1,6 @@
 import { webpack } from "webpack";
 
-import { definedWebpackConfig } from "@build/webpack";
+import { definedWebpackConfig } from "../webpack";
 
 import { compilerPromise } from "./compiler";
 import { DynamicRouter } from "./dynamic";
