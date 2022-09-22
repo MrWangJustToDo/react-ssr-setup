@@ -37,7 +37,9 @@
     ]
   },
   "dependencies": {
-    "@react-ssr-setup/env": "workspace:*",
+    "@react-ssr-setup/env": "workspace:*"
+  },
+  "peerDependencies": {
     "axios": "^0.27.2",
     "lodash": "^4.17.21"
   }

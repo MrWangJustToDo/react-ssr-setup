@@ -93,12 +93,8 @@ importers:
   packages/axios:
     specifiers:
       '@react-ssr-setup/env': workspace:*
-      axios: ^0.27.2
-      lodash: ^4.17.21
     dependencies:
       '@react-ssr-setup/env': link:../env
-      axios: 0.27.2
-      lodash: 4.17.21
 
   packages/chakra:
     specifiers: {}
@@ -8394,6 +8390,7 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: true
 
   /log-symbols/3.0.0:
     resolution: {integrity: sha512-dSkNGuI7iG3mfvDzUuYZyvk5dD9ocYCYzNU6CYDE6+Xqd+gwme6Z00NS3dUh8mq/73HaEtT7m6W+yUPtU6BZnQ==}
