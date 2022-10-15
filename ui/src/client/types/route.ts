@@ -1,11 +1,11 @@
 import type { GetInitialStateType, PreLoadComponentType } from "./common";
 import type { RouteObject } from "react-router";
 
-export interface PreLoadRouteConfig extends RouteObject {
+export type PreLoadRouteConfig = RouteObject & {
   children?: PreLoadRouteConfig[];
   preLoad?: () => PreLoadComponentType | Promise<PreLoadComponentType | { default: PreLoadComponentType }>;
   getInitialState?: GetInitialStateType;
-}
+};
 
 export interface TransformType {
   (props: PreLoadRouteConfig[]): PreLoadRouteConfig[];
