@@ -2,8 +2,20 @@
 
 import type { RootStore } from "@shared";
 import type { Request, Response } from "express";
+import type { ViteDevServer } from "vite";
 
-type BaseArgs = { req: Request; res: Response; store?: RootStore; env?: { [p: string]: unknown }; lang?: string; page?: string[] };
+type BaseArgs = {
+  req: Request & { viteServer?: ViteDevServer };
+  res: Response;
+  store?: RootStore;
+  env?: { [p: string]: unknown };
+  lang?: string;
+  page?: string[];
+  assets?: {
+    stylesPath?: string[];
+    scriptsPath?: string[];
+  };
+};
 
 export type OverrideBase<T = unknown> = BaseArgs & T;
 

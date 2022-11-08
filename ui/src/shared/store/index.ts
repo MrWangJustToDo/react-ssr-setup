@@ -21,9 +21,9 @@ export const createUniversalStore = (props: CreateStoreProps = {}) => {
     reducer,
   });
 
-  if (__DEVELOPMENT__ && module.hot) {
-    module.hot.accept("./reducer", () => store.replaceReducer(reducer));
-  }
+  // if (__DEVELOPMENT__ && module.hot) {
+  //   module.hot.accept("./reducer", () => store.replaceReducer(reducer));
+  // }
 
   return store;
 };

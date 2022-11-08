@@ -21,7 +21,7 @@ const dynamicRoutes = dynamicRouteConfig
         /* webpackPrefetch: true */
         /* webpackPreload: true */
         /* webpackChunkName: "page-[request]" */
-        `../pages/${it.componentPath}`
+        `../pages/${it.componentPath}.tsx`
       ),
     component: lazy(() =>
       import(
@@ -29,7 +29,7 @@ const dynamicRoutes = dynamicRouteConfig
         /* webpackPrefetch: true */
         /* webpackPreload: true */
         /* webpackChunkName: "page-[request]" */
-        `../pages/${it.componentPath}`
+        `../pages/${it.componentPath}.tsx`
       ).then((module) => ({
         default: AutoInjectProps(module.default, it.path),
       }))

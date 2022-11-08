@@ -6,65 +6,24 @@ import { Provider } from "react-redux";
 import { StaticRouter as Router } from "react-router-dom/server";
 
 import { App } from "@client/common/App";
-import {
-  getAllStateFileContent,
-  mainScriptsPath,
-  mainStylesPath,
-  manifestStateFile,
-  runtimeScriptsPath,
-  generateStyleElements,
-  generatePreloadScriptElements,
-  manifestDepsFile,
-  getDynamicPagePath,
-  dynamicPageStylesPath,
-  dynamicPageScriptsPath,
-} from "@server/util/manifest";
+import { generateStyleElements, generatePreloadScriptElements } from "@server/util/manifest";
 import { serverLog } from "@server/util/serverLog";
-import { createEmotionCache, getIsStaticGenerate, HTML, theme } from "@shared";
+import { createEmotionCache, HTML, theme } from "@shared";
 
-import { renderP_CSR } from "../renderP_CSR";
+import { targetRender as targetCSRRender } from "./renderCSR";
 
 import type { SafeAction } from "../compose";
 
-export const targetRender: SafeAction = async ({ req, res, store, lang, env, page }) => {
+export const targetRender: SafeAction = async ({ req, res, store, lang, env, assets = {} }) => {
   const helmetContext = {};
 
   const emotionCache = createEmotionCache();
 
   const cookieStore = cookieStorageManagerSSR(req.headers.cookie || "");
 
-  const stateFileContent = await getAllStateFileContent(manifestStateFile("client"));
+  const { stylesPath = [], scriptsPath = [] } = assets;
 
-  const depsFileContent = await getAllStateFileContent<
-    Record<
-      string,
-      {
-        path: string[];
-        static: boolean;
-      }
-    >,
-    Record<string, string[]>
-  >(manifestDepsFile("client"), (content) =>
-    Object.keys(content)
-      .map((key) => ({ [key]: content[key].path }))
-      .reduce((p, c) => ({ ...p, ...c }), {})
-  );
-
-  const dynamicPage = getDynamicPagePath(depsFileContent, page);
-
-  const dynamicStylesPath = dynamicPageStylesPath(stateFileContent, dynamicPage);
-
-  const dynamicScriptsPath = dynamicPageScriptsPath(stateFileContent, dynamicPage);
-
-  const mainStyles = mainStylesPath(stateFileContent);
-
-  const runtimeScripts = runtimeScriptsPath(stateFileContent);
-
-  const mainScripts = mainScriptsPath(stateFileContent);
-
-  const isStaticGenerate = getIsStaticGenerate();
-
-  const shellMethod = isStaticGenerate ? "onAllReady" : "onShellReady";
+  const shellMethod = env.isStaticGenerate ? "onAllReady" : "onShellReady";
 
   let error = false;
 
@@ -76,8 +35,8 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
       lang={JSON.stringify(lang)}
       helmetContext={helmetContext}
       preloadedState={JSON.stringify(store.getState())}
-      link={generateStyleElements(mainStyles.concat(dynamicStylesPath))}
-      preLoad={generatePreloadScriptElements(mainScripts.concat(runtimeScripts).concat(dynamicScriptsPath))}
+      link={generateStyleElements(stylesPath)}
+      preLoad={generatePreloadScriptElements(scriptsPath)}
     >
       <CacheProvider value={emotionCache}>
         <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
@@ -92,7 +51,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
       </CacheProvider>
     </HTML>,
     {
-      bootstrapScripts: [...runtimeScripts, ...mainScripts, ...dynamicScriptsPath],
+      bootstrapScripts: scriptsPath,
       // to support static generate, for SSR use
       [shellMethod]() {
         if (!error) {
@@ -105,26 +64,27 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, pag
       onShellError(err) {
         error = true;
         if (!initial) {
-          if (!isStaticGenerate) {
+          if (!env.isStaticGenerate) {
             // Something errored before we could complete the shell so we fallback to client render
-            renderP_CSR({ req, res });
+            targetCSRRender({ req, res, store, lang, env, assets });
           } else {
             res.status(500).send("server render error!");
           }
         }
-        serverLog((err as Error).message, "error");
+        console.log(err);
+        serverLog((err as Error).stack, "error");
       },
       onError(err) {
         error = true;
         if (!initial) {
-          if (!isStaticGenerate) {
+          if (!env.isStaticGenerate) {
             // not set header, so we can safe to fallback to client render
-            renderP_CSR({ req, res });
+            targetCSRRender({ req, res, store, lang, env, assets });
           } else {
             res.status(500).send("server render error!");
           }
         }
-        serverLog((err as Error).message, "error");
+        serverLog((err as Error).stack, "error");
       },
     }
   );

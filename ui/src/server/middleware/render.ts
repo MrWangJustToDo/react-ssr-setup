@@ -1,16 +1,22 @@
 import { getIsSSR } from "@shared";
 
-import { renderSSR, renderCSR } from "./renderPage";
+import { webpackRenderCSR, webpackRenderP_CSR, webpackRenderSSR, viteRenderCSR, viteRenderP_CSR, viteRenderSSR } from "./renderPage";
 
 import type { RenderType } from "@server/type";
 
+const useVITE = false;
+
 // 渲染函数
 const render: RenderType = async ({ req, res }) => {
-  const { isSSR } = req.query;
-  if (isSSR || getIsSSR()) {
-    await renderSSR({ req, res });
+  if (__CSR__) {
+    useVITE ? await viteRenderP_CSR({ req, res }) : await webpackRenderP_CSR({ req, res });
   } else {
-    await renderCSR({ req, res });
+    const { isSSR } = req.query;
+    if (isSSR || getIsSSR()) {
+      useVITE ? await viteRenderSSR({ req, res }) : await webpackRenderSSR({ req, res });
+    } else {
+      useVITE ? await viteRenderCSR({ req, res }) : await webpackRenderCSR({ req, res });
+    }
   }
 };
 

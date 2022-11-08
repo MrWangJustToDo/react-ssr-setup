@@ -40,6 +40,7 @@ declare global {
       SERVER_ENTRY: string;
       CLIENT_ENTRY: string;
       MIDDLEWARE: string;
+      MIDDLEWARE_VITE: string;
       ANIMATE_ROUTER: string;
     }
   }
