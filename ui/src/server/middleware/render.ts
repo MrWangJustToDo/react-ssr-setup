@@ -4,7 +4,7 @@ import { webpackRenderCSR, webpackRenderP_CSR, webpackRenderSSR, viteRenderCSR, 
 
 import type { RenderType } from "@server/type";
 
-const useVITE = false;
+const useVITE = true;
 
 // 渲染函数
 const render: RenderType = async ({ req, res }) => {
