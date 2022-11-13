@@ -21,7 +21,7 @@ export async function fetchAdapter(config: AxiosRequestConfig): Promise<AxiosRes
     console.warn(`[axios] current request prefer use mock data, but do the original fetch`);
   }
 
-  const defaults = await import(/* @vite-ignore */ "axios/lib/defaults/index.js");
+  const internalModule = await import(/* @vite-ignore */ "axios/lib/defaults/index.js");
 
   let request: Request | null = null;
   try {
@@ -30,7 +30,7 @@ export async function fetchAdapter(config: AxiosRequestConfig): Promise<AxiosRes
     if (__DEV__) {
       console.error(`fetch adapter create error, ${(err as Error).message}`);
     }
-    return defaults.adapter(config) as AxiosPromise;
+    return internalModule.default.adapter(config) as AxiosPromise;
   }
 
   const fetchPromise = getResponse(request, config);

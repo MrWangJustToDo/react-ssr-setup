@@ -15,7 +15,7 @@ import { getIsSSR } from "@shared";
 import type { Middleware } from "../compose";
 
 // only used for webpack build
-export const loadAsset: Middleware = (next) => async (args) => {
+export const loadWebpackAsset: Middleware = (next) => async (args) => {
   const { req } = args;
 
   const isSSR = getIsSSR() || req.query.isSSR;

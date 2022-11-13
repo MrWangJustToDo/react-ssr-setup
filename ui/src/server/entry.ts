@@ -19,7 +19,11 @@ const startApp = async () => {
 
   app.use(express.static(`${process.cwd()}/public`));
 
-  app.use(express.static(`${process.cwd()}/dist`));
+  if (__VITE__) {
+    app.use(express.static(`${process.cwd()}/dist/client`));
+  } else {
+    app.use(express.static(`${process.cwd()}/dist`));
+  }
 
   page(app);
 
@@ -27,11 +31,12 @@ const startApp = async () => {
 
   await develop(app);
 
-  app.use((req, res, next) => {
-    handlerRender()(req, res, next);
+  app.use(async (req, res, next) => {
+    const render = await handlerRender();
+    await render(req, res, next);
   });
 
-  if (__DEVELOPMENT__ && module.hot) {
+  if (__DEVELOPMENT__ && process.env.FORMWORK === "webpack" && module.hot) {
     module.hot.accept("./app.ts", () => {
       serverLog("app update", "info");
       handlerRender = generateHandler;

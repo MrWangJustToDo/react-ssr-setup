@@ -21,6 +21,7 @@ export const pluginsConfig = ({ env, isDEV, isSSR, isCSR, isMIDDLEWARE }: SafeGe
     new DefinePlugin({
       __SSR__: isSSR,
       __CSR__: isCSR,
+      __VITE__: false,
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDEV,

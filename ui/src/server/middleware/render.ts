@@ -4,10 +4,9 @@ import { webpackRenderCSR, webpackRenderP_CSR, webpackRenderSSR, viteRenderCSR, 
 
 import type { RenderType } from "@server/type";
 
-const useVITE = true;
-
 // 渲染函数
 const render: RenderType = async ({ req, res }) => {
+  const useVITE = process.env.FORMWORK === "vite";
   if (__CSR__) {
     useVITE ? await viteRenderP_CSR({ req, res }) : await webpackRenderP_CSR({ req, res });
   } else {

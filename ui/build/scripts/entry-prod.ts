@@ -1,3 +1,5 @@
+import { resolve as pathResolve } from "path";
+import { build } from "vite";
 import { webpack } from "webpack";
 
 import { definedWebpackConfig } from "../webpack";
@@ -28,4 +30,22 @@ const withCompiler = async () => {
   }
 };
 
-export const start = async () => await withCompiler();
+const withVite = async () => {
+  await new DynamicRouter("universal").getDynamicRouter();
+  await Promise.all([
+    build({
+      configFile: pathResolve(process.cwd(), "vite.config.ts"),
+    }),
+    build({
+      configFile: pathResolve(process.cwd(), "vite.config.node.ts"),
+    }),
+  ]);
+};
+
+export const start = async () => {
+  if (process.env.FORMWORK === "vite") {
+    await withVite();
+  } else {
+    await withCompiler();
+  }
+};

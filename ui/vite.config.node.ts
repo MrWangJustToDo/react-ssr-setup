@@ -30,23 +30,19 @@ export default defineConfig(() => {
       },
     },
     build: {
+      ssr: true,
       rollupOptions: {
-        input: resolve(process.cwd(), "src/client/entry.tsx"),
+        input: {
+          app: resolve(process.cwd(), "src/server/entry.ts"),
+          renderSSR: resolve(process.cwd(), "src/server/middleware/renderPage/render/renderSSR.tsx"),
+          renderCSR: resolve(process.cwd(), "src/server/middleware/renderPage/render/renderCSR.tsx"),
+          renderP_CSR: resolve(process.cwd(), "src/server/middleware/renderPage/render/renderP_CSR.tsx"),
+        },
         output: {
-          manualChunks: (id) => {
-            if (id.includes("node_modules")) {
-              if (id.includes("/core-js")) return "vendor-core-js";
-              if (id.includes("/@chakra-ui")) return "vendor-ui";
-              if (id.includes("/@babel")) return "vendor-babel";
-              if (id.includes("/react")) return "vendor-react";
-              if (id.includes("/lodash")) return "vendor-lodash";
-              return "vendor";
-            }
-            if (id.includes("entry.tsx")) return "entry";
-          },
+          format: "commonjs",
         },
       },
-      outDir: resolve(process.cwd(), process.env.NODE_ENV === "development" ? "dev" : "dist", "client"),
+      outDir: resolve(process.cwd(), process.env.NODE_ENV === "development" ? "dev" : "dist", "server"),
     },
     define: {
       __SSR__: isSSR,

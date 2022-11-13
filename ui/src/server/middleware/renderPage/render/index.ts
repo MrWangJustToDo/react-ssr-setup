@@ -61,7 +61,7 @@ export const viteRenderSSR = composeRender(
     isSSR: true,
     isSTATIC: getIsStaticGenerate(),
     isPURE_CSR: false,
-    isMIDDLEWARE: getIsMiddleware(),
+    isMIDDLEWARE: true,
     isDEVELOPMENT: __DEVELOPMENT__,
     isANIMATE_ROUTER: getIsAnimateRouter(),
     PUBLIC_API_HOST: __DEVELOPMENT__ ? process.env.PUBLIC_DEV_API_HOST : process.env.PUBLIC_PROD_API_HOST,
@@ -77,7 +77,7 @@ export const viteRenderCSR = composeRender(
     isSSR: true,
     isSTATIC: getIsStaticGenerate(),
     isPURE_CSR: false,
-    isMIDDLEWARE: getIsMiddleware(),
+    isMIDDLEWARE: true,
     isDEVELOPMENT: __DEVELOPMENT__,
     isANIMATE_ROUTER: getIsAnimateRouter(),
     PUBLIC_API_HOST: __DEVELOPMENT__ ? process.env.PUBLIC_DEV_API_HOST : process.env.PUBLIC_PROD_API_HOST,
@@ -93,11 +93,10 @@ export const viteRenderP_CSR = composeRender(
     isSSR: false,
     isSTATIC: false,
     isPURE_CSR: true,
-    isMIDDLEWARE: getIsMiddleware(),
+    isMIDDLEWARE: true,
     isDEVELOPMENT: __DEVELOPMENT__,
     isANIMATE_ROUTER: getIsAnimateRouter(),
     PUBLIC_API_HOST: __DEVELOPMENT__ ? process.env.PUBLIC_DEV_API_HOST : process.env.PUBLIC_PROD_API_HOST,
   }),
-  initLang,
-  loadAsset
+  initLang
 )(viteRender({ mode: "P_CSR" }));

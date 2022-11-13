@@ -20,7 +20,7 @@ export const ViteInject = () => {
     );
   }
 
-  elements.push(<script type="module" src="/src/client/entry.tsx" />);
+  elements.push(<script type="module" src={`${process.env.CLIENT_ENTRY}`} />);
 
   return Children.map(elements, (child, index) => cloneElement(child, { key: index }));
 };

@@ -3,7 +3,7 @@ import { CacheProvider } from "@emotion/react";
 import { renderToPipeableStream } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
-import { StaticRouter as Router } from "react-router-dom/server";
+// import { StaticRouter as Router } from "react-router-dom/server";
 
 import { App } from "@client/common/App";
 import { generateStyleElements, generatePreloadScriptElements } from "@server/util/manifest";
@@ -15,6 +15,8 @@ import { targetRender as targetCSRRender } from "./renderCSR";
 import type { SafeAction } from "../compose";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, assets = {} }) => {
+  const { StaticRouter: Router } = await import("react-router-dom/server.js");
+
   const helmetContext = {};
 
   const emotionCache = createEmotionCache();
@@ -71,7 +73,6 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
             res.status(500).send("server render error!");
           }
         }
-        console.log(err);
         serverLog((err as Error).stack, "error");
       },
       onError(err) {
