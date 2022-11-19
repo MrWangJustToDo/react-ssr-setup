@@ -12,8 +12,9 @@ type BaseArgs = {
   lang?: string;
   page?: string[];
   assets?: {
-    stylesPath?: string[];
-    scriptsPath?: string[];
+    stylesPath?: string[] | { path?: string; [p: string]: any }[];
+    scriptsPath?: string[] | { path?: string; [p: string]: any }[];
+    preloadScriptsPath?: string[] | { path?: string; [p: string]: any }[];
   };
 };
 
@@ -27,5 +28,5 @@ export type Middleware<T = BaseArgs> = (next: AnyAction<T>) => AnyAction<T>;
 
 export const composeRender =
   <T extends BaseArgs>(...middleware: Middleware<T>[]) =>
-  (render: AnyAction<T>) =>
+  (render: AnyAction<Required<T>>) =>
     middleware.reduce((m1, m2) => (targetRender) => m1(m2(targetRender)))(render);

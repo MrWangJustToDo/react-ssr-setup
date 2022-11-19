@@ -30,9 +30,10 @@ safeData(window.__PRELOAD_STORE_STATE__);
 safeData(window as unknown as Record<string, unknown>, "__PRELOAD_STORE_STATE__");
 
 if (window.__ENV__.isPURE_CSR) {
-  const { loadCurrentLang } = require("@shared");
   const root = createRoot(place);
-  loadCurrentLang(store.dispatch, window.__ENV__.LANG as "en" | "ar").then(() => root.render(<Root store={store} />));
+  import("@shared")
+    .then(({ loadCurrentLang }) => loadCurrentLang(store.dispatch, window.__ENV__.LANG as "en" | "ar"))
+    .then(() => root.render(<Root store={store} />));
 } else {
   if (!window.__ENV__.isSSR || (window.__ENV__.isDEVELOPMENT && window.__ENV__.isMIDDLEWARE)) {
     const root = createRoot(place);

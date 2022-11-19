@@ -9,6 +9,7 @@ const splitChunk = (packageArray: string[]) => {
   if (pnpmPackages.includes("/core-js")) return "vendor-core-js";
   if (pnpmPackages.includes("/@chakra-ui")) return "vendor-ui";
   if (pnpmPackages.includes("/@babel")) return "vendor-babel";
+  if (pnpmPackages.includes("@emotion")) return "vendor-emotion";
   if (pnpmPackages.includes("/react")) return "vendor-react";
   if (pnpmPackages.includes("/lodash")) return "vendor-lodash";
   return "vendor";

@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";
+import dynamicImport from "vite-plugin-dynamic-import";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
@@ -10,6 +11,7 @@ export default defineConfig(() => {
   return {
     root: process.cwd(),
     plugins: [
+      dynamicImport({ loose: true }),
       react({
         jsxImportSource: "@emotion/react",
         babel: {
@@ -34,9 +36,9 @@ export default defineConfig(() => {
       rollupOptions: {
         input: {
           app: resolve(process.cwd(), "src/server/entry.ts"),
-          renderSSR: resolve(process.cwd(), "src/server/middleware/renderPage/render/renderSSR.tsx"),
-          renderCSR: resolve(process.cwd(), "src/server/middleware/renderPage/render/renderCSR.tsx"),
-          renderP_CSR: resolve(process.cwd(), "src/server/middleware/renderPage/render/renderP_CSR.tsx"),
+          renderSSR: resolve(process.cwd(), "src/server/middleware/renderPage/native/renderSSR.tsx"),
+          renderCSR: resolve(process.cwd(), "src/server/middleware/renderPage/native/renderCSR.tsx"),
+          renderP_CSR: resolve(process.cwd(), "src/server/middleware/renderPage/native/renderP_CSR.tsx"),
         },
         output: {
           format: "commonjs",

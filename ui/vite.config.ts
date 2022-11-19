@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";
+import dynamicImport from "vite-plugin-dynamic-import";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
@@ -10,6 +11,8 @@ export default defineConfig(() => {
   return {
     root: process.cwd(),
     plugins: [
+      // enable webpack like dynamic import
+      dynamicImport({ loose: true }),
       react({
         jsxImportSource: "@emotion/react",
         babel: {
@@ -30,16 +33,18 @@ export default defineConfig(() => {
       },
     },
     build: {
+      manifest: process.env.NODE_ENV === "development" ? "manifest-dev-vite.json" : "manifest-prod-vite.json",
       rollupOptions: {
         input: resolve(process.cwd(), "src/client/entry.tsx"),
         output: {
           manualChunks: (id) => {
             if (id.includes("node_modules")) {
-              if (id.includes("/core-js")) return "vendor-core-js";
-              if (id.includes("/@chakra-ui")) return "vendor-ui";
-              if (id.includes("/@babel")) return "vendor-babel";
-              if (id.includes("/react")) return "vendor-react";
-              if (id.includes("/lodash")) return "vendor-lodash";
+              if (id.includes("core-js")) return "vendor-core-js";
+              if (id.includes("@chakra-ui")) return "vendor-ui";
+              if (id.includes("@babel")) return "vendor-babel";
+              if (id.includes("@emotion")) return "vendor-emotion";
+              if (id.includes("react")) return "vendor-react";
+              if (id.includes("lodash")) return "vendor-lodash";
               return "vendor";
             }
             if (id.includes("entry.tsx")) return "entry";

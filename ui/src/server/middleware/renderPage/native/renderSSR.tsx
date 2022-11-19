@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 // import { StaticRouter as Router } from "react-router-dom/server";
 
 import { App } from "@client/common/App";
-import { generateStyleElements, generatePreloadScriptElements } from "@server/util/manifest";
+import { generateStyleElements, generatePreloadScriptElements, generateScriptElements } from "@server/util/element";
 import { serverLog } from "@server/util/serverLog";
 import { createEmotionCache, HTML, theme } from "@shared";
 
@@ -15,6 +15,8 @@ import { targetRender as targetCSRRender } from "./renderCSR";
 import type { SafeAction } from "../compose";
 
 export const targetRender: SafeAction = async ({ req, res, store, lang, env, assets = {} }) => {
+  // has error for vite
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { StaticRouter: Router } = await import("react-router-dom/server.js");
 
   const helmetContext = {};
@@ -23,7 +25,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
 
   const cookieStore = cookieStorageManagerSSR(req.headers.cookie || "");
 
-  const { stylesPath = [], scriptsPath = [] } = assets;
+  const { stylesPath = [], scriptsPath = [], preloadScriptsPath = [] } = assets;
 
   const shellMethod = env.isStaticGenerate ? "onAllReady" : "onShellReady";
 
@@ -38,7 +40,8 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
       helmetContext={helmetContext}
       preloadedState={JSON.stringify(store.getState())}
       link={generateStyleElements(stylesPath)}
-      preLoad={generatePreloadScriptElements(scriptsPath)}
+      preLoad={generatePreloadScriptElements(preloadScriptsPath)}
+      script={generateScriptElements(scriptsPath)}
     >
       <CacheProvider value={emotionCache}>
         <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
@@ -53,7 +56,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
       </CacheProvider>
     </HTML>,
     {
-      bootstrapScripts: scriptsPath,
+      // bootstrapScripts: scriptsPath.map((s) => (typeof s === "string" ? s : s.path ? s.path : null)).filter(Boolean),
       // to support static generate, for SSR use
       [shellMethod]() {
         if (!error) {

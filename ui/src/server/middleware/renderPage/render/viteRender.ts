@@ -11,7 +11,7 @@ export const viteRender =
     if (__DEVELOPMENT__) {
       const { req } = args;
       const { viteServer } = req;
-      const { targetRender } = await viteServer.ssrLoadModule(resolve(process.cwd(), "src/server/middleware/renderPage/render", `render${mode}.tsx`));
+      const { targetRender } = await viteServer.ssrLoadModule(resolve(process.cwd(), "src/server/middleware/renderPage/native", `render${mode}.tsx`));
       await targetRender(args);
     } else {
       const { env } = args;

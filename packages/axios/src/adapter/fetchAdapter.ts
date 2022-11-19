@@ -37,7 +37,9 @@ export async function fetchAdapter(config: AxiosRequestConfig): Promise<AxiosRes
 
   const data = await fetchPromise;
 
-  const settle = await import(/* @vite-ignore */ "axios/lib/core/settle.js");
+  const _settle = await import(/* @vite-ignore */ "axios/lib/core/settle.js");
+
+  const settle = _settle.default ? _settle.default : _settle;
 
   return new Promise((resolve, reject) => {
     if (data instanceof Error) {
@@ -155,9 +157,13 @@ async function createRequest(config: AxiosRequestConfig): Promise<Request> {
     }
   });
 
-  const buildFullPath = await import(/* @vite-ignore */ "axios/lib/core/buildFullPath.js");
+  const _buildFullPath = await import(/* @vite-ignore */ "axios/lib/core/buildFullPath.js");
 
-  const buildURL = await import(/* @vite-ignore */ "axios/lib/helpers/buildURL.js");
+  const buildFullPath = _buildFullPath.default ? _buildFullPath.default : _buildFullPath;
+
+  const _buildURL = await import(/* @vite-ignore */ "axios/lib/helpers/buildURL.js");
+
+  const buildURL = _buildURL.default ? _buildURL.default : _buildURL;
 
   const { isUndefined } = await import(/* @vite-ignore */ "axios/lib/utils.js");
 

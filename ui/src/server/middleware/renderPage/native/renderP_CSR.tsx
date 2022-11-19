@@ -1,6 +1,6 @@
 import { renderToString } from "react-dom/server";
 
-import { generateStyleElements, generateScriptElements, generatePreloadScriptElements } from "@server/util/manifest";
+import { generateStyleElements, generateScriptElements, generatePreloadScriptElements } from "@server/util/element";
 import { RenderError } from "@server/util/renderError";
 import { HTML } from "@shared";
 
@@ -12,7 +12,7 @@ export const targetRender: AnyAction = async ({ res, env, lang, assets = {} }) =
     throw new RenderError("server 初始化失败", 500);
   }
 
-  const { stylesPath = [], scriptsPath = [] } = assets;
+  const { stylesPath = [], scriptsPath = [], preloadScriptsPath = [] } = assets;
 
   res.send(
     "<!doctype html>" +
@@ -21,7 +21,7 @@ export const targetRender: AnyAction = async ({ res, env, lang, assets = {} }) =
           env={JSON.stringify(env)}
           lang={JSON.stringify(lang)}
           link={generateStyleElements(stylesPath)}
-          preLoad={generatePreloadScriptElements(scriptsPath)}
+          preLoad={generatePreloadScriptElements(preloadScriptsPath)}
           script={generateScriptElements(scriptsPath)}
         />
       )

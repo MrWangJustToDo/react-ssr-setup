@@ -9,7 +9,7 @@ type Request = ExpressRequest & {
 };
 
 export const viteMiddleware = async (app: Express) => {
-  if (__DEVELOPMENT__ && process.env.CLIENT_ENTRY) {
+  if (__DEVELOPMENT__ && __VITE__ && process.env.CLIENT_ENTRY) {
     const vite = require("vite");
     const viteServer = (await vite.createServer({
       configFile: pathResolve(process.cwd(), "vite.config.ts"),
