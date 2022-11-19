@@ -1,4 +1,4 @@
-import { manifestStaticPageFile } from "@server/util/manifest";
+import { manifestStaticPageFile } from "@server/util/webpackManifest";
 
 import {
   getAllStaticRouters,

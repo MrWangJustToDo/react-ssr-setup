@@ -8,6 +8,7 @@ export const loadLang: Middleware = (next) => async (args) => {
   if (!store || !lang) {
     throw new RenderError("store or lang 初始化失败", 500);
   }
+
   if (!supportedLang[lang as keyof typeof supportedLang]) {
     throw new RenderError("不支持的语言", 404);
   }

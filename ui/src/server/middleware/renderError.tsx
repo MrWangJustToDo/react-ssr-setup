@@ -20,7 +20,7 @@ const renderError: RenderErrorType = ({ res, code, e }) =>
           </div>
           <script
             dangerouslySetInnerHTML={{
-              __html: `console.error("${e.stack || e.message}");`,
+              __html: `console.error(\`${e.stack || e.message}\`);`,
             }}
           />
         </HTML>

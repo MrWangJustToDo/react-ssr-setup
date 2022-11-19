@@ -22,11 +22,15 @@ export const loadStore: Middleware = (next) => async (args) => {
 
   if (redirect) {
     const query = redirect.location.query.toString();
+
     const path = query.length ? redirect.location.pathName + "?" + query : redirect.location.pathName;
+
     res.writeHead(redirect.code || 302, { location: path });
+
     res.end();
   } else {
     props && store.dispatch(changeClientPropsSuccess(props));
+
     await next(args);
   }
 };

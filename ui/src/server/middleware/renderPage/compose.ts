@@ -2,8 +2,21 @@
 
 import type { RootStore } from "@shared";
 import type { Request, Response } from "express";
+import type { ViteDevServer } from "vite";
 
-type BaseArgs = { req: Request; res: Response; store?: RootStore; env?: { [p: string]: unknown }; lang?: string; page?: string[] };
+type BaseArgs = {
+  req: Request & { viteServer?: ViteDevServer };
+  res: Response;
+  store?: RootStore;
+  env?: { [p: string]: unknown };
+  lang?: string;
+  page?: string[];
+  assets?: {
+    stylesPath?: string[] | { path?: string; [p: string]: any }[];
+    scriptsPath?: string[] | { path?: string; [p: string]: any }[];
+    preloadScriptsPath?: string[] | { path?: string; [p: string]: any }[];
+  };
+};
 
 export type OverrideBase<T = unknown> = BaseArgs & T;
 
@@ -15,5 +28,5 @@ export type Middleware<T = BaseArgs> = (next: AnyAction<T>) => AnyAction<T>;
 
 export const composeRender =
   <T extends BaseArgs>(...middleware: Middleware<T>[]) =>
-  (render: AnyAction<T>) =>
+  (render: AnyAction<Required<T>>) =>
     middleware.reduce((m1, m2) => (targetRender) => m1(m2(targetRender)))(render);

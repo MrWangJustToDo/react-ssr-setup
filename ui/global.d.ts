@@ -1,6 +1,7 @@
 declare global {
   const __CLIENT__: boolean;
   const __SERVER__: boolean;
+  const __VITE__: boolean;
   const __CSR__: boolean;
   const __SSR__: boolean;
   const __DEVELOPMENT__: boolean;
@@ -30,6 +31,7 @@ declare global {
       DEV_PORT: string;
       WDS_PORT: string;
       PROD_PORT: string;
+      FORMWORK: "webpack" | "vite";
       SWC: string;
       ESBUILD: string;
       SSR: string;
@@ -40,6 +42,7 @@ declare global {
       SERVER_ENTRY: string;
       CLIENT_ENTRY: string;
       MIDDLEWARE: string;
+      MIDDLEWARE_VITE: string;
       ANIMATE_ROUTER: string;
     }
   }

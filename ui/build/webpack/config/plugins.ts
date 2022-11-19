@@ -1,8 +1,9 @@
 import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import ESLintWebpackPlugin from "eslint-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+// import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { DefinePlugin, HotModuleReplacementPlugin } from "webpack";
+// import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { WebpackManifestPlugin } from "webpack-manifest-plugin";
 
 import { WebpackPageDepsPlugin } from "../plugin/webpack-page-deps";
@@ -21,6 +22,7 @@ export const pluginsConfig = ({ env, isDEV, isSSR, isCSR, isMIDDLEWARE }: SafeGe
     new DefinePlugin({
       __SSR__: isSSR,
       __CSR__: isCSR,
+      __VITE__: process.env.FORMWORK === "vite",
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDEV,
@@ -35,15 +37,24 @@ export const pluginsConfig = ({ env, isDEV, isSSR, isCSR, isMIDDLEWARE }: SafeGe
     env === "client" && isDEV && new ReactRefreshPlugin(),
     env === "client" && isDEV && isMIDDLEWARE && new HotModuleReplacementPlugin(),
     env === "server" && isDEV && !isMIDDLEWARE && new HotModuleReplacementPlugin(),
-    env === "client" &&
-      isDEV &&
-      new ForkTsCheckerWebpackPlugin({
-        async: false,
-      }),
+    // there are a error https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/issues/775
+    // env === "client" &&
+    //   isDEV &&
+    //   new ForkTsCheckerWebpackPlugin({
+    //     async: false,
+    //     typescript: {
+    //       configFile: "tsconfig.json",
+    //       configOverwrite: {
+    //         compilerOptions: { skipLibCheck: true, sourceMap: false, inlineSourceMap: false, declarationMap: false },
+    //         exclude: ["node_modules"],
+    //       },
+    //     },
+    //   }),
     env === "client" &&
       isDEV &&
       new ESLintWebpackPlugin({
-        extensions: ["js", "jsx", "ts", "tsx"],
+        extensions: ["ts", "tsx"],
         quiet: true,
       }),
+    // env === "client" && isDEV && new BundleAnalyzerPlugin(),
   ].filter(Boolean) as Configuration["plugins"];

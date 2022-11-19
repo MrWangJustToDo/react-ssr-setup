@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import http from "http";
 import path from "path";
 
-import { getAllStateFileContent, manifestDepsFile } from "@server/util/manifest";
+import { getAllStateFileContent, manifestDepsFile } from "@server/util/webpackManifest";
 
 export const getStaticPageOutputPath = (fileName: string) => path.resolve(process.cwd(), "dist", "pages", fileName);
 

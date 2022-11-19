@@ -77,7 +77,7 @@ const tsRulesWithESBuild = (): RuleSetRule => ({
     options: {
       loader: "tsx",
       target: "esnext",
-      tsconfigRaw: require(resolve(process.cwd(), "tsconfig.json")),
+      // tsconfigRaw: require(resolve(process.cwd(), "tsconfig.json")),
     },
   },
 });

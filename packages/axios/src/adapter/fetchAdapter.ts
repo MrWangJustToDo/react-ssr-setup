@@ -8,11 +8,11 @@ import { generateFetchWithTimeout } from "./fetch";
 
 import type { AxiosPromise, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const buildFullPath = require("axios/lib/core/buildFullPath");
-const settle = require("axios/lib/core/settle");
-const defaults = require("axios/lib/defaults");
-const buildURL = require("axios/lib/helpers/buildURL");
-const { isUndefined } = require("axios/lib/utils");
+// const buildFullPath = require("axios/lib/core/buildFullPath");
+// const settle = require("axios/lib/core/settle");
+// const defaults = require("axios/lib/defaults");
+// const buildURL = require("axios/lib/helpers/buildURL");
+// const { isUndefined } = require("axios/lib/utils");
 
 export async function fetchAdapter(config: AxiosRequestConfig): Promise<AxiosResponse<unknown>> {
   const { useMock } = config;
@@ -21,19 +21,25 @@ export async function fetchAdapter(config: AxiosRequestConfig): Promise<AxiosRes
     console.warn(`[axios] current request prefer use mock data, but do the original fetch`);
   }
 
+  const internalModule = await import(/* @vite-ignore */ "axios/lib/defaults/index.js");
+
   let request: Request | null = null;
   try {
-    request = createRequest(config);
+    request = await createRequest(config);
   } catch (err) {
     if (__DEV__) {
       console.error(`fetch adapter create error, ${(err as Error).message}`);
     }
-    return defaults.adapter(config) as AxiosPromise;
+    return internalModule.default.adapter(config) as AxiosPromise;
   }
 
   const fetchPromise = getResponse(request, config);
 
   const data = await fetchPromise;
+
+  const _settle = await import(/* @vite-ignore */ "axios/lib/core/settle.js");
+
+  const settle = _settle.default ? _settle.default : _settle;
 
   return new Promise((resolve, reject) => {
     if (data instanceof Error) {
@@ -110,7 +116,7 @@ async function getResponse(request: Request, config: AxiosRequestConfig): Promis
 /**
  * This function will create a Request object based on configuration's axios
  */
-function createRequest(config: AxiosRequestConfig): Request {
+async function createRequest(config: AxiosRequestConfig): Promise<Request> {
   if (typeof fetch === "undefined") {
     throw new Error("current env not have fetch function");
   }
@@ -150,6 +156,16 @@ function createRequest(config: AxiosRequestConfig): Request {
       Object.assign(options, { [property]: property });
     }
   });
+
+  const _buildFullPath = await import(/* @vite-ignore */ "axios/lib/core/buildFullPath.js");
+
+  const buildFullPath = _buildFullPath.default ? _buildFullPath.default : _buildFullPath;
+
+  const _buildURL = await import(/* @vite-ignore */ "axios/lib/helpers/buildURL.js");
+
+  const buildURL = _buildURL.default ? _buildURL.default : _buildURL;
+
+  const { isUndefined } = await import(/* @vite-ignore */ "axios/lib/utils.js");
 
   // This config is similar to XHR’s withCredentials flag, but with three available values instead of two.
   // So if withCredentials is not set, default value 'same-origin' will be used

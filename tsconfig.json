@@ -10,6 +10,7 @@
     "moduleResolution": "node",
     "isolatedModules": true,
     "declaration": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "baseUrl": ".",
     "strictNullChecks": true,

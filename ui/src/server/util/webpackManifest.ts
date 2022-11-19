@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import { memoize } from "lodash";
 import path from "path";
-import { createElement } from "react";
 
 const outputPath = (env: "server" | "client"): string => (__DEVELOPMENT__ ? path.resolve(process.cwd(), "dev", env) : path.resolve(process.cwd(), "dist", env));
 
@@ -23,12 +22,6 @@ const _getAllStateFileContent = async <T = Record<string, string>, P = T>(path: 
 const getAllStateFileContent = __DEVELOPMENT__
   ? _getAllStateFileContent
   : memoize(_getAllStateFileContent, (path, normalize) => `${path}/${(normalize || "empty").toString()}`);
-
-const generateStyleElements = (paths: string[]) => paths.map((s, i) => createElement("link", { key: i, href: s, rel: "stylesheet" }));
-
-const generateScriptElements = (paths: string[]) => paths.map((s, i) => createElement("script", { key: i, src: s, async: true }));
-
-const generatePreloadScriptElements = (paths: string[]) => paths.map((s, i) => createElement("link", { key: i, rel: "preload", as: "script", href: s }));
 
 const baseStylesPath = (content: Record<string, string>, judge: (f: string) => boolean) =>
   Object.keys(content)
@@ -61,9 +54,6 @@ const dynamicPageStylesPath = (content: Record<string, string>, pageName: string
 export {
   manifestStateFile,
   manifestStaticPageFile,
-  generateStyleElements,
-  generateScriptElements,
-  generatePreloadScriptElements,
   getAllStateFileContent,
   mainScriptsPath,
   mainStylesPath,
