@@ -2,8 +2,8 @@ import { createElement } from "react";
 
 type GenerateType = string | { path?: string; [p: string]: string };
 
-export const generateStyleElements = (paths: GenerateType[]) =>
-  paths.map((s, i) =>
+export const generateStyleElements = (paths: GenerateType[]) => {
+  return paths.map((s, i) =>
     typeof s === "string"
       ? createElement("link", { key: i, href: s, rel: "stylesheet" })
       : s.path
@@ -17,7 +17,7 @@ export const generateStyleElements = (paths: GenerateType[]) =>
         })
       : null
   );
-
+};
 export const generateScriptElements = (paths: GenerateType[]) =>
   paths.map((s, i) =>
     typeof s === "string"

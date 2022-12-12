@@ -1,3 +1,4 @@
+import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";
@@ -11,6 +12,7 @@ export default defineConfig(() => {
   return {
     root: process.cwd(),
     plugins: [
+      legacy({ targets: "defaults" }),
       // enable webpack like dynamic import
       dynamicImport({ loose: true }),
       react({
@@ -42,7 +44,7 @@ export default defineConfig(() => {
               if (id.includes("core-js")) return "vendor-core-js";
               if (id.includes("@chakra-ui")) return "vendor-ui";
               if (id.includes("@babel")) return "vendor-babel";
-              if (id.includes("@emotion")) return "vendor-emotion";
+              if (id.includes("@emotion")) return "vendor-ui";
               if (id.includes("react")) return "vendor-react";
               if (id.includes("lodash")) return "vendor-lodash";
               return "vendor";

@@ -1,3 +1,4 @@
+import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";
@@ -11,6 +12,7 @@ export default defineConfig(() => {
   return {
     root: process.cwd(),
     plugins: [
+      legacy({ targets: "defaults" }),
       dynamicImport({ loose: true }),
       react({
         jsxImportSource: "@emotion/react",

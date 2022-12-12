@@ -136,6 +136,7 @@ importers:
       '@types/webpack-env': ^1.18.0
       '@types/webpack-hot-middleware': ^2.25.6
       '@types/webpack-node-externals': ^2.5.3
+      '@vitejs/plugin-legacy': ^3.0.0
       '@vitejs/plugin-react': ^2.2.0
       autoprefixer: ^10.4.13
       axios: ^0.27.2
@@ -189,6 +190,7 @@ importers:
       sass-loader: ^13.2.0
       style-loader: ^3.3.1
       swc-loader: ^0.2.3
+      terser: ^5.16.1
       thread-loader: ^3.0.4
       typescript: ^4.7.4
       vite: ^3.2.4
@@ -252,6 +254,7 @@ importers:
       '@types/webpack-env': 1.18.0
       '@types/webpack-hot-middleware': 2.25.6_puvex4enrdpz5ayow67s3l2lfu
       '@types/webpack-node-externals': 2.5.3_puvex4enrdpz5ayow67s3l2lfu
+      '@vitejs/plugin-legacy': 3.0.0_terser@5.16.1+vite@3.2.4
       '@vitejs/plugin-react': 2.2.0_vite@3.2.4
       autoprefixer: 10.4.13_postcss@8.4.19
       babel-jest: 29.2.2_@babel+core@7.20.5
@@ -288,9 +291,10 @@ importers:
       sass-loader: 13.2.0_sass@1.56.1+webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
       swc-loader: 0.2.3_5x5i6oqvqt377ajd6g3httdbmq
+      terser: 5.16.1
       thread-loader: 3.0.4_webpack@5.75.0
       typescript: 4.8.3
-      vite: 3.2.4_clvymlzunojxjbv3h6i2warera
+      vite: 3.2.4_hkozoy3rp4unz5ikgaby45vsia
       vite-plugin-dynamic-import: 1.2.4
       webpack: 5.75.0_puvex4enrdpz5ayow67s3l2lfu
       webpack-bundle-analyzer: 4.7.0
@@ -1714,6 +1718,11 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.11
 
+  /@babel/standalone/7.20.6:
+    resolution: {integrity: sha512-u5at/CbBLETf7kx2LOY4XdhseD79Y099WZKAOMXeT8qvd9OSR515my2UNBBLY4qIht/Qi9KySeQHQwQwxJN4Sw==}
+    engines: {node: '>=6.9.0'}
+    dev: true
+
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
     engines: {node: '>=6.9.0'}
@@ -1991,7 +2000,7 @@ packages:
       '@emotion/react': '>=10.0.35'
       react: '>=18'
     dependencies:
-      '@emotion/react': 11.10.5_zavbqmrropwrojvx6ojaa4s7im
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
       react: 18.2.0
 
   /@chakra-ui/descendant/3.0.11_react@18.2.0:
@@ -2325,8 +2334,8 @@ packages:
       '@chakra-ui/react-env': 2.0.11_react@18.2.0
       '@chakra-ui/system': 2.3.4_dovxhg2tvkkxkdnqyoum6wzcxm
       '@chakra-ui/utils': 2.0.12
-      '@emotion/react': 11.10.5_zavbqmrropwrojvx6ojaa4s7im
-      '@emotion/styled': 11.10.5_6zylg4nrquqv5ym3qrguylbr3u
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
+      '@emotion/styled': 11.10.5_3djhvnr4jirfvebjqpipo7gthy
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
@@ -2745,8 +2754,8 @@ packages:
       '@chakra-ui/styled-system': 2.4.0
       '@chakra-ui/theme-utils': 2.0.5
       '@chakra-ui/utils': 2.0.12
-      '@emotion/react': 11.10.5_zavbqmrropwrojvx6ojaa4s7im
-      '@emotion/styled': 11.10.5_6zylg4nrquqv5ym3qrguylbr3u
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
+      '@emotion/styled': 11.10.5_3djhvnr4jirfvebjqpipo7gthy
       react: 18.2.0
       react-fast-compare: 3.2.0
 
@@ -2968,7 +2977,6 @@ packages:
       '@types/react': 18.0.26
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
-    dev: false
 
   /@emotion/react/11.10.5_zavbqmrropwrojvx6ojaa4s7im:
     resolution: {integrity: sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==}
@@ -2992,6 +3000,7 @@ packages:
       '@emotion/weak-memoize': 0.3.0
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
+    dev: true
 
   /@emotion/serialize/1.1.1:
     resolution: {integrity: sha512-Zl/0LFggN7+L1liljxXdsVSVlg6E/Z/olVWpfxUTxOAmi8NU7YoeWeLfi1RmnB2TATHoaWwIBRoL+FvAJiTUQA==}
@@ -3028,7 +3037,6 @@ packages:
       '@emotion/utils': 1.2.0
       '@types/react': 18.0.26
       react: 18.2.0
-    dev: false
 
   /@emotion/styled/11.10.5_6zylg4nrquqv5ym3qrguylbr3u:
     resolution: {integrity: sha512-8EP6dD7dMkdku2foLoruPCNkRevzdcBaY6q0l0OsbyJK+x8D9HWjX27ARiSIKNF634hY9Zdoedh8bJCiva8yZw==}
@@ -3052,6 +3060,7 @@ packages:
       '@emotion/use-insertion-effect-with-fallbacks': 1.0.0_react@18.2.0
       '@emotion/utils': 1.2.0
       react: 18.2.0
+    dev: true
 
   /@emotion/unitless/0.8.0:
     resolution: {integrity: sha512-VINS5vEYAscRl2ZUDiT3uMPlrFQupiKgHz5AA4bCH1miKBg4qtwkim1qPmJj/4WG6TreYMY111rEFsjupcOKHw==}
@@ -4391,6 +4400,22 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
+  /@vitejs/plugin-legacy/3.0.0_terser@5.16.1+vite@3.2.4:
+    resolution: {integrity: sha512-2lTDqpoHv6E+nPNopH56Jsna8HkQFNJwAlRSl+kLFl1YVn28rsonsMU020QITdLSWl7DrIXjO4xOezBbwMn1hw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      terser: ^5.4.0
+      vite: ^3.0.0
+    dependencies:
+      '@babel/standalone': 7.20.6
+      core-js: 3.26.1
+      magic-string: 0.27.0
+      regenerator-runtime: 0.13.11
+      systemjs: 6.13.0
+      terser: 5.16.1
+      vite: 3.2.4_hkozoy3rp4unz5ikgaby45vsia
+    dev: true
+
   /@vitejs/plugin-react/2.2.0_vite@3.2.4:
     resolution: {integrity: sha512-FFpefhvExd1toVRlokZgxgy2JtnBOdp4ZDsq7ldCWaqGSGn9UhWMAVm/1lxPL14JfNS5yGz+s9yFrQY6shoStA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -4404,7 +4429,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.19.6_@babel+core@7.20.5
       magic-string: 0.26.7
       react-refresh: 0.14.0
-      vite: 3.2.4_clvymlzunojxjbv3h6i2warera
+      vite: 3.2.4_hkozoy3rp4unz5ikgaby45vsia
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5495,6 +5520,11 @@ packages:
 
   /core-js/3.26.0:
     resolution: {integrity: sha512-+DkDrhoR4Y0PxDz6rurahuB+I45OsEUv8E1maPTB6OuHRohMMcznBq9TMpdpDMm/hUPob/mJJS3PqgbHpMTQgw==}
+    requiresBuild: true
+    dev: true
+
+  /core-js/3.26.1:
+    resolution: {integrity: sha512-21491RRQVzUn0GGM9Z1Jrpr6PNPxPi+Za8OM9q4tksTSnlbXXGKK1nXNg/QvwFYettXvSX6zWKCtHHfjN4puyA==}
     requiresBuild: true
     dev: true
 
@@ -6599,7 +6629,7 @@ packages:
       debug: 4.3.4
       enhanced-resolve: 5.10.0
       eslint: 8.27.0
-      eslint-plugin-import: 2.26.0_y56l4pnry7jttwyb6ddxwucvse
+      eslint-plugin-import: 2.26.0_4fbi4tbt4pl2xoaku56lqwrxlq
       get-tsconfig: 4.2.0
       globby: 13.1.2
       is-core-module: 2.10.0
@@ -8969,6 +8999,13 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /magic-string/0.27.0:
+    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.14
+    dev: true
+
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
@@ -11106,6 +11143,10 @@ packages:
       tslib: 2.4.0
     dev: true
 
+  /systemjs/6.13.0:
+    resolution: {integrity: sha512-P3cgh2bpaPvAO2NE3uRp/n6hmk4xPX4DQf+UzTlCAycssKdqhp6hjw+ENWe+aUS7TogKRFtptMosTSFeC6R55g==}
+    dev: true
+
   /tapable/2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -11133,12 +11174,12 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
-      terser: 5.15.0
+      terser: 5.16.1
       webpack: 5.75.0_puvex4enrdpz5ayow67s3l2lfu
     dev: true
 
-  /terser/5.15.0:
-    resolution: {integrity: sha512-L1BJiXVmheAQQy+as0oF3Pwtlo4s3Wi1X2zNZ2NxOB4wx9bdS9Vk67XQENLFdLYGCK/Z2di53mTj/hBafR+dTA==}
+  /terser/5.16.1:
+    resolution: {integrity: sha512-xvQfyfA1ayT0qdK47zskQgRZeWLoOQ8JQ6mIgRGVNwZKdQMU+5FkCBjmv4QjcrTzyZquRw2FVtlJSRUmMKQslw==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -11598,7 +11639,7 @@ packages:
       fast-glob: 3.2.12
     dev: true
 
-  /vite/3.2.4_clvymlzunojxjbv3h6i2warera:
+  /vite/3.2.4_hkozoy3rp4unz5ikgaby45vsia:
     resolution: {integrity: sha512-Z2X6SRAffOUYTa+sLy3NQ7nlHFU100xwanq1WDwqaiFiCe+25zdxP1TfCS5ojPV2oDDcXudHIoPnI1Z/66B7Yw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -11629,6 +11670,7 @@ packages:
       resolve: 1.22.1
       rollup: 2.79.1
       sass: 1.56.1
+      terser: 5.16.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
