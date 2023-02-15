@@ -38,17 +38,15 @@ pnpm run start:ui
 
 ## 完整 Typescript 支持
 
-## 多种 redux 配置 redux-thunk redux-saga
-
-## mobx 支持
+## redux
 
 ## 灵活的渲染方式 SSR CSR
 
-## 双端代码复用
+## CSR 回退
 
-## 代码分割
+## page level 代码分割
 
-## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, props: {auto inject data}} more usage for getInitialState
+## preLoad data 标准化预加载行为 通过返回配置对象进行精细的跳转控制: getInitialState 方法返回 {error, redirect, props: data}
 
 ## sass
 
@@ -62,11 +60,11 @@ pnpm run start:ui
 
 ## 装饰器
 
-## 数据自动注入 getInitialState: () => ({props: xxx}) see pages/Great.tsx
+## page level component 数据自动注入 getInitialState: () => ({props: xxx})
 
 ## middleware develop 适合手机等远程调试
 
-## dev Server develop 适合桌面开发
+## dev Server develop 适合桌面开发 (webpack)
 
 ## animate router 路由切换动画
 
@@ -76,12 +74,16 @@ pnpm run start:ui
 
 ## jest
 
-## swc
+## swc (目前只支持 webpack)
 
-## esbuild
+## esbuild (目前只支持 webpack)
 
-## new ssr for react-18
+## react-18 ssr
 
 ## monorepo
 
-## 静态页面生成 build:static 标记静态页面 export isStatic = true;
+## 静态页面生成 build:static 标记静态页面 export isStatic = true; (目前只支持 webpack)
+
+## 支持 webpack/vite 开发或者生产
+
+## 支持 vite 兼容 esModule 和 legacy
