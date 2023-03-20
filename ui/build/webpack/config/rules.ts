@@ -132,6 +132,14 @@ export const rulesConfig = ({ SWC, ESBUILD, ...restProps }: SafeGenerateActionPr
 
   const isUSE_BABEL = !isUSE_SWC && !isUSE_ESBUILD;
 
+  if (isUSE_SWC) {
+    console.log("you are using `swc` to compiler all of the js/ts code");
+  } else if (isUSE_ESBUILD) {
+    console.log("you are using `esbuild` to compiler all of the js/ts code");
+  } else {
+    console.log("you are using `babel` to compiler all of the js/ts code");
+  }
+
   return [
     cssRules(restProps),
     isUSE_BABEL && jsRules(restProps),
