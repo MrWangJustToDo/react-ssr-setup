@@ -1,5 +1,6 @@
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
+// import reactSWC from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
@@ -9,13 +10,16 @@ export default defineConfig(() => {
   const env = loadEnv("", process.cwd(), "");
   const isSSR = env.SSR ? JSON.parse(env.SSR) : true;
   const isCSR = isSSR ? false : JSON.parse(env.CSR) || false;
+  // const isSWC = env.SWC ? JSON.parse(env.SWC) : false;
   return {
     root: process.cwd(),
     plugins: [
       legacy({ targets: "defaults" }),
       // enable webpack like dynamic import
       dynamicImport({ loose: true }),
-      react({
+      /* isSWC
+        ? reactSWC({ jsxImportSource: "@emotion/react", tsDecorators: true })
+        : */ react({
         jsxImportSource: "@emotion/react",
         babel: {
           plugins: ["@emotion/babel-plugin", ["@babel/plugin-proposal-decorators", { legacy: true }]],

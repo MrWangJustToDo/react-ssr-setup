@@ -1,3 +1,6 @@
 import createCache from "@emotion/cache";
 
-export const createEmotionCache = () => createCache({ key: "css" });
+// vite prod error
+const unwrap = (moduleFrom) => (moduleFrom.default ? moduleFrom.default : moduleFrom);
+
+export const createEmotionCache = () => unwrap(createCache)({ key: "css" }) as ReturnType<typeof createCache>;
