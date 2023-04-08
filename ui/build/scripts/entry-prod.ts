@@ -43,7 +43,7 @@ const withVite = async () => {
 };
 
 export const start = async () => {
-  if (process.env.FORMWORK === "vite") {
+  if (process.env.FRAMEWORK === "vite") {
     await withVite();
   } else {
     await withCompiler();

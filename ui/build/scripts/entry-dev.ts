@@ -54,12 +54,12 @@ const withMiddleware = async () => {
 };
 
 export const start = async () => {
-  if (process.env.FORMWORK === "vite") {
-    logger().info("you are using vite formwork");
-    // for vite formwork, we also use webpack to build server side code
+  if (process.env.FRAMEWORK === "vite") {
+    logger().info("you are using vite framework");
+    // for vite framework, we also use webpack to build server side code
     await withMiddleware();
   } else {
-    logger().info("you are using webpack formwork");
+    logger().info("you are using webpack framework");
     if (process.env.MIDDLEWARE === "true") {
       await withMiddleware();
     } else {

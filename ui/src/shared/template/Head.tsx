@@ -7,6 +7,7 @@ export const Head = ({ env = "{}", link = [], preLoad = [], cookieStorage, prelo
     <meta charSet="utf-8" />
     <meta name="theme-color" content="red" />
     <meta name="build-time" content={__BUILD_TIME__} />
+    <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     {/* a type issue for react-helmet-async  */}
     <>

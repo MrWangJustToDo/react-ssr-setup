@@ -22,7 +22,7 @@ export const pluginsConfig = ({ env, isDEV, isSSR, isCSR, isMIDDLEWARE }: SafeGe
     new DefinePlugin({
       __SSR__: isSSR,
       __CSR__: isCSR,
-      __VITE__: process.env.FORMWORK === "vite",
+      __VITE__: process.env.FRAMEWORK === "vite",
       __CLIENT__: env === "client",
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDEV,
@@ -52,6 +52,7 @@ export const pluginsConfig = ({ env, isDEV, isSSR, isCSR, isMIDDLEWARE }: SafeGe
     //   }),
     env === "client" &&
       isDEV &&
+      process.env.DEV_CHECK === "true" &&
       new ESLintWebpackPlugin({
         extensions: ["ts", "tsx"],
         quiet: true,
