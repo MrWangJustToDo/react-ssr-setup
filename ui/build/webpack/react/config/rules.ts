@@ -1,12 +1,12 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path, { resolve } from "path";
 
-import { safeParse } from "../utils";
+import { safeParse } from "../../safeParse";
 
-import type { SafeGenerateActionProps } from "../type";
+import type { SafeGenerateActionPropsWithReact } from "..";
 import type { RuleSetRule, RuleSetUseItem } from "webpack";
 
-const cssRules = ({ env, isDEV }: SafeGenerateActionProps): RuleSetRule => ({
+const cssRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({
   test: /\.s?css$/,
   use: [
     env === "client" && (isDEV ? { loader: "style-loader" } : { loader: MiniCssExtractPlugin.loader }),
@@ -43,7 +43,7 @@ const jsRulesWithSWC = (): RuleSetRule => ({
   },
 });
 
-const jsRules = ({ env, isDEV }: SafeGenerateActionProps): RuleSetRule => ({
+const jsRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({
   test: /\.[jt]sx?$/,
   exclude: /node_modules/,
   use: {
@@ -69,7 +69,7 @@ const jsRulesWithESBuild = (): RuleSetRule => ({
   },
 });
 
-const tsRulesWithESBuild = (): RuleSetRule => ({
+const tsRulesWithESBuild = ({ isMIDDLEWARE }: { isMIDDLEWARE: boolean }): RuleSetRule => ({
   test: /\.tsx?$/,
   exclude: /node_modules/,
   use: {
@@ -77,12 +77,13 @@ const tsRulesWithESBuild = (): RuleSetRule => ({
     options: {
       loader: "tsx",
       target: "esnext",
-      tsconfigRaw: require(resolve(process.cwd(), "tsconfig.json")),
+      jsx: "automatic",
+      tsconfig: isMIDDLEWARE ? resolve(process.cwd(), "..", "tsconfig.json") : resolve(process.cwd(), "tsconfig.json"),
     },
   },
 });
 
-const cssModuleRules = ({ env, isDEV }: SafeGenerateActionProps): RuleSetRule => ({
+const cssModuleRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({
   test: /\.module\.s?css$/,
   use: [
     // 分离打包css文件
@@ -113,7 +114,7 @@ const cssModuleRules = ({ env, isDEV }: SafeGenerateActionProps): RuleSetRule =>
   exclude: [path.resolve(process.cwd(), "node_modules")],
 });
 
-const resourceRules = ({ env, isDEV }: SafeGenerateActionProps): RuleSetRule => ({
+const resourceRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({
   test: /\.(woff2?|ttf|eot|svg|jpe?g|png|gif|ico)(\?v=\d+\.\d+\.\d+)?$/,
   loader: "file-loader",
   options: {
@@ -125,27 +126,19 @@ const resourceRules = ({ env, isDEV }: SafeGenerateActionProps): RuleSetRule => 
   type: "javascript/auto",
 });
 
-export const rulesConfig = ({ SWC, ESBUILD, ...restProps }: SafeGenerateActionProps): RuleSetRule[] => {
+export const rulesConfig = ({ SWC, ESBUILD, ...restProps }: SafeGenerateActionPropsWithReact): RuleSetRule[] => {
   const isUSE_SWC = Boolean(SWC || (process.env.SWC && safeParse(process.env.SWC)));
 
   const isUSE_ESBUILD = !isUSE_SWC && Boolean(ESBUILD || (process.env.ESBUILD && safeParse(process.env.ESBUILD)));
 
   const isUSE_BABEL = !isUSE_SWC && !isUSE_ESBUILD;
 
-  // if (isUSE_SWC) {
-  //   console.log("you are using `swc` to compiler all of the js/ts code");
-  // } else if (isUSE_ESBUILD) {
-  //   console.log("you are using `esbuild` to compiler all of the js/ts code");
-  // } else {
-  //   console.log("you are using `babel` to compiler all of the js/ts code");
-  // }
-
   return [
     cssRules(restProps),
     isUSE_BABEL && jsRules(restProps),
     isUSE_SWC && jsRulesWithSWC(),
     isUSE_ESBUILD && jsRulesWithESBuild(),
-    isUSE_ESBUILD && tsRulesWithESBuild(),
+    isUSE_ESBUILD && tsRulesWithESBuild({ isMIDDLEWARE: restProps.isMIDDLEWARE }),
     cssModuleRules(restProps),
     resourceRules(restProps),
   ].filter(Boolean) as RuleSetRule[];

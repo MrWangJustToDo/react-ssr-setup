@@ -1,7 +1,9 @@
-import { safeParse } from "./utils";
-import { config } from "./webpack.config";
+import { ENV_DEV_HOST, ENV_DEV_PORT, ENV_PROD_HOST, ENV_PROD_PORT, ENV_WDS_PORT } from "@react-ssr-setup/env";
 
-import type { DefineWebpackConfigProps } from "./type";
+import { definedUniversalWebpackConfig } from "./react";
+import { safeParse } from "./safeParse";
+
+import type { DefineUniversalWebpackConfigPropsWithReact } from "./react";
 import type { Configuration } from "webpack";
 
 const generateErrorMessage = (side: "server" | "client") => {
@@ -11,13 +13,24 @@ const generateErrorMessage = (side: "server" | "client") => {
     `;
 };
 
+// TODO
 export const definedWebpackConfig = ({
   serverEntry,
   clientEntry,
   webpackClient,
   webpackServer,
+  isCSR,
+  isSSR,
+  isDEV,
+  isMIDDLEWARE,
+  WDS_PORT,
+  DEV_PORT,
+  DEV_HOST,
+  PROD_HOST,
+  PROD_PORT,
+  OUTPUT_SCOPE,
   ...restProps
-}: DefineWebpackConfigProps): Partial<Configuration>[] => {
+}: DefineUniversalWebpackConfigPropsWithReact): Partial<Configuration>[] => {
   serverEntry = serverEntry || safeParse(process.env.SERVER_ENTRY) || "";
 
   clientEntry = clientEntry || safeParse(process.env.CLIENT_ENTRY) || "";
@@ -26,5 +39,41 @@ export const definedWebpackConfig = ({
 
   if (!clientEntry) throw new Error(generateErrorMessage("client"));
 
-  return config({ serverEntry, clientEntry, webpackClient, webpackServer, ...restProps });
+  isSSR = Boolean(isSSR || safeParse<boolean>(process.env.SSR || "true"));
+
+  isCSR = isSSR ? false : Boolean(safeParse(process.env.CSR || "false"));
+
+  isDEV = process.env.NODE_ENV === "development";
+
+  isMIDDLEWARE = Boolean(safeParse<boolean>(process.env.MIDDLEWARE || "false"));
+
+  WDS_PORT = process.env.WDS_PORT || ENV_WDS_PORT;
+
+  DEV_HOST = process.env.DEV_HOST || ENV_DEV_HOST;
+
+  DEV_PORT = process.env.DEV_PORT || ENV_DEV_PORT;
+
+  PROD_HOST = process.env.PROD_HOST || ENV_PROD_HOST;
+
+  PROD_PORT = process.env.PROD_PORT || ENV_PROD_PORT;
+
+  OUTPUT_SCOPE = OUTPUT_SCOPE ? (OUTPUT_SCOPE.startsWith("/") ? OUTPUT_SCOPE.slice(1) : OUTPUT_SCOPE) : "";
+
+  return definedUniversalWebpackConfig({
+    serverEntry,
+    clientEntry,
+    webpackClient,
+    webpackServer,
+    isCSR,
+    isSSR,
+    isDEV,
+    isMIDDLEWARE,
+    WDS_PORT,
+    DEV_PORT,
+    DEV_HOST,
+    PROD_HOST,
+    PROD_PORT,
+    OUTPUT_SCOPE,
+    ...restProps,
+  });
 };

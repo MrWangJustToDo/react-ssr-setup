@@ -1,9 +1,9 @@
-import { MANIFEST } from "../utils";
+import { MANIFEST } from "../../base";
 
-import type { SafeGenerateActionProps } from "../type";
+import type { SafeGenerateActionPropsWithReact } from "..";
 import type { Configuration } from "webpack-dev-server";
 
-type DevServerProps = SafeGenerateActionProps & { publicPath: string };
+type DevServerProps = SafeGenerateActionPropsWithReact & { publicPath: string };
 
 export const devServerConfig = ({ publicPath, DEV_HOST, WDS_PORT }: DevServerProps): Configuration => ({
   hot: true,

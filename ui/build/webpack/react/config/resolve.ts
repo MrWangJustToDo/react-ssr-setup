@@ -1,9 +1,9 @@
 import { resolve } from "path";
 
-import type { SafeGenerateActionProps } from "../type";
+import type { SafeGenerateActionPropsWithReact } from "..";
 import type { Configuration } from "webpack";
 
-export const resolveConfig = ({ env }: SafeGenerateActionProps): Configuration["resolve"] => ({
+export const resolveConfig = ({ env }: SafeGenerateActionPropsWithReact): Configuration["resolve"] => ({
   alias: {
     lodash: env === "client" ? "lodash-es" : "lodash",
     "lodash-es": env === "server" ? "lodash" : "lodash-es",

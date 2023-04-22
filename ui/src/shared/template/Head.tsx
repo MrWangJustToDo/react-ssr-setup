@@ -5,10 +5,10 @@ import type { HTMLProps } from ".";
 export const Head = ({ env = "{}", link = [], preLoad = [], cookieStorage, preloadedState = "{}", helmetContext: { helmet } = {} }: HTMLProps) => (
   <head>
     <meta charSet="utf-8" />
-    <meta name="theme-color" content="red" />
+    <meta name="framework" content="react-ssr-setup" />
     <meta name="build-time" content={__BUILD_TIME__} />
-    <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <base href="/" />
     {/* a type issue for react-helmet-async  */}
     <>
       {helmet?.base.toComponent()}

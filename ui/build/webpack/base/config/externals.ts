@@ -9,10 +9,5 @@ export const externalsConfig = ({ env }: SafeGenerateActionProps) =>
           // load non-javascript files with extensions, presumably via loaders
           allowlist: [/\.(?!(?:jsx?|json)$).{1,5}$/i, "webpack/hot/poll?1000", "lodash-es"],
         }),
-        // support monorepo
-        // nodeExternals({
-        //   allowlist: ["webpack/hot/poll?1000"],
-        //   additionalModuleDirs: [resolve(process.cwd(), "..", "node_modules")],
-        // }),
       ]
     : {};

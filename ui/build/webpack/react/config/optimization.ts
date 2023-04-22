@@ -1,6 +1,6 @@
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
-import type { SafeGenerateActionProps } from "../type";
+import type { SafeGenerateActionPropsWithReact } from "..";
 import type { Configuration } from "webpack";
 
 const splitChunk = (packageArray: string[]) => {
@@ -15,7 +15,7 @@ const splitChunk = (packageArray: string[]) => {
   return "vendor";
 };
 
-export const optimizationConfig = ({ env, isDEV }: SafeGenerateActionProps): Configuration["optimization"] => {
+export const optimizationConfig = ({ env, isDEV }: SafeGenerateActionPropsWithReact): Configuration["optimization"] => {
   if (env === "client") {
     if (!isDEV) {
       return {
