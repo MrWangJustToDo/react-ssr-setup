@@ -10,7 +10,16 @@ import { MANIFEST } from "../utils";
 import type { SafeGenerateActionProps } from "../type";
 import type { Configuration } from "webpack";
 
-export const pluginsConfig = ({ env, isDEV, isMIDDLEWARE, TS_CHECK, ESLINT_CHECK, BUNDLE_CHECK }: SafeGenerateActionProps): Configuration["plugins"] =>
+export const pluginsConfig = ({
+  env,
+  isDEV,
+  isMIDDLEWARE,
+  TS_CHECK,
+  ESLINT_CHECK,
+  BUNDLE_CHECK,
+  BUNDLE_SCOPE,
+  OUTPUT_SCOPE,
+}: SafeGenerateActionProps): Configuration["plugins"] =>
   [
     env === "client" &&
       new WebpackManifestPlugin({
@@ -22,6 +31,8 @@ export const pluginsConfig = ({ env, isDEV, isMIDDLEWARE, TS_CHECK, ESLINT_CHECK
       __SERVER__: env === "server",
       __DEVELOPMENT__: isDEV,
       __MIDDLEWARE__: isMIDDLEWARE,
+      __BUNDLE_SCOPE__: JSON.stringify(BUNDLE_SCOPE),
+      __OUTPUT_SCOPE__: JSON.stringify(OUTPUT_SCOPE),
       __BUILD_TIME__: JSON.stringify(new Date().toLocaleString()),
     }),
     env === "client" && isDEV && isMIDDLEWARE && new HotModuleReplacementPlugin(),

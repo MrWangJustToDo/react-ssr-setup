@@ -4,6 +4,8 @@ declare global {
   const __VITE__: boolean;
   const __CSR__: boolean;
   const __SSR__: boolean;
+  const __BUNDLE_SCOPE__: string;
+  const __OUTPUT_SCOPE__: string;
   const __DEVELOPMENT__: boolean;
   const __MIDDLEWARE__: boolean;
   const __ANIMATE_ROUTER__: boolean;
@@ -37,6 +39,8 @@ declare global {
       ESBUILD: string;
       SSR: string;
       CSR: string;
+      BUNDLE_SCOPE: string;
+      OUTPUT_SCOPE: string;
       STATIC_GENERATE: "true" | "false";
       PUBLIC_DEV_API_HOST: string;
       PUBLIC_PROD_API_HOST: string;

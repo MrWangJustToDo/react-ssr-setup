@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import { resolve } from "path";
 
 import { getIsStaticGenerate } from "@shared";
 
@@ -20,9 +21,9 @@ const startApp = async () => {
   app.use(express.static(`${process.cwd()}/public`));
 
   if (__VITE__) {
-    app.use(express.static(`${process.cwd()}/dist/client`));
+    app.use(express.static(resolve(process.cwd(), __BUNDLE_SCOPE__, "dist", "client")));
   } else {
-    app.use(express.static(`${process.cwd()}/dist`));
+    app.use(express.static(resolve(process.cwd(), __BUNDLE_SCOPE__, "dist")));
   }
 
   page(app);

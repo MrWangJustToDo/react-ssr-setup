@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import { memoize } from "lodash";
 import path from "path";
 
-const outputPath = (env: "server" | "client"): string => (__DEVELOPMENT__ ? path.resolve(process.cwd(), "dev", env) : path.resolve(process.cwd(), "dist", env));
+const outputPath = (env: "server" | "client"): string => path.resolve(process.cwd(), __BUNDLE_SCOPE__, __DEVELOPMENT__ ? "dev" : "dist", __OUTPUT_SCOPE__, env);
 
 const manifestFile = (): string => (__DEVELOPMENT__ ? "manifest-dev.json" : "manifest-prod.json");
 
@@ -15,8 +15,13 @@ const manifestDepsFile = (env: "server" | "client"): string => path.resolve(outp
 const manifestStaticPageFile = (env: "server" | "client"): string => path.resolve(outputPath(env), "manifest-static.json");
 
 const _getAllStateFileContent = async <T = Record<string, string>, P = T>(path: string, normalize: (content: T) => P | T = (s) => s): Promise<P> => {
-  const content = await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
-  return normalize(content) as P;
+  try {
+    const content = await fs.readFile(path, { encoding: "utf-8" }).then((c) => JSON.parse(c));
+    return normalize(content) as P;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 };
 
 const getAllStateFileContent = __DEVELOPMENT__

@@ -6,6 +6,7 @@ export type ENV = {
   WDS_PORT?: string;
   PROD_HOST?: string;
   PROD_PORT?: string;
+  BUNDLE_SCOPE?: string;
   OUTPUT_SCOPE?: string;
 };
 

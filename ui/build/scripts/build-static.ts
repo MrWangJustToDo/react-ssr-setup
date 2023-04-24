@@ -1,5 +1,6 @@
 import { spawn } from "child_process";
 import dotenv from "dotenv";
+import { resolve } from "path";
 
 import { start } from "./entry-prod";
 
@@ -10,7 +11,8 @@ const generate = async () => {
     throw new Error("for now the static generate only work for webpack framework!");
   }
   await start();
-  spawn("cross-env STATIC_GENERATE=true node", ["./dist/server/app.js"], { shell: true, stdio: "inherit" });
+  const bundleScope = process.env.BUNDLE_SCOPE || "";
+  spawn("cross-env STATIC_GENERATE=true node", [resolve(process.cwd(), bundleScope, "dist", "server/app.js")], { shell: true, stdio: "inherit" });
 };
 
 generate();

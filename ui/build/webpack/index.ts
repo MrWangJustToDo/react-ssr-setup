@@ -13,7 +13,6 @@ const generateErrorMessage = (side: "server" | "client") => {
     `;
 };
 
-// TODO
 export const definedWebpackConfig = ({
   serverEntry,
   clientEntry,
@@ -28,6 +27,7 @@ export const definedWebpackConfig = ({
   DEV_HOST,
   PROD_HOST,
   PROD_PORT,
+  BUNDLE_SCOPE,
   OUTPUT_SCOPE,
   ...restProps
 }: DefineUniversalWebpackConfigPropsWithReact): Partial<Configuration>[] => {
@@ -57,7 +57,9 @@ export const definedWebpackConfig = ({
 
   PROD_PORT = process.env.PROD_PORT || ENV_PROD_PORT;
 
-  OUTPUT_SCOPE = OUTPUT_SCOPE ? (OUTPUT_SCOPE.startsWith("/") ? OUTPUT_SCOPE.slice(1) : OUTPUT_SCOPE) : "";
+  OUTPUT_SCOPE = OUTPUT_SCOPE ? (OUTPUT_SCOPE.startsWith("/") ? OUTPUT_SCOPE.slice(1) : OUTPUT_SCOPE) : process.env.OUTPUT_SCOPE || "";
+
+  BUNDLE_SCOPE = BUNDLE_SCOPE ? (BUNDLE_SCOPE.startsWith("/") ? BUNDLE_SCOPE.slice(1) : BUNDLE_SCOPE) : process.env.BUNDLE_SCOPE || "";
 
   return definedUniversalWebpackConfig({
     serverEntry,
@@ -73,6 +75,7 @@ export const definedWebpackConfig = ({
     DEV_HOST,
     PROD_HOST,
     PROD_PORT,
+    BUNDLE_SCOPE,
     OUTPUT_SCOPE,
     ...restProps,
   });

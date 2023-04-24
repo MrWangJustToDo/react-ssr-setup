@@ -18,6 +18,7 @@ export const config = <T extends SafeDefineUniversalWebpackConfigProps>({
   DEV_PORT,
   PROD_HOST,
   PROD_PORT,
+  BUNDLE_SCOPE,
   OUTPUT_SCOPE,
   // check
   TS_CHECK,
@@ -35,6 +36,7 @@ export const config = <T extends SafeDefineUniversalWebpackConfigProps>({
     DEV_PORT,
     PROD_HOST,
     PROD_PORT,
+    BUNDLE_SCOPE,
     OUTPUT_SCOPE,
     ...resProps,
   });
@@ -49,6 +51,7 @@ export const config = <T extends SafeDefineUniversalWebpackConfigProps>({
     DEV_PORT,
     PROD_HOST,
     PROD_PORT,
+    BUNDLE_SCOPE,
     OUTPUT_SCOPE,
     ...resProps,
   });
@@ -65,6 +68,7 @@ export const config = <T extends SafeDefineUniversalWebpackConfigProps>({
         DEV_PORT,
         PROD_HOST,
         PROD_PORT,
+        BUNDLE_SCOPE,
         OUTPUT_SCOPE,
         TS_CHECK,
         ESLINT_CHECK,
@@ -83,6 +87,7 @@ export const config = <T extends SafeDefineUniversalWebpackConfigProps>({
         DEV_PORT,
         PROD_HOST,
         PROD_PORT,
+        BUNDLE_SCOPE,
         OUTPUT_SCOPE,
         TS_CHECK,
         ESLINT_CHECK,

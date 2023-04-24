@@ -5,7 +5,7 @@ import path from "path";
 import { getAllStateFileContent, manifestDepsFile } from "@server/util/webpackManifest";
 
 // should sync with webpack output config
-export const getStaticPageOutputPath = (fileName: string) => path.resolve(process.cwd(), "dist", "pages", fileName);
+export const getStaticPageOutputPath = (fileName: string) => path.resolve(process.cwd(), __BUNDLE_SCOPE__, "dist", __OUTPUT_SCOPE__, "pages", fileName);
 
 export const getPageManifestContent = () =>
   getAllStateFileContent<

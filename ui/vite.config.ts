@@ -1,6 +1,6 @@
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
-// import reactSWC from "@vitejs/plugin-react-swc";
+import reactSWC from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
 import { defineConfig, loadEnv } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
@@ -10,21 +10,23 @@ export default defineConfig(() => {
   const env = loadEnv("", process.cwd(), "");
   const isSSR = env.SSR ? JSON.parse(env.SSR) : true;
   const isCSR = isSSR ? false : JSON.parse(env.CSR) || false;
-  // const isSWC = env.SWC ? JSON.parse(env.SWC) : false;
+  const isSWC = env.SWC ? JSON.parse(env.SWC) : false;
+  const bundleScope = env.BUNDLE_SCOPE || "";
+  const outputScope = env.OUTPUT_SCOPE || "";
   return {
     root: process.cwd(),
     plugins: [
       legacy({ targets: "defaults" }),
       // enable webpack like dynamic import
       dynamicImport({ loose: true }),
-      /* isSWC
+      isSWC
         ? reactSWC({ jsxImportSource: "@emotion/react", tsDecorators: true })
-        : */ react({
-        jsxImportSource: "@emotion/react",
-        babel: {
-          plugins: ["@emotion/babel-plugin", ["@babel/plugin-proposal-decorators", { legacy: true }]],
-        },
-      }),
+        : react({
+            jsxImportSource: "@emotion/react",
+            babel: {
+              plugins: ["@emotion/babel-plugin", ["@babel/plugin-proposal-decorators", { legacy: true }]],
+            },
+          }),
     ],
     server: {
       middlewareMode: true,
@@ -57,12 +59,14 @@ export default defineConfig(() => {
           },
         },
       },
-      outDir: resolve(process.cwd(), process.env.NODE_ENV === "development" ? "dev" : "dist", "client"),
+      outDir: resolve(process.cwd(), bundleScope, process.env.NODE_ENV === "development" ? "dev" : "dist", outputScope, "client"),
     },
     define: {
       __SSR__: isSSR,
       __CSR__: isCSR,
       __VITE__: true,
+      __BUNDLE_SCOPE__: JSON.stringify(bundleScope),
+      __OUTPUT_SCOPE__: JSON.stringify(outputScope),
       __CLIENT__: 'typeof window !== "undefined"',
       __SERVER__: 'typeof window === "undefined"',
       // vite dev only work on the middleware mode
