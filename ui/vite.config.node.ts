@@ -16,8 +16,6 @@ export default defineConfig(() => {
   return {
     root: process.cwd(),
     plugins: [
-      legacy({ targets: "defaults" }),
-      dynamicImport({ loose: true }),
       isSWC
         ? reactSWC({ jsxImportSource: "@emotion/react", tsDecorators: true })
         : react({
@@ -26,6 +24,8 @@ export default defineConfig(() => {
               plugins: ["@emotion/babel-plugin", ["@babel/plugin-proposal-decorators", { legacy: true }]],
             },
           }),
+      legacy({ targets: "defaults" }),
+      dynamicImport({ loose: true }),
     ],
     resolve: {
       alias: {
