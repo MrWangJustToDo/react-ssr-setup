@@ -26,7 +26,9 @@ const startApp = async () => {
     app.use(express.static(resolve(process.cwd(), __BUNDLE_SCOPE__, "dist")));
   }
 
-  page(app);
+  if (process.env.FRAMEWORK === "webpack") {
+    page(app);
+  }
 
   setApi(app);
 

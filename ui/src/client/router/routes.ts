@@ -5,11 +5,13 @@ import { Layout } from "@client/common/Layout";
 
 import { dynamicRouteConfig } from "./dynamicRoutes";
 
-import type { PreLoadRouteConfig } from "@client/types/route";
+// vite error
+// import type { PreLoadRouteConfig } from "@client/types/route";
 
-const baseRouter: PreLoadRouteConfig = {
+const baseRouter /* : PreLoadRouteConfig */ = {
   preLoad: () => Layout,
   element: createElement(AutoInjectProps(Layout), ""),
+  children: null,
 };
 
 // for vite, see https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#how-it-works
@@ -47,7 +49,3 @@ const dynamicRoutes = dynamicRouteConfig
 baseRouter.children = dynamicRoutes;
 
 export const allRoutes = [baseRouter];
-
-if (__CLIENT__) {
-  (window as unknown as Record<string, unknown>).__routers__ = allRoutes;
-}
