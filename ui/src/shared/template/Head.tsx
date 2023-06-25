@@ -1,8 +1,6 @@
-import { ColorModeScript } from "@chakra-ui/react";
-
 import type { HTMLProps } from ".";
 
-export const Head = ({ env = "{}", link = [], preLoad = [], cookieStorage, preloadedState = "{}", helmetContext: { helmet } = {} }: HTMLProps) => (
+export const Head = ({ env = "{}", link = [], preLoad = [], preloadedState = "{}", helmetContext: { helmet } = {} }: HTMLProps) => (
   <head>
     <meta charSet="utf-8" />
     <meta name="framework" content="react-ssr-setup" />
@@ -21,7 +19,6 @@ export const Head = ({ env = "{}", link = [], preLoad = [], cookieStorage, prelo
     </>
     {preLoad.filter(Boolean).map((ele) => ele)}
     {link.filter(Boolean).map((ele) => ele)}
-    <ColorModeScript initialColorMode={cookieStorage?.get()} type="cookie" />
     <script id="__preload_env__" type="application/json" dangerouslySetInnerHTML={{ __html: `${env}` }} />
     <script id="__preload_state__" type="application/json" dangerouslySetInnerHTML={{ __html: `${preloadedState}` }} />
   </head>

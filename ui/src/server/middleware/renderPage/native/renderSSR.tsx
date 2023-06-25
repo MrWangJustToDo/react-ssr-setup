@@ -37,6 +37,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
     <HTML
       env={JSON.stringify(env)}
       lang={JSON.stringify(lang)}
+      cookieStorage={cookieStore}
       helmetContext={helmetContext}
       preloadedState={JSON.stringify(store.getState())}
       link={generateStyleElements(stylesPath)}

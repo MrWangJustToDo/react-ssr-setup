@@ -13,7 +13,8 @@ const _Bar = forwardRef<HTMLDivElement>(function Bar(_, ref) {
       div = document.createElement("div");
     }
     div.id = "__loading_bar__";
-    document.body.prepend(div);
+    const before = document.querySelector("#__content__");
+    document.body.insertBefore(div, before);
   });
 
   const isMounted = useIsMounted();

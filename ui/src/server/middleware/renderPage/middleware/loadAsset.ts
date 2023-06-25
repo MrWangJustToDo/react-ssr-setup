@@ -122,7 +122,7 @@ export const loadAsset: Middleware = (next) => async (args) => {
 
       assets.stylesPath = assets.stylesPath.concat(dynamicStylesPath);
 
-      assets.scriptsPath = assets.scriptsPath.concat(dynamicScriptsPath);
+      assets.scriptsPath = assets.scriptsPath.concat(dynamicScriptsPath).reverse();
 
       assets.preloadScriptsPath = assets.preloadScriptsPath.concat(dynamicScriptsPath);
     }
