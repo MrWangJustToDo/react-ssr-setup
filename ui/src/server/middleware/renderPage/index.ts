@@ -3,8 +3,6 @@ import { getIsAnimateRouter, getIsMiddleware, getIsStaticGenerate } from "@share
 
 import { composeRender } from "./compose";
 import { generateGlobalEnv, initLang, initStore, loadAsset, loadLang, loadStore } from "./middleware";
-import { viteRender } from "./render/viteRender";
-import { webpackRender } from "./render/webpackRender";
 
 export const renderSSR = composeRender(
   generateGlobalEnv({
@@ -23,9 +21,11 @@ export const renderSSR = composeRender(
   loadAsset
 )(async (args) => {
   if (__VITE__) {
+    const { viteRender } = require("./render/viteRender");
     const targetRender = viteRender({ mode: "SSR" });
     await targetRender(args);
   } else {
+    const { webpackRender } = require("./render/webpackRender");
     const targetRender = webpackRender({ mode: "SSR" });
     await targetRender(args);
   }
@@ -48,9 +48,11 @@ export const renderCSR = composeRender(
   loadAsset
 )(async (args) => {
   if (__VITE__) {
+    const { viteRender } = require("./render/viteRender");
     const targetRender = viteRender({ mode: "CSR" });
     await targetRender(args);
   } else {
+    const { webpackRender } = require("./render/webpackRender");
     const targetRender = webpackRender({ mode: "CSR" });
     await targetRender(args);
   }
@@ -70,9 +72,11 @@ export const renderP_CSR = composeRender(
   loadAsset
 )(async (args) => {
   if (__VITE__) {
+    const { viteRender } = require("./render/viteRender");
     const targetRender = viteRender({ mode: "P_CSR" });
     await targetRender(args);
   } else {
+    const { webpackRender } = require("./render/webpackRender");
     const targetRender = webpackRender({ mode: "P_CSR" });
     await targetRender(args);
   }
