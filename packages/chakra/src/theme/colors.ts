@@ -1,7 +1,7 @@
-import type { ChakraTheme } from "@chakra-ui/react";
+import { type ChakraTheme } from "@chakra-ui/react";
 
-const white = { 100: "#ffffff", ["10-a"]: "rgba(255, 255, 255, 0.1)" };
-const black = { 100: "#000000" };
+const _white = { 100: "#ffffff", ["10-a"]: "rgba(255, 255, 255, 0.1)" };
+const _black = { 100: "#000000" };
 
 const grey = {
   50: "#f7f9fA",
@@ -71,18 +71,18 @@ const purple = {
 };
 
 const text = {
-  primary: black[100],
-  primary_dark: white[100],
+  primary: _black[100],
+  primary_dark: _white[100],
   secondary: grey[300],
   tertiary: grey[500],
   interactive: blue[500],
   green: green[500],
   red: red[300],
-  primaryOnWhite: grey[900],
+  primaryOn_white: grey[900],
 };
 
 const background = {
-  site: white[100],
+  site: _white[100],
   site_dark: grey[900],
 };
 
@@ -96,11 +96,11 @@ const button = {
 };
 
 const border = {
-  surface_primary: white["10-a"],
-  surface_secondary: white["10-a"],
-  surface_emphasis: white["10-a"],
+  surface_primary: _white["10-a"],
+  surface_secondary: _white["10-a"],
+  surface_emphasis: _white["10-a"],
   button_outline_primary: blue[500],
-  button_outline_secondary: white["10-a"],
+  button_outline_secondary: _white["10-a"],
   general_highlight: blue[500],
   general_highlight_subtle: blue["700"],
   general_green: green[500],
@@ -111,8 +111,6 @@ const border = {
 export { background, border, button, text };
 
 export const colors: ChakraTheme["colors"] = {
-  white,
-  black,
   grey,
 
   blue,

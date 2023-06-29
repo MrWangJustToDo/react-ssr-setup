@@ -10,6 +10,12 @@ import { createEmotionCache, theme } from "@shared";
 
 import type { createUniversalStore } from "@shared";
 
+// vite
+// eslint-disable-next-line import/no-unresolved
+// import "virtual:uno.css";
+// webpack not work
+// import 'uno.css';
+
 const emotionCache = createEmotionCache();
 
 const Root = ({ store }: { store: ReturnType<typeof createUniversalStore> }) => {

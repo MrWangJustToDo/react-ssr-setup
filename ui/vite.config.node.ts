@@ -2,6 +2,7 @@ import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import reactSWC from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
+import UnoCSS from "unocss/vite";
 import { defineConfig, loadEnv } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
 
@@ -26,6 +27,7 @@ export default defineConfig(() => {
           }),
       legacy({ targets: "defaults" }),
       dynamicImport({ loose: true }),
+      UnoCSS({ configFile: resolve(process.cwd(), "uno.config.ts") }),
     ],
     resolve: {
       alias: {

@@ -29,9 +29,9 @@ module.exports = (api) => {
   presets.push(["@babel/preset-react", { development: !api.env("production"), runtime: "automatic" }]);
 
   plugins.push(["@babel/plugin-proposal-decorators", { legacy: true }]);
-  plugins.push(["@babel/plugin-proposal-class-properties", { loose: true }]);
-  plugins.push(["@babel/plugin-proposal-private-methods", { loose: true }]);
-  plugins.push(["@babel/plugin-proposal-private-property-in-object", { loose: true }]);
+  // plugins.push(["@babel/plugin-proposal-class-properties", { loose: true }]);
+  // plugins.push(["@babel/plugin-proposal-private-methods", { loose: true }]);
+  // plugins.push(["@babel/plugin-proposal-private-property-in-object", { loose: true }]);
   plugins.push("@babel/plugin-transform-runtime");
   plugins.push("@babel/plugin-proposal-export-default-from");
 
