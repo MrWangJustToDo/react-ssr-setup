@@ -27,7 +27,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
 
   const { stylesPath = [], scriptsPath = [], preloadScriptsPath = [] } = assets;
 
-  const shellMethod = env.isStaticGenerate ? "onAllReady" : "onShellReady";
+  const shellMethod = env.isSTATIC ? "onAllReady" : "onShellReady";
 
   let error = false;
 
@@ -70,7 +70,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
       onShellError(err) {
         error = true;
         if (!initial) {
-          if (!env.isStaticGenerate) {
+          if (!env.isSTATIC) {
             // Something errored before we could complete the shell so we fallback to client render
             targetCSRRender({ req, res, store, lang, env, assets });
           } else {
@@ -82,7 +82,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
       onError(err) {
         error = true;
         if (!initial) {
-          if (!env.isStaticGenerate) {
+          if (!env.isSTATIC) {
             // not set header, so we can safe to fallback to client render
             targetCSRRender({ req, res, store, lang, env, assets });
           } else {
