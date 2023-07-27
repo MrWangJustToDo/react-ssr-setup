@@ -36,7 +36,7 @@
     "react-redux": "^8.1.1",
     "react-router": "^6.14.0",
     "react-router-dom": "^6.14.0",
-    "reactivity-store": "^0.1.2",
+    "reactivity-store": "^0.1.8",
     "redux": "^4.2.1"
   },
   "devDependencies": {

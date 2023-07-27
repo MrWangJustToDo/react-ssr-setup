@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -79,7 +79,7 @@ importers:
         version: 2.8.8
       project-tool:
         specifier: git+ssh://git@github.com:MrWangJustToDo/project-tool.git
-        version: github.com/MrWangJustToDo/project-tool/8f03c5e99f2854a1436a11e6fcf09340598690fa(@swc/helpers@0.5.0)(typescript@4.8.3)
+        version: github.com/MrWangJustToDo/project-tool/9a7ffe95524f78a17bc1840c84d75e28ed5edbd6(@swc/helpers@0.5.0)(typescript@4.8.3)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -203,8 +203,8 @@ importers:
         specifier: ^6.14.0
         version: 6.14.0(react-dom@18.2.0)(react@18.2.0)
       reactivity-store:
-        specifier: ^0.1.2
-        version: 0.1.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^0.1.8
+        version: 0.1.8(react-dom@18.2.0)(react@18.2.0)
       redux:
         specifier: ^4.2.1
         version: 4.2.1
@@ -4888,6 +4888,19 @@ packages:
       glob: 8.0.3
       is-reference: 1.2.1
       magic-string: 0.27.0
+      rollup: 3.23.0
+    dev: true
+
+  /@rollup/plugin-json@6.0.0(rollup@3.23.0):
+    resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.2(rollup@3.23.0)
       rollup: 3.23.0
     dev: true
 
@@ -11223,8 +11236,8 @@ packages:
     dependencies:
       loose-envify: 1.4.0
 
-  /reactivity-store@0.1.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Z/DmMg1K8ihPATG6aRFfMa1XZwhDPxf7nXILzbeszKfFmV8mUiwmlzc18jZ1+4WzyQaYlkhAiZtSwDnVf/PQeg==}
+  /reactivity-store@0.1.8(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-rF1SjHwTUQlc8LmpkgcWNbfbYE1hrWKMt/ZB0dZtXOrRUtonfyPEfV+EfXNl4AjwcS7GCwxxwdc9t2uThD7GKQ==}
     peerDependencies:
       react: ^17.0.2 || ^18.2.0
       react-dom: ^17.0.2 || ^18.2.0
@@ -13223,16 +13236,17 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/MrWangJustToDo/project-tool/8f03c5e99f2854a1436a11e6fcf09340598690fa(@swc/helpers@0.5.0)(typescript@4.8.3):
-    resolution: {tarball: https://codeload.github.com/MrWangJustToDo/project-tool/tar.gz/8f03c5e99f2854a1436a11e6fcf09340598690fa}
-    id: github.com/MrWangJustToDo/project-tool/8f03c5e99f2854a1436a11e6fcf09340598690fa
+  github.com/MrWangJustToDo/project-tool/9a7ffe95524f78a17bc1840c84d75e28ed5edbd6(@swc/helpers@0.5.0)(typescript@4.8.3):
+    resolution: {tarball: https://codeload.github.com/MrWangJustToDo/project-tool/tar.gz/9a7ffe95524f78a17bc1840c84d75e28ed5edbd6}
+    id: github.com/MrWangJustToDo/project-tool/9a7ffe95524f78a17bc1840c84d75e28ed5edbd6
     name: project-tool
-    version: 0.1.8
+    version: 0.2.0
     engines: {node: '>=10'}
     peerDependencies:
       typescript: ^4.7.4
     dependencies:
       '@rollup/plugin-commonjs': 24.1.0(rollup@3.23.0)
+      '@rollup/plugin-json': 6.0.0(rollup@3.23.0)
       '@rollup/plugin-node-resolve': 15.0.2(rollup@3.23.0)
       '@rollup/plugin-replace': 5.0.2(rollup@3.23.0)
       '@rollup/plugin-terser': 0.4.1(rollup@3.23.0)
