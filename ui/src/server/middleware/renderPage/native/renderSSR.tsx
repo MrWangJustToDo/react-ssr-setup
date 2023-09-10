@@ -42,7 +42,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
       preloadedState={JSON.stringify(store.getState())}
       link={generateStyleElements(stylesPath)}
       preLoad={generatePreloadScriptElements(preloadScriptsPath)}
-      script={generateScriptElements(scriptsPath)}
+      script={__VITE__ ? generateScriptElements(scriptsPath) : undefined}
     >
       <CacheProvider value={emotionCache}>
         <ChakraProvider resetCSS theme={theme} colorModeManager={cookieStore}>
@@ -57,7 +57,7 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
       </CacheProvider>
     </HTML>,
     {
-      // bootstrapScripts: scriptsPath.map((s) => (typeof s === "string" ? s : s.path ? s.path : null)).filter(Boolean),
+      bootstrapScripts: __VITE__ ? undefined : scriptsPath.map((s) => (typeof s === "string" ? s : s.path ? s.path : null)).filter(Boolean),
       // to support static generate, for SSR use
       [shellMethod]() {
         if (!error) {
