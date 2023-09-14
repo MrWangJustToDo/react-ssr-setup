@@ -12,7 +12,8 @@ const generate = async () => {
   }
   await start();
   const bundleScope = process.env.BUNDLE_SCOPE || "";
-  spawn("cross-env STATIC_GENERATE=true node", [resolve(process.cwd(), bundleScope, "dist", "server/app.js")], { shell: true, stdio: "inherit" });
+  const outputScope = process.env.OUTPUT_SCOPE || "";
+  spawn("cross-env STATIC_GENERATE=true node", [resolve(process.cwd(), bundleScope, "dist", outputScope, "server/app.js")], { shell: true, stdio: "inherit" });
 };
 
 generate();

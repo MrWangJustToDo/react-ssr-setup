@@ -47,7 +47,7 @@ export default defineConfig(() => {
           renderP_CSR: resolve(process.cwd(), "src/server/middleware/renderPage/native/renderP_CSR.tsx"),
         },
         output: {
-          format: "commonjs",
+          format: "commonjs" as const,
         },
       },
       outDir: resolve(process.cwd(), bundleScope, process.env.NODE_ENV === "development" ? "dev" : "dist", outputScope, "server"),

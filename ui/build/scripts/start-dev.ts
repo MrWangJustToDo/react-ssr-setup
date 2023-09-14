@@ -8,7 +8,8 @@ dotenv.config();
 const startDev = async () => {
   await start();
   const bundleScope = process.env.BUNDLE_SCOPE || "";
-  await import(path.resolve(process.cwd(), bundleScope, "dev", "server", "app"));
+  const outputScope = process.env.OUTPUT_SCOPE || "";
+  await import(path.resolve(process.cwd(), bundleScope, "dev", outputScope, "server", "app"));
 };
 
 startDev();

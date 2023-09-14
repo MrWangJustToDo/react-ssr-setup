@@ -17,6 +17,7 @@ export const outputConfig = ({
   BUNDLE_SCOPE,
   OUTPUT_SCOPE,
 }: SafeGenerateActionProps): Configuration["output"] => {
+  const _OUTPUT_SCOPE__ = OUTPUT_SCOPE && !OUTPUT_SCOPE.endsWith("/") ? `${OUTPUT_SCOPE}/` : OUTPUT_SCOPE;
   return env === "client"
     ? {
         clean: true,
@@ -27,7 +28,7 @@ export const outputConfig = ({
         // 按需加载的chunk名
         chunkFilename: isDEV ? "[name].js" : "[name]-[contenthash].js",
         // 引入资源的url路径
-        publicPath: isDEV ? (isMIDDLEWARE ? "/dev/" : `http://${DEV_HOST}:${WDS_PORT}/dev/`) : `http://${PROD_HOST}:${PROD_PORT}/${OUTPUT_SCOPE}client/`,
+        publicPath: isDEV ? (isMIDDLEWARE ? "/dev/" : `http://${DEV_HOST}:${WDS_PORT}/dev/`) : `http://${PROD_HOST}:${PROD_PORT}/${_OUTPUT_SCOPE__}client/`,
       }
     : {
         clean: true,
@@ -37,7 +38,7 @@ export const outputConfig = ({
         // 按需加载的chunk名
         chunkFilename: isDEV ? "[name].js" : "[name]-[contenthash].js",
         // 引入资源的url路径
-        publicPath: isDEV ? (isMIDDLEWARE ? "/dev/" : `http://${DEV_HOST}:${WDS_PORT}/dev/`) : `http://${PROD_HOST}:${PROD_PORT}/${OUTPUT_SCOPE}client/`,
+        publicPath: isDEV ? (isMIDDLEWARE ? "/dev/" : `http://${DEV_HOST}:${WDS_PORT}/dev/`) : `http://${PROD_HOST}:${PROD_PORT}/${_OUTPUT_SCOPE__}client/`,
         library: {
           type: "commonjs2",
         },

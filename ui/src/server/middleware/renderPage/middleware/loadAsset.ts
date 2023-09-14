@@ -33,6 +33,7 @@ export const loadAsset: Middleware = (next) => async (args) => {
             type: "module",
             dangerouslySetInnerHTML: {
               __html: `
+              // react refresh injected
               import RefreshRuntime from "/@react-refresh"
               RefreshRuntime.injectIntoGlobalHook(window)
               window.$RefreshReg$ = () => {}
