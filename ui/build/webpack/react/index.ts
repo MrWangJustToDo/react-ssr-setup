@@ -1,13 +1,13 @@
-import { definedUniversalWebpackConfig as _definedUniversalWebpackConfig } from "../base";
+import { definedUniversalWebpackConfig as _definedUniversalWebpackConfig, merge } from "../base";
 import { outputConfig } from "../base/config";
 
 import { devServerConfig, optimizationConfig, pluginsConfig, resolveConfig, rulesConfig } from "./config";
 
 import type { SafeDefineUniversalWebpackConfigPropsWithReact, SafeGenerateActionPropsWithReact } from "./type";
 
-export const definedUniversalWebpackConfig = (props: SafeDefineUniversalWebpackConfigPropsWithReact) => {
+export const definedUniversalWebpackConfig = (config: SafeDefineUniversalWebpackConfigPropsWithReact) => {
   return _definedUniversalWebpackConfig({
-    ...props,
+    ...config,
     webpackClient: (props: SafeGenerateActionPropsWithReact) => {
       const rules = rulesConfig(props);
       const resolve = resolveConfig(props);
@@ -19,27 +19,38 @@ export const definedUniversalWebpackConfig = (props: SafeDefineUniversalWebpackC
         ...props,
       });
 
-      return {
-        resolve,
-        module: {
-          rules,
+      const externalWebpackClient = config.webpackClient?.(props) || {};
+
+      return merge(
+        {
+          resolve,
+          module: {
+            rules,
+          },
+          devServer,
+          plugins,
+          optimization,
         },
-        devServer,
-        plugins,
-        optimization,
-      };
+        externalWebpackClient
+      );
     },
     webpackServer: (props: SafeGenerateActionPropsWithReact) => {
       const rules = rulesConfig(props);
       const resolve = resolveConfig(props);
       const plugins = pluginsConfig(props);
-      return {
-        resolve,
-        module: {
-          rules,
+
+      const externalWebpackServer = config.webpackServer?.(props) || {};
+
+      return merge(
+        {
+          resolve,
+          module: {
+            rules,
+          },
+          plugins,
         },
-        plugins,
-      };
+        externalWebpackServer
+      );
     },
   });
 };
