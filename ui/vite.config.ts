@@ -41,6 +41,7 @@ export default defineConfig(() => {
         "@client": resolve(process.cwd(), "src", "client"),
         "@shared": resolve(process.cwd(), "src", "shared"),
       },
+      dedupe: ["@emotion/react"],
     },
     build: {
       manifest: process.env.NODE_ENV === "development" ? "manifest-dev-vite.json" : "manifest-prod-vite.json",

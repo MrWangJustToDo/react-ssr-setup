@@ -1,4 +1,6 @@
-import { definedUniversalWebpackConfig as _definedUniversalWebpackConfig, merge } from "../base";
+import { merge } from "webpack-merge";
+
+import { definedUniversalWebpackConfig as _definedUniversalWebpackConfig } from "../base";
 import { outputConfig } from "../base/config";
 
 import { devServerConfig, optimizationConfig, pluginsConfig, resolveConfig, rulesConfig } from "./config";

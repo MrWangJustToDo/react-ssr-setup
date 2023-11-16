@@ -24,6 +24,7 @@ export const devServerConfig = ({ publicPath, DEV_HOST, WDS_PORT }: DevServerPro
   },
   devMiddleware: {
     publicPath,
-    writeToDisk: (fileName) => fileName.includes(MANIFEST.manifest_deps) || fileName.includes(MANIFEST.manifest_dev),
+    writeToDisk: (fileName) =>
+      fileName.includes(MANIFEST.manifest_deps) || fileName.includes(MANIFEST.manifest_dev) || fileName.includes(MANIFEST.manifest_loadable),
   },
 });

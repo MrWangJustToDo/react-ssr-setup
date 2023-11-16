@@ -1,9 +1,8 @@
 import { kill } from "cross-port-killer";
 import { webpack } from "webpack";
 
-import { definedWebpackConfig } from "../webpack";
-
 import { compilerPromise } from "./compiler";
+import { getConfig } from "./config";
 import { logger } from "./log";
 import { startDevServer } from "./startDevServer";
 import { startServerWatch } from "./startServerWatch";
@@ -12,10 +11,7 @@ import type { Compiler } from "webpack";
 
 const withHydrate = async () => {
   await Promise.all([kill(process.env.DEV_PORT as string), kill(process.env.WDS_PORT as string)]);
-  const multiConfig = definedWebpackConfig({
-    serverEntry: process.env.SERVER_ENTRY,
-    clientEntry: process.env.CLIENT_ENTRY,
-  });
+  const multiConfig = getConfig();
   const multiCompiler = webpack(multiConfig);
   const [clientConfig] = multiConfig;
   const clientCompiler = multiCompiler.compilers.find((compiler) => compiler.name === "client") as Compiler;
@@ -38,10 +34,7 @@ const withHydrate = async () => {
 
 const withMiddleware = async () => {
   await kill(process.env.DEV_PORT as string);
-  const multiConfig = definedWebpackConfig({
-    serverEntry: process.env.SERVER_ENTRY,
-    clientEntry: process.env.CLIENT_ENTRY,
-  });
+  const multiConfig = getConfig();
   const [, serverConfig] = multiConfig;
   const serverCompiler = webpack(serverConfig);
   const serverCompilerPromise = compilerPromise("server", serverCompiler);

@@ -6,6 +6,9 @@ import { safeParse } from "../../safeParse";
 import type { SafeGenerateActionPropsWithReact } from "..";
 import type { RuleSetRule, RuleSetUseItem } from "webpack";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const threadLoader = require("thread-loader");
+
 const cssRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({
   test: /\.s?css$/,
   use: [
@@ -43,18 +46,35 @@ const jsRulesWithSWC = (): RuleSetRule => ({
   },
 });
 
-const jsRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({
-  test: /\.[jt]sx?$/,
-  exclude: /node_modules/,
-  use: {
-    loader: "babel-loader",
-    options: {
-      cacheDirectory: true,
-      configFile: resolve(process.cwd(), "babel.config.js"),
-      plugins: env === "client" ? [isDEV && "react-refresh/babel"].filter(Boolean) : [],
-    },
-  },
-});
+const jsRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => {
+  const workerPool = {
+    workers: 3,
+    poolTimeout: isDEV ? Infinity : 2000,
+  };
+
+  threadLoader.warmup(workerPool, ["babel-loader"]);
+
+  return {
+    test: /\.[jt]sx?$/,
+    exclude: /node_modules/,
+    use: [
+      {
+        loader: require.resolve("thread-loader"),
+        options: workerPool,
+      },
+      {
+        loader: "babel-loader",
+        options: {
+          // https://github.com/babel/babel/issues/8900
+          sourceType: "unambiguous",
+          cacheDirectory: true,
+          configFile: resolve(process.cwd(), "babel.config.js"),
+          plugins: env === "client" ? [isDEV && "react-refresh/babel"].filter(Boolean) : [],
+        },
+      },
+    ],
+  };
+};
 
 const jsRulesWithESBuild = (): RuleSetRule => ({
   test: /\.jsx?$/,

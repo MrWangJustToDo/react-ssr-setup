@@ -1,4 +1,8 @@
 import { ENV_DEV_HOST, ENV_DEV_PORT, ENV_PROD_HOST, ENV_PROD_PORT, ENV_WDS_PORT } from "@react-ssr-setup/env";
+import WebpackDevMiddleware from "webpack-dev-middleware";
+import WebpackDevServer from "webpack-dev-server";
+import WebpackHotMiddleware from "webpack-hot-middleware";
+import WebpackNodeExternals from "webpack-node-externals";
 
 import { definedUniversalWebpackConfig } from "./react";
 import { safeParse } from "./safeParse";
@@ -43,7 +47,7 @@ export const definedWebpackConfig = ({
 
   isCSR = isSSR ? false : Boolean(safeParse(process.env.CSR || "false"));
 
-  isDEV = process.env.NODE_ENV === "development";
+  isDEV = __DEV__;
 
   isMIDDLEWARE = Boolean(safeParse<boolean>(process.env.MIDDLEWARE || "false"));
 
@@ -56,6 +60,10 @@ export const definedWebpackConfig = ({
   PROD_HOST = process.env.PROD_HOST || ENV_PROD_HOST;
 
   PROD_PORT = process.env.PROD_PORT || ENV_PROD_PORT;
+
+  if (!WDS_PORT || !DEV_HOST || !DEV_PORT || !PROD_HOST || !PROD_PORT) {
+    throw new Error('you should define "WDS_PORT", "DEV_HOST", "DEV_PORT", "PROD_HOST", "PROD_PORT" in .env file');
+  }
 
   OUTPUT_SCOPE = OUTPUT_SCOPE ? (OUTPUT_SCOPE.startsWith("/") ? OUTPUT_SCOPE.slice(1) : OUTPUT_SCOPE) : process.env.OUTPUT_SCOPE || "";
 
@@ -80,3 +88,7 @@ export const definedWebpackConfig = ({
     ...restProps,
   });
 };
+
+export { MANIFEST } from "./base";
+
+export { WebpackDevServer, WebpackDevMiddleware, WebpackHotMiddleware, WebpackNodeExternals };

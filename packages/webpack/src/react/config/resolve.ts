@@ -1,5 +1,3 @@
-import { resolve } from "path";
-
 import type { SafeGenerateActionPropsWithReact } from "..";
 import type { Configuration } from "webpack";
 
@@ -7,10 +5,6 @@ export const resolveConfig = ({ env }: SafeGenerateActionPropsWithReact): Config
   alias: {
     lodash: env === "client" ? "lodash-es" : "lodash",
     "lodash-es": env === "server" ? "lodash" : "lodash-es",
-    "@build": resolve(process.cwd(), "build"),
-    "@server": resolve(process.cwd(), "src", "server"),
-    "@client": resolve(process.cwd(), "src", "client"),
-    "@shared": resolve(process.cwd(), "src", "shared"),
   },
   extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"],
   fallback:
@@ -18,6 +12,7 @@ export const resolveConfig = ({ env }: SafeGenerateActionPropsWithReact): Config
       ? {
           path: false,
           fs: false,
+          stream: false,
         }
       : undefined,
 });

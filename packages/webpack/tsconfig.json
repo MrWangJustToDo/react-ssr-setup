@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "target": "ES5",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "./src",
+    "env.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

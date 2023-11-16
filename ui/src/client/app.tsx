@@ -14,7 +14,7 @@ import type { createUniversalStore } from "@shared";
 // eslint-disable-next-line import/no-unresolved
 // import "virtual:uno.css";
 // webpack not work
-// import 'uno.css';
+// import "uno.css";
 
 const emotionCache = createEmotionCache();
 
