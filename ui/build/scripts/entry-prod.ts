@@ -1,5 +1,4 @@
 import { resolve as pathResolve } from "path";
-import { build } from "vite";
 import { webpack } from "webpack";
 
 import { compilerPromise } from "./compiler";
@@ -28,6 +27,7 @@ const withCompiler = async (basePath?: string) => {
 
 const withVite = async () => {
   await new DynamicRouter("universal").getDynamicRouter();
+  const { build } = await import("vite");
   await Promise.all([
     build({
       configFile: pathResolve(process.cwd(), "vite.config.ts"),

@@ -4,6 +4,7 @@ export const Head = ({ env = "{}", link = [], preLoad = [], preloadedState = "{}
   <head>
     <meta charSet="utf-8" />
     <meta name="framework" content="react-ssr-setup" />
+    <meta name="build-tool" content={__VITE__ ? "vite" : "webpack"} />
     <meta name="build-time" content={__BUILD_TIME__} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <base href="/" />

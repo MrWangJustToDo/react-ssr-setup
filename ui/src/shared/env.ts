@@ -1,17 +1,22 @@
-import memoize from "lodash/memoize";
+import memoizeFun from "lodash/memoize";
 
-export const getIsMiddleware = memoize(() => (__SERVER__ ? JSON.parse(process.env.MIDDLEWARE || "false") : window.__ENV__.isMIDDLEWARE));
+// eslint-disable-next-line @typescript-eslint/ban-types
+const memoize = (__DEVELOPMENT__ ? (fn: Function) => fn : memoizeFun) as <T extends (...args: any[]) => any>(fn: T) => T;
 
-export const getIsSSR = memoize(() => (__SERVER__ ? JSON.parse(process.env.SSR || "false") : window.__ENV__.isSSR));
+const __isSERVER__ = typeof window === "undefined";
 
-export const getIsAnimateRouter = memoize(() => (__SERVER__ ? JSON.parse(process.env.ANIMATE_ROUTER || "false") : window.__ENV__.isANIMATE_ROUTER));
+export const getIsMiddleware = memoize(() => (__isSERVER__ ? JSON.parse(process.env.MIDDLEWARE || "false") : window.__ENV__.isMIDDLEWARE));
 
-export const getIsP_CSR = memoize(() => (__SERVER__ ? false : window.__ENV__.isPURE_CSR));
+export const getIsSSR = memoize(() => (__isSERVER__ ? JSON.parse(process.env.SSR || "false") : window.__ENV__.isSSR));
+
+export const getIsAnimateRouter = memoize(() => (__isSERVER__ ? JSON.parse(process.env.ANIMATE_ROUTER || "false") : window.__ENV__.isANIMATE_ROUTER));
+
+export const getIsP_CSR = memoize(() => (__isSERVER__ ? false : window.__ENV__.isPURE_CSR));
 
 export const getIsStaticGenerate = memoize(() =>
-  __SERVER__ ? JSON.parse(process.env.STATIC_GENERATE || "false") && process.env.NODE_ENV === "production" : window.__ENV__.isSTATIC
+  __isSERVER__ ? JSON.parse(process.env.STATIC_GENERATE || "false") && process.env.NODE_ENV === "production" : window.__ENV__.isSTATIC
 );
 
 export const getPublicApi = memoize(() =>
-  __SERVER__ ? (__DEVELOPMENT__ ? process.env.PUBLIC_DEV_API_HOST : process.env.PUBLIC_PROD_API_HOST) : window.__ENV__.PUBLIC_API_HOST
+  __isSERVER__ ? (__DEVELOPMENT__ ? process.env.PUBLIC_DEV_API_HOST : process.env.PUBLIC_PROD_API_HOST) : window.__ENV__.PUBLIC_API_HOST
 );

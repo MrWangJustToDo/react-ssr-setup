@@ -1,13 +1,16 @@
 {
-  "include": ["./src", "env.d.ts", "request.d.ts"],
+  "include": [
+    "./src",
+    "env.d.ts",
+    "request.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
-    "rootDir": "src",
-    "composite": true,
+    "target": "ES5",
     "module": "esnext",
-    "declaration": true,
-    "declarationMap": true,
     "moduleResolution": "node",
-    "declarationDir": "dist/types",
     "allowSyntheticDefaultImports": true
   }
 }

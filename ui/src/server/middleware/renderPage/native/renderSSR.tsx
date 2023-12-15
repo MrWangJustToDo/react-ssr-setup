@@ -67,29 +67,43 @@ export const targetRender: SafeAction = async ({ req, res, store, lang, env, ass
           stream.pipe(res);
         }
       },
-      onShellError(err) {
+      onShellError(err: Error) {
         error = true;
         if (!initial) {
+          initial = true;
           if (!env.isSTATIC) {
             // Something errored before we could complete the shell so we fallback to client render
+            env.isSSR = false;
+            if (__DEVELOPMENT__) {
+              env.error = true;
+              env.errorStack = err.stack;
+              env.errorMessage = err.message;
+            }
             targetCSRRender({ req, res, store, lang, env, assets });
           } else {
             res.status(500).send("server render error!");
           }
         }
-        serverLog((err as Error).stack, "error");
+        serverLog(err.stack, "error");
       },
-      onError(err) {
+      onError(err: Error) {
         error = true;
         if (!initial) {
+          initial = true;
           if (!env.isSTATIC) {
             // not set header, so we can safe to fallback to client render
+            env.isSSR = false;
+            if (__DEVELOPMENT__) {
+              env.error = true;
+              env.errorStack = err.stack;
+              env.errorMessage = err.message;
+            }
             targetCSRRender({ req, res, store, lang, env, assets });
           } else {
             res.status(500).send("server render error!");
           }
         }
-        serverLog((err as Error).stack, "error");
+        serverLog(err.stack, "error");
       },
     }
   );

@@ -26,6 +26,7 @@ export const getConfig = () => {
         isDEV && new ReactRefreshPlugin(),
         isDEV && isMIDDLEWARE && new HotModuleReplacementPlugin(),
         // NOT WORK
+        // SEE https://github.com/unocss/unocss/issues/2782
         // UnoCSS({ configFile: resolve(process.cwd(), "uno.config.ts") }),
       ].filter(Boolean);
 

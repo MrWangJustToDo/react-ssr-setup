@@ -58,8 +58,8 @@ export default defineConfig(() => {
       __VITE__: true,
       __BUNDLE_SCOPE__: JSON.stringify(bundleScope),
       __OUTPUT_SCOPE__: JSON.stringify(outputScope),
-      __CLIENT__: 'typeof window !== "undefined"',
-      __SERVER__: 'typeof window === "undefined"',
+      __CLIENT__: false,
+      __SERVER__: true,
       // vite dev only work on the middleware mode
       __MIDDLEWARE__: true,
       __DEVELOPMENT__: process.env.NODE_ENV === "development",

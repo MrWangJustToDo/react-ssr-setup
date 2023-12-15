@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
     "target": "ES5",
     "allowSyntheticDefaultImports": true
   },

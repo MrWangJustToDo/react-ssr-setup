@@ -16,13 +16,13 @@ export const viteRender =
     } else {
       const { env } = args;
       if (env.isSSR) {
-        const { targetRender } = require(resolve(process.cwd(), __BUNDLE_SCOPE__, "dist/server", __OUTPUT_SCOPE__, "renderSSR.js"));
+        const { targetRender } = await import(/* @vite-ignore */ resolve(process.cwd(), __BUNDLE_SCOPE__, "dist/server", __OUTPUT_SCOPE__, "renderSSR.js"));
         await targetRender(args);
       } else if (env.isPURE_CSR) {
-        const { targetRender } = require(resolve(process.cwd(), __BUNDLE_SCOPE__, "dist/server", __OUTPUT_SCOPE__, "renderP_CSR.js"));
+        const { targetRender } = await import(/* @vite-ignore */ resolve(process.cwd(), __BUNDLE_SCOPE__, "dist/server", __OUTPUT_SCOPE__, "renderP_CSR.js"));
         await targetRender(args);
       } else {
-        const { targetRender } = require(resolve(process.cwd(), __BUNDLE_SCOPE__, "dist/server", __OUTPUT_SCOPE__, "renderCSR.js"));
+        const { targetRender } = await import(/* @vite-ignore */ resolve(process.cwd(), __BUNDLE_SCOPE__, "dist/server", __OUTPUT_SCOPE__, "renderCSR.js"));
         await targetRender(args);
       }
     }

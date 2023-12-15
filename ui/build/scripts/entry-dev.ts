@@ -1,4 +1,5 @@
 import { kill } from "cross-port-killer";
+import { resolve } from "path";
 import { webpack } from "webpack";
 
 import { compilerPromise } from "./compiler";
@@ -46,11 +47,20 @@ const withMiddleware = async () => {
   }
 };
 
+const withVite = async () => {
+  await kill(process.env.DEV_PORT as string);
+  const { build } = await import("vite");
+  try {
+    await build({ configFile: resolve(process.cwd(), "vite.config.node.ts"), mode: "development" });
+  } catch (e) {
+    logger().error((e as Error)?.message);
+  }
+};
+
 export const start = async () => {
   if (process.env.FRAMEWORK === "vite") {
     logger().info("you are using vite framework");
-    // for vite framework, we also use webpack to build server side code
-    await withMiddleware();
+    await withVite();
   } else {
     logger().info("you are using webpack framework");
     if (process.env.MIDDLEWARE === "true") {

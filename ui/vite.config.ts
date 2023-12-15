@@ -6,6 +6,8 @@ import UnoCSS from "unocss/vite";
 import { defineConfig, loadEnv } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
 
+import { watchRouter } from "./vite-plugin-router-watch";
+
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   const env = loadEnv("", process.cwd(), "");
@@ -29,6 +31,7 @@ export default defineConfig(() => {
       // enable webpack like dynamic import
       dynamicImport({ loose: true }),
       UnoCSS({ configFile: resolve(process.cwd(), "uno.config.ts") }),
+      watchRouter(),
     ],
     server: {
       middlewareMode: true,
@@ -70,12 +73,15 @@ export default defineConfig(() => {
       __VITE__: true,
       __BUNDLE_SCOPE__: JSON.stringify(bundleScope),
       __OUTPUT_SCOPE__: JSON.stringify(outputScope),
-      __CLIENT__: 'typeof window !== "undefined"',
-      __SERVER__: 'typeof window === "undefined"',
+      __CLIENT__: true,
+      __SERVER__: false,
       // vite dev only work on the middleware mode
       __MIDDLEWARE__: true,
       __DEVELOPMENT__: process.env.NODE_ENV === "development",
       __BUILD_TIME__: JSON.stringify(new Date().toLocaleString()),
+    },
+    legacy: {
+      proxySsrExternalModules: true,
     },
   };
 });
