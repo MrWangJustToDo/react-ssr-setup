@@ -1,6 +1,5 @@
 import ReactRefreshPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import { definedWebpackConfig, WebpackNodeExternals } from "@react-ssr-setup/webpack";
-// import UnoCSS from "@unocss/webpack";
 import { resolve } from "path";
 import { DefinePlugin, HotModuleReplacementPlugin } from "webpack";
 
