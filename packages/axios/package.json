@@ -25,6 +25,7 @@
         "entryFileNames": "cjs/index.js",
         "multiple": true,
         "esModule": false,
+        "type": true,
         "format": "cjs",
         "sourcemap": true
       },
