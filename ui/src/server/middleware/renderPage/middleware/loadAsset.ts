@@ -33,12 +33,12 @@ export const loadAsset: Middleware = (next) => async (args) => {
             type: "module",
             dangerouslySetInnerHTML: {
               __html: `
-              // react refresh injected
-              import RefreshRuntime from "/@react-refresh"
-              RefreshRuntime.injectIntoGlobalHook(window)
-              window.$RefreshReg$ = () => {}
-              window.$RefreshSig$ = () => (type) => type
-              window.__vite_plugin_react_preamble_installed__ = true
+// react refresh injected
+import RefreshRuntime from "/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
                 `,
             },
           },
