@@ -2,12 +2,13 @@ import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import reactSWC from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
-import UnoCSS from "unocss/vite";
+// import UnoCSS from "unocss/vite";
 import { defineConfig, loadEnv } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
 
 // https://vitejs.dev/config/
-export default defineConfig(() => {
+export default defineConfig(async () => {
+  const { default: UnoCSS } = await import("unocss/vite");
   const env = loadEnv("", process.cwd(), "");
   const isSSR = env.SSR ? JSON.parse(env.SSR) : true;
   const isCSR = isSSR ? false : JSON.parse(env.CSR) || false;
