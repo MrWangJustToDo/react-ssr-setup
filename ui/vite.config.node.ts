@@ -2,13 +2,11 @@ import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import reactSWC from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
-// import UnoCSS from "unocss/vite";
 import { defineConfig, loadEnv } from "vite";
 import dynamicImport from "vite-plugin-dynamic-import";
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => {
-  const { default: UnoCSS } = await import("unocss/vite");
   const env = loadEnv("", process.cwd(), "");
   const isSSR = env.SSR ? JSON.parse(env.SSR) : true;
   const isCSR = isSSR ? false : JSON.parse(env.CSR) || false;
@@ -28,7 +26,6 @@ export default defineConfig(async () => {
           }),
       legacy({ targets: "defaults" }),
       dynamicImport({ loose: true }),
-      UnoCSS({ configFile: resolve(process.cwd(), "uno.config.ts") }),
     ],
     resolve: {
       alias: {
@@ -36,6 +33,11 @@ export default defineConfig(async () => {
         "@server": resolve(process.cwd(), "src", "server"),
         "@client": resolve(process.cwd(), "src", "client"),
         "@shared": resolve(process.cwd(), "src", "shared"),
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: { api: "modern-compiler" },
       },
     },
     build: {

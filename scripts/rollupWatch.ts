@@ -2,6 +2,4 @@ import { rollupWatch } from "project-tool/rollup";
 
 rollupWatch({ packageName: "env", packageScope: "packages" });
 
-rollupWatch({ packageName: "axios", packageScope: "packages" });
-
 rollupWatch({ packageName: "chakra", packageScope: "packages" });

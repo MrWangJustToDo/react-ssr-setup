@@ -1,5 +1,5 @@
-import { createRequest } from "@react-ssr-setup/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createRequest } from "project-tool/request";
 
 import { getPublicApi } from "@shared";
 

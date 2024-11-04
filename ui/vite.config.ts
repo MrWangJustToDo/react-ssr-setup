@@ -11,7 +11,6 @@ import { watchRouter } from "./vite-plugin-router-watch";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export default defineConfig(async () => {
-  const { default: UnoCSS } = await import("unocss/vite");
   const env = loadEnv("", process.cwd(), "");
   const isSSR = env.SSR ? JSON.parse(env.SSR) : true;
   const isCSR = isSSR ? false : JSON.parse(env.CSR) || false;
@@ -32,7 +31,6 @@ export default defineConfig(async () => {
       legacy({ targets: "defaults" }),
       // enable webpack like dynamic import
       dynamicImport({ loose: true }),
-      UnoCSS({ configFile: resolve(process.cwd(), "uno.config.ts") }),
       watchRouter(),
     ],
     server: {
@@ -68,6 +66,11 @@ export default defineConfig(async () => {
         },
       },
       outDir: resolve(process.cwd(), bundleScope, process.env.NODE_ENV === "development" ? "dev" : "dist", outputScope, "client"),
+    },
+    css: {
+      preprocessorOptions: {
+        scss: { api: "modern-compiler" },
+      },
     },
     define: {
       __SSR__: isSSR,
