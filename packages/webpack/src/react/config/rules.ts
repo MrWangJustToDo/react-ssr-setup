@@ -6,7 +6,7 @@ import { safeParse } from "../../safeParse";
 import type { SafeGenerateActionPropsWithReact } from "..";
 import type { RuleSetRule, RuleSetUseItem } from "webpack";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const threadLoader = require("thread-loader");
 
 const cssRules = ({ env, isDEV }: SafeGenerateActionPropsWithReact): RuleSetRule => ({

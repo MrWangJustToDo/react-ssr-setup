@@ -27,13 +27,13 @@
         "esModule": false,
         "type": true,
         "format": "cjs",
-        "sourcemap": true
+        "sourcemap": "inline"
       },
       {
         "dir": "./dist",
         "entryFileNames": "esm/index.js",
         "format": "esm",
-        "sourcemap": true
+        "sourcemap": "inline"
       }
     ]
   },

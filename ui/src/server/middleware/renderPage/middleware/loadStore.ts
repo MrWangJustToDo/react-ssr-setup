@@ -29,7 +29,9 @@ export const loadStore: Middleware = (next) => async (args) => {
 
     res.end();
   } else {
-    props && store.dispatch(changeClientPropsSuccess(props));
+    if (props) {
+      store.dispatch(changeClientPropsSuccess(props));
+    }
 
     await next(args);
   }

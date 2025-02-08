@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { reducer } from "./reducer";
 
-import type { Middleware, PreloadedState } from "@reduxjs/toolkit";
+import type { Middleware } from "@reduxjs/toolkit";
 import type { TypedUseSelectorHook } from "react-redux";
 
 type CreateStoreProps = {
-  preloadedState?: PreloadedState<ReturnType<typeof reducer>>;
+  preloadedState?: ReturnType<typeof reducer>;
   middleware?: Middleware[];
 };
 

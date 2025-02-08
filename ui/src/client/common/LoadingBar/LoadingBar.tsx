@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 
 import { useEffectOnce, useIsMounted } from "@client/hooks";
 
-import style from "./index.module.scss";
+import * as style from "./index.module.scss";
 
 let div: HTMLDivElement | undefined;
 

@@ -15,7 +15,7 @@ export const RenderMatch = () => {
   return (
     <Container minWidth={"container.lg"}>
       {getIsAnimateRouter() ? (
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode="wait">
           <Fragment key={loaded?.location.pathname}>
             <motion.div
               initial="initial"

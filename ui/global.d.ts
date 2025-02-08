@@ -84,22 +84,22 @@ declare global {
 
   module "*.module.css" {
     const css: { readonly [key: string]: string };
-    export default css;
+    export = css;
   }
 
   module "*.css" {
     const css: { readonly [key: string]: string };
-    export default css;
+    export = css;
   }
 
   module "*.module.scss" {
     const classes: { readonly [key: string]: string };
-    export default classes;
+    export = classes;
   }
 
   module "*.scss" {
     const classes: { readonly [key: string]: string };
-    export default classes;
+    export = classes;
   }
 }
 

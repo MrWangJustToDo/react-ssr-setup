@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { resolve as pathResolve } from "path";
 
 import type { Express, NextFunction, Request as ExpressRequest } from "express";
@@ -10,6 +9,7 @@ type Request = ExpressRequest & {
 
 export const viteMiddleware = async (app: Express) => {
   if (__DEVELOPMENT__ && __VITE__ && process.env.CLIENT_ENTRY) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const vite = require("vite");
     const viteServer = (await vite.createServer({
       configFile: pathResolve(process.cwd(), "vite.config.ts"),

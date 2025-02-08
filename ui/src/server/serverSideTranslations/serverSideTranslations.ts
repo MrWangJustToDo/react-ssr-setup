@@ -46,7 +46,7 @@ const checkFileExist = async (lang: string, nameSpace: string) => {
   try {
     await access(nameSpacePath, constants.F_OK);
     return nameSpacePath;
-  } catch (e) {
+  } catch (_) {
     if (__DEVELOPMENT__) {
       console.warn(`file ${lang}/${nameSpace}.json not exist!`);
     }
@@ -57,7 +57,7 @@ const checkFileExist = async (lang: string, nameSpace: string) => {
     try {
       await access(enSpacePath, constants.F_OK);
       return enSpacePath;
-    } catch (e) {
+    } catch (_) {
       if (__DEVELOPMENT__) {
         console.error(`fallback file ${FALLBACK_LANG}/${nameSpace}.json not exist!`);
       }

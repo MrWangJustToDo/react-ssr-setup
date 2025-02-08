@@ -1,6 +1,6 @@
 import memoizeFun from "lodash/memoize";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 const memoize = (__DEVELOPMENT__ ? (fn: Function) => fn : memoizeFun) as <T extends (...args: any[]) => any>(fn: T) => T;
 
 const __isSERVER__ = typeof window === "undefined";

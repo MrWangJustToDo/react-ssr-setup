@@ -27,18 +27,18 @@
         "esModule": false,
         "type": true,
         "format": "cjs",
-        "sourcemap": true
+        "sourcemap": "inline"
       },
       {
         "dir": "./dist",
         "entryFileNames": "esm/index.js",
         "format": "esm",
-        "sourcemap": true
+        "sourcemap": "inline"
       }
     ]
   },
   "peerDependencies": {
-    "@chakra-ui/react": "^2.10",
+    "@chakra-ui/react": "^2",
     "react": "^18.3.1"
   }
 }
